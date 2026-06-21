@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef TRADER_V6713_HELPER_H
-#define TRADER_V6713_HELPER_H
+#ifndef TRADER_V6713_API_HELPER_H
+#define TRADER_V6713_API_HELPER_H
 
 #ifdef __cplusplus
 extern "C"
@@ -293,7 +293,7 @@ extern "C"
 
     typedef int (*ReqQrySpdApply)(void *this, struct CThostFtdcQrySpdApplyField *pQrySpdApply, int nRequestID);
 
-    typedef int (*ReqHedgeCfm)(void *this, struct CThostFtdcInputHdegeCfmField *pInputHedgeCfm, int nRequestID);
+    typedef int (*ReqHedgeCfm)(void *this, struct CThostFtdcInputHedgeCfmField *pInputHedgeCfm, int nRequestID);
 
     typedef int (*ReqHedgeCfmAction)(void *this, struct CThostFtdcInputHedgeCfmActionField *pInputHedgeCfmAction, int nRequestID);
 
@@ -722,7 +722,7 @@ extern "C"
 
     int CallReqQrySpdApply(ReqQrySpdApply fn, void *this, struct CThostFtdcQrySpdApplyField *pQrySpdApply, int nRequestID);
 
-    int CallReqHedgeCfm(ReqHedgeCfm fn, void *this, struct CThostFtdcInputHdegeCfmField *pInputHedgeCfm, int nRequestID);
+    int CallReqHedgeCfm(ReqHedgeCfm fn, void *this, struct CThostFtdcInputHedgeCfmField *pInputHedgeCfm, int nRequestID);
 
     int CallReqHedgeCfmAction(ReqHedgeCfmAction fn, void *this, struct CThostFtdcInputHedgeCfmActionField *pInputHedgeCfmAction, int nRequestID);
 

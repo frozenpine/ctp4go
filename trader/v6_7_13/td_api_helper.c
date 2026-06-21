@@ -685,7 +685,7 @@ int CallReqQrySpdApply(ReqQrySpdApply fn, void *this, struct CThostFtdcQrySpdApp
     return fn(this, pQrySpdApply, nRequestID);
 }
 
-int CallReqHedgeCfm(ReqHedgeCfm fn, void *this, struct CThostFtdcInputHdegeCfmField *pInputHedgeCfm, int nRequestID)
+int CallReqHedgeCfm(ReqHedgeCfm fn, void *this, struct CThostFtdcInputHedgeCfmField *pInputHedgeCfm, int nRequestID)
 {
     return fn(this, pInputHedgeCfm, nRequestID);
 }
