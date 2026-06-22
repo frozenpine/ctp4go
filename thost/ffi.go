@@ -4,12 +4,23 @@ import (
 	"bytes"
 	"io"
 	"log/slog"
+	"unsafe"
 
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/transform"
 )
 
 var decoder = simplifiedchinese.GB18030.NewDecoder()
+
+func RawBytes(ptr unsafe.Pointer, len int) []byte {
+	return unsafe.Slice((*byte)(ptr), len)
+}
+
+func SetCString(buff []byte, v string) int {
+	size := copy(buff, ([]byte)(v))
+	buff[len(buff)-1] = 0
+	return size
+}
 
 func IsASCII(buff []byte) bool {
 	for _, b := range buff {

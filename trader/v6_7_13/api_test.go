@@ -9,11 +9,12 @@ import (
 func TestCTPApi(t *testing.T) {
 	libPath := "../../dependencies/future/v6.7.13/thosttraderapi_se.dll"
 
-	ins, err := v6_7_13.CreateThostFtdcTraderApi(libPath, "./", true)
+	ins, err := v6_7_13.CreateThostFtdcTraderApi(libPath, "./flow", true)
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer ins.Release()
 
 	t.Log(ins.GetApiVersion())
+
 }
