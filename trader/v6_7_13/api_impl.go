@@ -21,11 +21,11 @@ import (
 )
 
 const (
-	CREATE_API_WIN   = ""
-	CREATE_API_LINUX = ""
+	CREATE_API_WIN   = "?CreateFtdcTraderApi@CThostFtdcTraderApi@@SAPEAV1@PEBD_N@Z"
+	CREATE_API_LINUX = "_ZN19CThostFtdcTraderApi19CreateFtdcTraderApiEPKcb"
 
-	API_VER_WIN   = ""
-	API_VER_LINUX = ""
+	API_VER_WIN   = "?GetApiVersion@CThostFtdcTraderApi@@SAPEBDXZ"
+	API_VER_LINUX = "_ZN19CThostFtdcTraderApi13GetApiVersionEv"
 )
 
 func CreateThostFtdcTraderApi(
