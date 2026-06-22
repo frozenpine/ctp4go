@@ -15,6 +15,7 @@ import (
 	"log/slog"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"unsafe"
 
 	"github.com/frozenpine/ctp4go/thost"
@@ -29,9 +30,9 @@ const (
 )
 
 func CreateThostFtdcTraderApi(
-	libPath string, isTest bool,
+	libPath, flowPath string, isTest bool,
 ) (*ThostFtdcTraderApi, error) {
-	if libPath == "" {
+	if libPath == "" || flowPath == "" {
 		return nil, fmt.Errorf(
 			"%w: invalid create args", thost.ErrInvalidArgs,
 		)
@@ -42,8 +43,16 @@ func CreateThostFtdcTraderApi(
 		return nil, errors.Join(thost.ErrInvalidArgs, err)
 	}
 
+	flowPath, err = filepath.Abs(flowPath)
+	if !strings.HasSuffix(flowPath, "/") {
+		flowPath += "/"
+	}
+
 	libCPath := C.CString(libPath)
 	defer C.free(unsafe.Pointer(libCPath))
+
+	flowCPath := C.CString(flowPath)
+	defer C.free(unsafe.Pointer(flowCPath))
 
 	slog.Info(
 		"try to load thost trader api lib",
@@ -78,7 +87,7 @@ func CreateThostFtdcTraderApi(
 		versionFnName = C.CString(API_VER_LINUX)
 	case "windows":
 		createFnName = C.CString(CREATE_API_WIN)
-		versionFnName = C.CString(API_VER_LINUX)
+		versionFnName = C.CString(API_VER_WIN)
 	default:
 		return nil, fmt.Errorf(
 			"%w: unsupported platform", thost.ErrLibSymbolNotFound,
@@ -117,7 +126,7 @@ func CreateThostFtdcTraderApi(
 	)
 
 	instance := C.CallCreateFtdcTraderApi(
-		C.CreateFtdcTraderApi(creator), libCPath, C.bool(isTest),
+		C.CreateFtdcTraderApi(creator), flowCPath, C.bool(isTest),
 	)
 	if instance == nil {
 		return nil, fmt.Errorf(
@@ -133,6 +142,13 @@ func CreateThostFtdcTraderApi(
 	}
 
 	runtime.SetFinalizer(api, func(ins *ThostFtdcTraderApi) {
+		slog.Info(
+			"finalizing thost trader api",
+			slog.Any("api", ins),
+			slog.Any("api_ptr", ins.apiPtr),
+			slog.Any("spi_ptr", ins.spiPtr),
+		)
+
 		ins.Release()
 
 		ins.spiPtr.Pinner.Unpin()
@@ -150,6 +166,10 @@ type ThostFtdcTraderApi struct {
 	version string
 	apiPtr  *C.CThostFtdcTraderApiExt
 	spiPtr  *ThostFtdcTraderSpi
+}
+
+func (api *ThostFtdcTraderApi) GetApiVersion() string {
+	return api.version
 }
 
 func (api *ThostFtdcTraderApi) Release() {
