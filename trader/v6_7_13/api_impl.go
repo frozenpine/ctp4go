@@ -29,9 +29,9 @@ const (
 )
 
 func CreateThostFtdcTraderApi(
-	libPath, frontAddr string, options ...thost.ApiOpt,
+	libPath string, isTest bool,
 ) (*ThostFtdcTraderApi, error) {
-	if libPath == "" || frontAddr == "" {
+	if libPath == "" {
 		return nil, fmt.Errorf(
 			"%w: invalid create args", thost.ErrInvalidArgs,
 		)
@@ -40,17 +40,6 @@ func CreateThostFtdcTraderApi(
 	libPath, err := filepath.Abs(libPath)
 	if err != nil {
 		return nil, errors.Join(thost.ErrInvalidArgs, err)
-	}
-
-	cfg := thost.ApiCfg{}
-	for _, opt := range options {
-		if opt == nil {
-			continue
-		}
-
-		if err = opt(&cfg); err != nil {
-			return nil, err
-		}
 	}
 
 	libCPath := C.CString(libPath)
@@ -128,12 +117,12 @@ func CreateThostFtdcTraderApi(
 	)
 
 	instance := C.CallCreateFtdcTraderApi(
-		C.CreateFtdcTraderApi(creator), libCPath, C.bool(cfg.IsTestVersion),
+		C.CreateFtdcTraderApi(creator), libCPath, C.bool(isTest),
 	)
 	if instance == nil {
 		return nil, fmt.Errorf(
 			"%w: thost trader api[%s] test mode[%t] create failed",
-			thost.ErrApiCreateFailed, libPath, cfg.IsTestVersion,
+			thost.ErrApiCreateFailed, libPath, isTest,
 		)
 	}
 
