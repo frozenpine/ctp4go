@@ -2,15 +2,44 @@ package thost
 
 import (
 	"bytes"
+	"io"
+	"log/slog"
 
 	"golang.org/x/text/encoding/simplifiedchinese"
+	"golang.org/x/text/transform"
 )
 
-func BytesToGBK(bs []byte) string {
-	msg, _ := simplifiedchinese.GB18030.NewDecoder().Bytes(bytes.Split(bs, []byte("\x00"))[0])
-	return string(msg)
+var decoder = simplifiedchinese.GB18030.NewDecoder()
+
+func IsASCII(buff []byte) bool {
+	for _, b := range buff {
+		if b > 127 {
+			return false
+		}
+	}
+
+	return true
 }
 
-func BytesToString(bs []byte) string {
-	return string(bytes.Split(bs, []byte("\x00"))[0])
+func DecodeGBK(buff []byte) string {
+	idx := bytes.IndexByte(buff, 0)
+	if idx <= 0 {
+		idx = len(buff)
+	}
+
+	if IsASCII(buff[:idx]) {
+		return string(buff[:idx])
+	}
+
+	reader := transform.NewReader(bytes.NewReader(buff[:idx]), decoder)
+	if decoded, err := io.ReadAll(reader); err != nil {
+		slog.Error(
+			"decode GB18030 failed",
+			slog.Any("error", err),
+			slog.Any("buff", buff),
+		)
+		return ""
+	} else {
+		return string(decoded)
+	}
 }
