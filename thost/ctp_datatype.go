@@ -15,13 +15,13 @@ const (
 )
 
 // 交易所交易员代码类型
-type TThostFtdcTraderIDType Byte21
+type TThostFtdcTraderIDType struct{ Byte21 }
 
 // 投资者代码类型
 type TThostFtdcInvestorIDType Byte13
 
 // 经纪公司代码类型
-type TThostFtdcBrokerIDType Byte11
+type TThostFtdcBrokerIDType struct{ Byte11 }
 
 // 经纪公司简称类型
 type TThostFtdcBrokerAbbrType Byte9
@@ -42,10 +42,10 @@ type TThostFtdcOrderRefType Byte13
 type TThostFtdcParticipantIDType Byte11
 
 // 用户代码类型
-type TThostFtdcUserIDType Byte16
+type TThostFtdcUserIDType struct{ Byte16 }
 
 // 密码类型
-type TThostFtdcPasswordType Byte41
+type TThostFtdcPasswordType struct{ Byte41 }
 
 // 设备标识类型
 type TThostFtdcDeviceTagType Byte41
@@ -5864,7 +5864,7 @@ type TThostFtdcFunctionUrlType Byte1025
 type TThostFtdcAuthInfoType Byte129
 
 // 客户端认证码类型
-type TThostFtdcAuthCodeType Byte17
+type TThostFtdcAuthCodeType struct{ Byte17 }
 
 // 保值额度使用类型类型
 type TThostFtdcLimitUseTypeType byte
@@ -7473,7 +7473,7 @@ func (e TThostFtdcAppTypeType) String() string {
 }
 
 // App代码类型
-type TThostFtdcAppIDType Byte33
+type TThostFtdcAppIDType struct{ Byte33 }
 
 // 系统信息长度类型
 type TThostFtdcSystemInfoLenType int32

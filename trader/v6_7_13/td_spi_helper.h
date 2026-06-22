@@ -17,361 +17,361 @@ extern "C"
 
 #include "ThostFtdcUserApiStruct.h"
 
-    typedef void (*OnFrontConnected)();
+    typedef void (*OnFrontConnected)(void *this);
 
-    typedef void (*OnFrontDisconnected)(int nReason);
+    typedef void (*OnFrontDisconnected)(void *this, int nReason);
 
-    typedef void (*OnHeartBeatWarning)(int nTimeLapse);
+    typedef void (*OnHeartBeatWarning)(void *this, int nTimeLapse);
 
-    typedef void (*OnRspAuthenticate)(struct CThostFtdcRspAuthenticateField *pRspAuthenticateField, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspAuthenticate)(void *this, struct CThostFtdcRspAuthenticateField *pRspAuthenticateField, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRtnPrivateSeqNo)(int nSeqNo);
+    typedef void (*OnRtnPrivateSeqNo)(void *this, int nSeqNo);
 
-    typedef void (*OnRspUserLogin)(struct CThostFtdcRspUserLoginField *pRspUserLogin, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspUserLogin)(void *this, struct CThostFtdcRspUserLoginField *pRspUserLogin, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspUserLogout)(struct CThostFtdcUserLogoutField *pUserLogout, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspUserLogout)(void *this, struct CThostFtdcUserLogoutField *pUserLogout, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspUserPasswordUpdate)(struct CThostFtdcUserPasswordUpdateField *pUserPasswordUpdate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspUserPasswordUpdate)(void *this, struct CThostFtdcUserPasswordUpdateField *pUserPasswordUpdate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspTradingAccountPasswordUpdate)(struct CThostFtdcTradingAccountPasswordUpdateField *pTradingAccountPasswordUpdate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspTradingAccountPasswordUpdate)(void *this, struct CThostFtdcTradingAccountPasswordUpdateField *pTradingAccountPasswordUpdate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspUserAuthMethod)(struct CThostFtdcRspUserAuthMethodField *pRspUserAuthMethod, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspUserAuthMethod)(void *this, struct CThostFtdcRspUserAuthMethodField *pRspUserAuthMethod, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspGenUserCaptcha)(struct CThostFtdcRspGenUserCaptchaField *pRspGenUserCaptcha, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspGenUserCaptcha)(void *this, struct CThostFtdcRspGenUserCaptchaField *pRspGenUserCaptcha, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspGenUserText)(struct CThostFtdcRspGenUserTextField *pRspGenUserText, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspGenUserText)(void *this, struct CThostFtdcRspGenUserTextField *pRspGenUserText, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspOrderInsert)(struct CThostFtdcInputOrderField *pInputOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspOrderInsert)(void *this, struct CThostFtdcInputOrderField *pInputOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspParkedOrderInsert)(struct CThostFtdcParkedOrderField *pParkedOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspParkedOrderInsert)(void *this, struct CThostFtdcParkedOrderField *pParkedOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspParkedOrderAction)(struct CThostFtdcParkedOrderActionField *pParkedOrderAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspParkedOrderAction)(void *this, struct CThostFtdcParkedOrderActionField *pParkedOrderAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspOrderAction)(struct CThostFtdcInputOrderActionField *pInputOrderAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspOrderAction)(void *this, struct CThostFtdcInputOrderActionField *pInputOrderAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryMaxOrderVolume)(struct CThostFtdcQryMaxOrderVolumeField *pQryMaxOrderVolume, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryMaxOrderVolume)(void *this, struct CThostFtdcQryMaxOrderVolumeField *pQryMaxOrderVolume, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspSettlementInfoConfirm)(struct CThostFtdcSettlementInfoConfirmField *pSettlementInfoConfirm, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspSettlementInfoConfirm)(void *this, struct CThostFtdcSettlementInfoConfirmField *pSettlementInfoConfirm, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspRemoveParkedOrder)(struct CThostFtdcRemoveParkedOrderField *pRemoveParkedOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspRemoveParkedOrder)(void *this, struct CThostFtdcRemoveParkedOrderField *pRemoveParkedOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspRemoveParkedOrderAction)(struct CThostFtdcRemoveParkedOrderActionField *pRemoveParkedOrderAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspRemoveParkedOrderAction)(void *this, struct CThostFtdcRemoveParkedOrderActionField *pRemoveParkedOrderAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspExecOrderInsert)(struct CThostFtdcInputExecOrderField *pInputExecOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspExecOrderInsert)(void *this, struct CThostFtdcInputExecOrderField *pInputExecOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspExecOrderAction)(struct CThostFtdcInputExecOrderActionField *pInputExecOrderAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspExecOrderAction)(void *this, struct CThostFtdcInputExecOrderActionField *pInputExecOrderAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspForQuoteInsert)(struct CThostFtdcInputForQuoteField *pInputForQuote, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspForQuoteInsert)(void *this, struct CThostFtdcInputForQuoteField *pInputForQuote, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQuoteInsert)(struct CThostFtdcInputQuoteField *pInputQuote, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQuoteInsert)(void *this, struct CThostFtdcInputQuoteField *pInputQuote, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQuoteAction)(struct CThostFtdcInputQuoteActionField *pInputQuoteAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQuoteAction)(void *this, struct CThostFtdcInputQuoteActionField *pInputQuoteAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspBatchOrderAction)(struct CThostFtdcInputBatchOrderActionField *pInputBatchOrderAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspBatchOrderAction)(void *this, struct CThostFtdcInputBatchOrderActionField *pInputBatchOrderAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspOptionSelfCloseInsert)(struct CThostFtdcInputOptionSelfCloseField *pInputOptionSelfClose, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspOptionSelfCloseInsert)(void *this, struct CThostFtdcInputOptionSelfCloseField *pInputOptionSelfClose, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspOptionSelfCloseAction)(struct CThostFtdcInputOptionSelfCloseActionField *pInputOptionSelfCloseAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspOptionSelfCloseAction)(void *this, struct CThostFtdcInputOptionSelfCloseActionField *pInputOptionSelfCloseAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspCombActionInsert)(struct CThostFtdcInputCombActionField *pInputCombAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspCombActionInsert)(void *this, struct CThostFtdcInputCombActionField *pInputCombAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryOrder)(struct CThostFtdcOrderField *pOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryOrder)(void *this, struct CThostFtdcOrderField *pOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryTrade)(struct CThostFtdcTradeField *pTrade, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryTrade)(void *this, struct CThostFtdcTradeField *pTrade, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestorPosition)(struct CThostFtdcInvestorPositionField *pInvestorPosition, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestorPosition)(void *this, struct CThostFtdcInvestorPositionField *pInvestorPosition, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryTradingAccount)(struct CThostFtdcTradingAccountField *pTradingAccount, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryTradingAccount)(void *this, struct CThostFtdcTradingAccountField *pTradingAccount, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestor)(struct CThostFtdcInvestorField *pInvestor, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestor)(void *this, struct CThostFtdcInvestorField *pInvestor, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryTradingCode)(struct CThostFtdcTradingCodeField *pTradingCode, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryTradingCode)(void *this, struct CThostFtdcTradingCodeField *pTradingCode, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInstrumentMarginRate)(struct CThostFtdcInstrumentMarginRateField *pInstrumentMarginRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInstrumentMarginRate)(void *this, struct CThostFtdcInstrumentMarginRateField *pInstrumentMarginRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInstrumentCommissionRate)(struct CThostFtdcInstrumentCommissionRateField *pInstrumentCommissionRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInstrumentCommissionRate)(void *this, struct CThostFtdcInstrumentCommissionRateField *pInstrumentCommissionRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryUserSession)(struct CThostFtdcUserSessionField *pUserSession, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryUserSession)(void *this, struct CThostFtdcUserSessionField *pUserSession, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryExchange)(struct CThostFtdcExchangeField *pExchange, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryExchange)(void *this, struct CThostFtdcExchangeField *pExchange, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryProduct)(struct CThostFtdcProductField *pProduct, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryProduct)(void *this, struct CThostFtdcProductField *pProduct, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInstrument)(struct CThostFtdcInstrumentField *pInstrument, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInstrument)(void *this, struct CThostFtdcInstrumentField *pInstrument, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryDepthMarketData)(struct CThostFtdcDepthMarketDataField *pDepthMarketData, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryDepthMarketData)(void *this, struct CThostFtdcDepthMarketDataField *pDepthMarketData, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryTraderOffer)(struct CThostFtdcTraderOfferField *pTraderOffer, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryTraderOffer)(void *this, struct CThostFtdcTraderOfferField *pTraderOffer, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySettlementInfo)(struct CThostFtdcSettlementInfoField *pSettlementInfo, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySettlementInfo)(void *this, struct CThostFtdcSettlementInfoField *pSettlementInfo, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryTransferBank)(struct CThostFtdcTransferBankField *pTransferBank, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryTransferBank)(void *this, struct CThostFtdcTransferBankField *pTransferBank, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestorPositionDetail)(struct CThostFtdcInvestorPositionDetailField *pInvestorPositionDetail, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestorPositionDetail)(void *this, struct CThostFtdcInvestorPositionDetailField *pInvestorPositionDetail, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryNotice)(struct CThostFtdcNoticeField *pNotice, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryNotice)(void *this, struct CThostFtdcNoticeField *pNotice, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySettlementInfoConfirm)(struct CThostFtdcSettlementInfoConfirmField *pSettlementInfoConfirm, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySettlementInfoConfirm)(void *this, struct CThostFtdcSettlementInfoConfirmField *pSettlementInfoConfirm, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestorPositionCombineDetail)(struct CThostFtdcInvestorPositionCombineDetailField *pInvestorPositionCombineDetail, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestorPositionCombineDetail)(void *this, struct CThostFtdcInvestorPositionCombineDetailField *pInvestorPositionCombineDetail, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryCFMMCTradingAccountKey)(struct CThostFtdcCFMMCTradingAccountKeyField *pCFMMCTradingAccountKey, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryCFMMCTradingAccountKey)(void *this, struct CThostFtdcCFMMCTradingAccountKeyField *pCFMMCTradingAccountKey, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryEWarrantOffset)(struct CThostFtdcEWarrantOffsetField *pEWarrantOffset, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryEWarrantOffset)(void *this, struct CThostFtdcEWarrantOffsetField *pEWarrantOffset, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestorProductGroupMargin)(struct CThostFtdcInvestorProductGroupMarginField *pInvestorProductGroupMargin, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestorProductGroupMargin)(void *this, struct CThostFtdcInvestorProductGroupMarginField *pInvestorProductGroupMargin, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryExchangeMarginRate)(struct CThostFtdcExchangeMarginRateField *pExchangeMarginRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryExchangeMarginRate)(void *this, struct CThostFtdcExchangeMarginRateField *pExchangeMarginRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryExchangeMarginRateAdjust)(struct CThostFtdcExchangeMarginRateAdjustField *pExchangeMarginRateAdjust, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryExchangeMarginRateAdjust)(void *this, struct CThostFtdcExchangeMarginRateAdjustField *pExchangeMarginRateAdjust, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryExchangeRate)(struct CThostFtdcExchangeRateField *pExchangeRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryExchangeRate)(void *this, struct CThostFtdcExchangeRateField *pExchangeRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySecAgentACIDMap)(struct CThostFtdcSecAgentACIDMapField *pSecAgentACIDMap, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySecAgentACIDMap)(void *this, struct CThostFtdcSecAgentACIDMapField *pSecAgentACIDMap, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryProductExchRate)(struct CThostFtdcProductExchRateField *pProductExchRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryProductExchRate)(void *this, struct CThostFtdcProductExchRateField *pProductExchRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryProductGroup)(struct CThostFtdcProductGroupField *pProductGroup, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryProductGroup)(void *this, struct CThostFtdcProductGroupField *pProductGroup, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryMMInstrumentCommissionRate)(struct CThostFtdcMMInstrumentCommissionRateField *pMMInstrumentCommissionRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryMMInstrumentCommissionRate)(void *this, struct CThostFtdcMMInstrumentCommissionRateField *pMMInstrumentCommissionRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryMMOptionInstrCommRate)(struct CThostFtdcMMOptionInstrCommRateField *pMMOptionInstrCommRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryMMOptionInstrCommRate)(void *this, struct CThostFtdcMMOptionInstrCommRateField *pMMOptionInstrCommRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInstrumentOrderCommRate)(struct CThostFtdcInstrumentOrderCommRateField *pInstrumentOrderCommRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInstrumentOrderCommRate)(void *this, struct CThostFtdcInstrumentOrderCommRateField *pInstrumentOrderCommRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySecAgentTradingAccount)(struct CThostFtdcTradingAccountField *pTradingAccount, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySecAgentTradingAccount)(void *this, struct CThostFtdcTradingAccountField *pTradingAccount, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySecAgentCheckMode)(struct CThostFtdcSecAgentCheckModeField *pSecAgentCheckMode, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySecAgentCheckMode)(void *this, struct CThostFtdcSecAgentCheckModeField *pSecAgentCheckMode, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySecAgentTradeInfo)(struct CThostFtdcSecAgentTradeInfoField *pSecAgentTradeInfo, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySecAgentTradeInfo)(void *this, struct CThostFtdcSecAgentTradeInfoField *pSecAgentTradeInfo, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryOptionInstrTradeCost)(struct CThostFtdcOptionInstrTradeCostField *pOptionInstrTradeCost, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryOptionInstrTradeCost)(void *this, struct CThostFtdcOptionInstrTradeCostField *pOptionInstrTradeCost, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryOptionInstrCommRate)(struct CThostFtdcOptionInstrCommRateField *pOptionInstrCommRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryOptionInstrCommRate)(void *this, struct CThostFtdcOptionInstrCommRateField *pOptionInstrCommRate, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryExecOrder)(struct CThostFtdcExecOrderField *pExecOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryExecOrder)(void *this, struct CThostFtdcExecOrderField *pExecOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryForQuote)(struct CThostFtdcForQuoteField *pForQuote, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryForQuote)(void *this, struct CThostFtdcForQuoteField *pForQuote, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryQuote)(struct CThostFtdcQuoteField *pQuote, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryQuote)(void *this, struct CThostFtdcQuoteField *pQuote, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryOptionSelfClose)(struct CThostFtdcOptionSelfCloseField *pOptionSelfClose, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryOptionSelfClose)(void *this, struct CThostFtdcOptionSelfCloseField *pOptionSelfClose, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestUnit)(struct CThostFtdcInvestUnitField *pInvestUnit, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestUnit)(void *this, struct CThostFtdcInvestUnitField *pInvestUnit, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryCombInstrumentGuard)(struct CThostFtdcCombInstrumentGuardField *pCombInstrumentGuard, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryCombInstrumentGuard)(void *this, struct CThostFtdcCombInstrumentGuardField *pCombInstrumentGuard, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryCombAction)(struct CThostFtdcCombActionField *pCombAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryCombAction)(void *this, struct CThostFtdcCombActionField *pCombAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryTransferSerial)(struct CThostFtdcTransferSerialField *pTransferSerial, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryTransferSerial)(void *this, struct CThostFtdcTransferSerialField *pTransferSerial, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryAccountregister)(struct CThostFtdcAccountregisterField *pAccountregister, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryAccountregister)(void *this, struct CThostFtdcAccountregisterField *pAccountregister, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspError)(struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspError)(void *this, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRtnOrder)(struct CThostFtdcOrderField *pOrder);
+    typedef void (*OnRtnOrder)(void *this, struct CThostFtdcOrderField *pOrder);
 
-    typedef void (*OnRtnTrade)(struct CThostFtdcTradeField *pTrade);
+    typedef void (*OnRtnTrade)(void *this, struct CThostFtdcTradeField *pTrade);
 
-    typedef void (*OnErrRtnOrderInsert)(struct CThostFtdcInputOrderField *pInputOrder, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnOrderInsert)(void *this, struct CThostFtdcInputOrderField *pInputOrder, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnErrRtnOrderAction)(struct CThostFtdcOrderActionField *pOrderAction, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnOrderAction)(void *this, struct CThostFtdcOrderActionField *pOrderAction, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnRtnInstrumentStatus)(struct CThostFtdcInstrumentStatusField *pInstrumentStatus);
+    typedef void (*OnRtnInstrumentStatus)(void *this, struct CThostFtdcInstrumentStatusField *pInstrumentStatus);
 
-    typedef void (*OnRtnBulletin)(struct CThostFtdcBulletinField *pBulletin);
+    typedef void (*OnRtnBulletin)(void *this, struct CThostFtdcBulletinField *pBulletin);
 
-    typedef void (*OnRtnTradingNotice)(struct CThostFtdcTradingNoticeInfoField *pTradingNoticeInfo);
+    typedef void (*OnRtnTradingNotice)(void *this, struct CThostFtdcTradingNoticeInfoField *pTradingNoticeInfo);
 
-    typedef void (*OnRtnErrorConditionalOrder)(struct CThostFtdcErrorConditionalOrderField *pErrorConditionalOrder);
+    typedef void (*OnRtnErrorConditionalOrder)(void *this, struct CThostFtdcErrorConditionalOrderField *pErrorConditionalOrder);
 
-    typedef void (*OnRtnExecOrder)(struct CThostFtdcExecOrderField *pExecOrder);
+    typedef void (*OnRtnExecOrder)(void *this, struct CThostFtdcExecOrderField *pExecOrder);
 
-    typedef void (*OnErrRtnExecOrderInsert)(struct CThostFtdcInputExecOrderField *pInputExecOrder, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnExecOrderInsert)(void *this, struct CThostFtdcInputExecOrderField *pInputExecOrder, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnErrRtnExecOrderAction)(struct CThostFtdcExecOrderActionField *pExecOrderAction, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnExecOrderAction)(void *this, struct CThostFtdcExecOrderActionField *pExecOrderAction, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnErrRtnForQuoteInsert)(struct CThostFtdcInputForQuoteField *pInputForQuote, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnForQuoteInsert)(void *this, struct CThostFtdcInputForQuoteField *pInputForQuote, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnRtnQuote)(struct CThostFtdcQuoteField *pQuote);
+    typedef void (*OnRtnQuote)(void *this, struct CThostFtdcQuoteField *pQuote);
 
-    typedef void (*OnErrRtnQuoteInsert)(struct CThostFtdcInputQuoteField *pInputQuote, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnQuoteInsert)(void *this, struct CThostFtdcInputQuoteField *pInputQuote, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnErrRtnQuoteAction)(struct CThostFtdcQuoteActionField *pQuoteAction, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnQuoteAction)(void *this, struct CThostFtdcQuoteActionField *pQuoteAction, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnRtnForQuoteRsp)(struct CThostFtdcForQuoteRspField *pForQuoteRsp);
+    typedef void (*OnRtnForQuoteRsp)(void *this, struct CThostFtdcForQuoteRspField *pForQuoteRsp);
 
-    typedef void (*OnRtnCFMMCTradingAccountToken)(struct CThostFtdcCFMMCTradingAccountTokenField *pCFMMCTradingAccountToken);
+    typedef void (*OnRtnCFMMCTradingAccountToken)(void *this, struct CThostFtdcCFMMCTradingAccountTokenField *pCFMMCTradingAccountToken);
 
-    typedef void (*OnErrRtnBatchOrderAction)(struct CThostFtdcBatchOrderActionField *pBatchOrderAction, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnBatchOrderAction)(void *this, struct CThostFtdcBatchOrderActionField *pBatchOrderAction, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnRtnOptionSelfClose)(struct CThostFtdcOptionSelfCloseField *pOptionSelfClose);
+    typedef void (*OnRtnOptionSelfClose)(void *this, struct CThostFtdcOptionSelfCloseField *pOptionSelfClose);
 
-    typedef void (*OnErrRtnOptionSelfCloseInsert)(struct CThostFtdcInputOptionSelfCloseField *pInputOptionSelfClose, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnOptionSelfCloseInsert)(void *this, struct CThostFtdcInputOptionSelfCloseField *pInputOptionSelfClose, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnErrRtnOptionSelfCloseAction)(struct CThostFtdcOptionSelfCloseActionField *pOptionSelfCloseAction, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnOptionSelfCloseAction)(void *this, struct CThostFtdcOptionSelfCloseActionField *pOptionSelfCloseAction, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnRtnCombAction)(struct CThostFtdcCombActionField *pCombAction);
+    typedef void (*OnRtnCombAction)(void *this, struct CThostFtdcCombActionField *pCombAction);
 
-    typedef void (*OnErrRtnCombActionInsert)(struct CThostFtdcInputCombActionField *pInputCombAction, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnCombActionInsert)(void *this, struct CThostFtdcInputCombActionField *pInputCombAction, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnRspQryContractBank)(struct CThostFtdcContractBankField *pContractBank, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryContractBank)(void *this, struct CThostFtdcContractBankField *pContractBank, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryParkedOrder)(struct CThostFtdcParkedOrderField *pParkedOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryParkedOrder)(void *this, struct CThostFtdcParkedOrderField *pParkedOrder, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryParkedOrderAction)(struct CThostFtdcParkedOrderActionField *pParkedOrderAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryParkedOrderAction)(void *this, struct CThostFtdcParkedOrderActionField *pParkedOrderAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryTradingNotice)(struct CThostFtdcTradingNoticeField *pTradingNotice, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryTradingNotice)(void *this, struct CThostFtdcTradingNoticeField *pTradingNotice, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryBrokerTradingParams)(struct CThostFtdcBrokerTradingParamsField *pBrokerTradingParams, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryBrokerTradingParams)(void *this, struct CThostFtdcBrokerTradingParamsField *pBrokerTradingParams, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryBrokerTradingAlgos)(struct CThostFtdcBrokerTradingAlgosField *pBrokerTradingAlgos, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryBrokerTradingAlgos)(void *this, struct CThostFtdcBrokerTradingAlgosField *pBrokerTradingAlgos, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQueryCFMMCTradingAccountToken)(struct CThostFtdcQueryCFMMCTradingAccountTokenField *pQueryCFMMCTradingAccountToken, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQueryCFMMCTradingAccountToken)(void *this, struct CThostFtdcQueryCFMMCTradingAccountTokenField *pQueryCFMMCTradingAccountToken, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRtnFromBankToFutureByBank)(struct CThostFtdcRspTransferField *pRspTransfer);
+    typedef void (*OnRtnFromBankToFutureByBank)(void *this, struct CThostFtdcRspTransferField *pRspTransfer);
 
-    typedef void (*OnRtnFromFutureToBankByBank)(struct CThostFtdcRspTransferField *pRspTransfer);
+    typedef void (*OnRtnFromFutureToBankByBank)(void *this, struct CThostFtdcRspTransferField *pRspTransfer);
 
-    typedef void (*OnRtnRepealFromBankToFutureByBank)(struct CThostFtdcRspRepealField *pRspRepeal);
+    typedef void (*OnRtnRepealFromBankToFutureByBank)(void *this, struct CThostFtdcRspRepealField *pRspRepeal);
 
-    typedef void (*OnRtnRepealFromFutureToBankByBank)(struct CThostFtdcRspRepealField *pRspRepeal);
+    typedef void (*OnRtnRepealFromFutureToBankByBank)(void *this, struct CThostFtdcRspRepealField *pRspRepeal);
 
-    typedef void (*OnRtnFromBankToFutureByFuture)(struct CThostFtdcRspTransferField *pRspTransfer);
+    typedef void (*OnRtnFromBankToFutureByFuture)(void *this, struct CThostFtdcRspTransferField *pRspTransfer);
 
-    typedef void (*OnRtnFromFutureToBankByFuture)(struct CThostFtdcRspTransferField *pRspTransfer);
+    typedef void (*OnRtnFromFutureToBankByFuture)(void *this, struct CThostFtdcRspTransferField *pRspTransfer);
 
-    typedef void (*OnRtnRepealFromBankToFutureByFutureManual)(struct CThostFtdcRspRepealField *pRspRepeal);
+    typedef void (*OnRtnRepealFromBankToFutureByFutureManual)(void *this, struct CThostFtdcRspRepealField *pRspRepeal);
 
-    typedef void (*OnRtnRepealFromFutureToBankByFutureManual)(struct CThostFtdcRspRepealField *pRspRepeal);
+    typedef void (*OnRtnRepealFromFutureToBankByFutureManual)(void *this, struct CThostFtdcRspRepealField *pRspRepeal);
 
-    typedef void (*OnRtnQueryBankBalanceByFuture)(struct CThostFtdcNotifyQueryAccountField *pNotifyQueryAccount);
+    typedef void (*OnRtnQueryBankBalanceByFuture)(void *this, struct CThostFtdcNotifyQueryAccountField *pNotifyQueryAccount);
 
-    typedef void (*OnErrRtnBankToFutureByFuture)(struct CThostFtdcReqTransferField *pReqTransfer, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnBankToFutureByFuture)(void *this, struct CThostFtdcReqTransferField *pReqTransfer, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnErrRtnFutureToBankByFuture)(struct CThostFtdcReqTransferField *pReqTransfer, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnFutureToBankByFuture)(void *this, struct CThostFtdcReqTransferField *pReqTransfer, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnErrRtnRepealBankToFutureByFutureManual)(struct CThostFtdcReqRepealField *pReqRepeal, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnRepealBankToFutureByFutureManual)(void *this, struct CThostFtdcReqRepealField *pReqRepeal, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnErrRtnRepealFutureToBankByFutureManual)(struct CThostFtdcReqRepealField *pReqRepeal, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnRepealFutureToBankByFutureManual)(void *this, struct CThostFtdcReqRepealField *pReqRepeal, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnErrRtnQueryBankBalanceByFuture)(struct CThostFtdcReqQueryAccountField *pReqQueryAccount, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnQueryBankBalanceByFuture)(void *this, struct CThostFtdcReqQueryAccountField *pReqQueryAccount, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnRtnRepealFromBankToFutureByFuture)(struct CThostFtdcRspRepealField *pRspRepeal);
+    typedef void (*OnRtnRepealFromBankToFutureByFuture)(void *this, struct CThostFtdcRspRepealField *pRspRepeal);
 
-    typedef void (*OnRtnRepealFromFutureToBankByFuture)(struct CThostFtdcRspRepealField *pRspRepeal);
+    typedef void (*OnRtnRepealFromFutureToBankByFuture)(void *this, struct CThostFtdcRspRepealField *pRspRepeal);
 
-    typedef void (*OnRspFromBankToFutureByFuture)(struct CThostFtdcReqTransferField *pReqTransfer, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspFromBankToFutureByFuture)(void *this, struct CThostFtdcReqTransferField *pReqTransfer, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspFromFutureToBankByFuture)(struct CThostFtdcReqTransferField *pReqTransfer, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspFromFutureToBankByFuture)(void *this, struct CThostFtdcReqTransferField *pReqTransfer, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQueryBankAccountMoneyByFuture)(struct CThostFtdcReqQueryAccountField *pReqQueryAccount, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQueryBankAccountMoneyByFuture)(void *this, struct CThostFtdcReqQueryAccountField *pReqQueryAccount, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRtnOpenAccountByBank)(struct CThostFtdcOpenAccountField *pOpenAccount);
+    typedef void (*OnRtnOpenAccountByBank)(void *this, struct CThostFtdcOpenAccountField *pOpenAccount);
 
-    typedef void (*OnRtnCancelAccountByBank)(struct CThostFtdcCancelAccountField *pCancelAccount);
+    typedef void (*OnRtnCancelAccountByBank)(void *this, struct CThostFtdcCancelAccountField *pCancelAccount);
 
-    typedef void (*OnRtnChangeAccountByBank)(struct CThostFtdcChangeAccountField *pChangeAccount);
+    typedef void (*OnRtnChangeAccountByBank)(void *this, struct CThostFtdcChangeAccountField *pChangeAccount);
 
-    typedef void (*OnRspQryClassifiedInstrument)(struct CThostFtdcInstrumentField *pInstrument, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryClassifiedInstrument)(void *this, struct CThostFtdcInstrumentField *pInstrument, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryCombPromotionParam)(struct CThostFtdcCombPromotionParamField *pCombPromotionParam, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryCombPromotionParam)(void *this, struct CThostFtdcCombPromotionParamField *pCombPromotionParam, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryRiskSettleInvstPosition)(struct CThostFtdcRiskSettleInvstPositionField *pRiskSettleInvstPosition, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryRiskSettleInvstPosition)(void *this, struct CThostFtdcRiskSettleInvstPositionField *pRiskSettleInvstPosition, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryRiskSettleProductStatus)(struct CThostFtdcRiskSettleProductStatusField *pRiskSettleProductStatus, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryRiskSettleProductStatus)(void *this, struct CThostFtdcRiskSettleProductStatusField *pRiskSettleProductStatus, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySPBMFutureParameter)(struct CThostFtdcSPBMFutureParameterField *pSPBMFutureParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySPBMFutureParameter)(void *this, struct CThostFtdcSPBMFutureParameterField *pSPBMFutureParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySPBMOptionParameter)(struct CThostFtdcSPBMOptionParameterField *pSPBMOptionParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySPBMOptionParameter)(void *this, struct CThostFtdcSPBMOptionParameterField *pSPBMOptionParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySPBMIntraParameter)(struct CThostFtdcSPBMIntraParameterField *pSPBMIntraParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySPBMIntraParameter)(void *this, struct CThostFtdcSPBMIntraParameterField *pSPBMIntraParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySPBMInterParameter)(struct CThostFtdcSPBMInterParameterField *pSPBMInterParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySPBMInterParameter)(void *this, struct CThostFtdcSPBMInterParameterField *pSPBMInterParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySPBMPortfDefinition)(struct CThostFtdcSPBMPortfDefinitionField *pSPBMPortfDefinition, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySPBMPortfDefinition)(void *this, struct CThostFtdcSPBMPortfDefinitionField *pSPBMPortfDefinition, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySPBMInvestorPortfDef)(struct CThostFtdcSPBMInvestorPortfDefField *pSPBMInvestorPortfDef, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySPBMInvestorPortfDef)(void *this, struct CThostFtdcSPBMInvestorPortfDefField *pSPBMInvestorPortfDef, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestorPortfMarginRatio)(struct CThostFtdcInvestorPortfMarginRatioField *pInvestorPortfMarginRatio, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestorPortfMarginRatio)(void *this, struct CThostFtdcInvestorPortfMarginRatioField *pInvestorPortfMarginRatio, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestorProdSPBMDetail)(struct CThostFtdcInvestorProdSPBMDetailField *pInvestorProdSPBMDetail, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestorProdSPBMDetail)(void *this, struct CThostFtdcInvestorProdSPBMDetailField *pInvestorProdSPBMDetail, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestorCommoditySPMMMargin)(struct CThostFtdcInvestorCommoditySPMMMarginField *pInvestorCommoditySPMMMargin, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestorCommoditySPMMMargin)(void *this, struct CThostFtdcInvestorCommoditySPMMMarginField *pInvestorCommoditySPMMMargin, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestorCommodityGroupSPMMMargin)(struct CThostFtdcInvestorCommodityGroupSPMMMarginField *pInvestorCommodityGroupSPMMMargin, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestorCommodityGroupSPMMMargin)(void *this, struct CThostFtdcInvestorCommodityGroupSPMMMarginField *pInvestorCommodityGroupSPMMMargin, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySPMMInstParam)(struct CThostFtdcSPMMInstParamField *pSPMMInstParam, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySPMMInstParam)(void *this, struct CThostFtdcSPMMInstParamField *pSPMMInstParam, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySPMMProductParam)(struct CThostFtdcSPMMProductParamField *pSPMMProductParam, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySPMMProductParam)(void *this, struct CThostFtdcSPMMProductParamField *pSPMMProductParam, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySPBMAddOnInterParameter)(struct CThostFtdcSPBMAddOnInterParameterField *pSPBMAddOnInterParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySPBMAddOnInterParameter)(void *this, struct CThostFtdcSPBMAddOnInterParameterField *pSPBMAddOnInterParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryRCAMSCombProductInfo)(struct CThostFtdcRCAMSCombProductInfoField *pRCAMSCombProductInfo, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryRCAMSCombProductInfo)(void *this, struct CThostFtdcRCAMSCombProductInfoField *pRCAMSCombProductInfo, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryRCAMSInstrParameter)(struct CThostFtdcRCAMSInstrParameterField *pRCAMSInstrParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryRCAMSInstrParameter)(void *this, struct CThostFtdcRCAMSInstrParameterField *pRCAMSInstrParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryRCAMSIntraParameter)(struct CThostFtdcRCAMSIntraParameterField *pRCAMSIntraParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryRCAMSIntraParameter)(void *this, struct CThostFtdcRCAMSIntraParameterField *pRCAMSIntraParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryRCAMSInterParameter)(struct CThostFtdcRCAMSInterParameterField *pRCAMSInterParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryRCAMSInterParameter)(void *this, struct CThostFtdcRCAMSInterParameterField *pRCAMSInterParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryRCAMSShortOptAdjustParam)(struct CThostFtdcRCAMSShortOptAdjustParamField *pRCAMSShortOptAdjustParam, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryRCAMSShortOptAdjustParam)(void *this, struct CThostFtdcRCAMSShortOptAdjustParamField *pRCAMSShortOptAdjustParam, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryRCAMSInvestorCombPosition)(struct CThostFtdcRCAMSInvestorCombPositionField *pRCAMSInvestorCombPosition, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryRCAMSInvestorCombPosition)(void *this, struct CThostFtdcRCAMSInvestorCombPositionField *pRCAMSInvestorCombPosition, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestorProdRCAMSMargin)(struct CThostFtdcInvestorProdRCAMSMarginField *pInvestorProdRCAMSMargin, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestorProdRCAMSMargin)(void *this, struct CThostFtdcInvestorProdRCAMSMarginField *pInvestorProdRCAMSMargin, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryRULEInstrParameter)(struct CThostFtdcRULEInstrParameterField *pRULEInstrParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryRULEInstrParameter)(void *this, struct CThostFtdcRULEInstrParameterField *pRULEInstrParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryRULEIntraParameter)(struct CThostFtdcRULEIntraParameterField *pRULEIntraParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryRULEIntraParameter)(void *this, struct CThostFtdcRULEIntraParameterField *pRULEIntraParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryRULEInterParameter)(struct CThostFtdcRULEInterParameterField *pRULEInterParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryRULEInterParameter)(void *this, struct CThostFtdcRULEInterParameterField *pRULEInterParameter, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestorProdRULEMargin)(struct CThostFtdcInvestorProdRULEMarginField *pInvestorProdRULEMargin, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestorProdRULEMargin)(void *this, struct CThostFtdcInvestorProdRULEMarginField *pInvestorProdRULEMargin, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestorPortfSetting)(struct CThostFtdcInvestorPortfSettingField *pInvestorPortfSetting, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestorPortfSetting)(void *this, struct CThostFtdcInvestorPortfSettingField *pInvestorPortfSetting, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryInvestorInfoCommRec)(struct CThostFtdcInvestorInfoCommRecField *pInvestorInfoCommRec, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryInvestorInfoCommRec)(void *this, struct CThostFtdcInvestorInfoCommRecField *pInvestorInfoCommRec, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryCombLeg)(struct CThostFtdcCombLegField *pCombLeg, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryCombLeg)(void *this, struct CThostFtdcCombLegField *pCombLeg, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspOffsetSetting)(struct CThostFtdcInputOffsetSettingField *pInputOffsetSetting, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspOffsetSetting)(void *this, struct CThostFtdcInputOffsetSettingField *pInputOffsetSetting, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspCancelOffsetSetting)(struct CThostFtdcInputOffsetSettingField *pInputOffsetSetting, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspCancelOffsetSetting)(void *this, struct CThostFtdcInputOffsetSettingField *pInputOffsetSetting, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRtnOffsetSetting)(struct CThostFtdcOffsetSettingField *pOffsetSetting);
+    typedef void (*OnRtnOffsetSetting)(void *this, struct CThostFtdcOffsetSettingField *pOffsetSetting);
 
-    typedef void (*OnErrRtnOffsetSetting)(struct CThostFtdcInputOffsetSettingField *pInputOffsetSetting, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnOffsetSetting)(void *this, struct CThostFtdcInputOffsetSettingField *pInputOffsetSetting, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnErrRtnCancelOffsetSetting)(struct CThostFtdcCancelOffsetSettingField *pCancelOffsetSetting, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnCancelOffsetSetting)(void *this, struct CThostFtdcCancelOffsetSettingField *pCancelOffsetSetting, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnRspQryOffsetSetting)(struct CThostFtdcOffsetSettingField *pOffsetSetting, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryOffsetSetting)(void *this, struct CThostFtdcOffsetSettingField *pOffsetSetting, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspGenSMSCode)(struct CThostFtdcRspGenSMSCodeField *pRspGenSMSCode, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspGenSMSCode)(void *this, struct CThostFtdcRspGenSMSCodeField *pRspGenSMSCode, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspSpdApply)(struct CThostFtdcInputSpdApplyField *pInputSpdApply, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspSpdApply)(void *this, struct CThostFtdcInputSpdApplyField *pInputSpdApply, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspSpdApplyAction)(struct CThostFtdcInputSpdApplyActionField *pInputSpdApplyAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspSpdApplyAction)(void *this, struct CThostFtdcInputSpdApplyActionField *pInputSpdApplyAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQrySpdApply)(struct CThostFtdcSpdApplyField *pSpdApply, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQrySpdApply)(void *this, struct CThostFtdcSpdApplyField *pSpdApply, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRtnSpdApply)(struct CThostFtdcSpdApplyField *pSpdApply);
+    typedef void (*OnRtnSpdApply)(void *this, struct CThostFtdcSpdApplyField *pSpdApply);
 
-    typedef void (*OnErrRtnSpdApply)(struct CThostFtdcInputSpdApplyField *pInputSpdApply, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnSpdApply)(void *this, struct CThostFtdcInputSpdApplyField *pInputSpdApply, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnErrRtnSpdApplyAction)(struct CThostFtdcSpdApplyActionField *pSpdApplyAction, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnSpdApplyAction)(void *this, struct CThostFtdcSpdApplyActionField *pSpdApplyAction, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnRspHedgeCfm)(struct CThostFtdcInputHedgeCfmField *pInputHedgeCfm, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspHedgeCfm)(void *this, struct CThostFtdcInputHedgeCfmField *pInputHedgeCfm, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspHedgeCfmAction)(struct CThostFtdcInputHedgeCfmActionField *pInputHedgeCfmAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspHedgeCfmAction)(void *this, struct CThostFtdcInputHedgeCfmActionField *pInputHedgeCfmAction, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRspQryHedgeCfm)(struct CThostFtdcHedgeCfmField *pHedgeCfm, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
+    typedef void (*OnRspQryHedgeCfm)(void *this, struct CThostFtdcHedgeCfmField *pHedgeCfm, struct CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast);
 
-    typedef void (*OnRtnHedgeCfm)(struct CThostFtdcHedgeCfmField *pHedgeCfm);
+    typedef void (*OnRtnHedgeCfm)(void *this, struct CThostFtdcHedgeCfmField *pHedgeCfm);
 
-    typedef void (*OnErrRtnHedgeCfm)(struct CThostFtdcInputHedgeCfmField *pInputHedgeCfm, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnHedgeCfm)(void *this, struct CThostFtdcInputHedgeCfmField *pInputHedgeCfm, struct CThostFtdcRspInfoField *pRspInfo);
 
-    typedef void (*OnErrRtnHedgeCfmAction)(struct CThostFtdcHedgeCfmActionField *pHedgeCfmAction, struct CThostFtdcRspInfoField *pRspInfo);
+    typedef void (*OnErrRtnHedgeCfmAction)(void *this, struct CThostFtdcHedgeCfmActionField *pHedgeCfmAction, struct CThostFtdcRspInfoField *pRspInfo);
 
     void COnFrontConnected(void *this);
 

@@ -13,6 +13,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -45,6 +46,9 @@ func CreateThostFtdcTraderApi(
 	}
 
 	flowPath, err = filepath.Abs(flowPath)
+	if err = os.MkdirAll(flowPath, os.ModePerm); err != nil {
+		return nil, errors.Join(thost.ErrInvalidArgs, err)
+	}
 	if !strings.HasSuffix(flowPath, "/") {
 		flowPath += "/"
 	}
@@ -141,17 +145,6 @@ func CreateThostFtdcTraderApi(
 		version: apiVer,
 		lib:     lib,
 	}
-
-	runtime.SetFinalizer(api, func(ins *ThostFtdcTraderApi) {
-		slog.Info(
-			"finalizing thost trader api",
-			slog.Any("api", ins),
-			slog.Any("api_ptr", ins.apiPtr),
-			slog.Any("spi_ptr", ins.spiPtr),
-		)
-
-		ins.Release()
-	})
 
 	return api, nil
 }
