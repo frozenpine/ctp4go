@@ -12,15 +12,21 @@ import (
 type testSpi struct {
 	thost.BaseLogSpi
 
-	api *v6_7_13.ThostFtdcTraderApi
+	api      *v6_7_13.ThostFtdcTraderApi
+	brokerId string
+	userId   string
+	userPass string
+	appId    string
+	authCode string
 }
 
 func (s *testSpi) OnFrontConnected() {
 	auth := thost.CThostFtdcReqAuthenticateField{}
-	auth.BrokerID.SetString("5100")
-	auth.UserID.SetString("000008")
-	auth.AppID.SetString("client_dtprobe_1.0.0")
-	auth.AuthCode.SetString("xxx")
+
+	thost.SetCString(auth.BrokerID[:], s.brokerId)
+	thost.SetCString(auth.UserID[:], s.userId)
+	thost.SetCString(auth.AppID[:], s.appId)
+	thost.SetCString(auth.AuthCode[:], s.authCode)
 
 	s.api.ReqAuthenticate(&auth, 1)
 }
@@ -35,9 +41,9 @@ func (s *testSpi) OnRspAuthenticate(
 	)
 
 	login := thost.CThostFtdcReqUserLoginField{}
-	login.BrokerID.SetString("5100")
-	login.UserID.SetString("000008")
-	login.Password.SetString("xxx")
+	thost.SetCString(login.BrokerID[:], s.brokerId)
+	thost.SetCString(login.UserID[:], s.userId)
+	thost.SetCString(login.Password[:], s.userPass)
 
 	s.api.ReqUserLogin(&login, nRequestID+1)
 }
@@ -67,6 +73,12 @@ func TestCTPApi(t *testing.T) {
 			FrontAddr: front,
 		},
 		api: ins,
+
+		brokerId: "5100",
+		userId:   "000008",
+		userPass: "xxxx",
+		appId:    "client_dtprobe_1.0.0",
+		authCode: "xxxxx",
 	})
 	ins.SubscribePrivateTopic(thost.THOST_TERT_QUICK, 1)
 	ins.SubscribePublicTopic(thost.THOST_TERT_QUICK)
