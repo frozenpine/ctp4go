@@ -16,6 +16,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"sync"
 	"unsafe"
 
 	"github.com/frozenpine/ctp4go/thost"
@@ -150,11 +151,6 @@ func CreateThostFtdcTraderApi(
 		)
 
 		ins.Release()
-
-		ins.spiPtr.Pinner.Unpin()
-		ins.spiPtr = nil
-
-		C.dlclose(ins.lib)
 	})
 
 	return api, nil
@@ -163,9 +159,10 @@ func CreateThostFtdcTraderApi(
 type ThostFtdcTraderApi struct {
 	lib unsafe.Pointer
 
-	version string
-	apiPtr  *C.CThostFtdcTraderApiExt
-	spiPtr  *ThostFtdcTraderSpi
+	version     string
+	apiPtr      *C.CThostFtdcTraderApiExt
+	spiPtr      *ThostFtdcTraderSpi
+	releaseOnce sync.Once
 }
 
 func (api *ThostFtdcTraderApi) GetApiVersion() string {
@@ -173,20 +170,25 @@ func (api *ThostFtdcTraderApi) GetApiVersion() string {
 }
 
 func (api *ThostFtdcTraderApi) Release() {
-	slog.Log(
-		context.Background(), slog.LevelDebug-2,
-		"executing thost trader api Release",
-	)
+	api.releaseOnce.Do(func() {
+		slog.Info("executing thost trader api Release")
 
-	C.CallRelease(
-		api.apiPtr.vtable.CThostFtdcTraderApiVTable_Release,
-		unsafe.Pointer(api.apiPtr),
-	)
+		defer func() {
+			if api.spiPtr != nil {
+				api.spiPtr.Pinner.Unpin()
+				api.spiPtr = nil
+			}
 
-	slog.Log(
-		context.Background(), slog.LevelDebug-2,
-		"thost trader api Release executed",
-	)
+			C.dlclose(api.lib)
+		}()
+
+		C.CallRelease(
+			api.apiPtr.vtable.CThostFtdcTraderApiVTable_Release,
+			unsafe.Pointer(api.apiPtr),
+		)
+
+		slog.Info("thost trader api Release executed")
+	})
 }
 
 func (api *ThostFtdcTraderApi) Init() {
