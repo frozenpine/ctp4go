@@ -448,6 +448,14 @@ extern "C"
         CThostFtdcTraderApiVTable *vtable;
     } CThostFtdcTraderApiExt;
 
+    typedef void *(*CreateFtdcTraderApi)(const char *pszFlowPath, bool bIsProductionMode);
+
+    typedef const char *(*GetApiVersion)();
+
+    void *CallCreateFtdcTraderApi(CreateFtdcTraderApi fn, const char *pszFlowPath, bool bIsProductionMode);
+
+    const char *CallGetApiVersion(GetApiVersion fn);
+
     void CallRelease(Release fn, void *this);
 
     void CallInit(Init fn, void *this);

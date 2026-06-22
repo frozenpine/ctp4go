@@ -1,5 +1,15 @@
 #include "td_api_helper.h"
 
+void *CallCreateFtdcTraderApi(CreateFtdcTraderApi fn, const char *pszFlowPath, bool bIsProductionMode)
+{
+    return fn(pszFlowPath, bIsProductionMode);
+}
+
+const char *CallGetApiVersion(GetApiVersion fn)
+{
+    return fn();
+}
+
 void CallRelease(Release fn, void *this)
 {
     fn(this);
