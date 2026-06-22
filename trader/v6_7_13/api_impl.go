@@ -144,7 +144,11 @@ func CreateThostFtdcTraderApi(
 	}
 
 	runtime.SetFinalizer(api, func(ins *ThostFtdcTraderApi) {
-		// TODO: api release
+		ins.Release()
+
+		ins.spiPtr.Pinner.Unpin()
+		ins.spiPtr = nil
+
 		C.dlclose(ins.lib)
 	})
 
