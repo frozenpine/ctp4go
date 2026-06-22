@@ -21,6 +21,545 @@ var (
 	spiCVtablePtr *C.CThostFtdcTraderSpiVTable
 )
 
+func init() {
+	spiCVtablePtr = (*C.CThostFtdcTraderSpiVTable)(C.malloc(C.sizeof_CThostFtdcTraderSpiVTable))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnFrontConnected = (C.OnFrontConnected)(
+		unsafe.Pointer(C.COnFrontConnected))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnFrontDisconnected = (C.OnFrontDisconnected)(
+		unsafe.Pointer(C.COnFrontDisconnected))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnHeartBeatWarning = (C.OnHeartBeatWarning)(
+		unsafe.Pointer(C.COnHeartBeatWarning))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspAuthenticate = (C.OnRspAuthenticate)(
+		unsafe.Pointer(C.COnRspAuthenticate))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnPrivateSeqNo = (C.OnRtnPrivateSeqNo)(
+		unsafe.Pointer(C.COnRtnPrivateSeqNo))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspUserLogin = (C.OnRspUserLogin)(
+		unsafe.Pointer(C.COnRspUserLogin))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspUserLogout = (C.OnRspUserLogout)(
+		unsafe.Pointer(C.COnRspUserLogout))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspUserPasswordUpdate = (C.OnRspUserPasswordUpdate)(
+		unsafe.Pointer(C.COnRspUserPasswordUpdate))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspTradingAccountPasswordUpdate = (C.OnRspTradingAccountPasswordUpdate)(
+		unsafe.Pointer(C.COnRspTradingAccountPasswordUpdate))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspUserAuthMethod = (C.OnRspUserAuthMethod)(
+		unsafe.Pointer(C.COnRspUserAuthMethod))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspGenUserCaptcha = (C.OnRspGenUserCaptcha)(
+		unsafe.Pointer(C.COnRspGenUserCaptcha))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspGenUserText = (C.OnRspGenUserText)(
+		unsafe.Pointer(C.COnRspGenUserText))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspOrderInsert = (C.OnRspOrderInsert)(
+		unsafe.Pointer(C.COnRspOrderInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspParkedOrderInsert = (C.OnRspParkedOrderInsert)(
+		unsafe.Pointer(C.COnRspParkedOrderInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspParkedOrderAction = (C.OnRspParkedOrderAction)(
+		unsafe.Pointer(C.COnRspParkedOrderAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspOrderAction = (C.OnRspOrderAction)(
+		unsafe.Pointer(C.COnRspOrderAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryMaxOrderVolume = (C.OnRspQryMaxOrderVolume)(
+		unsafe.Pointer(C.COnRspQryMaxOrderVolume))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspSettlementInfoConfirm = (C.OnRspSettlementInfoConfirm)(
+		unsafe.Pointer(C.COnRspSettlementInfoConfirm))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspRemoveParkedOrder = (C.OnRspRemoveParkedOrder)(
+		unsafe.Pointer(C.COnRspRemoveParkedOrder))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspRemoveParkedOrderAction = (C.OnRspRemoveParkedOrderAction)(
+		unsafe.Pointer(C.COnRspRemoveParkedOrderAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspExecOrderInsert = (C.OnRspExecOrderInsert)(
+		unsafe.Pointer(C.COnRspExecOrderInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspExecOrderAction = (C.OnRspExecOrderAction)(
+		unsafe.Pointer(C.COnRspExecOrderAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspForQuoteInsert = (C.OnRspForQuoteInsert)(
+		unsafe.Pointer(C.COnRspForQuoteInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQuoteInsert = (C.OnRspQuoteInsert)(
+		unsafe.Pointer(C.COnRspQuoteInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQuoteAction = (C.OnRspQuoteAction)(
+		unsafe.Pointer(C.COnRspQuoteAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspBatchOrderAction = (C.OnRspBatchOrderAction)(
+		unsafe.Pointer(C.COnRspBatchOrderAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspOptionSelfCloseInsert = (C.OnRspOptionSelfCloseInsert)(
+		unsafe.Pointer(C.COnRspOptionSelfCloseInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspOptionSelfCloseAction = (C.OnRspOptionSelfCloseAction)(
+		unsafe.Pointer(C.COnRspOptionSelfCloseAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspCombActionInsert = (C.OnRspCombActionInsert)(
+		unsafe.Pointer(C.COnRspCombActionInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryOrder = (C.OnRspQryOrder)(
+		unsafe.Pointer(C.COnRspQryOrder))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryTrade = (C.OnRspQryTrade)(
+		unsafe.Pointer(C.COnRspQryTrade))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestorPosition = (C.OnRspQryInvestorPosition)(
+		unsafe.Pointer(C.COnRspQryInvestorPosition))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryTradingAccount = (C.OnRspQryTradingAccount)(
+		unsafe.Pointer(C.COnRspQryTradingAccount))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestor = (C.OnRspQryInvestor)(
+		unsafe.Pointer(C.COnRspQryInvestor))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryTradingCode = (C.OnRspQryTradingCode)(
+		unsafe.Pointer(C.COnRspQryTradingCode))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInstrumentMarginRate = (C.OnRspQryInstrumentMarginRate)(
+		unsafe.Pointer(C.COnRspQryInstrumentMarginRate))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInstrumentCommissionRate = (C.OnRspQryInstrumentCommissionRate)(
+		unsafe.Pointer(C.COnRspQryInstrumentCommissionRate))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryUserSession = (C.OnRspQryUserSession)(
+		unsafe.Pointer(C.COnRspQryUserSession))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryExchange = (C.OnRspQryExchange)(
+		unsafe.Pointer(C.COnRspQryExchange))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryProduct = (C.OnRspQryProduct)(
+		unsafe.Pointer(C.COnRspQryProduct))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInstrument = (C.OnRspQryInstrument)(
+		unsafe.Pointer(C.COnRspQryInstrument))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryDepthMarketData = (C.OnRspQryDepthMarketData)(
+		unsafe.Pointer(C.COnRspQryDepthMarketData))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryTraderOffer = (C.OnRspQryTraderOffer)(
+		unsafe.Pointer(C.COnRspQryTraderOffer))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySettlementInfo = (C.OnRspQrySettlementInfo)(
+		unsafe.Pointer(C.COnRspQrySettlementInfo))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryTransferBank = (C.OnRspQryTransferBank)(
+		unsafe.Pointer(C.COnRspQryTransferBank))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestorPositionDetail = (C.OnRspQryInvestorPositionDetail)(
+		unsafe.Pointer(C.COnRspQryInvestorPositionDetail))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryNotice = (C.OnRspQryNotice)(
+		unsafe.Pointer(C.COnRspQryNotice))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySettlementInfoConfirm = (C.OnRspQrySettlementInfoConfirm)(
+		unsafe.Pointer(C.COnRspQrySettlementInfoConfirm))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestorPositionCombineDetail = (C.OnRspQryInvestorPositionCombineDetail)(
+		unsafe.Pointer(C.COnRspQryInvestorPositionCombineDetail))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryCFMMCTradingAccountKey = (C.OnRspQryCFMMCTradingAccountKey)(
+		unsafe.Pointer(C.COnRspQryCFMMCTradingAccountKey))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryEWarrantOffset = (C.OnRspQryEWarrantOffset)(
+		unsafe.Pointer(C.COnRspQryEWarrantOffset))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestorProductGroupMargin = (C.OnRspQryInvestorProductGroupMargin)(
+		unsafe.Pointer(C.COnRspQryInvestorProductGroupMargin))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryExchangeMarginRate = (C.OnRspQryExchangeMarginRate)(
+		unsafe.Pointer(C.COnRspQryExchangeMarginRate))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryExchangeMarginRateAdjust = (C.OnRspQryExchangeMarginRateAdjust)(
+		unsafe.Pointer(C.COnRspQryExchangeMarginRateAdjust))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryExchangeRate = (C.OnRspQryExchangeRate)(
+		unsafe.Pointer(C.COnRspQryExchangeRate))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySecAgentACIDMap = (C.OnRspQrySecAgentACIDMap)(
+		unsafe.Pointer(C.COnRspQrySecAgentACIDMap))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryProductExchRate = (C.OnRspQryProductExchRate)(
+		unsafe.Pointer(C.COnRspQryProductExchRate))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryProductGroup = (C.OnRspQryProductGroup)(
+		unsafe.Pointer(C.COnRspQryProductGroup))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryMMInstrumentCommissionRate = (C.OnRspQryMMInstrumentCommissionRate)(
+		unsafe.Pointer(C.COnRspQryMMInstrumentCommissionRate))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryMMOptionInstrCommRate = (C.OnRspQryMMOptionInstrCommRate)(
+		unsafe.Pointer(C.COnRspQryMMOptionInstrCommRate))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInstrumentOrderCommRate = (C.OnRspQryInstrumentOrderCommRate)(
+		unsafe.Pointer(C.COnRspQryInstrumentOrderCommRate))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySecAgentTradingAccount = (C.OnRspQrySecAgentTradingAccount)(
+		unsafe.Pointer(C.COnRspQrySecAgentTradingAccount))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySecAgentCheckMode = (C.OnRspQrySecAgentCheckMode)(
+		unsafe.Pointer(C.COnRspQrySecAgentCheckMode))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySecAgentTradeInfo = (C.OnRspQrySecAgentTradeInfo)(
+		unsafe.Pointer(C.COnRspQrySecAgentTradeInfo))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryOptionInstrTradeCost = (C.OnRspQryOptionInstrTradeCost)(
+		unsafe.Pointer(C.COnRspQryOptionInstrTradeCost))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryOptionInstrCommRate = (C.OnRspQryOptionInstrCommRate)(
+		unsafe.Pointer(C.COnRspQryOptionInstrCommRate))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryExecOrder = (C.OnRspQryExecOrder)(
+		unsafe.Pointer(C.COnRspQryExecOrder))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryForQuote = (C.OnRspQryForQuote)(
+		unsafe.Pointer(C.COnRspQryForQuote))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryQuote = (C.OnRspQryQuote)(
+		unsafe.Pointer(C.COnRspQryQuote))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryOptionSelfClose = (C.OnRspQryOptionSelfClose)(
+		unsafe.Pointer(C.COnRspQryOptionSelfClose))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestUnit = (C.OnRspQryInvestUnit)(
+		unsafe.Pointer(C.COnRspQryInvestUnit))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryCombInstrumentGuard = (C.OnRspQryCombInstrumentGuard)(
+		unsafe.Pointer(C.COnRspQryCombInstrumentGuard))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryCombAction = (C.OnRspQryCombAction)(
+		unsafe.Pointer(C.COnRspQryCombAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryTransferSerial = (C.OnRspQryTransferSerial)(
+		unsafe.Pointer(C.COnRspQryTransferSerial))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryAccountregister = (C.OnRspQryAccountregister)(
+		unsafe.Pointer(C.COnRspQryAccountregister))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspError = (C.OnRspError)(
+		unsafe.Pointer(C.COnRspError))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnOrder = (C.OnRtnOrder)(
+		unsafe.Pointer(C.COnRtnOrder))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnTrade = (C.OnRtnTrade)(
+		unsafe.Pointer(C.COnRtnTrade))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnOrderInsert = (C.OnErrRtnOrderInsert)(
+		unsafe.Pointer(C.COnErrRtnOrderInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnOrderAction = (C.OnErrRtnOrderAction)(
+		unsafe.Pointer(C.COnErrRtnOrderAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnInstrumentStatus = (C.OnRtnInstrumentStatus)(
+		unsafe.Pointer(C.COnRtnInstrumentStatus))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnBulletin = (C.OnRtnBulletin)(
+		unsafe.Pointer(C.COnRtnBulletin))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnTradingNotice = (C.OnRtnTradingNotice)(
+		unsafe.Pointer(C.COnRtnTradingNotice))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnErrorConditionalOrder = (C.OnRtnErrorConditionalOrder)(
+		unsafe.Pointer(C.COnRtnErrorConditionalOrder))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnExecOrder = (C.OnRtnExecOrder)(
+		unsafe.Pointer(C.COnRtnExecOrder))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnExecOrderInsert = (C.OnErrRtnExecOrderInsert)(
+		unsafe.Pointer(C.COnErrRtnExecOrderInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnExecOrderAction = (C.OnErrRtnExecOrderAction)(
+		unsafe.Pointer(C.COnErrRtnExecOrderAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnForQuoteInsert = (C.OnErrRtnForQuoteInsert)(
+		unsafe.Pointer(C.COnErrRtnForQuoteInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnQuote = (C.OnRtnQuote)(
+		unsafe.Pointer(C.COnRtnQuote))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnQuoteInsert = (C.OnErrRtnQuoteInsert)(
+		unsafe.Pointer(C.COnErrRtnQuoteInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnQuoteAction = (C.OnErrRtnQuoteAction)(
+		unsafe.Pointer(C.COnErrRtnQuoteAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnForQuoteRsp = (C.OnRtnForQuoteRsp)(
+		unsafe.Pointer(C.COnRtnForQuoteRsp))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnCFMMCTradingAccountToken = (C.OnRtnCFMMCTradingAccountToken)(
+		unsafe.Pointer(C.COnRtnCFMMCTradingAccountToken))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnBatchOrderAction = (C.OnErrRtnBatchOrderAction)(
+		unsafe.Pointer(C.COnErrRtnBatchOrderAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnOptionSelfClose = (C.OnRtnOptionSelfClose)(
+		unsafe.Pointer(C.COnRtnOptionSelfClose))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnOptionSelfCloseInsert = (C.OnErrRtnOptionSelfCloseInsert)(
+		unsafe.Pointer(C.COnErrRtnOptionSelfCloseInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnOptionSelfCloseAction = (C.OnErrRtnOptionSelfCloseAction)(
+		unsafe.Pointer(C.COnErrRtnOptionSelfCloseAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnCombAction = (C.OnRtnCombAction)(
+		unsafe.Pointer(C.COnRtnCombAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnCombActionInsert = (C.OnErrRtnCombActionInsert)(
+		unsafe.Pointer(C.COnErrRtnCombActionInsert))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryContractBank = (C.OnRspQryContractBank)(
+		unsafe.Pointer(C.COnRspQryContractBank))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryParkedOrder = (C.OnRspQryParkedOrder)(
+		unsafe.Pointer(C.COnRspQryParkedOrder))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryParkedOrderAction = (C.OnRspQryParkedOrderAction)(
+		unsafe.Pointer(C.COnRspQryParkedOrderAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryTradingNotice = (C.OnRspQryTradingNotice)(
+		unsafe.Pointer(C.COnRspQryTradingNotice))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryBrokerTradingParams = (C.OnRspQryBrokerTradingParams)(
+		unsafe.Pointer(C.COnRspQryBrokerTradingParams))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryBrokerTradingAlgos = (C.OnRspQryBrokerTradingAlgos)(
+		unsafe.Pointer(C.COnRspQryBrokerTradingAlgos))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQueryCFMMCTradingAccountToken = (C.OnRspQueryCFMMCTradingAccountToken)(
+		unsafe.Pointer(C.COnRspQueryCFMMCTradingAccountToken))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnFromBankToFutureByBank = (C.OnRtnFromBankToFutureByBank)(
+		unsafe.Pointer(C.COnRtnFromBankToFutureByBank))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnFromFutureToBankByBank = (C.OnRtnFromFutureToBankByBank)(
+		unsafe.Pointer(C.COnRtnFromFutureToBankByBank))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnRepealFromBankToFutureByBank = (C.OnRtnRepealFromBankToFutureByBank)(
+		unsafe.Pointer(C.COnRtnRepealFromBankToFutureByBank))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnRepealFromFutureToBankByBank = (C.OnRtnRepealFromFutureToBankByBank)(
+		unsafe.Pointer(C.COnRtnRepealFromFutureToBankByBank))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnFromBankToFutureByFuture = (C.OnRtnFromBankToFutureByFuture)(
+		unsafe.Pointer(C.COnRtnFromBankToFutureByFuture))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnFromFutureToBankByFuture = (C.OnRtnFromFutureToBankByFuture)(
+		unsafe.Pointer(C.COnRtnFromFutureToBankByFuture))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnRepealFromBankToFutureByFutureManual = (C.OnRtnRepealFromBankToFutureByFutureManual)(
+		unsafe.Pointer(C.COnRtnRepealFromBankToFutureByFutureManual))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnRepealFromFutureToBankByFutureManual = (C.OnRtnRepealFromFutureToBankByFutureManual)(
+		unsafe.Pointer(C.COnRtnRepealFromFutureToBankByFutureManual))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnQueryBankBalanceByFuture = (C.OnRtnQueryBankBalanceByFuture)(
+		unsafe.Pointer(C.COnRtnQueryBankBalanceByFuture))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnBankToFutureByFuture = (C.OnErrRtnBankToFutureByFuture)(
+		unsafe.Pointer(C.COnErrRtnBankToFutureByFuture))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnFutureToBankByFuture = (C.OnErrRtnFutureToBankByFuture)(
+		unsafe.Pointer(C.COnErrRtnFutureToBankByFuture))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnRepealBankToFutureByFutureManual = (C.OnErrRtnRepealBankToFutureByFutureManual)(
+		unsafe.Pointer(C.COnErrRtnRepealBankToFutureByFutureManual))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnRepealFutureToBankByFutureManual = (C.OnErrRtnRepealFutureToBankByFutureManual)(
+		unsafe.Pointer(C.COnErrRtnRepealFutureToBankByFutureManual))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnQueryBankBalanceByFuture = (C.OnErrRtnQueryBankBalanceByFuture)(
+		unsafe.Pointer(C.COnErrRtnQueryBankBalanceByFuture))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnRepealFromBankToFutureByFuture = (C.OnRtnRepealFromBankToFutureByFuture)(
+		unsafe.Pointer(C.COnRtnRepealFromBankToFutureByFuture))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnRepealFromFutureToBankByFuture = (C.OnRtnRepealFromFutureToBankByFuture)(
+		unsafe.Pointer(C.COnRtnRepealFromFutureToBankByFuture))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspFromBankToFutureByFuture = (C.OnRspFromBankToFutureByFuture)(
+		unsafe.Pointer(C.COnRspFromBankToFutureByFuture))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspFromFutureToBankByFuture = (C.OnRspFromFutureToBankByFuture)(
+		unsafe.Pointer(C.COnRspFromFutureToBankByFuture))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQueryBankAccountMoneyByFuture = (C.OnRspQueryBankAccountMoneyByFuture)(
+		unsafe.Pointer(C.COnRspQueryBankAccountMoneyByFuture))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnOpenAccountByBank = (C.OnRtnOpenAccountByBank)(
+		unsafe.Pointer(C.COnRtnOpenAccountByBank))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnCancelAccountByBank = (C.OnRtnCancelAccountByBank)(
+		unsafe.Pointer(C.COnRtnCancelAccountByBank))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnChangeAccountByBank = (C.OnRtnChangeAccountByBank)(
+		unsafe.Pointer(C.COnRtnChangeAccountByBank))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryClassifiedInstrument = (C.OnRspQryClassifiedInstrument)(
+		unsafe.Pointer(C.COnRspQryClassifiedInstrument))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryCombPromotionParam = (C.OnRspQryCombPromotionParam)(
+		unsafe.Pointer(C.COnRspQryCombPromotionParam))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryRiskSettleInvstPosition = (C.OnRspQryRiskSettleInvstPosition)(
+		unsafe.Pointer(C.COnRspQryRiskSettleInvstPosition))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryRiskSettleProductStatus = (C.OnRspQryRiskSettleProductStatus)(
+		unsafe.Pointer(C.COnRspQryRiskSettleProductStatus))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySPBMFutureParameter = (C.OnRspQrySPBMFutureParameter)(
+		unsafe.Pointer(C.COnRspQrySPBMFutureParameter))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySPBMOptionParameter = (C.OnRspQrySPBMOptionParameter)(
+		unsafe.Pointer(C.COnRspQrySPBMOptionParameter))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySPBMIntraParameter = (C.OnRspQrySPBMIntraParameter)(
+		unsafe.Pointer(C.COnRspQrySPBMIntraParameter))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySPBMInterParameter = (C.OnRspQrySPBMInterParameter)(
+		unsafe.Pointer(C.COnRspQrySPBMInterParameter))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySPBMPortfDefinition = (C.OnRspQrySPBMPortfDefinition)(
+		unsafe.Pointer(C.COnRspQrySPBMPortfDefinition))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySPBMInvestorPortfDef = (C.OnRspQrySPBMInvestorPortfDef)(
+		unsafe.Pointer(C.COnRspQrySPBMInvestorPortfDef))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestorPortfMarginRatio = (C.OnRspQryInvestorPortfMarginRatio)(
+		unsafe.Pointer(C.COnRspQryInvestorPortfMarginRatio))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestorProdSPBMDetail = (C.OnRspQryInvestorProdSPBMDetail)(
+		unsafe.Pointer(C.COnRspQryInvestorProdSPBMDetail))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestorCommoditySPMMMargin = (C.OnRspQryInvestorCommoditySPMMMargin)(
+		unsafe.Pointer(C.COnRspQryInvestorCommoditySPMMMargin))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestorCommodityGroupSPMMMargin = (C.OnRspQryInvestorCommodityGroupSPMMMargin)(
+		unsafe.Pointer(C.COnRspQryInvestorCommodityGroupSPMMMargin))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySPMMInstParam = (C.OnRspQrySPMMInstParam)(
+		unsafe.Pointer(C.COnRspQrySPMMInstParam))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySPMMProductParam = (C.OnRspQrySPMMProductParam)(
+		unsafe.Pointer(C.COnRspQrySPMMProductParam))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySPBMAddOnInterParameter = (C.OnRspQrySPBMAddOnInterParameter)(
+		unsafe.Pointer(C.COnRspQrySPBMAddOnInterParameter))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryRCAMSCombProductInfo = (C.OnRspQryRCAMSCombProductInfo)(
+		unsafe.Pointer(C.COnRspQryRCAMSCombProductInfo))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryRCAMSInstrParameter = (C.OnRspQryRCAMSInstrParameter)(
+		unsafe.Pointer(C.COnRspQryRCAMSInstrParameter))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryRCAMSIntraParameter = (C.OnRspQryRCAMSIntraParameter)(
+		unsafe.Pointer(C.COnRspQryRCAMSIntraParameter))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryRCAMSInterParameter = (C.OnRspQryRCAMSInterParameter)(
+		unsafe.Pointer(C.COnRspQryRCAMSInterParameter))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryRCAMSShortOptAdjustParam = (C.OnRspQryRCAMSShortOptAdjustParam)(
+		unsafe.Pointer(C.COnRspQryRCAMSShortOptAdjustParam))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryRCAMSInvestorCombPosition = (C.OnRspQryRCAMSInvestorCombPosition)(
+		unsafe.Pointer(C.COnRspQryRCAMSInvestorCombPosition))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestorProdRCAMSMargin = (C.OnRspQryInvestorProdRCAMSMargin)(
+		unsafe.Pointer(C.COnRspQryInvestorProdRCAMSMargin))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryRULEInstrParameter = (C.OnRspQryRULEInstrParameter)(
+		unsafe.Pointer(C.COnRspQryRULEInstrParameter))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryRULEIntraParameter = (C.OnRspQryRULEIntraParameter)(
+		unsafe.Pointer(C.COnRspQryRULEIntraParameter))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryRULEInterParameter = (C.OnRspQryRULEInterParameter)(
+		unsafe.Pointer(C.COnRspQryRULEInterParameter))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestorProdRULEMargin = (C.OnRspQryInvestorProdRULEMargin)(
+		unsafe.Pointer(C.COnRspQryInvestorProdRULEMargin))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestorPortfSetting = (C.OnRspQryInvestorPortfSetting)(
+		unsafe.Pointer(C.COnRspQryInvestorPortfSetting))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryInvestorInfoCommRec = (C.OnRspQryInvestorInfoCommRec)(
+		unsafe.Pointer(C.COnRspQryInvestorInfoCommRec))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryCombLeg = (C.OnRspQryCombLeg)(
+		unsafe.Pointer(C.COnRspQryCombLeg))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspOffsetSetting = (C.OnRspOffsetSetting)(
+		unsafe.Pointer(C.COnRspOffsetSetting))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspCancelOffsetSetting = (C.OnRspCancelOffsetSetting)(
+		unsafe.Pointer(C.COnRspCancelOffsetSetting))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnOffsetSetting = (C.OnRtnOffsetSetting)(
+		unsafe.Pointer(C.COnRtnOffsetSetting))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnOffsetSetting = (C.OnErrRtnOffsetSetting)(
+		unsafe.Pointer(C.COnErrRtnOffsetSetting))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnCancelOffsetSetting = (C.OnErrRtnCancelOffsetSetting)(
+		unsafe.Pointer(C.COnErrRtnCancelOffsetSetting))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryOffsetSetting = (C.OnRspQryOffsetSetting)(
+		unsafe.Pointer(C.COnRspQryOffsetSetting))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspGenSMSCode = (C.OnRspGenSMSCode)(
+		unsafe.Pointer(C.COnRspGenSMSCode))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspSpdApply = (C.OnRspSpdApply)(
+		unsafe.Pointer(C.COnRspSpdApply))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspSpdApplyAction = (C.OnRspSpdApplyAction)(
+		unsafe.Pointer(C.COnRspSpdApplyAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQrySpdApply = (C.OnRspQrySpdApply)(
+		unsafe.Pointer(C.COnRspQrySpdApply))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnSpdApply = (C.OnRtnSpdApply)(
+		unsafe.Pointer(C.COnRtnSpdApply))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnSpdApply = (C.OnErrRtnSpdApply)(
+		unsafe.Pointer(C.COnErrRtnSpdApply))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnSpdApplyAction = (C.OnErrRtnSpdApplyAction)(
+		unsafe.Pointer(C.COnErrRtnSpdApplyAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspHedgeCfm = (C.OnRspHedgeCfm)(
+		unsafe.Pointer(C.COnRspHedgeCfm))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspHedgeCfmAction = (C.OnRspHedgeCfmAction)(
+		unsafe.Pointer(C.COnRspHedgeCfmAction))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRspQryHedgeCfm = (C.OnRspQryHedgeCfm)(
+		unsafe.Pointer(C.COnRspQryHedgeCfm))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnRtnHedgeCfm = (C.OnRtnHedgeCfm)(
+		unsafe.Pointer(C.COnRtnHedgeCfm))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnHedgeCfm = (C.OnErrRtnHedgeCfm)(
+		unsafe.Pointer(C.COnErrRtnHedgeCfm))
+
+	spiCVtablePtr.CThostFtdcTraderSpi_OnErrRtnHedgeCfmAction = (C.OnErrRtnHedgeCfmAction)(
+		unsafe.Pointer(C.COnErrRtnHedgeCfmAction))
+
+}
+
 type ThostFtdcTraderSpi struct {
 	runtime.Pinner
 	callback thost.TraderSpi
