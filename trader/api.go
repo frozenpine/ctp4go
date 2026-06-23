@@ -8,6 +8,7 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+	"weak"
 
 	"github.com/frozenpine/ctp4go/thost"
 )
@@ -20,10 +21,12 @@ type TraderApi struct {
 	cfg    traderCfg
 
 	initOnce  sync.Once
-	closeOnce sync.Once
+	finalOnce sync.Once
 	done      chan struct{}
 
-	connState State[bool]
+	connState  State[bool]
+	authState  State[bool]
+	loginState State[bool]
 
 	api       thost.TraderApi
 	requestID atomic.Int32
@@ -56,6 +59,18 @@ func NewTraderApi(
 		cfg: traderCfg{
 			flowMode: thost.DEFAULT_FLOW_MODE,
 			flowPath: thost.DEFAULT_FLOW_PATH,
+		},
+		connState: State[bool]{
+			name:     "connected",
+			notifies: map[weak.Pointer[notify]]struct{}{},
+		},
+		authState: State[bool]{
+			name:     "authenticated",
+			notifies: map[weak.Pointer[notify]]struct{}{},
+		},
+		loginState: State[bool]{
+			name:     "login",
+			notifies: map[weak.Pointer[notify]]struct{}{},
 		},
 		done: make(chan struct{}),
 	}
@@ -145,7 +160,7 @@ func (td *TraderApi) Initialize(
 }
 
 func (td *TraderApi) Finalize() (err error) {
-	td.closeOnce.Do(func() {
+	td.finalOnce.Do(func() {
 		defer close(td.done)
 		td.api.Release()
 	})
@@ -154,8 +169,9 @@ func (td *TraderApi) Finalize() (err error) {
 }
 
 func (td *TraderApi) OnFrontConnected() {
+	defer td.connState.SetFlag(true)
+
 	td.api.GetFrontInfo(&td.FrontInfo)
-	td.connState.SetFlag(true)
 
 	td.TraderLogSpi.OnFrontConnected()
 
@@ -169,7 +185,12 @@ func (td *TraderApi) OnFrontConnected() {
 }
 
 func (td *TraderApi) OnFrontDisconnected(nReason int) {
-	td.connState.SetFlag(false)
+	defer func() {
+		td.loginState.SetFlag(false)
+		td.authState.SetFlag(false)
+		td.connState.SetFlag(false)
+	}()
+
 	td.TraderLogSpi.OnFrontDisconnected(nReason)
 }
 
@@ -178,6 +199,8 @@ func (td *TraderApi) OnRspAuthenticate(
 	pRspInfo *thost.CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
 ) {
+	defer td.authState.SetFlag(pRspInfo.ErrorID == 0)
+
 	td.TraderLogSpi.OnRspAuthenticate(
 		pRspAuthenticateField, pRspInfo, nRequestID, bIsLast,
 	)
@@ -190,4 +213,16 @@ func (td *TraderApi) OnRspAuthenticate(
 
 		td.api.ReqUserLogin(&login, int(td.requestID.Add(1)))
 	}
+}
+
+func (td *TraderApi) OnRspUserLogin(
+	pRspUserLogin *thost.CThostFtdcRspUserLoginField,
+	pRspInfo *thost.CThostFtdcRspInfoField,
+	nRequestID int, bIsLast bool,
+) {
+	defer td.loginState.SetFlag(pRspInfo.ErrorID == 0)
+
+	td.TraderLogSpi.OnRspUserLogin(
+		pRspUserLogin, pRspInfo, nRequestID, bIsLast,
+	)
 }
