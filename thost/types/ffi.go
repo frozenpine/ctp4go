@@ -2,6 +2,7 @@ package types
 
 import (
 	"bytes"
+	"encoding/hex"
 	"io"
 	"log/slog"
 	"unsafe"
@@ -34,8 +35,13 @@ func IsASCII(buff []byte) bool {
 
 func DecodeGBK(buff []byte) string {
 	idx := bytes.IndexByte(buff, 0)
-	if idx <= 0 {
-		idx = len(buff)
+
+	if idx == 0 {
+		return ""
+	}
+
+	if idx < 0 {
+		return hex.EncodeToString(buff)
 	}
 
 	if IsASCII(buff[:idx]) {
