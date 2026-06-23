@@ -1998,8 +1998,6 @@ const (
 )
 
 // 交易代码类型
-//
-//go:generate stringer -type TThostFtdcVirementTradeCodeType -linecomment
 type TThostFtdcVirementTradeCodeType string
 
 const (
@@ -3416,8 +3414,6 @@ const (
 )
 
 // 银期交易代码枚举类型
-//
-//go:generate stringer -type TThostFtdcFBTTradeCodeEnumType -linecomment
 type TThostFtdcFBTTradeCodeEnumType string
 
 const (
