@@ -117,7 +117,7 @@ func (b *TThostFtdcUserIDType) SetString(v string) int {
 type TThostFtdcPasswordType [41]byte
 
 func (b TThostFtdcPasswordType) String() string {
-	return DecodeGBK(b[:])
+	return ShadowString(b[:])
 }
 func (b *TThostFtdcPasswordType) SetString(v string) int {
 	return SetCString(([]byte)((*b)[:]), v)
@@ -6325,7 +6325,7 @@ func (b *TThostFtdcAuthInfoType) SetString(v string) int {
 type TThostFtdcAuthCodeType [17]byte
 
 func (b TThostFtdcAuthCodeType) String() string {
-	return DecodeGBK(b[:])
+	return ShadowString(b[:])
 }
 func (b *TThostFtdcAuthCodeType) SetString(v string) int {
 	return SetCString(([]byte)((*b)[:]), v)

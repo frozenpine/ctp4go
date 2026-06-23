@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"io"
 	"log/slog"
+	"strings"
 	"unsafe"
 
 	"golang.org/x/text/encoding/simplifiedchinese"
@@ -31,6 +32,16 @@ func IsASCII(buff []byte) bool {
 	}
 
 	return true
+}
+
+func ShadowString(buff []byte) string {
+	idx := bytes.IndexByte(buff, 0)
+
+	if idx <= 0 {
+		return ""
+	}
+
+	return strings.Repeat("*", idx+1)
 }
 
 func DecodeGBK(buff []byte) string {
