@@ -649,7 +649,7 @@ type TraderApi interface {
 	SubmitWechatUserSystemInfo(pUserSystemInfo *CThostFtdcWechatUserSystemInfoField) int
 
 	/// 用户登录请求
-	ReqUserLogin(pReqUserLoginField *CThostFtdcReqUserLoginField, nRequestID int, params ...any) int
+	ReqUserLogin(pReqUserLoginField *CThostFtdcReqUserLoginField, nRequestID int) int
 
 	/// 登出请求
 	ReqUserLogout(pUserLogout *CThostFtdcUserLogoutField, nRequestID int) int

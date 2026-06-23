@@ -23,6 +23,10 @@ import (
 	"github.com/frozenpine/ctp4go/thost/types"
 )
 
+var (
+	_ thost.TraderApi = &ThostFtdcTraderApi{}
+)
+
 func CreateThostFtdcTraderApi(
 	libPath, flowPath string, isProduct bool,
 ) (*ThostFtdcTraderApi, error) {
@@ -337,16 +341,21 @@ func (api *ThostFtdcTraderApi) RegisterSpi(pSpi thost.TraderSpi) {
 }
 
 func (api *ThostFtdcTraderApi) SubscribePrivateTopic(
-	nResumeType types.THOST_TE_RESUME_TYPE, nSeqNo int,
+	nResumeType types.THOST_TE_RESUME_TYPE, nSeqNo ...int,
 ) {
 	slog.Log(
 		context.Background(), slog.LevelDebug-2,
 		"executing thost trader api SubscribePrivateTopic",
 	)
 
+	var seq C.int = 1
+	if len(nSeqNo) > 0 {
+		seq = C.int(nSeqNo[0])
+	}
+
 	C.CallSubscribePrivateTopic(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_SubscribePrivateTopic,
-		unsafe.Pointer(api.apiPtr), C.int(nResumeType), C.int(nSeqNo),
+		unsafe.Pointer(api.apiPtr), C.int(nResumeType), seq,
 	)
 
 	slog.Log(
