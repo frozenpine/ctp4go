@@ -1,5 +1,7 @@
 package types
 
+import "strconv"
+
 //go:generate stringer -type THOST_TE_RESUME_TYPE -linecomment
 type THOST_TE_RESUME_TYPE int32
 
@@ -12,79 +14,254 @@ const (
 )
 
 // 交易所交易员代码类型
-type TThostFtdcTraderIDType Byte21
+type TThostFtdcTraderIDType [21]byte
+
+func (b TThostFtdcTraderIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTraderIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 投资者代码类型
-type TThostFtdcInvestorIDType Byte13
+type TThostFtdcInvestorIDType [13]byte
+
+func (b TThostFtdcInvestorIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInvestorIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 经纪公司代码类型
-type TThostFtdcBrokerIDType Byte11
+type TThostFtdcBrokerIDType [11]byte
+
+func (b TThostFtdcBrokerIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBrokerIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 经纪公司简称类型
-type TThostFtdcBrokerAbbrType Byte9
+type TThostFtdcBrokerAbbrType [9]byte
+
+func (b TThostFtdcBrokerAbbrType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBrokerAbbrType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 经纪公司名称类型
-type TThostFtdcBrokerNameType Byte81
+type TThostFtdcBrokerNameType [81]byte
+
+func (b TThostFtdcBrokerNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBrokerNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 合约在交易所的代码类型
-type TThostFtdcOldExchangeInstIDType Byte31
+type TThostFtdcOldExchangeInstIDType [31]byte
+
+func (b TThostFtdcOldExchangeInstIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOldExchangeInstIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 合约在交易所的代码类型
-type TThostFtdcExchangeInstIDType Byte81
+type TThostFtdcExchangeInstIDType [81]byte
+
+func (b TThostFtdcExchangeInstIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcExchangeInstIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 报单引用类型
-type TThostFtdcOrderRefType Byte13
+type TThostFtdcOrderRefType [13]byte
+
+func (b TThostFtdcOrderRefType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOrderRefType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 会员代码类型
-type TThostFtdcParticipantIDType Byte11
+type TThostFtdcParticipantIDType [11]byte
+
+func (b TThostFtdcParticipantIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcParticipantIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 用户代码类型
-type TThostFtdcUserIDType Byte16
+type TThostFtdcUserIDType [16]byte
+
+func (b TThostFtdcUserIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUserIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 密码类型
-type TThostFtdcPasswordType Byte41
+type TThostFtdcPasswordType [41]byte
+
+func (b TThostFtdcPasswordType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPasswordType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 设备标识类型
-type TThostFtdcDeviceTagType Byte41
+type TThostFtdcDeviceTagType [41]byte
+
+func (b TThostFtdcDeviceTagType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcDeviceTagType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易编码类型
-type TThostFtdcClientIDType Byte11
+type TThostFtdcClientIDType [11]byte
+
+func (b TThostFtdcClientIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcClientIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 合约代码类型
-type TThostFtdcInstrumentIDType Byte81
+type TThostFtdcInstrumentIDType [81]byte
+
+func (b TThostFtdcInstrumentIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInstrumentIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 合约代码类型
-type TThostFtdcOldInstrumentIDType Byte31
+type TThostFtdcOldInstrumentIDType [31]byte
+
+func (b TThostFtdcOldInstrumentIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOldInstrumentIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 合约标识码类型
-type TThostFtdcInstrumentCodeType Byte31
+type TThostFtdcInstrumentCodeType [31]byte
+
+func (b TThostFtdcInstrumentCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInstrumentCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 市场代码类型
-type TThostFtdcMarketIDType Byte31
+type TThostFtdcMarketIDType [31]byte
+
+func (b TThostFtdcMarketIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcMarketIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 产品名称类型
-type TThostFtdcProductNameType Byte21
+type TThostFtdcProductNameType [21]byte
+
+func (b TThostFtdcProductNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcProductNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易所代码类型
-type TThostFtdcExchangeIDType Byte9
+type TThostFtdcExchangeIDType [9]byte
+
+func (b TThostFtdcExchangeIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcExchangeIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易所名称类型
-type TThostFtdcExchangeNameType Byte61
+type TThostFtdcExchangeNameType [61]byte
+
+func (b TThostFtdcExchangeNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcExchangeNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易所简称类型
-type TThostFtdcExchangeAbbrType Byte9
+type TThostFtdcExchangeAbbrType [9]byte
+
+func (b TThostFtdcExchangeAbbrType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcExchangeAbbrType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易所标志类型
-type TThostFtdcExchangeFlagType Byte2
+type TThostFtdcExchangeFlagType [2]byte
+
+func (b TThostFtdcExchangeFlagType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcExchangeFlagType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // Mac地址类型
-type TThostFtdcMacAddressType Byte21
+type TThostFtdcMacAddressType [21]byte
+
+func (b TThostFtdcMacAddressType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcMacAddressType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 系统编号类型
-type TThostFtdcSystemIDType Byte21
+type TThostFtdcSystemIDType [21]byte
+
+func (b TThostFtdcSystemIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSystemIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 客户登录备注2类型
-type TThostFtdcClientLoginRemarkType Byte151
+type TThostFtdcClientLoginRemarkType [151]byte
+
+func (b TThostFtdcClientLoginRemarkType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcClientLoginRemarkType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易所属性类型
 //
@@ -97,52 +274,157 @@ const (
 )
 
 // 日期类型
-type TThostFtdcDateType Byte9
+type TThostFtdcDateType [9]byte
+
+func (b TThostFtdcDateType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcDateType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 时间类型
-type TThostFtdcTimeType Byte9
+type TThostFtdcTimeType [9]byte
+
+func (b TThostFtdcTimeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTimeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 长时间类型
-type TThostFtdcLongTimeType Byte13
+type TThostFtdcLongTimeType [13]byte
+
+func (b TThostFtdcLongTimeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcLongTimeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 合约名称类型
-type TThostFtdcInstrumentNameType Byte21
+type TThostFtdcInstrumentNameType [21]byte
+
+func (b TThostFtdcInstrumentNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInstrumentNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 结算组代码类型
-type TThostFtdcSettlementGroupIDType Byte9
+type TThostFtdcSettlementGroupIDType [9]byte
+
+func (b TThostFtdcSettlementGroupIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSettlementGroupIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 报单编号类型
-type TThostFtdcOrderSysIDType Byte21
+type TThostFtdcOrderSysIDType [21]byte
+
+func (b TThostFtdcOrderSysIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOrderSysIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 成交编号类型
-type TThostFtdcTradeIDType Byte21
+type TThostFtdcTradeIDType [21]byte
+
+func (b TThostFtdcTradeIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTradeIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // DB命令类型类型
-type TThostFtdcCommandTypeType Byte65
+type TThostFtdcCommandTypeType [65]byte
+
+func (b TThostFtdcCommandTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCommandTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // IP地址类型
-type TThostFtdcOldIPAddressType Byte16
+type TThostFtdcOldIPAddressType [16]byte
+
+func (b TThostFtdcOldIPAddressType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOldIPAddressType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // IP地址类型
-type TThostFtdcIPAddressType Byte33
+type TThostFtdcIPAddressType [33]byte
+
+func (b TThostFtdcIPAddressType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcIPAddressType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // IP端口类型
 type TThostFtdcIPPortType int32
 
 // 产品信息类型
-type TThostFtdcProductInfoType Byte11
+type TThostFtdcProductInfoType [11]byte
+
+func (b TThostFtdcProductInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcProductInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 协议信息类型
-type TThostFtdcProtocolInfoType Byte11
+type TThostFtdcProtocolInfoType [11]byte
+
+func (b TThostFtdcProtocolInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcProtocolInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 业务单元类型
-type TThostFtdcBusinessUnitType Byte21
+type TThostFtdcBusinessUnitType [21]byte
+
+func (b TThostFtdcBusinessUnitType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBusinessUnitType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 出入金流水号类型
-type TThostFtdcDepositSeqNoType Byte15
+type TThostFtdcDepositSeqNoType [15]byte
+
+func (b TThostFtdcDepositSeqNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcDepositSeqNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 证件号码类型
-type TThostFtdcIdentifiedCardNoType Byte51
+type TThostFtdcIdentifiedCardNoType [51]byte
+
+func (b TThostFtdcIdentifiedCardNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcIdentifiedCardNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 证件类型类型
 //
@@ -178,28 +460,84 @@ const (
 )
 
 // 本地报单编号类型
-type TThostFtdcOrderLocalIDType Byte13
+type TThostFtdcOrderLocalIDType [13]byte
+
+func (b TThostFtdcOrderLocalIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOrderLocalIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 用户名称类型
-type TThostFtdcUserNameType Byte81
+type TThostFtdcUserNameType [81]byte
+
+func (b TThostFtdcUserNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUserNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 参与人名称类型
-type TThostFtdcPartyNameType Byte81
+type TThostFtdcPartyNameType [81]byte
+
+func (b TThostFtdcPartyNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPartyNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 错误信息类型
-type TThostFtdcErrorMsgType Byte81
+type TThostFtdcErrorMsgType [81]byte
+
+func (b TThostFtdcErrorMsgType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcErrorMsgType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 字段名类型
-type TThostFtdcFieldNameType Byte2049
+type TThostFtdcFieldNameType [2049]byte
+
+func (b TThostFtdcFieldNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFieldNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 字段内容类型
-type TThostFtdcFieldContentType Byte2049
+type TThostFtdcFieldContentType [2049]byte
+
+func (b TThostFtdcFieldContentType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFieldContentType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 系统名称类型
-type TThostFtdcSystemNameType Byte41
+type TThostFtdcSystemNameType [41]byte
+
+func (b TThostFtdcSystemNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSystemNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 消息正文类型
-type TThostFtdcContentType Byte501
+type TThostFtdcContentType [501]byte
+
+func (b TThostFtdcContentType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcContentType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 投资者范围类型
 //
@@ -837,22 +1175,52 @@ type TThostFtdcMonthType int32
 type TThostFtdcBoolType int32
 
 // 价格类型
-type TThostFtdcPriceType Double
+type TThostFtdcPriceType float64
+
+func (d TThostFtdcPriceType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 组合开平标志类型
-type TThostFtdcCombOffsetFlagType Byte5
+type TThostFtdcCombOffsetFlagType [5]byte
+
+func (b TThostFtdcCombOffsetFlagType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCombOffsetFlagType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 组合投机套保标志类型
-type TThostFtdcCombHedgeFlagType Byte5
+type TThostFtdcCombHedgeFlagType [5]byte
+
+func (b TThostFtdcCombHedgeFlagType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCombHedgeFlagType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 比率类型
-type TThostFtdcRatioType Double
+type TThostFtdcRatioType float64
+
+func (d TThostFtdcRatioType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 资金类型
-type TThostFtdcMoneyType Double
+type TThostFtdcMoneyType float64
+
+func (d TThostFtdcMoneyType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 大额数量类型
-type TThostFtdcLargeVolumeType Double
+type TThostFtdcLargeVolumeType float64
+
+func (d TThostFtdcLargeVolumeType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 序列系列号类型
 type TThostFtdcSequenceSeriesType int16
@@ -861,55 +1229,164 @@ type TThostFtdcSequenceSeriesType int16
 type TThostFtdcCommPhaseNoType int16
 
 // 序列编号类型
-type TThostFtdcSequenceLabelType Byte2
+type TThostFtdcSequenceLabelType [2]byte
+
+func (b TThostFtdcSequenceLabelType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSequenceLabelType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 基础商品乘数类型
-type TThostFtdcUnderlyingMultipleType Double
+type TThostFtdcUnderlyingMultipleType float64
+
+func (d TThostFtdcUnderlyingMultipleType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 优先级类型
 type TThostFtdcPriorityType int32
 
 // 合同编号类型
-type TThostFtdcContractCodeType Byte41
+type TThostFtdcContractCodeType [41]byte
+
+func (b TThostFtdcContractCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcContractCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 市类型
-type TThostFtdcCityType Byte51
+type TThostFtdcCityType [51]byte
+
+func (b TThostFtdcCityType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCityType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 是否股民类型
-type TThostFtdcIsStockType Byte11
+type TThostFtdcIsStockType [11]byte
+
+func (b TThostFtdcIsStockType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcIsStockType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 渠道类型
-type TThostFtdcChannelType Byte51
+type TThostFtdcChannelType [51]byte
+
+func (b TThostFtdcChannelType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcChannelType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 通讯地址类型
-type TThostFtdcAddressType Byte101
+type TThostFtdcAddressType [101]byte
+
+func (b TThostFtdcAddressType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAddressType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 邮政编码类型
-type TThostFtdcZipCodeType Byte7
+type TThostFtdcZipCodeType [7]byte
+
+func (b TThostFtdcZipCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcZipCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 联系电话类型
-type TThostFtdcTelephoneType Byte41
+type TThostFtdcTelephoneType [41]byte
+
+func (b TThostFtdcTelephoneType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTelephoneType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 传真类型
-type TThostFtdcFaxType Byte41
+type TThostFtdcFaxType [41]byte
+
+func (b TThostFtdcFaxType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFaxType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 手机类型
-type TThostFtdcMobileType Byte41
+type TThostFtdcMobileType [41]byte
+
+func (b TThostFtdcMobileType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcMobileType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 电子邮件类型
-type TThostFtdcEMailType Byte41
+type TThostFtdcEMailType [41]byte
+
+func (b TThostFtdcEMailType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcEMailType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 备注类型
-type TThostFtdcMemoType Byte161
+type TThostFtdcMemoType [161]byte
+
+func (b TThostFtdcMemoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcMemoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 企业代码类型
-type TThostFtdcCompanyCodeType Byte51
+type TThostFtdcCompanyCodeType [51]byte
+
+func (b TThostFtdcCompanyCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCompanyCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 网站地址类型
-type TThostFtdcWebsiteType Byte51
+type TThostFtdcWebsiteType [51]byte
+
+func (b TThostFtdcWebsiteType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcWebsiteType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 税务登记号类型
-type TThostFtdcTaxNoType Byte31
+type TThostFtdcTaxNoType [31]byte
+
+func (b TThostFtdcTaxNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTaxNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 处理状态类型
 //
@@ -923,25 +1400,74 @@ const (
 )
 
 // 属性代码类型
-type TThostFtdcPropertyIDType Byte33
+type TThostFtdcPropertyIDType [33]byte
+
+func (b TThostFtdcPropertyIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPropertyIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 属性名称类型
-type TThostFtdcPropertyNameType Byte65
+type TThostFtdcPropertyNameType [65]byte
+
+func (b TThostFtdcPropertyNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPropertyNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 营业执照号类型
-type TThostFtdcLicenseNoType Byte51
+type TThostFtdcLicenseNoType [51]byte
+
+func (b TThostFtdcLicenseNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcLicenseNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 经纪人代码类型
-type TThostFtdcAgentIDType Byte13
+type TThostFtdcAgentIDType [13]byte
+
+func (b TThostFtdcAgentIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAgentIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 经纪人名称类型
-type TThostFtdcAgentNameType Byte41
+type TThostFtdcAgentNameType [41]byte
+
+func (b TThostFtdcAgentNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAgentNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 经纪人组代码类型
-type TThostFtdcAgentGroupIDType Byte13
+type TThostFtdcAgentGroupIDType [13]byte
+
+func (b TThostFtdcAgentGroupIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAgentGroupIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 经纪人组名称类型
-type TThostFtdcAgentGroupNameType Byte41
+type TThostFtdcAgentGroupNameType [41]byte
+
+func (b TThostFtdcAgentGroupNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAgentGroupNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 按品种返还方式类型
 //
@@ -1096,37 +1622,114 @@ const (
 )
 
 // 参数代码值类型
-type TThostFtdcSettlementParamValueType Byte256
+type TThostFtdcSettlementParamValueType [256]byte
+
+func (b TThostFtdcSettlementParamValueType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSettlementParamValueType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 计数器代码类型
-type TThostFtdcCounterIDType Byte33
+type TThostFtdcCounterIDType [33]byte
+
+func (b TThostFtdcCounterIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCounterIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 投资者分组名称类型
-type TThostFtdcInvestorGroupNameType Byte41
+type TThostFtdcInvestorGroupNameType [41]byte
+
+func (b TThostFtdcInvestorGroupNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInvestorGroupNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 牌号类型
-type TThostFtdcBrandCodeType Byte257
+type TThostFtdcBrandCodeType [257]byte
+
+func (b TThostFtdcBrandCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBrandCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 仓库类型
-type TThostFtdcWarehouseType Byte257
+type TThostFtdcWarehouseType [257]byte
+
+func (b TThostFtdcWarehouseType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcWarehouseType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 产期类型
-type TThostFtdcProductDateType Byte41
+type TThostFtdcProductDateType [41]byte
+
+func (b TThostFtdcProductDateType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcProductDateType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 等级类型
-type TThostFtdcGradeType Byte41
+type TThostFtdcGradeType [41]byte
+
+func (b TThostFtdcGradeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcGradeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 类别类型
-type TThostFtdcClassifyType Byte41
+type TThostFtdcClassifyType [41]byte
+
+func (b TThostFtdcClassifyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcClassifyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 货位类型
-type TThostFtdcPositionType Byte41
+type TThostFtdcPositionType [41]byte
+
+func (b TThostFtdcPositionType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPositionType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 产地类型
-type TThostFtdcYieldlyType Byte41
+type TThostFtdcYieldlyType [41]byte
+
+func (b TThostFtdcYieldlyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcYieldlyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 公定重量类型
-type TThostFtdcWeightType Byte41
+type TThostFtdcWeightType [41]byte
+
+func (b TThostFtdcWeightType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcWeightType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 分项资金流水号类型
 type TThostFtdcSubEntryFundNoType int32
@@ -1152,7 +1755,14 @@ const (
 )
 
 // 文件名称类型
-type TThostFtdcFileNameType Byte257
+type TThostFtdcFileNameType [257]byte
+
+func (b TThostFtdcFileNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFileNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 文件上传类型类型
 //
@@ -1199,46 +1809,137 @@ const (
 )
 
 // 上传文件类型类型
-type TThostFtdcUploadModeType Byte21
+type TThostFtdcUploadModeType [21]byte
+
+func (b TThostFtdcUploadModeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUploadModeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 投资者帐号类型
-type TThostFtdcAccountIDType Byte13
+type TThostFtdcAccountIDType [13]byte
+
+func (b TThostFtdcAccountIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAccountIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行统一标识类型类型
-type TThostFtdcBankFlagType Byte4
+type TThostFtdcBankFlagType [4]byte
+
+func (b TThostFtdcBankFlagType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankFlagType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行账户类型
-type TThostFtdcBankAccountType Byte41
+type TThostFtdcBankAccountType [41]byte
+
+func (b TThostFtdcBankAccountType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankAccountType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行账户的开户人名称类型
-type TThostFtdcOpenNameType Byte61
+type TThostFtdcOpenNameType [61]byte
+
+func (b TThostFtdcOpenNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOpenNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行账户的开户行类型
-type TThostFtdcOpenBankType Byte101
+type TThostFtdcOpenBankType [101]byte
+
+func (b TThostFtdcOpenBankType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOpenBankType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行名称类型
-type TThostFtdcBankNameType Byte101
+type TThostFtdcBankNameType [101]byte
+
+func (b TThostFtdcBankNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 发布路径类型
-type TThostFtdcPublishPathType Byte257
+type TThostFtdcPublishPathType [257]byte
+
+func (b TThostFtdcPublishPathType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPublishPathType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 操作员代码类型
-type TThostFtdcOperatorIDType Byte65
+type TThostFtdcOperatorIDType [65]byte
+
+func (b TThostFtdcOperatorIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOperatorIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 月份数量类型
 type TThostFtdcMonthCountType int32
 
 // 月份提前数组类型
-type TThostFtdcAdvanceMonthArrayType Byte13
+type TThostFtdcAdvanceMonthArrayType [13]byte
+
+func (b TThostFtdcAdvanceMonthArrayType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAdvanceMonthArrayType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 日期表达式类型
-type TThostFtdcDateExprType Byte1025
+type TThostFtdcDateExprType [1025]byte
+
+func (b TThostFtdcDateExprType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcDateExprType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 合约代码表达式类型
-type TThostFtdcInstrumentIDExprType Byte41
+type TThostFtdcInstrumentIDExprType [41]byte
+
+func (b TThostFtdcInstrumentIDExprType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInstrumentIDExprType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 合约名称表达式类型
-type TThostFtdcInstrumentNameExprType Byte41
+type TThostFtdcInstrumentNameExprType [41]byte
+
+func (b TThostFtdcInstrumentNameExprType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInstrumentNameExprType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 特殊的创建规则类型
 //
@@ -1282,13 +1983,34 @@ const (
 )
 
 // 日志级别类型
-type TThostFtdcLogLevelType Byte33
+type TThostFtdcLogLevelType [33]byte
+
+func (b TThostFtdcLogLevelType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcLogLevelType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 存储过程名称类型
-type TThostFtdcProcessNameType Byte257
+type TThostFtdcProcessNameType [257]byte
+
+func (b TThostFtdcProcessNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcProcessNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 操作摘要类型
-type TThostFtdcOperationMemoType Byte1025
+type TThostFtdcOperationMemoType [1025]byte
+
+func (b TThostFtdcOperationMemoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOperationMemoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 出入金类型类型
 //
@@ -1335,10 +2057,24 @@ const (
 )
 
 // 票据号类型
-type TThostFtdcBillNoType Byte15
+type TThostFtdcBillNoType [15]byte
+
+func (b TThostFtdcBillNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBillNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 票据名称类型
-type TThostFtdcBillNameType Byte33
+type TThostFtdcBillNameType [33]byte
+
+func (b TThostFtdcBillNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBillNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 发布状态类型
 //
@@ -1352,16 +2088,44 @@ const (
 )
 
 // 枚举值代码类型
-type TThostFtdcEnumValueIDType Byte65
+type TThostFtdcEnumValueIDType [65]byte
+
+func (b TThostFtdcEnumValueIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcEnumValueIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 枚举值类型类型
-type TThostFtdcEnumValueTypeType Byte33
+type TThostFtdcEnumValueTypeType [33]byte
+
+func (b TThostFtdcEnumValueTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcEnumValueTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 枚举值名称类型
-type TThostFtdcEnumValueLabelType Byte65
+type TThostFtdcEnumValueLabelType [65]byte
+
+func (b TThostFtdcEnumValueLabelType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcEnumValueLabelType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 枚举值结果类型
-type TThostFtdcEnumValueResultType Byte33
+type TThostFtdcEnumValueResultType [33]byte
+
+func (b TThostFtdcEnumValueResultType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcEnumValueResultType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 系统状态类型
 //
@@ -1391,37 +2155,114 @@ const (
 )
 
 // 限定值类型类型
-type TThostFtdcRangeIntTypeType Byte33
+type TThostFtdcRangeIntTypeType [33]byte
+
+func (b TThostFtdcRangeIntTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRangeIntTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 限定值下限类型
-type TThostFtdcRangeIntFromType Byte33
+type TThostFtdcRangeIntFromType [33]byte
+
+func (b TThostFtdcRangeIntFromType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRangeIntFromType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 限定值上限类型
-type TThostFtdcRangeIntToType Byte33
+type TThostFtdcRangeIntToType [33]byte
+
+func (b TThostFtdcRangeIntToType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRangeIntToType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 功能代码类型
-type TThostFtdcFunctionIDType Byte25
+type TThostFtdcFunctionIDType [25]byte
+
+func (b TThostFtdcFunctionIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFunctionIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 功能编码类型
-type TThostFtdcFunctionValueCodeType Byte257
+type TThostFtdcFunctionValueCodeType [257]byte
+
+func (b TThostFtdcFunctionValueCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFunctionValueCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 功能名称类型
-type TThostFtdcFunctionNameType Byte65
+type TThostFtdcFunctionNameType [65]byte
+
+func (b TThostFtdcFunctionNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFunctionNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 角色编号类型
-type TThostFtdcRoleIDType Byte11
+type TThostFtdcRoleIDType [11]byte
+
+func (b TThostFtdcRoleIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRoleIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 角色名称类型
-type TThostFtdcRoleNameType Byte41
+type TThostFtdcRoleNameType [41]byte
+
+func (b TThostFtdcRoleNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRoleNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 描述类型
-type TThostFtdcDescriptionType Byte401
+type TThostFtdcDescriptionType [401]byte
+
+func (b TThostFtdcDescriptionType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcDescriptionType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 组合编号类型
-type TThostFtdcCombineIDType Byte25
+type TThostFtdcCombineIDType [25]byte
+
+func (b TThostFtdcCombineIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCombineIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 组合类型类型
-type TThostFtdcCombineTypeType Byte25
+type TThostFtdcCombineTypeType [25]byte
+
+func (b TThostFtdcCombineTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCombineTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 投资者类型类型
 //
@@ -1514,49 +2355,147 @@ const (
 )
 
 // 盈亏算法说明类型
-type TThostFtdcCommentType Byte31
+type TThostFtdcCommentType [31]byte
+
+func (b TThostFtdcCommentType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCommentType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 版本号类型
-type TThostFtdcVersionType Byte4
+type TThostFtdcVersionType [4]byte
+
+func (b TThostFtdcVersionType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcVersionType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易代码类型
-type TThostFtdcTradeCodeType Byte7
+type TThostFtdcTradeCodeType [7]byte
+
+func (b TThostFtdcTradeCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTradeCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易日期类型
-type TThostFtdcTradeDateType Byte9
+type TThostFtdcTradeDateType [9]byte
+
+func (b TThostFtdcTradeDateType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTradeDateType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易时间类型
-type TThostFtdcTradeTimeType Byte9
+type TThostFtdcTradeTimeType [9]byte
+
+func (b TThostFtdcTradeTimeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTradeTimeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 发起方流水号类型
-type TThostFtdcTradeSerialType Byte9
+type TThostFtdcTradeSerialType [9]byte
+
+func (b TThostFtdcTradeSerialType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTradeSerialType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 发起方流水号类型
 type TThostFtdcTradeSerialNoType int32
 
 // 期货公司代码类型
-type TThostFtdcFutureIDType Byte11
+type TThostFtdcFutureIDType [11]byte
+
+func (b TThostFtdcFutureIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFutureIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行代码类型
-type TThostFtdcBankIDType Byte4
+type TThostFtdcBankIDType [4]byte
+
+func (b TThostFtdcBankIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行分中心代码类型
-type TThostFtdcBankBrchIDType Byte5
+type TThostFtdcBankBrchIDType [5]byte
+
+func (b TThostFtdcBankBrchIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankBrchIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 分中心代码类型
-type TThostFtdcBankBranchIDType Byte11
+type TThostFtdcBankBranchIDType [11]byte
+
+func (b TThostFtdcBankBranchIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankBranchIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易柜员类型
-type TThostFtdcOperNoType Byte17
+type TThostFtdcOperNoType [17]byte
+
+func (b TThostFtdcOperNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOperNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 渠道标志类型
-type TThostFtdcDeviceIDType Byte3
+type TThostFtdcDeviceIDType [3]byte
+
+func (b TThostFtdcDeviceIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcDeviceIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 记录数类型
-type TThostFtdcRecordNumType Byte7
+type TThostFtdcRecordNumType [7]byte
+
+func (b TThostFtdcRecordNumType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRecordNumType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 期货资金账号类型
-type TThostFtdcFutureAccountType Byte22
+type TThostFtdcFutureAccountType [22]byte
+
+func (b TThostFtdcFutureAccountType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFutureAccountType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 资金密码核对标志类型
 //
@@ -1579,25 +2518,74 @@ const (
 )
 
 // 期货资金密码类型
-type TThostFtdcFutureAccPwdType Byte17
+type TThostFtdcFutureAccPwdType [17]byte
+
+func (b TThostFtdcFutureAccPwdType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFutureAccPwdType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 币种类型
-type TThostFtdcCurrencyCodeType Byte4
+type TThostFtdcCurrencyCodeType [4]byte
+
+func (b TThostFtdcCurrencyCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCurrencyCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 响应代码类型
-type TThostFtdcRetCodeType Byte5
+type TThostFtdcRetCodeType [5]byte
+
+func (b TThostFtdcRetCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRetCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 响应信息类型
-type TThostFtdcRetInfoType Byte129
+type TThostFtdcRetInfoType [129]byte
+
+func (b TThostFtdcRetInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRetInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行总余额类型
-type TThostFtdcTradeAmtType Byte20
+type TThostFtdcTradeAmtType [20]byte
+
+func (b TThostFtdcTradeAmtType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTradeAmtType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行可用余额类型
-type TThostFtdcUseAmtType Byte20
+type TThostFtdcUseAmtType [20]byte
+
+func (b TThostFtdcUseAmtType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUseAmtType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行可取余额类型
-type TThostFtdcFetchAmtType Byte20
+type TThostFtdcFetchAmtType [20]byte
+
+func (b TThostFtdcFetchAmtType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFetchAmtType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 转账有效标志类型
 //
@@ -1611,7 +2599,14 @@ const (
 )
 
 // 证件号码类型
-type TThostFtdcCertCodeType Byte21
+type TThostFtdcCertCodeType [21]byte
+
+func (b TThostFtdcCertCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCertCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 事由类型
 //
@@ -1625,7 +2620,14 @@ const (
 )
 
 // 资金项目编号类型
-type TThostFtdcFundProjectIDType Byte5
+type TThostFtdcFundProjectIDType [5]byte
+
+func (b TThostFtdcFundProjectIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFundProjectIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 性别类型
 //
@@ -1639,31 +2641,94 @@ const (
 )
 
 // 职业类型
-type TThostFtdcProfessionType Byte101
+type TThostFtdcProfessionType [101]byte
+
+func (b TThostFtdcProfessionType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcProfessionType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 国籍类型
-type TThostFtdcNationalType Byte31
+type TThostFtdcNationalType [31]byte
+
+func (b TThostFtdcNationalType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcNationalType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 省类型
-type TThostFtdcProvinceType Byte51
+type TThostFtdcProvinceType [51]byte
+
+func (b TThostFtdcProvinceType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcProvinceType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 区类型
-type TThostFtdcRegionType Byte16
+type TThostFtdcRegionType [16]byte
+
+func (b TThostFtdcRegionType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRegionType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 国家类型
-type TThostFtdcCountryType Byte16
+type TThostFtdcCountryType [16]byte
+
+func (b TThostFtdcCountryType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCountryType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 营业执照类型
-type TThostFtdcLicenseNOType Byte33
+type TThostFtdcLicenseNOType [33]byte
+
+func (b TThostFtdcLicenseNOType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcLicenseNOType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 企业性质类型
-type TThostFtdcCompanyTypeType Byte16
+type TThostFtdcCompanyTypeType [16]byte
+
+func (b TThostFtdcCompanyTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCompanyTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 经营范围类型
-type TThostFtdcBusinessScopeType Byte1001
+type TThostFtdcBusinessScopeType [1001]byte
+
+func (b TThostFtdcBusinessScopeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBusinessScopeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 注册资本币种类型
-type TThostFtdcCapitalCurrencyType Byte4
+type TThostFtdcCapitalCurrencyType [4]byte
+
+func (b TThostFtdcCapitalCurrencyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCapitalCurrencyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 用户类型类型
 //
@@ -1677,7 +2742,14 @@ const (
 )
 
 // 营业部编号类型
-type TThostFtdcBranchIDType Byte9
+type TThostFtdcBranchIDType [9]byte
+
+func (b TThostFtdcBranchIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBranchIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 费率类型类型
 //
@@ -1711,10 +2783,24 @@ const (
 )
 
 // 域名类型
-type TThostFtdcBrokerDNSType Byte256
+type TThostFtdcBrokerDNSType [256]byte
+
+func (b TThostFtdcBrokerDNSType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBrokerDNSType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 语句类型
-type TThostFtdcSentenceType Byte501
+type TThostFtdcSentenceType [501]byte
+
+func (b TThostFtdcSentenceType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSentenceType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 结算单类型类型
 //
@@ -1861,13 +2947,34 @@ type TThostFtdcLegMultipleType int32
 type TThostFtdcImplyLevelType int32
 
 // 结算账户类型
-type TThostFtdcClearAccountType Byte33
+type TThostFtdcClearAccountType [33]byte
+
+func (b TThostFtdcClearAccountType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcClearAccountType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 结算账户类型
-type TThostFtdcOrganNOType Byte6
+type TThostFtdcOrganNOType [6]byte
+
+func (b TThostFtdcOrganNOType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOrganNOType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 结算账户联行号类型
-type TThostFtdcClearbarchIDType Byte6
+type TThostFtdcClearbarchIDType [6]byte
+
+func (b TThostFtdcClearbarchIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcClearbarchIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 用户事件类型类型
 //
@@ -1888,7 +2995,14 @@ const (
 )
 
 // 用户事件信息类型
-type TThostFtdcUserEventInfoType Byte1025
+type TThostFtdcUserEventInfoType [1025]byte
+
+func (b TThostFtdcUserEventInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUserEventInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 平仓方式类型
 //
@@ -1924,10 +3038,24 @@ const (
 )
 
 // 预埋报单编号类型
-type TThostFtdcParkedOrderIDType Byte13
+type TThostFtdcParkedOrderIDType [13]byte
+
+func (b TThostFtdcParkedOrderIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcParkedOrderIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 预埋撤单编号类型
-type TThostFtdcParkedOrderActionIDType Byte13
+type TThostFtdcParkedOrderActionIDType [13]byte
+
+func (b TThostFtdcParkedOrderActionIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcParkedOrderActionIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 处理状态类型
 //
@@ -2008,85 +3136,264 @@ const (
 )
 
 // 影像类型名称类型
-type TThostFtdcPhotoTypeNameType Byte41
+type TThostFtdcPhotoTypeNameType [41]byte
+
+func (b TThostFtdcPhotoTypeNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPhotoTypeNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 影像类型代码类型
-type TThostFtdcPhotoTypeIDType Byte5
+type TThostFtdcPhotoTypeIDType [5]byte
+
+func (b TThostFtdcPhotoTypeIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPhotoTypeIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 影像名称类型
-type TThostFtdcPhotoNameType Byte161
+type TThostFtdcPhotoNameType [161]byte
+
+func (b TThostFtdcPhotoNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPhotoNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 主题代码类型
 type TThostFtdcTopicIDType int32
 
 // 交易报告类型标识类型
-type TThostFtdcReportTypeIDType Byte3
+type TThostFtdcReportTypeIDType [3]byte
+
+func (b TThostFtdcReportTypeIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcReportTypeIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易特征代码类型
-type TThostFtdcCharacterIDType Byte5
+type TThostFtdcCharacterIDType [5]byte
+
+func (b TThostFtdcCharacterIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCharacterIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 参数代码类型
-type TThostFtdcAMLParamIDType Byte21
+type TThostFtdcAMLParamIDType [21]byte
+
+func (b TThostFtdcAMLParamIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLParamIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 投资者类型类型
-type TThostFtdcAMLInvestorTypeType Byte3
+type TThostFtdcAMLInvestorTypeType [3]byte
+
+func (b TThostFtdcAMLInvestorTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLInvestorTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 证件类型类型
-type TThostFtdcAMLIdCardTypeType Byte3
+type TThostFtdcAMLIdCardTypeType [3]byte
+
+func (b TThostFtdcAMLIdCardTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLIdCardTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 资金进出方向类型
-type TThostFtdcAMLTradeDirectType Byte3
+type TThostFtdcAMLTradeDirectType [3]byte
+
+func (b TThostFtdcAMLTradeDirectType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLTradeDirectType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 资金进出方式类型
-type TThostFtdcAMLTradeModelType Byte3
+type TThostFtdcAMLTradeModelType [3]byte
+
+func (b TThostFtdcAMLTradeModelType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLTradeModelType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 业务参数代码值类型
-type TThostFtdcAMLOpParamValueType Double
+type TThostFtdcAMLOpParamValueType float64
+
+func (d TThostFtdcAMLOpParamValueType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 客户身份证件/证明文件类型类型
-type TThostFtdcAMLCustomerCardTypeType Byte81
+type TThostFtdcAMLCustomerCardTypeType [81]byte
+
+func (b TThostFtdcAMLCustomerCardTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLCustomerCardTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 金融机构网点名称类型
-type TThostFtdcAMLInstitutionNameType Byte65
+type TThostFtdcAMLInstitutionNameType [65]byte
+
+func (b TThostFtdcAMLInstitutionNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLInstitutionNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 金融机构网点所在地区行政区划代码类型
-type TThostFtdcAMLDistrictIDType Byte7
+type TThostFtdcAMLDistrictIDType [7]byte
+
+func (b TThostFtdcAMLDistrictIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLDistrictIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 金融机构网点与大额交易的关系类型
-type TThostFtdcAMLRelationShipType Byte3
+type TThostFtdcAMLRelationShipType [3]byte
+
+func (b TThostFtdcAMLRelationShipType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLRelationShipType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 金融机构网点代码类型类型
-type TThostFtdcAMLInstitutionTypeType Byte3
+type TThostFtdcAMLInstitutionTypeType [3]byte
+
+func (b TThostFtdcAMLInstitutionTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLInstitutionTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 金融机构网点代码类型
-type TThostFtdcAMLInstitutionIDType Byte13
+type TThostFtdcAMLInstitutionIDType [13]byte
+
+func (b TThostFtdcAMLInstitutionIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLInstitutionIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 账户类型类型
-type TThostFtdcAMLAccountTypeType Byte5
+type TThostFtdcAMLAccountTypeType [5]byte
+
+func (b TThostFtdcAMLAccountTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLAccountTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易方式类型
-type TThostFtdcAMLTradingTypeType Byte7
+type TThostFtdcAMLTradingTypeType [7]byte
+
+func (b TThostFtdcAMLTradingTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLTradingTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 涉外收支交易分类与代码类型
-type TThostFtdcAMLTransactClassType Byte7
+type TThostFtdcAMLTransactClassType [7]byte
+
+func (b TThostFtdcAMLTransactClassType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLTransactClassType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 资金收付标识类型
-type TThostFtdcAMLCapitalIOType Byte3
+type TThostFtdcAMLCapitalIOType [3]byte
+
+func (b TThostFtdcAMLCapitalIOType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLCapitalIOType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易地点类型
-type TThostFtdcAMLSiteType Byte10
+type TThostFtdcAMLSiteType [10]byte
+
+func (b TThostFtdcAMLSiteType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLSiteType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 资金用途类型
-type TThostFtdcAMLCapitalPurposeType Byte129
+type TThostFtdcAMLCapitalPurposeType [129]byte
+
+func (b TThostFtdcAMLCapitalPurposeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLCapitalPurposeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 报文类型类型
-type TThostFtdcAMLReportTypeType Byte2
+type TThostFtdcAMLReportTypeType [2]byte
+
+func (b TThostFtdcAMLReportTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLReportTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 编号类型
-type TThostFtdcAMLSerialNoType Byte5
+type TThostFtdcAMLSerialNoType [5]byte
+
+func (b TThostFtdcAMLSerialNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLSerialNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 状态类型
-type TThostFtdcAMLStatusType Byte2
+type TThostFtdcAMLStatusType [2]byte
+
+func (b TThostFtdcAMLStatusType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLStatusType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // Aml生成方式类型
 //
@@ -2099,22 +3406,54 @@ const (
 )
 
 // 业务标识号类型
-type TThostFtdcAMLSeqCodeType Byte65
+type TThostFtdcAMLSeqCodeType [65]byte
+
+func (b TThostFtdcAMLSeqCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLSeqCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // AML文件名类型
-type TThostFtdcAMLFileNameType Byte257
+type TThostFtdcAMLFileNameType [257]byte
+
+func (b TThostFtdcAMLFileNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLFileNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 反洗钱资金类型
-type TThostFtdcAMLMoneyType Double
+type TThostFtdcAMLMoneyType float64
+
+func (d TThostFtdcAMLMoneyType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 反洗钱资金类型
 type TThostFtdcAMLFileAmountType int32
 
 // 密钥类型(保证金监管)类型
-type TThostFtdcCFMMCKeyType Byte21
+type TThostFtdcCFMMCKeyType [21]byte
+
+func (b TThostFtdcCFMMCKeyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCFMMCKeyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 令牌类型(保证金监管)类型
-type TThostFtdcCFMMCTokenType Byte21
+type TThostFtdcCFMMCTokenType [21]byte
+
+func (b TThostFtdcCFMMCTokenType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCFMMCTokenType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 动态密钥类别(保证金监管)类型
 //
@@ -2128,127 +3467,414 @@ const (
 )
 
 // 报文名称类型
-type TThostFtdcAMLReportNameType Byte81
+type TThostFtdcAMLReportNameType [81]byte
+
+func (b TThostFtdcAMLReportNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAMLReportNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 个人姓名类型
-type TThostFtdcIndividualNameType Byte51
+type TThostFtdcIndividualNameType [51]byte
+
+func (b TThostFtdcIndividualNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcIndividualNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 币种代码类型
-type TThostFtdcCurrencyIDType Byte4
+type TThostFtdcCurrencyIDType [4]byte
+
+func (b TThostFtdcCurrencyIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCurrencyIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 客户编号类型
-type TThostFtdcCustNumberType Byte36
+type TThostFtdcCustNumberType [36]byte
+
+func (b TThostFtdcCustNumberType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCustNumberType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 机构编码类型
-type TThostFtdcOrganCodeType Byte36
+type TThostFtdcOrganCodeType [36]byte
+
+func (b TThostFtdcOrganCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOrganCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 机构名称类型
-type TThostFtdcOrganNameType Byte71
+type TThostFtdcOrganNameType [71]byte
+
+func (b TThostFtdcOrganNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOrganNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 上级机构编码,即期货公司总部、银行总行类型
-type TThostFtdcSuperOrganCodeType Byte12
+type TThostFtdcSuperOrganCodeType [12]byte
+
+func (b TThostFtdcSuperOrganCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSuperOrganCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 分支机构类型
-type TThostFtdcSubBranchIDType Byte31
+type TThostFtdcSubBranchIDType [31]byte
+
+func (b TThostFtdcSubBranchIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSubBranchIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 分支机构名称类型
-type TThostFtdcSubBranchNameType Byte71
+type TThostFtdcSubBranchNameType [71]byte
+
+func (b TThostFtdcSubBranchNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSubBranchNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 机构网点号类型
-type TThostFtdcBranchNetCodeType Byte31
+type TThostFtdcBranchNetCodeType [31]byte
+
+func (b TThostFtdcBranchNetCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBranchNetCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 机构网点名称类型
-type TThostFtdcBranchNetNameType Byte71
+type TThostFtdcBranchNetNameType [71]byte
+
+func (b TThostFtdcBranchNetNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBranchNetNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 机构标识类型
-type TThostFtdcOrganFlagType Byte2
+type TThostFtdcOrganFlagType [2]byte
+
+func (b TThostFtdcOrganFlagType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOrganFlagType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行对期货公司的编码类型
-type TThostFtdcBankCodingForFutureType Byte33
+type TThostFtdcBankCodingForFutureType [33]byte
+
+func (b TThostFtdcBankCodingForFutureType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankCodingForFutureType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行对返回码的定义类型
-type TThostFtdcBankReturnCodeType Byte7
+type TThostFtdcBankReturnCodeType [7]byte
+
+func (b TThostFtdcBankReturnCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankReturnCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银期转帐平台对返回码的定义类型
-type TThostFtdcPlateReturnCodeType Byte5
+type TThostFtdcPlateReturnCodeType [5]byte
+
+func (b TThostFtdcPlateReturnCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPlateReturnCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行分支机构编码类型
-type TThostFtdcBankSubBranchIDType Byte31
+type TThostFtdcBankSubBranchIDType [31]byte
+
+func (b TThostFtdcBankSubBranchIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankSubBranchIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 期货分支机构编码类型
-type TThostFtdcFutureBranchIDType Byte31
+type TThostFtdcFutureBranchIDType [31]byte
+
+func (b TThostFtdcFutureBranchIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFutureBranchIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 返回代码类型
-type TThostFtdcReturnCodeType Byte7
+type TThostFtdcReturnCodeType [7]byte
+
+func (b TThostFtdcReturnCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcReturnCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 操作员类型
-type TThostFtdcOperatorCodeType Byte17
+type TThostFtdcOperatorCodeType [17]byte
+
+func (b TThostFtdcOperatorCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOperatorCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 机构结算帐户机构号类型
-type TThostFtdcClearDepIDType Byte6
+type TThostFtdcClearDepIDType [6]byte
+
+func (b TThostFtdcClearDepIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcClearDepIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 机构结算帐户联行号类型
-type TThostFtdcClearBrchIDType Byte6
+type TThostFtdcClearBrchIDType [6]byte
+
+func (b TThostFtdcClearBrchIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcClearBrchIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 机构结算帐户名称类型
-type TThostFtdcClearNameType Byte71
+type TThostFtdcClearNameType [71]byte
+
+func (b TThostFtdcClearNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcClearNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行帐户名称类型
-type TThostFtdcBankAccountNameType Byte71
+type TThostFtdcBankAccountNameType [71]byte
+
+func (b TThostFtdcBankAccountNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankAccountNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 机构投资人账号机构号类型
-type TThostFtdcInvDepIDType Byte6
+type TThostFtdcInvDepIDType [6]byte
+
+func (b TThostFtdcInvDepIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInvDepIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 机构投资人联行号类型
-type TThostFtdcInvBrchIDType Byte6
+type TThostFtdcInvBrchIDType [6]byte
+
+func (b TThostFtdcInvBrchIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInvBrchIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 信息格式版本类型
-type TThostFtdcMessageFormatVersionType Byte36
+type TThostFtdcMessageFormatVersionType [36]byte
+
+func (b TThostFtdcMessageFormatVersionType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcMessageFormatVersionType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 摘要类型
-type TThostFtdcDigestType Byte36
+type TThostFtdcDigestType [36]byte
+
+func (b TThostFtdcDigestType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcDigestType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 认证数据类型
-type TThostFtdcAuthenticDataType Byte129
+type TThostFtdcAuthenticDataType [129]byte
+
+func (b TThostFtdcAuthenticDataType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAuthenticDataType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 密钥类型
-type TThostFtdcPasswordKeyType Byte129
+type TThostFtdcPasswordKeyType [129]byte
+
+func (b TThostFtdcPasswordKeyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPasswordKeyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 期货帐户名称类型
-type TThostFtdcFutureAccountNameType Byte129
+type TThostFtdcFutureAccountNameType [129]byte
+
+func (b TThostFtdcFutureAccountNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFutureAccountNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 手机类型
-type TThostFtdcMobilePhoneType Byte21
+type TThostFtdcMobilePhoneType [21]byte
+
+func (b TThostFtdcMobilePhoneType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcMobilePhoneType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 期货公司主密钥类型
-type TThostFtdcFutureMainKeyType Byte129
+type TThostFtdcFutureMainKeyType [129]byte
+
+func (b TThostFtdcFutureMainKeyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFutureMainKeyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 期货公司工作密钥类型
-type TThostFtdcFutureWorkKeyType Byte129
+type TThostFtdcFutureWorkKeyType [129]byte
+
+func (b TThostFtdcFutureWorkKeyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFutureWorkKeyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 期货公司传输密钥类型
-type TThostFtdcFutureTransKeyType Byte129
+type TThostFtdcFutureTransKeyType [129]byte
+
+func (b TThostFtdcFutureTransKeyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFutureTransKeyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行主密钥类型
-type TThostFtdcBankMainKeyType Byte129
+type TThostFtdcBankMainKeyType [129]byte
+
+func (b TThostFtdcBankMainKeyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankMainKeyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行工作密钥类型
-type TThostFtdcBankWorkKeyType Byte129
+type TThostFtdcBankWorkKeyType [129]byte
+
+func (b TThostFtdcBankWorkKeyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankWorkKeyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行传输密钥类型
-type TThostFtdcBankTransKeyType Byte129
+type TThostFtdcBankTransKeyType [129]byte
+
+func (b TThostFtdcBankTransKeyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankTransKeyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行服务器描述信息类型
-type TThostFtdcBankServerDescriptionType Byte129
+type TThostFtdcBankServerDescriptionType [129]byte
+
+func (b TThostFtdcBankServerDescriptionType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankServerDescriptionType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 附加信息类型
-type TThostFtdcAddInfoType Byte129
+type TThostFtdcAddInfoType [129]byte
+
+func (b TThostFtdcAddInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAddInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 返回码描述类型
-type TThostFtdcDescrInfoForReturnCodeType Byte129
+type TThostFtdcDescrInfoForReturnCodeType [129]byte
+
+func (b TThostFtdcDescrInfoForReturnCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcDescrInfoForReturnCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 国家代码类型
-type TThostFtdcCountryCodeType Byte21
+type TThostFtdcCountryCodeType [21]byte
+
+func (b TThostFtdcCountryCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCountryCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 流水号类型
 type TThostFtdcSerialType int32
@@ -2257,7 +3883,14 @@ type TThostFtdcSerialType int32
 type TThostFtdcPlateSerialType int32
 
 // 银行流水号类型
-type TThostFtdcBankSerialType Byte13
+type TThostFtdcBankSerialType [13]byte
+
+func (b TThostFtdcBankSerialType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankSerialType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 被冲正交易流水号类型
 type TThostFtdcCorrectSerialType int32
@@ -2293,22 +3926,46 @@ type TThostFtdcFBTRequestIDType int32
 type TThostFtdcTIDType int32
 
 // 交易金额（元）类型
-type TThostFtdcTradeAmountType Double
+type TThostFtdcTradeAmountType float64
+
+func (d TThostFtdcTradeAmountType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 应收客户费用（元）类型
-type TThostFtdcCustFeeType Double
+type TThostFtdcCustFeeType float64
+
+func (d TThostFtdcCustFeeType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 应收期货公司费用（元）类型
-type TThostFtdcFutureFeeType Double
+type TThostFtdcFutureFeeType float64
+
+func (d TThostFtdcFutureFeeType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 单笔最高限额类型
-type TThostFtdcSingleMaxAmtType Double
+type TThostFtdcSingleMaxAmtType float64
+
+func (d TThostFtdcSingleMaxAmtType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 单笔最低限额类型
-type TThostFtdcSingleMinAmtType Double
+type TThostFtdcSingleMinAmtType float64
+
+func (d TThostFtdcSingleMinAmtType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 每日累计转帐额度类型
-type TThostFtdcTotalAmtType Double
+type TThostFtdcTotalAmtType float64
+
+func (d TThostFtdcTotalAmtType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 证件类型类型
 //
@@ -2717,7 +4374,14 @@ type TThostFtdcServiceIDType int32
 type TThostFtdcServiceLineNoType int32
 
 // 服务名类型
-type TThostFtdcServiceNameType Byte61
+type TThostFtdcServiceNameType [61]byte
+
+func (b TThostFtdcServiceNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcServiceNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 连接状态类型
 //
@@ -2810,25 +4474,67 @@ const (
 )
 
 // 银行自己的编码类型
-type TThostFtdcBankIDByBankType Byte21
+type TThostFtdcBankIDByBankType [21]byte
+
+func (b TThostFtdcBankIDByBankType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankIDByBankType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行操作员号类型
-type TThostFtdcBankOperNoType Byte4
+type TThostFtdcBankOperNoType [4]byte
+
+func (b TThostFtdcBankOperNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankOperNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行客户号类型
-type TThostFtdcBankCustNoType Byte21
+type TThostFtdcBankCustNoType [21]byte
+
+func (b TThostFtdcBankCustNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankCustNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 递增的序列号类型
 type TThostFtdcDBOPSeqNoType int32
 
 // FBT表名类型
-type TThostFtdcTableNameType Byte61
+type TThostFtdcTableNameType [61]byte
+
+func (b TThostFtdcTableNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTableNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // FBT表操作主键名类型
-type TThostFtdcPKNameType Byte201
+type TThostFtdcPKNameType [201]byte
+
+func (b TThostFtdcPKNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPKNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // FBT表操作主键值类型
-type TThostFtdcPKValueType Byte501
+type TThostFtdcPKValueType [501]byte
+
+func (b TThostFtdcPKValueType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPKValueType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 记录操作类型类型
 //
@@ -2852,7 +4558,14 @@ const (
 )
 
 // 同步目标编号类型
-type TThostFtdcTargetIDType Byte4
+type TThostFtdcTargetIDType [4]byte
+
+func (b TThostFtdcTargetIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTargetIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 同步类型类型
 //
@@ -2866,13 +4579,34 @@ const (
 )
 
 // 各种换汇时间类型
-type TThostFtdcFBETimeType Byte7
+type TThostFtdcFBETimeType [7]byte
+
+func (b TThostFtdcFBETimeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBETimeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇银行行号类型
-type TThostFtdcFBEBankNoType Byte13
+type TThostFtdcFBEBankNoType [13]byte
+
+func (b TThostFtdcFBEBankNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBEBankNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇凭证号类型
-type TThostFtdcFBECertNoType Byte13
+type TThostFtdcFBECertNoType [13]byte
+
+func (b TThostFtdcFBECertNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBECertNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇方向类型
 //
@@ -2885,25 +4619,68 @@ const (
 )
 
 // 换汇银行账户类型
-type TThostFtdcFBEBankAccountType Byte33
+type TThostFtdcFBEBankAccountType [33]byte
+
+func (b TThostFtdcFBEBankAccountType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBEBankAccountType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇银行账户名类型
-type TThostFtdcFBEBankAccountNameType Byte61
+type TThostFtdcFBEBankAccountNameType [61]byte
+
+func (b TThostFtdcFBEBankAccountNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBEBankAccountNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 各种换汇金额类型
-type TThostFtdcFBEAmtType Double
+type TThostFtdcFBEAmtType float64
+
+func (d TThostFtdcFBEAmtType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 换汇业务类型类型
-type TThostFtdcFBEBusinessTypeType Byte3
+type TThostFtdcFBEBusinessTypeType [3]byte
+
+func (b TThostFtdcFBEBusinessTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBEBusinessTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇附言类型
-type TThostFtdcFBEPostScriptType Byte61
+type TThostFtdcFBEPostScriptType [61]byte
+
+func (b TThostFtdcFBEPostScriptType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBEPostScriptType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇备注类型
-type TThostFtdcFBERemarkType Byte71
+type TThostFtdcFBERemarkType [71]byte
+
+func (b TThostFtdcFBERemarkType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBERemarkType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇汇率类型
-type TThostFtdcExRateType Double
+type TThostFtdcExRateType float64
+
+func (d TThostFtdcExRateType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 换汇成功标志类型
 //
@@ -2918,16 +4695,44 @@ const (
 )
 
 // 换汇返回信息类型
-type TThostFtdcFBERtnMsgType Byte61
+type TThostFtdcFBERtnMsgType [61]byte
+
+func (b TThostFtdcFBERtnMsgType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBERtnMsgType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇扩展信息类型
-type TThostFtdcFBEExtendMsgType Byte61
+type TThostFtdcFBEExtendMsgType [61]byte
+
+func (b TThostFtdcFBEExtendMsgType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBEExtendMsgType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇记账流水号类型
-type TThostFtdcFBEBusinessSerialType Byte31
+type TThostFtdcFBEBusinessSerialType [31]byte
+
+func (b TThostFtdcFBEBusinessSerialType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBEBusinessSerialType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇流水号类型
-type TThostFtdcFBESystemSerialType Byte21
+type TThostFtdcFBESystemSerialType [21]byte
+
+func (b TThostFtdcFBESystemSerialType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBESystemSerialType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇交易总笔数类型
 type TThostFtdcFBETotalExCntType int32
@@ -2963,7 +4768,14 @@ const (
 )
 
 // 换汇账户开户行类型
-type TThostFtdcFBEOpenBankType Byte61
+type TThostFtdcFBEOpenBankType [61]byte
+
+func (b TThostFtdcFBEOpenBankType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBEOpenBankType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银期换汇用户事件类型类型
 //
@@ -2984,10 +4796,24 @@ const (
 )
 
 // 换汇相关文件名类型
-type TThostFtdcFBEFileNameType Byte21
+type TThostFtdcFBEFileNameType [21]byte
+
+func (b TThostFtdcFBEFileNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBEFileNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇批次号类型
-type TThostFtdcFBEBatchSerialType Byte21
+type TThostFtdcFBEBatchSerialType [21]byte
+
+func (b TThostFtdcFBEBatchSerialType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFBEBatchSerialType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇发送标志类型
 //
@@ -3017,10 +4843,24 @@ const (
 )
 
 // 客户风险通知消息类型
-type TThostFtdcRiskNofityInfoType Byte257
+type TThostFtdcRiskNofityInfoType [257]byte
+
+func (b TThostFtdcRiskNofityInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRiskNofityInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 强平场景编号类型
-type TThostFtdcForceCloseSceneIdType Byte24
+type TThostFtdcForceCloseSceneIdType [24]byte
+
+func (b TThostFtdcForceCloseSceneIdType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcForceCloseSceneIdType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 强平单类型类型
 //
@@ -3034,7 +4874,14 @@ const (
 )
 
 // 多个产品代码,用+分隔,如cu+zn类型
-type TThostFtdcInstrumentIDsType Byte101
+type TThostFtdcInstrumentIDsType [101]byte
+
+func (b TThostFtdcInstrumentIDsType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInstrumentIDsType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 风险通知途径类型
 //
@@ -3073,10 +4920,24 @@ const THOST_FTDC_RUE_ExportData TThostFtdcRiskUserEventType = '0' // 导出数�
 type TThostFtdcParamIDType int32
 
 // 参数名类型
-type TThostFtdcParamNameType Byte41
+type TThostFtdcParamNameType [41]byte
+
+func (b TThostFtdcParamNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcParamNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 参数值类型
-type TThostFtdcParamValueType Byte41
+type TThostFtdcParamValueType [41]byte
+
+func (b TThostFtdcParamValueType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcParamValueType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 条件单索引条件类型
 //
@@ -3122,19 +4983,54 @@ const (
 )
 
 // 行业编码类型
-type TThostFtdcIndustryIDType Byte17
+type TThostFtdcIndustryIDType [17]byte
+
+func (b TThostFtdcIndustryIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcIndustryIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 特有信息编号类型
-type TThostFtdcQuestionIDType Byte5
+type TThostFtdcQuestionIDType [5]byte
+
+func (b TThostFtdcQuestionIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcQuestionIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 特有信息说明类型
-type TThostFtdcQuestionContentType Byte41
+type TThostFtdcQuestionContentType [41]byte
+
+func (b TThostFtdcQuestionContentType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcQuestionContentType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 选项编号类型
-type TThostFtdcOptionIDType Byte13
+type TThostFtdcOptionIDType [13]byte
+
+func (b TThostFtdcOptionIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOptionIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 选项说明类型
-type TThostFtdcOptionContentType Byte61
+type TThostFtdcOptionContentType [61]byte
+
+func (b TThostFtdcOptionContentType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOptionContentType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 特有信息类型类型
 //
@@ -3148,16 +5044,37 @@ const (
 )
 
 // 业务流水号类型
-type TThostFtdcProcessIDType Byte33
+type TThostFtdcProcessIDType [33]byte
+
+func (b TThostFtdcProcessIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcProcessIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 流水号类型
 type TThostFtdcSeqNoType int32
 
 // 流程状态类型
-type TThostFtdcUOAProcessStatusType Byte3
+type TThostFtdcUOAProcessStatusType [3]byte
+
+func (b TThostFtdcUOAProcessStatusType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUOAProcessStatusType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 流程功能类型类型
-type TThostFtdcProcessTypeType Byte3
+type TThostFtdcProcessTypeType [3]byte
+
+func (b TThostFtdcProcessTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcProcessTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 业务类型类型
 //
@@ -3225,28 +5142,84 @@ const (
 )
 
 // 客户分类码类型
-type TThostFtdcClientClassifyType Byte11
+type TThostFtdcClientClassifyType [11]byte
+
+func (b TThostFtdcClientClassifyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcClientClassifyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 单位性质类型
-type TThostFtdcUOAOrganTypeType Byte11
+type TThostFtdcUOAOrganTypeType [11]byte
+
+func (b TThostFtdcUOAOrganTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUOAOrganTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 国家代码类型
-type TThostFtdcUOACountryCodeType Byte11
+type TThostFtdcUOACountryCodeType [11]byte
+
+func (b TThostFtdcUOACountryCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUOACountryCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 区号类型
-type TThostFtdcAreaCodeType Byte11
+type TThostFtdcAreaCodeType [11]byte
+
+func (b TThostFtdcAreaCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAreaCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 监控中心为客户分配的代码类型
-type TThostFtdcFuturesIDType Byte21
+type TThostFtdcFuturesIDType [21]byte
+
+func (b TThostFtdcFuturesIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFuturesIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 日期类型
-type TThostFtdcCffmcDateType Byte11
+type TThostFtdcCffmcDateType [11]byte
+
+func (b TThostFtdcCffmcDateType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCffmcDateType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 时间类型
-type TThostFtdcCffmcTimeType Byte11
+type TThostFtdcCffmcTimeType [11]byte
+
+func (b TThostFtdcCffmcTimeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCffmcTimeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 组织机构代码类型
-type TThostFtdcNocIDType Byte21
+type TThostFtdcNocIDType [21]byte
+
+func (b TThostFtdcNocIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcNocIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 更新状态类型
 //
@@ -3302,7 +5275,14 @@ const (
 )
 
 // 业务操作类型类型
-type TThostFtdcEventTypeType Byte33
+type TThostFtdcEventTypeType [33]byte
+
+func (b TThostFtdcEventTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcEventTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 操作方法类型
 //
@@ -3387,10 +5367,24 @@ const (
 )
 
 // 模型名称类型
-type TThostFtdcRateTemplateNameType Byte61
+type TThostFtdcRateTemplateNameType [61]byte
+
+func (b TThostFtdcRateTemplateNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRateTemplateNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 用于查询的投资属性字段类型
-type TThostFtdcPropertyStringType Byte2049
+type TThostFtdcPropertyStringType [2049]byte
+
+func (b TThostFtdcPropertyStringType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPropertyStringType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 账户来源类型
 //
@@ -3424,19 +5418,47 @@ const (
 )
 
 // 模型代码类型
-type TThostFtdcRateTemplateIDType Byte9
+type TThostFtdcRateTemplateIDType [9]byte
+
+func (b TThostFtdcRateTemplateIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRateTemplateIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 风险度类型
-type TThostFtdcRiskRateType Byte21
+type TThostFtdcRiskRateType [21]byte
+
+func (b TThostFtdcRiskRateType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRiskRateType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 时间戳类型
 type TThostFtdcTimestampType int32
 
 // 号段规则名称类型
-type TThostFtdcInvestorIDRuleNameType Byte61
+type TThostFtdcInvestorIDRuleNameType [61]byte
+
+func (b TThostFtdcInvestorIDRuleNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInvestorIDRuleNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 号段规则表达式类型
-type TThostFtdcInvestorIDRuleExprType Byte513
+type TThostFtdcInvestorIDRuleExprType [513]byte
+
+func (b TThostFtdcInvestorIDRuleExprType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInvestorIDRuleExprType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 上次OTP漂移值类型
 type TThostFtdcLastDriftType int32
@@ -3445,10 +5467,24 @@ type TThostFtdcLastDriftType int32
 type TThostFtdcLastSuccessType int32
 
 // 令牌密钥类型
-type TThostFtdcAuthKeyType Byte41
+type TThostFtdcAuthKeyType [41]byte
+
+func (b TThostFtdcAuthKeyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAuthKeyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 序列号类型
-type TThostFtdcSerialNumberType Byte17
+type TThostFtdcSerialNumberType [17]byte
+
+func (b TThostFtdcSerialNumberType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSerialNumberType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 动态令牌类型类型
 //
@@ -3461,10 +5497,24 @@ const (
 )
 
 // 动态令牌提供商类型
-type TThostFtdcOTPVendorsIDType Byte2
+type TThostFtdcOTPVendorsIDType [2]byte
+
+func (b TThostFtdcOTPVendorsIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOTPVendorsIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 动态令牌提供商名称类型
-type TThostFtdcOTPVendorsNameType Byte61
+type TThostFtdcOTPVendorsNameType [61]byte
+
+func (b TThostFtdcOTPVendorsNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOTPVendorsNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 动态令牌状态类型
 //
@@ -3545,10 +5595,24 @@ const (
 )
 
 // 时间跨度类型
-type TThostFtdcTimeSpanType Byte9
+type TThostFtdcTimeSpanType [9]byte
+
+func (b TThostFtdcTimeSpanType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcTimeSpanType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 动态令牌导入批次编号类型
-type TThostFtdcImportSequenceIDType Byte17
+type TThostFtdcImportSequenceIDType [17]byte
+
+func (b TThostFtdcImportSequenceIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcImportSequenceIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易统计表按客户统计方式类型
 //
@@ -3575,88 +5639,275 @@ const (
 type TThostFtdcComTypeType int32
 
 // 产品标识类型
-type TThostFtdcUserProductIDType Byte33
+type TThostFtdcUserProductIDType [33]byte
+
+func (b TThostFtdcUserProductIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUserProductIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 产品名称类型
-type TThostFtdcUserProductNameType Byte65
+type TThostFtdcUserProductNameType [65]byte
+
+func (b TThostFtdcUserProductNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUserProductNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 产品说明类型
-type TThostFtdcUserProductMemoType Byte129
+type TThostFtdcUserProductMemoType [129]byte
+
+func (b TThostFtdcUserProductMemoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUserProductMemoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 新增或变更标志类型
-type TThostFtdcCSRCCancelFlagType Byte2
+type TThostFtdcCSRCCancelFlagType [2]byte
+
+func (b TThostFtdcCSRCCancelFlagType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCCancelFlagType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 日期类型
-type TThostFtdcCSRCDateType Byte11
+type TThostFtdcCSRCDateType [11]byte
+
+func (b TThostFtdcCSRCDateType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCDateType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 客户名称类型
-type TThostFtdcCSRCInvestorNameType Byte201
+type TThostFtdcCSRCInvestorNameType [201]byte
+
+func (b TThostFtdcCSRCInvestorNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCInvestorNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 客户名称类型
-type TThostFtdcCSRCOpenInvestorNameType Byte101
+type TThostFtdcCSRCOpenInvestorNameType [101]byte
+
+func (b TThostFtdcCSRCOpenInvestorNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCOpenInvestorNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 客户代码类型
-type TThostFtdcCSRCInvestorIDType Byte13
+type TThostFtdcCSRCInvestorIDType [13]byte
+
+func (b TThostFtdcCSRCInvestorIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCInvestorIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 证件号码类型
-type TThostFtdcCSRCIdentifiedCardNoType Byte51
+type TThostFtdcCSRCIdentifiedCardNoType [51]byte
+
+func (b TThostFtdcCSRCIdentifiedCardNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCIdentifiedCardNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易编码类型
-type TThostFtdcCSRCClientIDType Byte11
+type TThostFtdcCSRCClientIDType [11]byte
+
+func (b TThostFtdcCSRCClientIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCClientIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行标识类型
-type TThostFtdcCSRCBankFlagType Byte3
+type TThostFtdcCSRCBankFlagType [3]byte
+
+func (b TThostFtdcCSRCBankFlagType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCBankFlagType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 银行账户类型
-type TThostFtdcCSRCBankAccountType Byte23
+type TThostFtdcCSRCBankAccountType [23]byte
+
+func (b TThostFtdcCSRCBankAccountType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCBankAccountType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 开户人类型
-type TThostFtdcCSRCOpenNameType Byte401
+type TThostFtdcCSRCOpenNameType [401]byte
+
+func (b TThostFtdcCSRCOpenNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCOpenNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 说明类型
-type TThostFtdcCSRCMemoType Byte101
+type TThostFtdcCSRCMemoType [101]byte
+
+func (b TThostFtdcCSRCMemoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCMemoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 时间类型
-type TThostFtdcCSRCTimeType Byte11
+type TThostFtdcCSRCTimeType [11]byte
+
+func (b TThostFtdcCSRCTimeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCTimeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 成交流水号类型
-type TThostFtdcCSRCTradeIDType Byte21
+type TThostFtdcCSRCTradeIDType [21]byte
+
+func (b TThostFtdcCSRCTradeIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCTradeIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 合约代码类型
-type TThostFtdcCSRCExchangeInstIDType Byte31
+type TThostFtdcCSRCExchangeInstIDType [31]byte
+
+func (b TThostFtdcCSRCExchangeInstIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCExchangeInstIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 质押品名称类型
-type TThostFtdcCSRCMortgageNameType Byte7
+type TThostFtdcCSRCMortgageNameType [7]byte
+
+func (b TThostFtdcCSRCMortgageNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCMortgageNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 事由类型
-type TThostFtdcCSRCReasonType Byte3
+type TThostFtdcCSRCReasonType [3]byte
+
+func (b TThostFtdcCSRCReasonType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCReasonType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 是否为非结算会员类型
-type TThostFtdcIsSettlementType Byte2
+type TThostFtdcIsSettlementType [2]byte
+
+func (b TThostFtdcIsSettlementType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcIsSettlementType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 资金类型
-type TThostFtdcCSRCMoneyType Double
+type TThostFtdcCSRCMoneyType float64
+
+func (d TThostFtdcCSRCMoneyType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 价格类型
-type TThostFtdcCSRCPriceType Double
+type TThostFtdcCSRCPriceType float64
+
+func (d TThostFtdcCSRCPriceType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 期权类型类型
-type TThostFtdcCSRCOptionsTypeType Byte2
+type TThostFtdcCSRCOptionsTypeType [2]byte
+
+func (b TThostFtdcCSRCOptionsTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCOptionsTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 执行价类型
-type TThostFtdcCSRCStrikePriceType Double
+type TThostFtdcCSRCStrikePriceType float64
+
+func (d TThostFtdcCSRCStrikePriceType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 标的品种类型
-type TThostFtdcCSRCTargetProductIDType Byte3
+type TThostFtdcCSRCTargetProductIDType [3]byte
+
+func (b TThostFtdcCSRCTargetProductIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCTargetProductIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 标的合约类型
-type TThostFtdcCSRCTargetInstrIDType Byte31
+type TThostFtdcCSRCTargetInstrIDType [31]byte
+
+func (b TThostFtdcCSRCTargetInstrIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCTargetInstrIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 手续费率模板名称类型
-type TThostFtdcCommModelNameType Byte161
+type TThostFtdcCommModelNameType [161]byte
+
+func (b TThostFtdcCommModelNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCommModelNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 手续费率模板备注类型
-type TThostFtdcCommModelMemoType Byte1025
+type TThostFtdcCommModelMemoType [1025]byte
+
+func (b TThostFtdcCommModelMemoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCommModelMemoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 日期表达式设置类型类型
 //
@@ -3680,16 +5931,37 @@ const (
 )
 
 // 代理经纪公司代码类型
-type TThostFtdcAgentBrokerIDType Byte13
+type TThostFtdcAgentBrokerIDType [13]byte
+
+func (b TThostFtdcAgentBrokerIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAgentBrokerIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 交易中心代码类型
 type TThostFtdcDRIdentityIDType int32
 
 // 交易中心名称类型
-type TThostFtdcDRIdentityNameType Byte65
+type TThostFtdcDRIdentityNameType [65]byte
+
+func (b TThostFtdcDRIdentityNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcDRIdentityNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // DBLink标识号类型
-type TThostFtdcDBLinkIDType Byte31
+type TThostFtdcDBLinkIDType [31]byte
+
+func (b TThostFtdcDBLinkIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcDBLinkIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 主次用系统数据同步状态类型
 //
@@ -3734,7 +6006,14 @@ const (
 )
 
 // 风险度类型
-type TThostFtdcSRiskRateType Byte21
+type TThostFtdcSRiskRateType [21]byte
+
+func (b TThostFtdcSRiskRateType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSRiskRateType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 序号类型
 type TThostFtdcSequenceNo12Type int32
@@ -3841,7 +6120,14 @@ const (
 )
 
 // 休眠状态类型
-type TThostFtdcCSRCFreezeStatusType Byte2
+type TThostFtdcCSRCFreezeStatusType [2]byte
+
+func (b TThostFtdcCSRCFreezeStatusType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCFreezeStatusType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 配置类型类型
 //
@@ -3856,10 +6142,24 @@ const (
 )
 
 // 模板代码类型
-type TThostFtdcRightTemplateIDType Byte9
+type TThostFtdcRightTemplateIDType [9]byte
+
+func (b TThostFtdcRightTemplateIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRightTemplateIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 模板名称类型
-type TThostFtdcRightTemplateNameType Byte61
+type TThostFtdcRightTemplateNameType [61]byte
+
+func (b TThostFtdcRightTemplateNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRightTemplateNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 反洗钱审核表数据状态类型
 //
@@ -3906,10 +6206,24 @@ const (
 )
 
 // 反洗钱数据抽取审核流程类型
-type TThostFtdcAmlCheckFlowType Byte2
+type TThostFtdcAmlCheckFlowType [2]byte
+
+func (b TThostFtdcAmlCheckFlowType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAmlCheckFlowType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 数据类型类型
-type TThostFtdcDataTypeType Byte129
+type TThostFtdcDataTypeType [129]byte
+
+func (b TThostFtdcDataTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcDataTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 导出文件类型类型
 //
@@ -3935,10 +6249,24 @@ const (
 )
 
 // 结算配置代码类型
-type TThostFtdcSettleManagerIDType Byte33
+type TThostFtdcSettleManagerIDType [33]byte
+
+func (b TThostFtdcSettleManagerIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSettleManagerIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 结算配置名称类型
-type TThostFtdcSettleManagerNameType Byte129
+type TThostFtdcSettleManagerNameType [129]byte
+
+func (b TThostFtdcSettleManagerNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSettleManagerNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 结算配置等级类型
 //
@@ -3964,16 +6292,44 @@ const (
 )
 
 // 核对结果说明类型
-type TThostFtdcCheckResultMemoType Byte1025
+type TThostFtdcCheckResultMemoType [1025]byte
+
+func (b TThostFtdcCheckResultMemoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCheckResultMemoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 功能链接类型
-type TThostFtdcFunctionUrlType Byte1025
+type TThostFtdcFunctionUrlType [1025]byte
+
+func (b TThostFtdcFunctionUrlType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcFunctionUrlType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 客户端认证信息类型
-type TThostFtdcAuthInfoType Byte129
+type TThostFtdcAuthInfoType [129]byte
+
+func (b TThostFtdcAuthInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAuthInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 客户端认证码类型
-type TThostFtdcAuthCodeType Byte17
+type TThostFtdcAuthCodeType [17]byte
+
+func (b TThostFtdcAuthCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAuthCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 保值额度使用类型类型
 //
@@ -4097,10 +6453,24 @@ const (
 )
 
 // 工具代码类型
-type TThostFtdcToolIDType Byte9
+type TThostFtdcToolIDType [9]byte
+
+func (b TThostFtdcToolIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcToolIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 工具名称类型
-type TThostFtdcToolNameType Byte81
+type TThostFtdcToolNameType [81]byte
+
+func (b TThostFtdcToolNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcToolNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 平仓处理类型类型
 //
@@ -4125,10 +6495,18 @@ const (
 )
 
 // 币种单位数量类型
-type TThostFtdcCurrencyUnitType Double
+type TThostFtdcCurrencyUnitType float64
+
+func (d TThostFtdcCurrencyUnitType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 汇率类型
-type TThostFtdcExchangeRateType Double
+type TThostFtdcExchangeRateType float64
+
+func (d TThostFtdcExchangeRateType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 特殊产品类型类型
 //
@@ -4162,10 +6540,24 @@ const (
 )
 
 // 币种名称类型
-type TThostFtdcCurrencyNameType Byte31
+type TThostFtdcCurrencyNameType [31]byte
+
+func (b TThostFtdcCurrencyNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCurrencyNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 币种符号类型
-type TThostFtdcCurrencySignType Byte4
+type TThostFtdcCurrencySignType [4]byte
+
+func (b TThostFtdcCurrencySignType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCurrencySignType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 货币质押方向类型
 //
@@ -4224,10 +6616,24 @@ const (
 )
 
 // 凭证号类型
-type TThostFtdcCurrExchCertNoType Byte13
+type TThostFtdcCurrExchCertNoType [13]byte
+
+func (b TThostFtdcCurrExchCertNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCurrExchCertNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 批次号类型
-type TThostFtdcBatchSerialNoType Byte21
+type TThostFtdcBatchSerialNoType [21]byte
+
+func (b TThostFtdcBatchSerialNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBatchSerialNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 换汇发送标志类型
 //
@@ -4253,13 +6659,27 @@ const (
 )
 
 // 换汇页面控制类型
-type TThostFtdcPageControlType Byte2
+type TThostFtdcPageControlType [2]byte
+
+func (b TThostFtdcPageControlType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPageControlType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 记录数类型
 type TThostFtdcRecordCountType int32
 
 // 换汇需确认信息类型
-type TThostFtdcCurrencySwapMemoType Byte101
+type TThostFtdcCurrencySwapMemoType [101]byte
+
+func (b TThostFtdcCurrencySwapMemoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCurrencySwapMemoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 修改状态类型
 //
@@ -4283,37 +6703,114 @@ const (
 )
 
 // 工作单位类型
-type TThostFtdcWorkPlaceType Byte101
+type TThostFtdcWorkPlaceType [101]byte
+
+func (b TThostFtdcWorkPlaceType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcWorkPlaceType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 经营期限类型
-type TThostFtdcBusinessPeriodType Byte21
+type TThostFtdcBusinessPeriodType [21]byte
+
+func (b TThostFtdcBusinessPeriodType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBusinessPeriodType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 网址类型
-type TThostFtdcWebSiteType Byte101
+type TThostFtdcWebSiteType [101]byte
+
+func (b TThostFtdcWebSiteType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcWebSiteType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 统一开户证件类型类型
-type TThostFtdcUOAIdCardTypeType Byte3
+type TThostFtdcUOAIdCardTypeType [3]byte
+
+func (b TThostFtdcUOAIdCardTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUOAIdCardTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 开户模式类型
-type TThostFtdcClientModeType Byte3
+type TThostFtdcClientModeType [3]byte
+
+func (b TThostFtdcClientModeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcClientModeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 投资者全称类型
-type TThostFtdcInvestorFullNameType Byte101
+type TThostFtdcInvestorFullNameType [101]byte
+
+func (b TThostFtdcInvestorFullNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInvestorFullNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 境外中介机构ID类型
-type TThostFtdcUOABrokerIDType Byte11
+type TThostFtdcUOABrokerIDType [11]byte
+
+func (b TThostFtdcUOABrokerIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUOABrokerIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 邮政编码类型
-type TThostFtdcUOAZipCodeType Byte11
+type TThostFtdcUOAZipCodeType [11]byte
+
+func (b TThostFtdcUOAZipCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUOAZipCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 电子邮箱类型
-type TThostFtdcUOAEMailType Byte101
+type TThostFtdcUOAEMailType [101]byte
+
+func (b TThostFtdcUOAEMailType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUOAEMailType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 城市类型
-type TThostFtdcOldCityType Byte41
+type TThostFtdcOldCityType [41]byte
+
+func (b TThostFtdcOldCityType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOldCityType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 法人代表证件号码类型
-type TThostFtdcCorporateIdentifiedCardNoType Byte101
+type TThostFtdcCorporateIdentifiedCardNoType [101]byte
+
+func (b TThostFtdcCorporateIdentifiedCardNoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCorporateIdentifiedCardNoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 是否有董事会类型
 //
@@ -4368,22 +6865,64 @@ const (
 )
 
 // 分户管理资产编码类型
-type TThostFtdcLedgerManageIDType Byte51
+type TThostFtdcLedgerManageIDType [51]byte
+
+func (b TThostFtdcLedgerManageIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcLedgerManageIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 投资品种类型
-type TThostFtdcInvestVarietyType Byte101
+type TThostFtdcInvestVarietyType [101]byte
+
+func (b TThostFtdcInvestVarietyType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInvestVarietyType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 账户类别类型
-type TThostFtdcBankAccountTypeType Byte2
+type TThostFtdcBankAccountTypeType [2]byte
+
+func (b TThostFtdcBankAccountTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBankAccountTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 开户银行类型
-type TThostFtdcLedgerManageBankType Byte101
+type TThostFtdcLedgerManageBankType [101]byte
+
+func (b TThostFtdcLedgerManageBankType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcLedgerManageBankType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 开户营业部类型
-type TThostFtdcCffexDepartmentNameType Byte101
+type TThostFtdcCffexDepartmentNameType [101]byte
+
+func (b TThostFtdcCffexDepartmentNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCffexDepartmentNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 营业部代码类型
-type TThostFtdcCffexDepartmentCodeType Byte9
+type TThostFtdcCffexDepartmentCodeType [9]byte
+
+func (b TThostFtdcCffexDepartmentCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCffexDepartmentCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 是否有托管人类型
 //
@@ -4396,16 +6935,44 @@ const (
 )
 
 // 说明类型
-type TThostFtdcCSRCMemo1Type Byte41
+type TThostFtdcCSRCMemo1Type [41]byte
+
+func (b TThostFtdcCSRCMemo1Type) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCMemo1Type) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 代理资产管理业务的期货公司全称类型
-type TThostFtdcAssetmgrCFullNameType Byte101
+type TThostFtdcAssetmgrCFullNameType [101]byte
+
+func (b TThostFtdcAssetmgrCFullNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAssetmgrCFullNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 资产管理业务批文号类型
-type TThostFtdcAssetmgrApprovalNOType Byte51
+type TThostFtdcAssetmgrApprovalNOType [51]byte
+
+func (b TThostFtdcAssetmgrApprovalNOType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAssetmgrApprovalNOType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 资产管理业务负责人姓名类型
-type TThostFtdcAssetmgrMgrNameType Byte401
+type TThostFtdcAssetmgrMgrNameType [401]byte
+
+func (b TThostFtdcAssetmgrMgrNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAssetmgrMgrNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 机构类型类型
 //
@@ -4422,7 +6989,14 @@ const (
 )
 
 // 机构类型类型
-type TThostFtdcCSRCAmTypeType Byte5
+type TThostFtdcCSRCAmTypeType [5]byte
+
+func (b TThostFtdcCSRCAmTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCAmTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 出入金类型类型
 //
@@ -4447,10 +7021,24 @@ const (
 )
 
 // 国籍类型
-type TThostFtdcCSRCNationalType Byte4
+type TThostFtdcCSRCNationalType [4]byte
+
+func (b TThostFtdcCSRCNationalType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCNationalType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 二级代理ID类型
-type TThostFtdcCSRCSecAgentIDType Byte11
+type TThostFtdcCSRCSecAgentIDType [11]byte
+
+func (b TThostFtdcCSRCSecAgentIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCSRCSecAgentIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 通知语言类型类型
 //
@@ -4463,7 +7051,14 @@ const (
 )
 
 // 投资账户类型
-type TThostFtdcAmAccountType Byte23
+type TThostFtdcAmAccountType [23]byte
+
+func (b TThostFtdcAmAccountType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAmAccountType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 资产管理客户类型类型
 //
@@ -4487,19 +7082,54 @@ const (
 )
 
 // 计量单位类型
-type TThostFtdcUOMType Byte11
+type TThostFtdcUOMType [11]byte
+
+func (b TThostFtdcUOMType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcUOMType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 上期所合约生命周期状态类型
-type TThostFtdcSHFEInstLifePhaseType Byte3
+type TThostFtdcSHFEInstLifePhaseType [3]byte
+
+func (b TThostFtdcSHFEInstLifePhaseType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSHFEInstLifePhaseType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 产品类型类型
-type TThostFtdcSHFEProductClassType Byte11
+type TThostFtdcSHFEProductClassType [11]byte
+
+func (b TThostFtdcSHFEProductClassType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSHFEProductClassType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 价格小数位类型
-type TThostFtdcPriceDecimalType Byte2
+type TThostFtdcPriceDecimalType [2]byte
+
+func (b TThostFtdcPriceDecimalType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcPriceDecimalType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 平值期权标志类型
-type TThostFtdcInTheMoneyFlagType Byte2
+type TThostFtdcInTheMoneyFlagType [2]byte
+
+func (b TThostFtdcInTheMoneyFlagType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInTheMoneyFlagType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 合约比较类型类型
 //
@@ -4523,7 +7153,11 @@ const (
 )
 
 // 资金类型
-type TThostFtdcBigMoneyType Double
+type TThostFtdcBigMoneyType float64
+
+func (d TThostFtdcBigMoneyType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 大额单边保证金算法类型
 //
@@ -4547,10 +7181,24 @@ const (
 )
 
 // 套利合约代码类型
-type TThostFtdcCombinInstrIDType Byte61
+type TThostFtdcCombinInstrIDType [61]byte
+
+func (b TThostFtdcCombinInstrIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCombinInstrIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 各腿结算价类型
-type TThostFtdcCombinSettlePriceType Byte61
+type TThostFtdcCombinSettlePriceType [61]byte
+
+func (b TThostFtdcCombinSettlePriceType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCombinSettlePriceType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 优先级类型
 type TThostFtdcDCEPriorityType int32
@@ -4651,7 +7299,14 @@ const (
 )
 
 // 换汇业务种类类型
-type TThostFtdcSwapBusinessTypeType Byte3
+type TThostFtdcSwapBusinessTypeType [3]byte
+
+func (b TThostFtdcSwapBusinessTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSwapBusinessTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 期权类型类型
 //
@@ -4702,7 +7357,14 @@ const (
 )
 
 // 执行宣告系统编号类型
-type TThostFtdcExecOrderSysIDType Byte21
+type TThostFtdcExecOrderSysIDType [21]byte
+
+func (b TThostFtdcExecOrderSysIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcExecOrderSysIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 执行结果类型
 //
@@ -4728,7 +7390,14 @@ const (
 type TThostFtdcStrikeSequenceType int32
 
 // 执行时间类型
-type TThostFtdcStrikeTimeType Byte13
+type TThostFtdcStrikeTimeType [13]byte
+
+func (b TThostFtdcStrikeTimeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcStrikeTimeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 组合类型类型
 //
@@ -4942,37 +7611,100 @@ const (
 )
 
 // 登录备注类型
-type TThostFtdcLoginRemarkType Byte36
+type TThostFtdcLoginRemarkType [36]byte
+
+func (b TThostFtdcLoginRemarkType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcLoginRemarkType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 投资单元代码类型
-type TThostFtdcInvestUnitIDType Byte17
+type TThostFtdcInvestUnitIDType [17]byte
+
+func (b TThostFtdcInvestUnitIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcInvestUnitIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 公告编号类型
 type TThostFtdcBulletinIDType int32
 
 // 公告类型类型
-type TThostFtdcNewsTypeType Byte3
+type TThostFtdcNewsTypeType [3]byte
+
+func (b TThostFtdcNewsTypeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcNewsTypeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 紧急程度类型
 type TThostFtdcNewsUrgencyType byte
 
 // 消息摘要类型
-type TThostFtdcAbstractType Byte81
+type TThostFtdcAbstractType [81]byte
+
+func (b TThostFtdcAbstractType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAbstractType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 消息来源类型
-type TThostFtdcComeFromType Byte21
+type TThostFtdcComeFromType [21]byte
+
+func (b TThostFtdcComeFromType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcComeFromType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // WEB地址类型
-type TThostFtdcURLLinkType Byte201
+type TThostFtdcURLLinkType [201]byte
+
+func (b TThostFtdcURLLinkType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcURLLinkType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 长个人姓名类型
-type TThostFtdcLongIndividualNameType Byte161
+type TThostFtdcLongIndividualNameType [161]byte
+
+func (b TThostFtdcLongIndividualNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcLongIndividualNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 长换汇银行账户名类型
-type TThostFtdcLongFBEBankAccountNameType Byte161
+type TThostFtdcLongFBEBankAccountNameType [161]byte
+
+func (b TThostFtdcLongFBEBankAccountNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcLongFBEBankAccountNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 日期时间类型
-type TThostFtdcDateTimeType Byte17
+type TThostFtdcDateTimeType [17]byte
+
+func (b TThostFtdcDateTimeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcDateTimeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 弱密码来源类型
 //
@@ -4985,10 +7717,24 @@ const (
 )
 
 // 随机串类型
-type TThostFtdcRandomStringType Byte17
+type TThostFtdcRandomStringType [17]byte
+
+func (b TThostFtdcRandomStringType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRandomStringType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 报单回显字段类型
-type TThostFtdcOrderMemoType Byte13
+type TThostFtdcOrderMemoType [13]byte
+
+func (b TThostFtdcOrderMemoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOrderMemoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 期权行权的头寸是否自对冲类型
 //
@@ -5025,7 +7771,14 @@ const (
 )
 
 // App代码类型
-type TThostFtdcAppIDType Byte33
+type TThostFtdcAppIDType [33]byte
+
+func (b TThostFtdcAppIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAppIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 系统信息长度类型
 type TThostFtdcSystemInfoLenType int32
@@ -5034,16 +7787,44 @@ type TThostFtdcSystemInfoLenType int32
 type TThostFtdcAdditionalInfoLenType int32
 
 // 交易终端系统信息类型
-type TThostFtdcClientSystemInfoType Byte273
+type TThostFtdcClientSystemInfoType [273]byte
+
+func (b TThostFtdcClientSystemInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcClientSystemInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 系统外部信息类型
-type TThostFtdcAdditionalInfoType Byte261
+type TThostFtdcAdditionalInfoType [261]byte
+
+func (b TThostFtdcAdditionalInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAdditionalInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // base64交易终端系统信息类型
-type TThostFtdcBase64ClientSystemInfoType Byte365
+type TThostFtdcBase64ClientSystemInfoType [365]byte
+
+func (b TThostFtdcBase64ClientSystemInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBase64ClientSystemInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // base64系统外部信息类型
-type TThostFtdcBase64AdditionalInfoType Byte349
+type TThostFtdcBase64AdditionalInfoType [349]byte
+
+func (b TThostFtdcBase64AdditionalInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcBase64AdditionalInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 当前可用的认证模式，0代表无需认证模式 A从低位开始最后一位代表图片验证码，倒数第二位代表动态口令，倒数第三位代表短信验证码类型
 type TThostFtdcCurrentAuthMethodType int32
@@ -5052,28 +7833,63 @@ type TThostFtdcCurrentAuthMethodType int32
 type TThostFtdcCaptchaInfoLenType int32
 
 // 图片验证信息类型
-type TThostFtdcCaptchaInfoType Byte2561
+type TThostFtdcCaptchaInfoType [2561]byte
+
+func (b TThostFtdcCaptchaInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCaptchaInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 用户短信验证码的编号类型
 type TThostFtdcUserTextSeqType int32
 
 // 握手数据内容类型
-type TThostFtdcHandshakeDataType Byte301
+type TThostFtdcHandshakeDataType [301]byte
+
+func (b TThostFtdcHandshakeDataType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcHandshakeDataType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 握手数据内容长度类型
 type TThostFtdcHandshakeDataLenType int32
 
 // api与front通信密钥版本号类型
-type TThostFtdcCryptoKeyVersionType Byte31
+type TThostFtdcCryptoKeyVersionType [31]byte
+
+func (b TThostFtdcCryptoKeyVersionType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCryptoKeyVersionType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 公钥版本号类型
 type TThostFtdcRsaKeyVersionType int32
 
 // 交易软件商ID类型
-type TThostFtdcSoftwareProviderIDType Byte22
+type TThostFtdcSoftwareProviderIDType [22]byte
+
+func (b TThostFtdcSoftwareProviderIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSoftwareProviderIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 信息采集时间类型
-type TThostFtdcCollectTimeType Byte21
+type TThostFtdcCollectTimeType [21]byte
+
+func (b TThostFtdcCollectTimeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcCollectTimeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 查询频率类型
 type TThostFtdcQueryFreqType int32
@@ -5109,16 +7925,38 @@ const (
 )
 
 // OTC交易员代码类型
-type TThostFtdcOTCTraderIDType Byte31
+type TThostFtdcOTCTraderIDType [31]byte
+
+func (b TThostFtdcOTCTraderIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcOTCTraderIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 期货风险值类型
-type TThostFtdcRiskValueType Double
+type TThostFtdcRiskValueType float64
+
+func (d TThostFtdcRiskValueType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 握手数据内容类型
-type TThostFtdcIDBNameType Byte100
+type TThostFtdcIDBNameType [100]byte
+
+func (b TThostFtdcIDBNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcIDBNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 折扣率类型
-type TThostFtdcDiscountRatioType Double
+type TThostFtdcDiscountRatioType float64
+
+func (d TThostFtdcDiscountRatioType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 用户终端认证方式类型
 //
@@ -5197,13 +8035,27 @@ const (
 )
 
 // 追平描述类型
-type TThostFtdcSyncDescriptionType Byte257
+type TThostFtdcSyncDescriptionType [257]byte
+
+func (b TThostFtdcSyncDescriptionType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSyncDescriptionType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 通用int类型类型
 type TThostFtdcCommonIntType int32
 
 // 系统版本类型
-type TThostFtdcSysVersionType Byte41
+type TThostFtdcSysVersionType [41]byte
+
+func (b TThostFtdcSysVersionType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSysVersionType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 开仓量限制粒度类型
 //
@@ -5250,7 +8102,11 @@ const (
 )
 
 // Delta类型类型
-type TThostFtdcDeltaType Double
+type TThostFtdcDeltaType float64
+
+func (d TThostFtdcDeltaType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 抵扣组优先级类型
 type TThostFtdcSpreadIdType int32
@@ -5279,7 +8135,14 @@ type TThostFtdcWithDrawParamIDType byte
 const THOST_FTDC_WDPID_CashIn TThostFtdcWithDrawParamIDType = 'C' // 权利金收支是否可提 1 代表可提 0 不可提
 
 // 可提控制参数内容类型
-type TThostFtdcWithDrawParamValueType Byte41
+type TThostFtdcWithDrawParamValueType [41]byte
+
+func (b TThostFtdcWithDrawParamValueType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcWithDrawParamValueType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 投资者交易权限类型
 //
@@ -5295,16 +8158,41 @@ const (
 type TThostFtdcThostFunctionCodeType int32
 
 // SPMM折扣率类型
-type TThostFtdcSPMMDiscountRatioType Double
+type TThostFtdcSPMMDiscountRatioType float64
+
+func (d TThostFtdcSPMMDiscountRatioType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // SPMM模板描述类型
-type TThostFtdcSPMMModelDescType Byte129
+type TThostFtdcSPMMModelDescType [129]byte
+
+func (b TThostFtdcSPMMModelDescType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSPMMModelDescType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // SPMM模板ID类型
-type TThostFtdcSPMMModelIDType Byte33
+type TThostFtdcSPMMModelIDType [33]byte
+
+func (b TThostFtdcSPMMModelIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSPMMModelIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // SPMM商品群商品组ID类型
-type TThostFtdcSPMMProductIDType Byte41
+type TThostFtdcSPMMProductIDType [41]byte
+
+func (b TThostFtdcSPMMProductIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSPMMProductIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // SPMM合约保证金算法类型
 //
@@ -5318,16 +8206,31 @@ const (
 )
 
 // 产品ID类型
-type TThostFtdcProductIDType Byte41
+type TThostFtdcProductIDType [41]byte
+
+func (b TThostFtdcProductIDType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcProductIDType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // HedgeRate类型类型
-type TThostFtdcHedgeRateType Double
+type TThostFtdcHedgeRateType float64
+
+func (d TThostFtdcHedgeRateType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 优先级类型
 type TThostFtdcRCAMSPriorityType int32
 
 // 空头期权风险调整标准类型类型
-type TThostFtdcAdjustValueType Double
+type TThostFtdcAdjustValueType float64
+
+func (d TThostFtdcAdjustValueType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // RCAMS组合类型类型
 //
@@ -5343,7 +8246,14 @@ const (
 )
 
 // 策略id类型
-type TThostFtdcRuleIdType Byte51
+type TThostFtdcRuleIdType [51]byte
+
+func (b TThostFtdcRuleIdType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcRuleIdType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 新组保算法启用类型类型
 //
@@ -5370,7 +8280,11 @@ const (
 type TThostFtdcCommodityGroupIDType int32
 
 // 标准持仓类型类型
-type TThostFtdcStdPositionType Double
+type TThostFtdcStdPositionType float64
+
+func (d TThostFtdcStdPositionType) String() string {
+	return strconv.FormatFloat(float64(d), 'f', 6, 64)
+}
 
 // 品种记录改变状态类型
 //
@@ -5418,13 +8332,34 @@ const (
 )
 
 // 地址备注类型
-type TThostFtdcAddrRemarkType Byte161
+type TThostFtdcAddrRemarkType [161]byte
+
+func (b TThostFtdcAddrRemarkType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAddrRemarkType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 地址名称类型
-type TThostFtdcAddrNameType Byte65
+type TThostFtdcAddrNameType [65]byte
+
+func (b TThostFtdcAddrNameType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcAddrNameType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 服务地址IP类型
-type TThostFtdcIpAddrType Byte129
+type TThostFtdcIpAddrType [129]byte
+
+func (b TThostFtdcIpAddrType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcIpAddrType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // TGATE会话查询状态类型
 //
@@ -5449,10 +8384,24 @@ const (
 )
 
 // 站点类型
-type TThostFtdcSiteType Byte51
+type TThostFtdcSiteType [51]byte
+
+func (b TThostFtdcSiteType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSiteType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 网络运营商类型
-type TThostFtdcNetOperatorType Byte9
+type TThostFtdcNetOperatorType [9]byte
+
+func (b TThostFtdcNetOperatorType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcNetOperatorType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 申请来源类型
 //
@@ -5465,7 +8414,14 @@ const (
 )
 
 // 预留信息类型
-type TThostFtdcReserveInfoType Byte65
+type TThostFtdcReserveInfoType [65]byte
+
+func (b TThostFtdcReserveInfoType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcReserveInfoType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 套利套保申请状态类型
 //
@@ -5498,10 +8454,31 @@ const (
 )
 
 // 短信验证码类型
-type TThostFtdcSMSCodeType Byte17
+type TThostFtdcSMSCodeType [17]byte
+
+func (b TThostFtdcSMSCodeType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSMSCodeType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 短信内容类型
-type TThostFtdcSMSContentType Byte129
+type TThostFtdcSMSContentType [129]byte
+
+func (b TThostFtdcSMSContentType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSMSContentType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
 
 // 手机号类型
-type TThostFtdcSMSPhoneType Byte17
+type TThostFtdcSMSPhoneType [17]byte
+
+func (b TThostFtdcSMSPhoneType) String() string {
+	return DecodeGBK(b[:])
+}
+func (b *TThostFtdcSMSPhoneType) SetString(v string) int {
+	return SetCString(([]byte)((*b)[:]), v)
+}
