@@ -11,7 +11,7 @@ import (
 )
 
 type testSpi struct {
-	thost.BaseLogSpi
+	thost.TraderLogSpi
 
 	api      *v6_7_13.ThostFtdcTraderApi
 	brokerId string
@@ -37,7 +37,7 @@ func (s *testSpi) OnRspAuthenticate(
 	pRspInfo *thost.CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
 ) {
-	s.BaseLogSpi.OnRspAuthenticate(
+	s.TraderLogSpi.OnRspAuthenticate(
 		pRspAuthenticateField, pRspInfo, nRequestID, bIsLast,
 	)
 
@@ -69,7 +69,7 @@ func TestCTPApi(t *testing.T) {
 	t.Log(ins.GetApiVersion())
 
 	ins.RegisterSpi(&testSpi{
-		BaseLogSpi: thost.BaseLogSpi{
+		TraderLogSpi: thost.TraderLogSpi{
 			Logger: slog.Default(),
 		},
 		api: ins,
