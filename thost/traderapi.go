@@ -12,6 +12,8 @@
 
 package thost
 
+import "github.com/frozenpine/ctp4go/thost/types"
+
 type TraderSpi interface {
 
 	/// 当客户端与交易后台建立起通信连接时（还未登录前），该方法被调用。
@@ -618,7 +620,7 @@ type TraderApi interface {
 	///         THOST_TERT_RESUME_FROM_SEQ_NO:从指定序号开始重传，序号从1开始
 	///@param nSeqNo 私有流序号，只在THOST_TERT_RESUME_FROM_SEQ_NO模式下有效，默认为1
 	///@remark 该方法要在Init方法前调用。若不调用则不会收到私有流的数据。
-	SubscribePrivateTopic(nResumeType THOST_TE_RESUME_TYPE, nSeqNo ...int)
+	SubscribePrivateTopic(nResumeType types.THOST_TE_RESUME_TYPE, nSeqNo ...int)
 
 	/// 订阅公共流。
 	///@param nResumeType 公共流重传方式
@@ -627,7 +629,7 @@ type TraderApi interface {
 	///         THOST_TERT_QUICK:只传送登录后公共流的内容
 	///         THOST_TERT_NONE:取消订阅公共流
 	///@remark 该方法要在Init方法前调用。若不调用则不会收到公共流的数据。
-	SubscribePublicTopic(nResumeType THOST_TE_RESUME_TYPE)
+	SubscribePublicTopic(nResumeType types.THOST_TE_RESUME_TYPE)
 
 	/// 客户端认证请求
 	ReqAuthenticate(pReqAuthenticateField *CThostFtdcReqAuthenticateField, nRequestID int) int

@@ -1,9 +1,17 @@
 #include "../td_api_helper.h"
 #include "../td_spi_helper.h"
 
+#ifdef _WIN32
+const static char *CREATOR_FN_NAME = "?CreateFtdcTraderApi@CThostFtdcTraderApi@@SAPEAV1@PEBD_N@Z";
+const static char *VERSION_FN_NAME = "?GetApiVersion@CThostFtdcTraderApi@@SAPEBDXZ";
+#else
+const static char *CREATOR_FN_NAME = "_ZN19CThostFtdcTraderApi19CreateFtdcTraderApiEPKcb";
+const static char *VERSION_FN_NAME = "_ZN19CThostFtdcTraderApi13GetApiVersionEv";
+#endif
+
 void DemoOnFrontConnected(void *this)
 {
-    fprintf(stdout, "%p front connected", this);
+    fprintf(stdout, "%p front connected\n", this);
 
     struct CThostFtdcReqAuthenticateField auth = {0};
     memcpy(auth.BrokerID, "5100", sizeof(TThostFtdcBrokerIDType) - 1);
@@ -22,16 +30,16 @@ void DemoOnRspAuthenticate(
     struct CThostFtdcRspInfoField *pRspInfo,
     int nRequestID, bool bIsLast)
 {
-    fprintf(stdout, "[%d] %s.%s authenticate: %s\n",
-            pRspInfo->ErrorID,
+    if (pRspInfo->ErrorID != 0)
+    {
+        fprintf(stderr, "[%d] %s\n", pRspInfo->ErrorID, pRspInfo->ErrorMsg);
+        return;
+    }
+
+    fprintf(stdout, "%s.%s authenticate: %s\n",
             pRspAuthenticateField->BrokerID,
             pRspAuthenticateField->UserID,
             pRspAuthenticateField->AppID);
-
-    if (pRspInfo->ErrorID != 0)
-    {
-        return;
-    }
 
     struct CThostFtdcReqUserLoginField login = {0};
     memcpy(login.BrokerID, "5100", sizeof(TThostFtdcBrokerIDType) - 1);
@@ -71,14 +79,14 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    CreateFtdcTraderApi creator = dlsym(handler, "_ZN19CThostFtdcTraderApi19CreateFtdcTraderApiEPKcb");
+    CreateFtdcTraderApi creator = dlsym(handler, CREATOR_FN_NAME);
     if (creator == NULL)
     {
         fprintf(stderr, "find creator failed: %s", dlerror());
         return -2;
     }
 
-    GetApiVersion apiGetter = dlsym(handler, "_ZN19CThostFtdcTraderApi13GetApiVersionEv");
+    GetApiVersion apiGetter = dlsym(handler, VERSION_FN_NAME);
     if (apiGetter != NULL)
     {
         const char *version = apiGetter();

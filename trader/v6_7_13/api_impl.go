@@ -15,24 +15,16 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"sync"
 	"unsafe"
 
 	"github.com/frozenpine/ctp4go/thost"
-)
-
-const (
-	CREATE_API_WIN   = "?CreateFtdcTraderApi@CThostFtdcTraderApi@@SAPEAV1@PEBD_N@Z"
-	CREATE_API_LINUX = "_ZN19CThostFtdcTraderApi19CreateFtdcTraderApiEPKcb"
-
-	API_VER_WIN   = "?GetApiVersion@CThostFtdcTraderApi@@SAPEBDXZ"
-	API_VER_LINUX = "_ZN19CThostFtdcTraderApi13GetApiVersionEv"
+	"github.com/frozenpine/ctp4go/thost/types"
 )
 
 func CreateThostFtdcTraderApi(
-	libPath, flowPath string, isTest bool,
+	libPath, flowPath string, isProduct bool,
 ) (*ThostFtdcTraderApi, error) {
 	if libPath == "" || flowPath == "" {
 		return nil, fmt.Errorf(
@@ -70,7 +62,7 @@ func CreateThostFtdcTraderApi(
 
 		return nil, fmt.Errorf(
 			"%w: %s", thost.ErrLibOpenFailed,
-			thost.DecodeGBK(([]byte)(C.GoString(msg))),
+			types.DecodeGBK(([]byte)(C.GoString(msg))),
 		)
 	}
 
@@ -80,24 +72,11 @@ func CreateThostFtdcTraderApi(
 	)
 
 	var (
-		createFnName  *C.char
-		versionFnName *C.char
+		createFnName  = C.CString(CREATE_FN_NAME)
+		versionFnName = C.CString(VERSION_FN_NAME)
 
 		apiVer string
 	)
-
-	switch runtime.GOOS {
-	case "linux":
-		createFnName = C.CString(CREATE_API_LINUX)
-		versionFnName = C.CString(API_VER_LINUX)
-	case "windows":
-		createFnName = C.CString(CREATE_API_WIN)
-		versionFnName = C.CString(API_VER_WIN)
-	default:
-		return nil, fmt.Errorf(
-			"%w: unsupported platform", thost.ErrLibSymbolNotFound,
-		)
-	}
 	defer func() {
 		C.free(unsafe.Pointer(createFnName))
 		C.free(unsafe.Pointer(versionFnName))
@@ -109,7 +88,7 @@ func CreateThostFtdcTraderApi(
 
 		return nil, fmt.Errorf(
 			"%w: %s", thost.ErrLibSymbolNotFound,
-			thost.DecodeGBK(([]byte)(C.GoString(msg))),
+			types.DecodeGBK(([]byte)(C.GoString(msg))),
 		)
 	}
 
@@ -118,7 +97,7 @@ func CreateThostFtdcTraderApi(
 
 		slog.Error(
 			"thost trader api version fn not found",
-			slog.String("error", thost.DecodeGBK(([]byte)(C.GoString(msg)))),
+			slog.String("error", types.DecodeGBK(([]byte)(C.GoString(msg)))),
 		)
 	} else {
 		apiVer = C.GoString(C.CallGetApiVersion(
@@ -131,12 +110,12 @@ func CreateThostFtdcTraderApi(
 	)
 
 	instance := C.CallCreateFtdcTraderApi(
-		C.CreateFtdcTraderApi(creator), flowCPath, C.bool(isTest),
+		C.CreateFtdcTraderApi(creator), flowCPath, C.bool(isProduct),
 	)
 	if instance == nil {
 		return nil, fmt.Errorf(
 			"%w: thost trader api[%s] test mode[%t] create failed",
-			thost.ErrApiCreateFailed, libPath, isTest,
+			thost.ErrApiCreateFailed, libPath, isProduct,
 		)
 	}
 
@@ -358,7 +337,7 @@ func (api *ThostFtdcTraderApi) RegisterSpi(pSpi thost.TraderSpi) {
 }
 
 func (api *ThostFtdcTraderApi) SubscribePrivateTopic(
-	nResumeType thost.THOST_TE_RESUME_TYPE, nSeqNo int,
+	nResumeType types.THOST_TE_RESUME_TYPE, nSeqNo int,
 ) {
 	slog.Log(
 		context.Background(), slog.LevelDebug-2,
@@ -377,7 +356,7 @@ func (api *ThostFtdcTraderApi) SubscribePrivateTopic(
 }
 
 func (api *ThostFtdcTraderApi) SubscribePublicTopic(
-	nResumeType thost.THOST_TE_RESUME_TYPE,
+	nResumeType types.THOST_TE_RESUME_TYPE,
 ) {
 	slog.Log(
 		context.Background(), slog.LevelDebug-2,

@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+
+	"github.com/frozenpine/ctp4go/thost/types"
 )
 
 type BaseLogSpi struct {
@@ -18,7 +20,9 @@ func (spi *BaseLogSpi) CheckRsp(rsp *CThostFtdcRspInfoField) error {
 	}
 
 	if rsp.ErrorID != 0 {
-		return fmt.Errorf("[%d] %s", rsp.ErrorID, DecodeGBK(rsp.ErrorMsg[:]))
+		return fmt.Errorf(
+			"[%d] %s", rsp.ErrorID, types.DecodeGBK(rsp.ErrorMsg[:]),
+		)
 	}
 
 	return nil

@@ -1,4 +1,4 @@
-package thost
+package types
 
 import "strconv"
 

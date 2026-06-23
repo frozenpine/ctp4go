@@ -1,17 +1,18 @@
-package thost
+package types
 
 import (
 	"strings"
 )
 
+//go:generate stringer -type THOST_TE_RESUME_TYPE -linecomment
 type THOST_TE_RESUME_TYPE int32
 
 const (
-	THOST_TERT_RESTART            THOST_TE_RESUME_TYPE = 0
-	THOST_TERT_RESUME             THOST_TE_RESUME_TYPE = 1
-	THOST_TERT_QUICK              THOST_TE_RESUME_TYPE = 2
-	THOST_TERT_NONE               THOST_TE_RESUME_TYPE = 3
-	THOST_TERT_RESUME_FROM_SEQ_NO THOST_TE_RESUME_TYPE = 4
+	THOST_TERT_RESTART            THOST_TE_RESUME_TYPE = 0 // 重传
+	THOST_TERT_RESUME             THOST_TE_RESUME_TYPE = 1 // 续传
+	THOST_TERT_QUICK              THOST_TE_RESUME_TYPE = 2 // 快速
+	THOST_TERT_NONE               THOST_TE_RESUME_TYPE = 3 // 不传输
+	THOST_TERT_RESUME_FROM_SEQ_NO THOST_TE_RESUME_TYPE = 4 // 序号重传
 )
 
 // 交易所交易员代码类型
@@ -90,20 +91,14 @@ type TThostFtdcSystemIDType Byte21
 type TThostFtdcClientLoginRemarkType Byte151
 
 // 交易所属性类型
+//
+//go:generate stringer -type TThostFtdcExchangePropertyType -linecomment
 type TThostFtdcExchangePropertyType byte
 
-const THOST_FTDC_EXP_Normal TThostFtdcExchangePropertyType = '0' // 正常
-
-const THOST_FTDC_EXP_GenOrderByTrade TThostFtdcExchangePropertyType = '1' // 根据成交生成报单
-
-var mpTThostFtdcExchangePropertyType = map[TThostFtdcExchangePropertyType]string{'0': "THOST_FTDC_EXP_Normal", '1': "THOST_FTDC_EXP_GenOrderByTrade"}
-
-func (e TThostFtdcExchangePropertyType) String() string {
-	if s, ok := mpTThostFtdcExchangePropertyType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_EXP_Normal          TThostFtdcExchangePropertyType = '0' // 正常
+	THOST_FTDC_EXP_GenOrderByTrade TThostFtdcExchangePropertyType = '1' // 根据成交生成报单
+)
 
 // 日期类型
 type TThostFtdcDateType Byte9
@@ -154,66 +149,37 @@ type TThostFtdcDepositSeqNoType Byte15
 type TThostFtdcIdentifiedCardNoType Byte51
 
 // 证件类型类型
+//
+//go:generate stringer -type TThostFtdcIdCardTypeType -linecomment
 type TThostFtdcIdCardTypeType byte
 
-const THOST_FTDC_ICT_EID TThostFtdcIdCardTypeType = '0' // 组织机构代码
-
-const THOST_FTDC_ICT_IDCard TThostFtdcIdCardTypeType = '1' // 中国公民身份证
-
-const THOST_FTDC_ICT_OfficerIDCard TThostFtdcIdCardTypeType = '2' // 军官证
-
-const THOST_FTDC_ICT_PoliceIDCard TThostFtdcIdCardTypeType = '3' // 警官证
-
-const THOST_FTDC_ICT_SoldierIDCard TThostFtdcIdCardTypeType = '4' // 士兵证
-
-const THOST_FTDC_ICT_HouseholdRegister TThostFtdcIdCardTypeType = '5' // 户口簿
-
-const THOST_FTDC_ICT_Passport TThostFtdcIdCardTypeType = '6' // 护照
-
-const THOST_FTDC_ICT_TaiwanCompatriotIDCard TThostFtdcIdCardTypeType = '7' // 台胞证
-
-const THOST_FTDC_ICT_HomeComingCard TThostFtdcIdCardTypeType = '8' // 回乡证
-
-const THOST_FTDC_ICT_LicenseNo TThostFtdcIdCardTypeType = '9' // 营业执照号
-
-const THOST_FTDC_ICT_TaxNo TThostFtdcIdCardTypeType = 'A' // 税务登记号/当地纳税ID
-
-const THOST_FTDC_ICT_HMMainlandTravelPermit TThostFtdcIdCardTypeType = 'B' // 港澳居民来往内地通行证
-
-const THOST_FTDC_ICT_TwMainlandTravelPermit TThostFtdcIdCardTypeType = 'C' // 台湾居民来往大陆通行证
-
-const THOST_FTDC_ICT_DrivingLicense TThostFtdcIdCardTypeType = 'D' // 驾照
-
-const THOST_FTDC_ICT_SocialID TThostFtdcIdCardTypeType = 'F' // 当地社保ID
-
-const THOST_FTDC_ICT_LocalID TThostFtdcIdCardTypeType = 'G' // 当地身份证
-
-const THOST_FTDC_ICT_BusinessRegistration TThostFtdcIdCardTypeType = 'H' // 商业登记证
-
-const THOST_FTDC_ICT_HKMCIDCard TThostFtdcIdCardTypeType = 'I' // 港澳永久性居民身份证
-
-const THOST_FTDC_ICT_AccountsPermits TThostFtdcIdCardTypeType = 'J' // 人行开户许可证
-
-const THOST_FTDC_ICT_FrgPrmtRdCard TThostFtdcIdCardTypeType = 'K' // 外国人永久居留证
-
-const THOST_FTDC_ICT_CptMngPrdLetter TThostFtdcIdCardTypeType = 'L' // 资管产品备案函
-
-const THOST_FTDC_ICT_HKMCTwResidencePermit TThostFtdcIdCardTypeType = 'M' // 港澳台居民居住证
-
-const THOST_FTDC_ICT_UniformSocialCreditCode TThostFtdcIdCardTypeType = 'N' // 统一社会信用代码
-
-const THOST_FTDC_ICT_CorporationCertNo TThostFtdcIdCardTypeType = 'O' // 机构成立证明文件
-
-const THOST_FTDC_ICT_OtherCard TThostFtdcIdCardTypeType = 'x' // 其他证件
-
-var mpTThostFtdcIdCardTypeType = map[TThostFtdcIdCardTypeType]string{'0': "THOST_FTDC_ICT_EID", '1': "THOST_FTDC_ICT_IDCard", '2': "THOST_FTDC_ICT_OfficerIDCard", '3': "THOST_FTDC_ICT_PoliceIDCard", '4': "THOST_FTDC_ICT_SoldierIDCard", '5': "THOST_FTDC_ICT_HouseholdRegister", '6': "THOST_FTDC_ICT_Passport", '7': "THOST_FTDC_ICT_TaiwanCompatriotIDCard", '8': "THOST_FTDC_ICT_HomeComingCard", '9': "THOST_FTDC_ICT_LicenseNo", 'A': "THOST_FTDC_ICT_TaxNo", 'B': "THOST_FTDC_ICT_HMMainlandTravelPermit", 'C': "THOST_FTDC_ICT_TwMainlandTravelPermit", 'D': "THOST_FTDC_ICT_DrivingLicense", 'F': "THOST_FTDC_ICT_SocialID", 'G': "THOST_FTDC_ICT_LocalID", 'H': "THOST_FTDC_ICT_BusinessRegistration", 'I': "THOST_FTDC_ICT_HKMCIDCard", 'J': "THOST_FTDC_ICT_AccountsPermits", 'K': "THOST_FTDC_ICT_FrgPrmtRdCard", 'L': "THOST_FTDC_ICT_CptMngPrdLetter", 'M': "THOST_FTDC_ICT_HKMCTwResidencePermit", 'N': "THOST_FTDC_ICT_UniformSocialCreditCode", 'O': "THOST_FTDC_ICT_CorporationCertNo", 'x': "THOST_FTDC_ICT_OtherCard"}
-
-func (e TThostFtdcIdCardTypeType) String() string {
-	if s, ok := mpTThostFtdcIdCardTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_ICT_EID                     TThostFtdcIdCardTypeType = '0' // 组织机构代码
+	THOST_FTDC_ICT_IDCard                  TThostFtdcIdCardTypeType = '1' // 中国公民身份证
+	THOST_FTDC_ICT_OfficerIDCard           TThostFtdcIdCardTypeType = '2' // 军官证
+	THOST_FTDC_ICT_PoliceIDCard            TThostFtdcIdCardTypeType = '3' // 警官证
+	THOST_FTDC_ICT_SoldierIDCard           TThostFtdcIdCardTypeType = '4' // 士兵证
+	THOST_FTDC_ICT_HouseholdRegister       TThostFtdcIdCardTypeType = '5' // 户口簿
+	THOST_FTDC_ICT_Passport                TThostFtdcIdCardTypeType = '6' // 护照
+	THOST_FTDC_ICT_TaiwanCompatriotIDCard  TThostFtdcIdCardTypeType = '7' // 台胞证
+	THOST_FTDC_ICT_HomeComingCard          TThostFtdcIdCardTypeType = '8' // 回乡证
+	THOST_FTDC_ICT_LicenseNo               TThostFtdcIdCardTypeType = '9' // 营业执照号
+	THOST_FTDC_ICT_TaxNo                   TThostFtdcIdCardTypeType = 'A' // 税务登记号/当地纳税ID
+	THOST_FTDC_ICT_HMMainlandTravelPermit  TThostFtdcIdCardTypeType = 'B' // 港澳居民来往内地通行证
+	THOST_FTDC_ICT_TwMainlandTravelPermit  TThostFtdcIdCardTypeType = 'C' // 台湾居民来往大陆通行证
+	THOST_FTDC_ICT_DrivingLicense          TThostFtdcIdCardTypeType = 'D' // 驾照
+	THOST_FTDC_ICT_SocialID                TThostFtdcIdCardTypeType = 'F' // 当地社保ID
+	THOST_FTDC_ICT_LocalID                 TThostFtdcIdCardTypeType = 'G' // 当地身份证
+	THOST_FTDC_ICT_BusinessRegistration    TThostFtdcIdCardTypeType = 'H' // 商业登记证
+	THOST_FTDC_ICT_HKMCIDCard              TThostFtdcIdCardTypeType = 'I' // 港澳永久性居民身份证
+	THOST_FTDC_ICT_AccountsPermits         TThostFtdcIdCardTypeType = 'J' // 人行开户许可证
+	THOST_FTDC_ICT_FrgPrmtRdCard           TThostFtdcIdCardTypeType = 'K' // 外国人永久居留证
+	THOST_FTDC_ICT_CptMngPrdLetter         TThostFtdcIdCardTypeType = 'L' // 资管产品备案函
+	THOST_FTDC_ICT_HKMCTwResidencePermit   TThostFtdcIdCardTypeType = 'M' // 港澳台居民居住证
+	THOST_FTDC_ICT_UniformSocialCreditCode TThostFtdcIdCardTypeType = 'N' // 统一社会信用代码
+	THOST_FTDC_ICT_CorporationCertNo       TThostFtdcIdCardTypeType = 'O' // 机构成立证明文件
+	THOST_FTDC_ICT_OtherCard               TThostFtdcIdCardTypeType = 'x' // 其他证件
+)
 
 // 本地报单编号类型
 type TThostFtdcOrderLocalIDType Byte13
@@ -240,1006 +206,585 @@ type TThostFtdcSystemNameType Byte41
 type TThostFtdcContentType Byte501
 
 // 投资者范围类型
+//
+//go:generate stringer -type TThostFtdcInvestorRangeType -linecomment
 type TThostFtdcInvestorRangeType byte
 
-const THOST_FTDC_IR_All TThostFtdcInvestorRangeType = '1' // 所有
-
-const THOST_FTDC_IR_Group TThostFtdcInvestorRangeType = '2' // 投资者组
-
-const THOST_FTDC_IR_Single TThostFtdcInvestorRangeType = '3' // 单一投资者
-
-var mpTThostFtdcInvestorRangeType = map[TThostFtdcInvestorRangeType]string{'1': "THOST_FTDC_IR_All", '2': "THOST_FTDC_IR_Group", '3': "THOST_FTDC_IR_Single"}
-
-func (e TThostFtdcInvestorRangeType) String() string {
-	if s, ok := mpTThostFtdcInvestorRangeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_IR_All    TThostFtdcInvestorRangeType = '1' // 所有
+	THOST_FTDC_IR_Group  TThostFtdcInvestorRangeType = '2' // 投资者组
+	THOST_FTDC_IR_Single TThostFtdcInvestorRangeType = '3' // 单一投资者
+)
 
 // 投资者范围类型
+//
+//go:generate stringer -type TThostFtdcDepartmentRangeType -linecomment
 type TThostFtdcDepartmentRangeType byte
 
-const THOST_FTDC_DR_All TThostFtdcDepartmentRangeType = '1' // 所有
-
-const THOST_FTDC_DR_Group TThostFtdcDepartmentRangeType = '2' // 组织架构
-
-const THOST_FTDC_DR_Single TThostFtdcDepartmentRangeType = '3' // 单一投资者
-
-var mpTThostFtdcDepartmentRangeType = map[TThostFtdcDepartmentRangeType]string{'1': "THOST_FTDC_DR_All", '2': "THOST_FTDC_DR_Group", '3': "THOST_FTDC_DR_Single"}
-
-func (e TThostFtdcDepartmentRangeType) String() string {
-	if s, ok := mpTThostFtdcDepartmentRangeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_DR_All    TThostFtdcDepartmentRangeType = '1' // 所有
+	THOST_FTDC_DR_Group  TThostFtdcDepartmentRangeType = '2' // 组织架构
+	THOST_FTDC_DR_Single TThostFtdcDepartmentRangeType = '3' // 单一投资者
+)
 
 // 数据同步状态类型
+//
+//go:generate stringer -type TThostFtdcDataSyncStatusType -linecomment
 type TThostFtdcDataSyncStatusType byte
 
-const THOST_FTDC_DS_Asynchronous TThostFtdcDataSyncStatusType = '1' // 未同步
-
-const THOST_FTDC_DS_Synchronizing TThostFtdcDataSyncStatusType = '2' // 同步中
-
-const THOST_FTDC_DS_Synchronized TThostFtdcDataSyncStatusType = '3' // 已同步
-
-var mpTThostFtdcDataSyncStatusType = map[TThostFtdcDataSyncStatusType]string{'1': "THOST_FTDC_DS_Asynchronous", '2': "THOST_FTDC_DS_Synchronizing", '3': "THOST_FTDC_DS_Synchronized"}
-
-func (e TThostFtdcDataSyncStatusType) String() string {
-	if s, ok := mpTThostFtdcDataSyncStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_DS_Asynchronous  TThostFtdcDataSyncStatusType = '1' // 未同步
+	THOST_FTDC_DS_Synchronizing TThostFtdcDataSyncStatusType = '2' // 同步中
+	THOST_FTDC_DS_Synchronized  TThostFtdcDataSyncStatusType = '3' // 已同步
+)
 
 // 经纪公司数据同步状态类型
+//
+//go:generate stringer -type TThostFtdcBrokerDataSyncStatusType -linecomment
 type TThostFtdcBrokerDataSyncStatusType byte
 
-const THOST_FTDC_BDS_Synchronized TThostFtdcBrokerDataSyncStatusType = '1' // 已同步
-
-const THOST_FTDC_BDS_Synchronizing TThostFtdcBrokerDataSyncStatusType = '2' // 同步中
-
-var mpTThostFtdcBrokerDataSyncStatusType = map[TThostFtdcBrokerDataSyncStatusType]string{'1': "THOST_FTDC_BDS_Synchronized", '2': "THOST_FTDC_BDS_Synchronizing"}
-
-func (e TThostFtdcBrokerDataSyncStatusType) String() string {
-	if s, ok := mpTThostFtdcBrokerDataSyncStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_BDS_Synchronized  TThostFtdcBrokerDataSyncStatusType = '1' // 已同步
+	THOST_FTDC_BDS_Synchronizing TThostFtdcBrokerDataSyncStatusType = '2' // 同步中
+)
 
 // 交易所连接状态类型
+//
+//go:generate stringer -type TThostFtdcExchangeConnectStatusType -linecomment
 type TThostFtdcExchangeConnectStatusType byte
 
-const THOST_FTDC_ECS_NoConnection TThostFtdcExchangeConnectStatusType = '1' // 没有任何连接
-
-const THOST_FTDC_ECS_QryInstrumentSent TThostFtdcExchangeConnectStatusType = '2' // 已经发出合约查询请求
-
-const THOST_FTDC_ECS_GotInformation TThostFtdcExchangeConnectStatusType = '9' // 已经获取信息
-
-var mpTThostFtdcExchangeConnectStatusType = map[TThostFtdcExchangeConnectStatusType]string{'1': "THOST_FTDC_ECS_NoConnection", '2': "THOST_FTDC_ECS_QryInstrumentSent", '9': "THOST_FTDC_ECS_GotInformation"}
-
-func (e TThostFtdcExchangeConnectStatusType) String() string {
-	if s, ok := mpTThostFtdcExchangeConnectStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_ECS_NoConnection      TThostFtdcExchangeConnectStatusType = '1' // 没有任何连接
+	THOST_FTDC_ECS_QryInstrumentSent TThostFtdcExchangeConnectStatusType = '2' // 已经发出合约查询请求
+	THOST_FTDC_ECS_GotInformation    TThostFtdcExchangeConnectStatusType = '9' // 已经获取信息
+)
 
 // 交易所交易员连接状态类型
+//
+//go:generate stringer -type TThostFtdcTraderConnectStatusType -linecomment
 type TThostFtdcTraderConnectStatusType byte
 
-const THOST_FTDC_TCS_NotConnected TThostFtdcTraderConnectStatusType = '1' // 没有任何连接
-
-const THOST_FTDC_TCS_Connected TThostFtdcTraderConnectStatusType = '2' // 已经连接
-
-const THOST_FTDC_TCS_QryInstrumentSent TThostFtdcTraderConnectStatusType = '3' // 已经发出合约查询请求
-
-const THOST_FTDC_TCS_SubPrivateFlow TThostFtdcTraderConnectStatusType = '4' // 订阅私有流
-
-var mpTThostFtdcTraderConnectStatusType = map[TThostFtdcTraderConnectStatusType]string{'1': "THOST_FTDC_TCS_NotConnected", '2': "THOST_FTDC_TCS_Connected", '3': "THOST_FTDC_TCS_QryInstrumentSent", '4': "THOST_FTDC_TCS_SubPrivateFlow"}
-
-func (e TThostFtdcTraderConnectStatusType) String() string {
-	if s, ok := mpTThostFtdcTraderConnectStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_TCS_NotConnected      TThostFtdcTraderConnectStatusType = '1' // 没有任何连接
+	THOST_FTDC_TCS_Connected         TThostFtdcTraderConnectStatusType = '2' // 已经连接
+	THOST_FTDC_TCS_QryInstrumentSent TThostFtdcTraderConnectStatusType = '3' // 已经发出合约查询请求
+	THOST_FTDC_TCS_SubPrivateFlow    TThostFtdcTraderConnectStatusType = '4' // 订阅私有流
+)
 
 // 功能代码类型
+//
+//go:generate stringer -type TThostFtdcFunctionCodeType -linecomment
 type TThostFtdcFunctionCodeType byte
 
-const THOST_FTDC_FC_DataAsync TThostFtdcFunctionCodeType = '1' // 数据异步化
-
-const THOST_FTDC_FC_ForceUserLogout TThostFtdcFunctionCodeType = '2' // 强制用户登出
-
-const THOST_FTDC_FC_UserPasswordUpdate TThostFtdcFunctionCodeType = '3' // 变更管理用户口令
-
-const THOST_FTDC_FC_BrokerPasswordUpdate TThostFtdcFunctionCodeType = '4' // 变更经纪公司口令
-
-const THOST_FTDC_FC_InvestorPasswordUpdate TThostFtdcFunctionCodeType = '5' // 变更投资者口令
-
-const THOST_FTDC_FC_OrderInsert TThostFtdcFunctionCodeType = '6' // 报单插入
-
-const THOST_FTDC_FC_OrderAction TThostFtdcFunctionCodeType = '7' // 报单操作
-
-const THOST_FTDC_FC_SyncSystemData TThostFtdcFunctionCodeType = '8' // 同步系统数据
-
-const THOST_FTDC_FC_SyncBrokerData TThostFtdcFunctionCodeType = '9' // 同步经纪公司数据
-
-const THOST_FTDC_FC_BachSyncBrokerData TThostFtdcFunctionCodeType = 'A' // 批量同步经纪公司数据
-
-const THOST_FTDC_FC_SuperQuery TThostFtdcFunctionCodeType = 'B' // 超级查询
-
-const THOST_FTDC_FC_ParkedOrderInsert TThostFtdcFunctionCodeType = 'C' // 预埋报单插入
-
-const THOST_FTDC_FC_ParkedOrderAction TThostFtdcFunctionCodeType = 'D' // 预埋报单操作
-
-const THOST_FTDC_FC_SyncOTP TThostFtdcFunctionCodeType = 'E' // 同步动态令牌
-
-const THOST_FTDC_FC_DeleteOrder TThostFtdcFunctionCodeType = 'F' // 删除未知单
-
-const THOST_FTDC_FC_ExitEmergency TThostFtdcFunctionCodeType = 'G' // 退出紧急状态
-
-var mpTThostFtdcFunctionCodeType = map[TThostFtdcFunctionCodeType]string{'1': "THOST_FTDC_FC_DataAsync", '2': "THOST_FTDC_FC_ForceUserLogout", '3': "THOST_FTDC_FC_UserPasswordUpdate", '4': "THOST_FTDC_FC_BrokerPasswordUpdate", '5': "THOST_FTDC_FC_InvestorPasswordUpdate", '6': "THOST_FTDC_FC_OrderInsert", '7': "THOST_FTDC_FC_OrderAction", '8': "THOST_FTDC_FC_SyncSystemData", '9': "THOST_FTDC_FC_SyncBrokerData", 'A': "THOST_FTDC_FC_BachSyncBrokerData", 'B': "THOST_FTDC_FC_SuperQuery", 'C': "THOST_FTDC_FC_ParkedOrderInsert", 'D': "THOST_FTDC_FC_ParkedOrderAction", 'E': "THOST_FTDC_FC_SyncOTP", 'F': "THOST_FTDC_FC_DeleteOrder", 'G': "THOST_FTDC_FC_ExitEmergency"}
-
-func (e TThostFtdcFunctionCodeType) String() string {
-	if s, ok := mpTThostFtdcFunctionCodeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FC_DataAsync              TThostFtdcFunctionCodeType = '1' // 数据异步化
+	THOST_FTDC_FC_ForceUserLogout        TThostFtdcFunctionCodeType = '2' // 强制用户登出
+	THOST_FTDC_FC_UserPasswordUpdate     TThostFtdcFunctionCodeType = '3' // 变更管理用户口令
+	THOST_FTDC_FC_BrokerPasswordUpdate   TThostFtdcFunctionCodeType = '4' // 变更经纪公司口令
+	THOST_FTDC_FC_InvestorPasswordUpdate TThostFtdcFunctionCodeType = '5' // 变更投资者口令
+	THOST_FTDC_FC_OrderInsert            TThostFtdcFunctionCodeType = '6' // 报单插入
+	THOST_FTDC_FC_OrderAction            TThostFtdcFunctionCodeType = '7' // 报单操作
+	THOST_FTDC_FC_SyncSystemData         TThostFtdcFunctionCodeType = '8' // 同步系统数据
+	THOST_FTDC_FC_SyncBrokerData         TThostFtdcFunctionCodeType = '9' // 同步经纪公司数据
+	THOST_FTDC_FC_BachSyncBrokerData     TThostFtdcFunctionCodeType = 'A' // 批量同步经纪公司数据
+	THOST_FTDC_FC_SuperQuery             TThostFtdcFunctionCodeType = 'B' // 超级查询
+	THOST_FTDC_FC_ParkedOrderInsert      TThostFtdcFunctionCodeType = 'C' // 预埋报单插入
+	THOST_FTDC_FC_ParkedOrderAction      TThostFtdcFunctionCodeType = 'D' // 预埋报单操作
+	THOST_FTDC_FC_SyncOTP                TThostFtdcFunctionCodeType = 'E' // 同步动态令牌
+	THOST_FTDC_FC_DeleteOrder            TThostFtdcFunctionCodeType = 'F' // 删除未知单
+	THOST_FTDC_FC_ExitEmergency          TThostFtdcFunctionCodeType = 'G' // 退出紧急状态
+)
 
 // 经纪公司功能代码类型
+//
+//go:generate stringer -type TThostFtdcBrokerFunctionCodeType -linecomment
 type TThostFtdcBrokerFunctionCodeType byte
 
-const THOST_FTDC_BFC_ForceUserLogout TThostFtdcBrokerFunctionCodeType = '1' // 强制用户登出
-
-const THOST_FTDC_BFC_UserPasswordUpdate TThostFtdcBrokerFunctionCodeType = '2' // 变更用户口令
-
-const THOST_FTDC_BFC_SyncBrokerData TThostFtdcBrokerFunctionCodeType = '3' // 同步经纪公司数据
-
-const THOST_FTDC_BFC_BachSyncBrokerData TThostFtdcBrokerFunctionCodeType = '4' // 批量同步经纪公司数据
-
-const THOST_FTDC_BFC_OrderInsert TThostFtdcBrokerFunctionCodeType = '5' // 报单插入
-
-const THOST_FTDC_BFC_OrderAction TThostFtdcBrokerFunctionCodeType = '6' // 报单操作
-
-const THOST_FTDC_BFC_AllQuery TThostFtdcBrokerFunctionCodeType = '7' // 全部查询
-
-const THOST_FTDC_BFC_log TThostFtdcBrokerFunctionCodeType = 'a' // 系统功能：登入/登出/修改密码等
-
-const THOST_FTDC_BFC_BaseQry TThostFtdcBrokerFunctionCodeType = 'b' // 基本查询：查询基础数据，如合约，交易所等常量
-
-const THOST_FTDC_BFC_TradeQry TThostFtdcBrokerFunctionCodeType = 'c' // 交易查询：如查成交，委托
-
-const THOST_FTDC_BFC_Trade TThostFtdcBrokerFunctionCodeType = 'd' // 交易功能：报单，撤单
-
-const THOST_FTDC_BFC_Virement TThostFtdcBrokerFunctionCodeType = 'e' // 银期转账
-
-const THOST_FTDC_BFC_Risk TThostFtdcBrokerFunctionCodeType = 'f' // 风险监控
-
-const THOST_FTDC_BFC_Session TThostFtdcBrokerFunctionCodeType = 'g' // 查询/管理：查询会话，踢人等
-
-const THOST_FTDC_BFC_RiskNoticeCtl TThostFtdcBrokerFunctionCodeType = 'h' // 风控通知控制
-
-const THOST_FTDC_BFC_RiskNotice TThostFtdcBrokerFunctionCodeType = 'i' // 风控通知发送
-
-const THOST_FTDC_BFC_BrokerDeposit TThostFtdcBrokerFunctionCodeType = 'j' // 察看经纪公司资金权限
-
-const THOST_FTDC_BFC_QueryFund TThostFtdcBrokerFunctionCodeType = 'k' // 资金查询
-
-const THOST_FTDC_BFC_QueryOrder TThostFtdcBrokerFunctionCodeType = 'l' // 报单查询
-
-const THOST_FTDC_BFC_QueryTrade TThostFtdcBrokerFunctionCodeType = 'm' // 成交查询
-
-const THOST_FTDC_BFC_QueryPosition TThostFtdcBrokerFunctionCodeType = 'n' // 持仓查询
-
-const THOST_FTDC_BFC_QueryMarketData TThostFtdcBrokerFunctionCodeType = 'o' // 行情查询
-
-const THOST_FTDC_BFC_QueryUserEvent TThostFtdcBrokerFunctionCodeType = 'p' // 用户事件查询
-
-const THOST_FTDC_BFC_QueryRiskNotify TThostFtdcBrokerFunctionCodeType = 'q' // 风险通知查询
-
-const THOST_FTDC_BFC_QueryFundChange TThostFtdcBrokerFunctionCodeType = 'r' // 出入金查询
-
-const THOST_FTDC_BFC_QueryInvestor TThostFtdcBrokerFunctionCodeType = 's' // 投资者信息查询
-
-const THOST_FTDC_BFC_QueryTradingCode TThostFtdcBrokerFunctionCodeType = 't' // 交易编码查询
-
-const THOST_FTDC_BFC_ForceClose TThostFtdcBrokerFunctionCodeType = 'u' // 强平
-
-const THOST_FTDC_BFC_PressTest TThostFtdcBrokerFunctionCodeType = 'v' // 压力测试
-
-const THOST_FTDC_BFC_RemainCalc TThostFtdcBrokerFunctionCodeType = 'w' // 权益反算
-
-const THOST_FTDC_BFC_NetPositionInd TThostFtdcBrokerFunctionCodeType = 'x' // 净持仓保证金指标
-
-const THOST_FTDC_BFC_RiskPredict TThostFtdcBrokerFunctionCodeType = 'y' // 风险预算
-
-const THOST_FTDC_BFC_DataExport TThostFtdcBrokerFunctionCodeType = 'z' // 数据导出
-
-const THOST_FTDC_BFC_RiskTargetSetup TThostFtdcBrokerFunctionCodeType = 'A' // 风控指标设置
-
-const THOST_FTDC_BFC_MarketDataWarn TThostFtdcBrokerFunctionCodeType = 'B' // 行情预警
-
-const THOST_FTDC_BFC_QryBizNotice TThostFtdcBrokerFunctionCodeType = 'C' // 业务通知查询
-
-const THOST_FTDC_BFC_CfgBizNotice TThostFtdcBrokerFunctionCodeType = 'D' // 业务通知模板设置
-
-const THOST_FTDC_BFC_SyncOTP TThostFtdcBrokerFunctionCodeType = 'E' // 同步动态令牌
-
-const THOST_FTDC_BFC_SendBizNotice TThostFtdcBrokerFunctionCodeType = 'F' // 发送业务通知
-
-const THOST_FTDC_BFC_CfgRiskLevelStd TThostFtdcBrokerFunctionCodeType = 'G' // 风险级别标准设置
-
-const THOST_FTDC_BFC_TbCommand TThostFtdcBrokerFunctionCodeType = 'H' // 交易终端应急功能
-
-const THOST_FTDC_BFC_DeleteOrder TThostFtdcBrokerFunctionCodeType = 'J' // 删除未知单
-
-const THOST_FTDC_BFC_ParkedOrderInsert TThostFtdcBrokerFunctionCodeType = 'K' // 预埋报单插入
-
-const THOST_FTDC_BFC_ParkedOrderAction TThostFtdcBrokerFunctionCodeType = 'L' // 预埋报单操作
-
-const THOST_FTDC_BFC_ExecOrderNoCheck TThostFtdcBrokerFunctionCodeType = 'M' // 资金不够仍允许行权
-
-const THOST_FTDC_BFC_Designate TThostFtdcBrokerFunctionCodeType = 'N' // 指定
-
-const THOST_FTDC_BFC_StockDisposal TThostFtdcBrokerFunctionCodeType = 'O' // 证券处置
-
-const THOST_FTDC_BFC_BrokerDepositWarn TThostFtdcBrokerFunctionCodeType = 'Q' // 席位资金预警
-
-const THOST_FTDC_BFC_CoverWarn TThostFtdcBrokerFunctionCodeType = 'S' // 备兑不足预警
-
-const THOST_FTDC_BFC_PreExecOrder TThostFtdcBrokerFunctionCodeType = 'T' // 行权试算
-
-const THOST_FTDC_BFC_ExecOrderRisk TThostFtdcBrokerFunctionCodeType = 'P' // 行权交收风险
-
-const THOST_FTDC_BFC_PosiLimitWarn TThostFtdcBrokerFunctionCodeType = 'U' // 持仓限额预警
-
-const THOST_FTDC_BFC_QryPosiLimit TThostFtdcBrokerFunctionCodeType = 'V' // 持仓限额查询
-
-const THOST_FTDC_BFC_FBSign TThostFtdcBrokerFunctionCodeType = 'W' // 银期签到签退
-
-const THOST_FTDC_BFC_FBAccount TThostFtdcBrokerFunctionCodeType = 'X' // 银期签约解约
-
-var mpTThostFtdcBrokerFunctionCodeType = map[TThostFtdcBrokerFunctionCodeType]string{'1': "THOST_FTDC_BFC_ForceUserLogout", '2': "THOST_FTDC_BFC_UserPasswordUpdate", '3': "THOST_FTDC_BFC_SyncBrokerData", '4': "THOST_FTDC_BFC_BachSyncBrokerData", '5': "THOST_FTDC_BFC_OrderInsert", '6': "THOST_FTDC_BFC_OrderAction", '7': "THOST_FTDC_BFC_AllQuery", 'a': "THOST_FTDC_BFC_log", 'b': "THOST_FTDC_BFC_BaseQry", 'c': "THOST_FTDC_BFC_TradeQry", 'd': "THOST_FTDC_BFC_Trade", 'e': "THOST_FTDC_BFC_Virement", 'f': "THOST_FTDC_BFC_Risk", 'g': "THOST_FTDC_BFC_Session", 'h': "THOST_FTDC_BFC_RiskNoticeCtl", 'i': "THOST_FTDC_BFC_RiskNotice", 'j': "THOST_FTDC_BFC_BrokerDeposit", 'k': "THOST_FTDC_BFC_QueryFund", 'l': "THOST_FTDC_BFC_QueryOrder", 'm': "THOST_FTDC_BFC_QueryTrade", 'n': "THOST_FTDC_BFC_QueryPosition", 'o': "THOST_FTDC_BFC_QueryMarketData", 'p': "THOST_FTDC_BFC_QueryUserEvent", 'q': "THOST_FTDC_BFC_QueryRiskNotify", 'r': "THOST_FTDC_BFC_QueryFundChange", 's': "THOST_FTDC_BFC_QueryInvestor", 't': "THOST_FTDC_BFC_QueryTradingCode", 'u': "THOST_FTDC_BFC_ForceClose", 'v': "THOST_FTDC_BFC_PressTest", 'w': "THOST_FTDC_BFC_RemainCalc", 'x': "THOST_FTDC_BFC_NetPositionInd", 'y': "THOST_FTDC_BFC_RiskPredict", 'z': "THOST_FTDC_BFC_DataExport", 'A': "THOST_FTDC_BFC_RiskTargetSetup", 'B': "THOST_FTDC_BFC_MarketDataWarn", 'C': "THOST_FTDC_BFC_QryBizNotice", 'D': "THOST_FTDC_BFC_CfgBizNotice", 'E': "THOST_FTDC_BFC_SyncOTP", 'F': "THOST_FTDC_BFC_SendBizNotice", 'G': "THOST_FTDC_BFC_CfgRiskLevelStd", 'H': "THOST_FTDC_BFC_TbCommand", 'J': "THOST_FTDC_BFC_DeleteOrder", 'K': "THOST_FTDC_BFC_ParkedOrderInsert", 'L': "THOST_FTDC_BFC_ParkedOrderAction", 'M': "THOST_FTDC_BFC_ExecOrderNoCheck", 'N': "THOST_FTDC_BFC_Designate", 'O': "THOST_FTDC_BFC_StockDisposal", 'Q': "THOST_FTDC_BFC_BrokerDepositWarn", 'S': "THOST_FTDC_BFC_CoverWarn", 'T': "THOST_FTDC_BFC_PreExecOrder", 'P': "THOST_FTDC_BFC_ExecOrderRisk", 'U': "THOST_FTDC_BFC_PosiLimitWarn", 'V': "THOST_FTDC_BFC_QryPosiLimit", 'W': "THOST_FTDC_BFC_FBSign", 'X': "THOST_FTDC_BFC_FBAccount"}
-
-func (e TThostFtdcBrokerFunctionCodeType) String() string {
-	if s, ok := mpTThostFtdcBrokerFunctionCodeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_BFC_ForceUserLogout    TThostFtdcBrokerFunctionCodeType = '1' // 强制用户登出
+	THOST_FTDC_BFC_UserPasswordUpdate TThostFtdcBrokerFunctionCodeType = '2' // 变更用户口令
+	THOST_FTDC_BFC_SyncBrokerData     TThostFtdcBrokerFunctionCodeType = '3' // 同步经纪公司数据
+	THOST_FTDC_BFC_BachSyncBrokerData TThostFtdcBrokerFunctionCodeType = '4' // 批量同步经纪公司数据
+	THOST_FTDC_BFC_OrderInsert        TThostFtdcBrokerFunctionCodeType = '5' // 报单插入
+	THOST_FTDC_BFC_OrderAction        TThostFtdcBrokerFunctionCodeType = '6' // 报单操作
+	THOST_FTDC_BFC_AllQuery           TThostFtdcBrokerFunctionCodeType = '7' // 全部查询
+	THOST_FTDC_BFC_log                TThostFtdcBrokerFunctionCodeType = 'a' // 系统功能：登入/登出/修改密码等
+	THOST_FTDC_BFC_BaseQry            TThostFtdcBrokerFunctionCodeType = 'b' // 基本查询：查询基础数据，如合约，交易所等常量
+	THOST_FTDC_BFC_TradeQry           TThostFtdcBrokerFunctionCodeType = 'c' // 交易查询：如查成交，委托
+	THOST_FTDC_BFC_Trade              TThostFtdcBrokerFunctionCodeType = 'd' // 交易功能：报单，撤单
+	THOST_FTDC_BFC_Virement           TThostFtdcBrokerFunctionCodeType = 'e' // 银期转账
+	THOST_FTDC_BFC_Risk               TThostFtdcBrokerFunctionCodeType = 'f' // 风险监控
+	THOST_FTDC_BFC_Session            TThostFtdcBrokerFunctionCodeType = 'g' // 查询/管理：查询会话，踢人等
+	THOST_FTDC_BFC_RiskNoticeCtl      TThostFtdcBrokerFunctionCodeType = 'h' // 风控通知控制
+	THOST_FTDC_BFC_RiskNotice         TThostFtdcBrokerFunctionCodeType = 'i' // 风控通知发送
+	THOST_FTDC_BFC_BrokerDeposit      TThostFtdcBrokerFunctionCodeType = 'j' // 察看经纪公司资金权限
+	THOST_FTDC_BFC_QueryFund          TThostFtdcBrokerFunctionCodeType = 'k' // 资金查询
+	THOST_FTDC_BFC_QueryOrder         TThostFtdcBrokerFunctionCodeType = 'l' // 报单查询
+	THOST_FTDC_BFC_QueryTrade         TThostFtdcBrokerFunctionCodeType = 'm' // 成交查询
+	THOST_FTDC_BFC_QueryPosition      TThostFtdcBrokerFunctionCodeType = 'n' // 持仓查询
+	THOST_FTDC_BFC_QueryMarketData    TThostFtdcBrokerFunctionCodeType = 'o' // 行情查询
+	THOST_FTDC_BFC_QueryUserEvent     TThostFtdcBrokerFunctionCodeType = 'p' // 用户事件查询
+	THOST_FTDC_BFC_QueryRiskNotify    TThostFtdcBrokerFunctionCodeType = 'q' // 风险通知查询
+	THOST_FTDC_BFC_QueryFundChange    TThostFtdcBrokerFunctionCodeType = 'r' // 出入金查询
+	THOST_FTDC_BFC_QueryInvestor      TThostFtdcBrokerFunctionCodeType = 's' // 投资者信息查询
+	THOST_FTDC_BFC_QueryTradingCode   TThostFtdcBrokerFunctionCodeType = 't' // 交易编码查询
+	THOST_FTDC_BFC_ForceClose         TThostFtdcBrokerFunctionCodeType = 'u' // 强平
+	THOST_FTDC_BFC_PressTest          TThostFtdcBrokerFunctionCodeType = 'v' // 压力测试
+	THOST_FTDC_BFC_RemainCalc         TThostFtdcBrokerFunctionCodeType = 'w' // 权益反算
+	THOST_FTDC_BFC_NetPositionInd     TThostFtdcBrokerFunctionCodeType = 'x' // 净持仓保证金指标
+	THOST_FTDC_BFC_RiskPredict        TThostFtdcBrokerFunctionCodeType = 'y' // 风险预算
+	THOST_FTDC_BFC_DataExport         TThostFtdcBrokerFunctionCodeType = 'z' // 数据导出
+	THOST_FTDC_BFC_RiskTargetSetup    TThostFtdcBrokerFunctionCodeType = 'A' // 风控指标设置
+	THOST_FTDC_BFC_MarketDataWarn     TThostFtdcBrokerFunctionCodeType = 'B' // 行情预警
+	THOST_FTDC_BFC_QryBizNotice       TThostFtdcBrokerFunctionCodeType = 'C' // 业务通知查询
+	THOST_FTDC_BFC_CfgBizNotice       TThostFtdcBrokerFunctionCodeType = 'D' // 业务通知模板设置
+	THOST_FTDC_BFC_SyncOTP            TThostFtdcBrokerFunctionCodeType = 'E' // 同步动态令牌
+	THOST_FTDC_BFC_SendBizNotice      TThostFtdcBrokerFunctionCodeType = 'F' // 发送业务通知
+	THOST_FTDC_BFC_CfgRiskLevelStd    TThostFtdcBrokerFunctionCodeType = 'G' // 风险级别标准设置
+	THOST_FTDC_BFC_TbCommand          TThostFtdcBrokerFunctionCodeType = 'H' // 交易终端应急功能
+	THOST_FTDC_BFC_DeleteOrder        TThostFtdcBrokerFunctionCodeType = 'J' // 删除未知单
+	THOST_FTDC_BFC_ParkedOrderInsert  TThostFtdcBrokerFunctionCodeType = 'K' // 预埋报单插入
+	THOST_FTDC_BFC_ParkedOrderAction  TThostFtdcBrokerFunctionCodeType = 'L' // 预埋报单操作
+	THOST_FTDC_BFC_ExecOrderNoCheck   TThostFtdcBrokerFunctionCodeType = 'M' // 资金不够仍允许行权
+	THOST_FTDC_BFC_Designate          TThostFtdcBrokerFunctionCodeType = 'N' // 指定
+	THOST_FTDC_BFC_StockDisposal      TThostFtdcBrokerFunctionCodeType = 'O' // 证券处置
+	THOST_FTDC_BFC_BrokerDepositWarn  TThostFtdcBrokerFunctionCodeType = 'Q' // 席位资金预警
+	THOST_FTDC_BFC_CoverWarn          TThostFtdcBrokerFunctionCodeType = 'S' // 备兑不足预警
+	THOST_FTDC_BFC_PreExecOrder       TThostFtdcBrokerFunctionCodeType = 'T' // 行权试算
+	THOST_FTDC_BFC_ExecOrderRisk      TThostFtdcBrokerFunctionCodeType = 'P' // 行权交收风险
+	THOST_FTDC_BFC_PosiLimitWarn      TThostFtdcBrokerFunctionCodeType = 'U' // 持仓限额预警
+	THOST_FTDC_BFC_QryPosiLimit       TThostFtdcBrokerFunctionCodeType = 'V' // 持仓限额查询
+	THOST_FTDC_BFC_FBSign             TThostFtdcBrokerFunctionCodeType = 'W' // 银期签到签退
+	THOST_FTDC_BFC_FBAccount          TThostFtdcBrokerFunctionCodeType = 'X' // 银期签约解约
+)
 
 // 报单操作状态类型
+//
+//go:generate stringer -type TThostFtdcOrderActionStatusType -linecomment
 type TThostFtdcOrderActionStatusType byte
 
-const THOST_FTDC_OAS_Submitted TThostFtdcOrderActionStatusType = 'a' // 已经提交
-
-const THOST_FTDC_OAS_Accepted TThostFtdcOrderActionStatusType = 'b' // 已经接受
-
-const THOST_FTDC_OAS_Rejected TThostFtdcOrderActionStatusType = 'c' // 已经被拒绝
-
-var mpTThostFtdcOrderActionStatusType = map[TThostFtdcOrderActionStatusType]string{'a': "THOST_FTDC_OAS_Submitted", 'b': "THOST_FTDC_OAS_Accepted", 'c': "THOST_FTDC_OAS_Rejected"}
-
-func (e TThostFtdcOrderActionStatusType) String() string {
-	if s, ok := mpTThostFtdcOrderActionStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_OAS_Submitted TThostFtdcOrderActionStatusType = 'a' // 已经提交
+	THOST_FTDC_OAS_Accepted  TThostFtdcOrderActionStatusType = 'b' // 已经接受
+	THOST_FTDC_OAS_Rejected  TThostFtdcOrderActionStatusType = 'c' // 已经被拒绝
+)
 
 // 报单状态类型
+//
+//go:generate stringer -type TThostFtdcOrderStatusType -linecomment
 type TThostFtdcOrderStatusType byte
 
-const THOST_FTDC_OST_AllTraded TThostFtdcOrderStatusType = '0' // 全部成交
-
-const THOST_FTDC_OST_PartTradedQueueing TThostFtdcOrderStatusType = '1' // 部分成交还在队列中
-
-const THOST_FTDC_OST_PartTradedNotQueueing TThostFtdcOrderStatusType = '2' // 部分成交不在队列中
-
-const THOST_FTDC_OST_NoTradeQueueing TThostFtdcOrderStatusType = '3' // 未成交还在队列中
-
-const THOST_FTDC_OST_NoTradeNotQueueing TThostFtdcOrderStatusType = '4' // 未成交不在队列中
-
-const THOST_FTDC_OST_Canceled TThostFtdcOrderStatusType = '5' // 撤单
-
-const THOST_FTDC_OST_Unknown TThostFtdcOrderStatusType = 'a' // 未知
-
-const THOST_FTDC_OST_NotTouched TThostFtdcOrderStatusType = 'b' // 尚未触发
-
-const THOST_FTDC_OST_Touched TThostFtdcOrderStatusType = 'c' // 已触发
-
-var mpTThostFtdcOrderStatusType = map[TThostFtdcOrderStatusType]string{'0': "THOST_FTDC_OST_AllTraded", '1': "THOST_FTDC_OST_PartTradedQueueing", '2': "THOST_FTDC_OST_PartTradedNotQueueing", '3': "THOST_FTDC_OST_NoTradeQueueing", '4': "THOST_FTDC_OST_NoTradeNotQueueing", '5': "THOST_FTDC_OST_Canceled", 'a': "THOST_FTDC_OST_Unknown", 'b': "THOST_FTDC_OST_NotTouched", 'c': "THOST_FTDC_OST_Touched"}
-
-func (e TThostFtdcOrderStatusType) String() string {
-	if s, ok := mpTThostFtdcOrderStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_OST_AllTraded             TThostFtdcOrderStatusType = '0' // 全部成交
+	THOST_FTDC_OST_PartTradedQueueing    TThostFtdcOrderStatusType = '1' // 部分成交还在队列中
+	THOST_FTDC_OST_PartTradedNotQueueing TThostFtdcOrderStatusType = '2' // 部分成交不在队列中
+	THOST_FTDC_OST_NoTradeQueueing       TThostFtdcOrderStatusType = '3' // 未成交还在队列中
+	THOST_FTDC_OST_NoTradeNotQueueing    TThostFtdcOrderStatusType = '4' // 未成交不在队列中
+	THOST_FTDC_OST_Canceled              TThostFtdcOrderStatusType = '5' // 撤单
+	THOST_FTDC_OST_Unknown               TThostFtdcOrderStatusType = 'a' // 未知
+	THOST_FTDC_OST_NotTouched            TThostFtdcOrderStatusType = 'b' // 尚未触发
+	THOST_FTDC_OST_Touched               TThostFtdcOrderStatusType = 'c' // 已触发
+)
 
 // 报单提交状态类型
+//
+//go:generate stringer -type TThostFtdcOrderSubmitStatusType -linecomment
 type TThostFtdcOrderSubmitStatusType byte
 
-const THOST_FTDC_OSS_InsertSubmitted TThostFtdcOrderSubmitStatusType = '0' // 已经提交
-
-const THOST_FTDC_OSS_CancelSubmitted TThostFtdcOrderSubmitStatusType = '1' // 撤单已经提交
-
-const THOST_FTDC_OSS_ModifySubmitted TThostFtdcOrderSubmitStatusType = '2' // 修改已经提交
-
-const THOST_FTDC_OSS_Accepted TThostFtdcOrderSubmitStatusType = '3' // 已经接受
-
-const THOST_FTDC_OSS_InsertRejected TThostFtdcOrderSubmitStatusType = '4' // 报单已经被拒绝
-
-const THOST_FTDC_OSS_CancelRejected TThostFtdcOrderSubmitStatusType = '5' // 撤单已经被拒绝
-
-const THOST_FTDC_OSS_ModifyRejected TThostFtdcOrderSubmitStatusType = '6' // 改单已经被拒绝
-
-var mpTThostFtdcOrderSubmitStatusType = map[TThostFtdcOrderSubmitStatusType]string{'0': "THOST_FTDC_OSS_InsertSubmitted", '1': "THOST_FTDC_OSS_CancelSubmitted", '2': "THOST_FTDC_OSS_ModifySubmitted", '3': "THOST_FTDC_OSS_Accepted", '4': "THOST_FTDC_OSS_InsertRejected", '5': "THOST_FTDC_OSS_CancelRejected", '6': "THOST_FTDC_OSS_ModifyRejected"}
-
-func (e TThostFtdcOrderSubmitStatusType) String() string {
-	if s, ok := mpTThostFtdcOrderSubmitStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_OSS_InsertSubmitted TThostFtdcOrderSubmitStatusType = '0' // 已经提交
+	THOST_FTDC_OSS_CancelSubmitted TThostFtdcOrderSubmitStatusType = '1' // 撤单已经提交
+	THOST_FTDC_OSS_ModifySubmitted TThostFtdcOrderSubmitStatusType = '2' // 修改已经提交
+	THOST_FTDC_OSS_Accepted        TThostFtdcOrderSubmitStatusType = '3' // 已经接受
+	THOST_FTDC_OSS_InsertRejected  TThostFtdcOrderSubmitStatusType = '4' // 报单已经被拒绝
+	THOST_FTDC_OSS_CancelRejected  TThostFtdcOrderSubmitStatusType = '5' // 撤单已经被拒绝
+	THOST_FTDC_OSS_ModifyRejected  TThostFtdcOrderSubmitStatusType = '6' // 改单已经被拒绝
+)
 
 // 持仓日期类型
+//
+//go:generate stringer -type TThostFtdcPositionDateType -linecomment
 type TThostFtdcPositionDateType byte
 
-const THOST_FTDC_PSD_Today TThostFtdcPositionDateType = '1' // 今日持仓
-
-const THOST_FTDC_PSD_History TThostFtdcPositionDateType = '2' // 历史持仓
-
-var mpTThostFtdcPositionDateType = map[TThostFtdcPositionDateType]string{'1': "THOST_FTDC_PSD_Today", '2': "THOST_FTDC_PSD_History"}
-
-func (e TThostFtdcPositionDateType) String() string {
-	if s, ok := mpTThostFtdcPositionDateType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_PSD_Today   TThostFtdcPositionDateType = '1' // 今日持仓
+	THOST_FTDC_PSD_History TThostFtdcPositionDateType = '2' // 历史持仓
+)
 
 // 持仓日期类型类型
+//
+//go:generate stringer -type TThostFtdcPositionDateTypeType -linecomment
 type TThostFtdcPositionDateTypeType byte
 
-const THOST_FTDC_PDT_UseHistory TThostFtdcPositionDateTypeType = '1' // 使用历史持仓
-
-const THOST_FTDC_PDT_NoUseHistory TThostFtdcPositionDateTypeType = '2' // 不使用历史持仓
-
-var mpTThostFtdcPositionDateTypeType = map[TThostFtdcPositionDateTypeType]string{'1': "THOST_FTDC_PDT_UseHistory", '2': "THOST_FTDC_PDT_NoUseHistory"}
-
-func (e TThostFtdcPositionDateTypeType) String() string {
-	if s, ok := mpTThostFtdcPositionDateTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_PDT_UseHistory   TThostFtdcPositionDateTypeType = '1' // 使用历史持仓
+	THOST_FTDC_PDT_NoUseHistory TThostFtdcPositionDateTypeType = '2' // 不使用历史持仓
+)
 
 // 交易角色类型
+//
+//go:generate stringer -type TThostFtdcTradingRoleType -linecomment
 type TThostFtdcTradingRoleType byte
 
-const THOST_FTDC_ER_Broker TThostFtdcTradingRoleType = '1' // 代理
-
-const THOST_FTDC_ER_Host TThostFtdcTradingRoleType = '2' // 自营
-
-const THOST_FTDC_ER_Maker TThostFtdcTradingRoleType = '3' // 做市商
-
-var mpTThostFtdcTradingRoleType = map[TThostFtdcTradingRoleType]string{'1': "THOST_FTDC_ER_Broker", '2': "THOST_FTDC_ER_Host", '3': "THOST_FTDC_ER_Maker"}
-
-func (e TThostFtdcTradingRoleType) String() string {
-	if s, ok := mpTThostFtdcTradingRoleType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_ER_Broker TThostFtdcTradingRoleType = '1' // 代理
+	THOST_FTDC_ER_Host   TThostFtdcTradingRoleType = '2' // 自营
+	THOST_FTDC_ER_Maker  TThostFtdcTradingRoleType = '3' // 做市商
+)
 
 // 产品类型类型
+//
+//go:generate stringer -type TThostFtdcProductClassType -linecomment
 type TThostFtdcProductClassType byte
 
-const THOST_FTDC_PC_Futures TThostFtdcProductClassType = '1' // 期货
-
-const THOST_FTDC_PC_Options TThostFtdcProductClassType = '2' // 期货期权
-
-const THOST_FTDC_PC_Combination TThostFtdcProductClassType = '3' // 组合
-
-const THOST_FTDC_PC_Spot TThostFtdcProductClassType = '4' // 即期
-
-const THOST_FTDC_PC_EFP TThostFtdcProductClassType = '5' // 期转现
-
-const THOST_FTDC_PC_SpotOption TThostFtdcProductClassType = '6' // 现货期权
-
-const THOST_FTDC_PC_TAS TThostFtdcProductClassType = '7' // TAS合约
-
-const THOST_FTDC_PC_MI TThostFtdcProductClassType = 'I' // 金属指数
-
-var mpTThostFtdcProductClassType = map[TThostFtdcProductClassType]string{'1': "THOST_FTDC_PC_Futures", '2': "THOST_FTDC_PC_Options", '3': "THOST_FTDC_PC_Combination", '4': "THOST_FTDC_PC_Spot", '5': "THOST_FTDC_PC_EFP", '6': "THOST_FTDC_PC_SpotOption", '7': "THOST_FTDC_PC_TAS", 'I': "THOST_FTDC_PC_MI"}
-
-func (e TThostFtdcProductClassType) String() string {
-	if s, ok := mpTThostFtdcProductClassType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_PC_Futures     TThostFtdcProductClassType = '1' // 期货
+	THOST_FTDC_PC_Options     TThostFtdcProductClassType = '2' // 期货期权
+	THOST_FTDC_PC_Combination TThostFtdcProductClassType = '3' // 组合
+	THOST_FTDC_PC_Spot        TThostFtdcProductClassType = '4' // 即期
+	THOST_FTDC_PC_EFP         TThostFtdcProductClassType = '5' // 期转现
+	THOST_FTDC_PC_SpotOption  TThostFtdcProductClassType = '6' // 现货期权
+	THOST_FTDC_PC_TAS         TThostFtdcProductClassType = '7' // TAS合约
+	THOST_FTDC_PC_MI          TThostFtdcProductClassType = 'I' // 金属指数
+)
 
 // 产品类型类型
+//
+//go:generate stringer -type TThostFtdcAPIProductClassType -linecomment
 type TThostFtdcAPIProductClassType byte
 
-const THOST_FTDC_APC_FutureSingle TThostFtdcAPIProductClassType = '1' // 期货单一合约
-
-const THOST_FTDC_APC_OptionSingle TThostFtdcAPIProductClassType = '2' // 期权单一合约
-
-const THOST_FTDC_APC_Futures TThostFtdcAPIProductClassType = '3' // 可交易期货(含期货组合和期货单一合约)
-
-const THOST_FTDC_APC_Options TThostFtdcAPIProductClassType = '4' // 可交易期权(含期权组合和期权单一合约)
-
-const THOST_FTDC_APC_TradingComb TThostFtdcAPIProductClassType = '5' // 可下单套利组合
-
-const THOST_FTDC_APC_UnTradingComb TThostFtdcAPIProductClassType = '6' // 可申请的组合（可以申请的组合合约 包含可以交易的合约）
-
-const THOST_FTDC_APC_AllTrading TThostFtdcAPIProductClassType = '7' // 所有可以交易合约
-
-const THOST_FTDC_APC_All TThostFtdcAPIProductClassType = '8' // 所有合约（包含不能交易合约 慎用）
-
-var mpTThostFtdcAPIProductClassType = map[TThostFtdcAPIProductClassType]string{'1': "THOST_FTDC_APC_FutureSingle", '2': "THOST_FTDC_APC_OptionSingle", '3': "THOST_FTDC_APC_Futures", '4': "THOST_FTDC_APC_Options", '5': "THOST_FTDC_APC_TradingComb", '6': "THOST_FTDC_APC_UnTradingComb", '7': "THOST_FTDC_APC_AllTrading", '8': "THOST_FTDC_APC_All"}
-
-func (e TThostFtdcAPIProductClassType) String() string {
-	if s, ok := mpTThostFtdcAPIProductClassType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_APC_FutureSingle  TThostFtdcAPIProductClassType = '1' // 期货单一合约
+	THOST_FTDC_APC_OptionSingle  TThostFtdcAPIProductClassType = '2' // 期权单一合约
+	THOST_FTDC_APC_Futures       TThostFtdcAPIProductClassType = '3' // 可交易期货(含期货组合和期货单一合约)
+	THOST_FTDC_APC_Options       TThostFtdcAPIProductClassType = '4' // 可交易期权(含期权组合和期权单一合约)
+	THOST_FTDC_APC_TradingComb   TThostFtdcAPIProductClassType = '5' // 可下单套利组合
+	THOST_FTDC_APC_UnTradingComb TThostFtdcAPIProductClassType = '6' // 可申请的组合（可以申请的组合合约 包含可以交易的合约）
+	THOST_FTDC_APC_AllTrading    TThostFtdcAPIProductClassType = '7' // 所有可以交易合约
+	THOST_FTDC_APC_All           TThostFtdcAPIProductClassType = '8' // 所有合约（包含不能交易合约 慎用）
+)
 
 // 合约生命周期状态类型
+//
+//go:generate stringer -type TThostFtdcInstLifePhaseType -linecomment
 type TThostFtdcInstLifePhaseType byte
 
-const THOST_FTDC_IP_NotStart TThostFtdcInstLifePhaseType = '0' // 未上市
-
-const THOST_FTDC_IP_Started TThostFtdcInstLifePhaseType = '1' // 上市
-
-const THOST_FTDC_IP_Pause TThostFtdcInstLifePhaseType = '2' // 停牌
-
-const THOST_FTDC_IP_Expired TThostFtdcInstLifePhaseType = '3' // 到期
-
-var mpTThostFtdcInstLifePhaseType = map[TThostFtdcInstLifePhaseType]string{'0': "THOST_FTDC_IP_NotStart", '1': "THOST_FTDC_IP_Started", '2': "THOST_FTDC_IP_Pause", '3': "THOST_FTDC_IP_Expired"}
-
-func (e TThostFtdcInstLifePhaseType) String() string {
-	if s, ok := mpTThostFtdcInstLifePhaseType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_IP_NotStart TThostFtdcInstLifePhaseType = '0' // 未上市
+	THOST_FTDC_IP_Started  TThostFtdcInstLifePhaseType = '1' // 上市
+	THOST_FTDC_IP_Pause    TThostFtdcInstLifePhaseType = '2' // 停牌
+	THOST_FTDC_IP_Expired  TThostFtdcInstLifePhaseType = '3' // 到期
+)
 
 // 买卖方向类型
+//
+//go:generate stringer -type TThostFtdcDirectionType -linecomment
 type TThostFtdcDirectionType byte
 
-const THOST_FTDC_D_Buy TThostFtdcDirectionType = '0' // 买
-
-const THOST_FTDC_D_Sell TThostFtdcDirectionType = '1' // 卖
-
-var mpTThostFtdcDirectionType = map[TThostFtdcDirectionType]string{'0': "THOST_FTDC_D_Buy", '1': "THOST_FTDC_D_Sell"}
-
-func (e TThostFtdcDirectionType) String() string {
-	if s, ok := mpTThostFtdcDirectionType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_D_Buy  TThostFtdcDirectionType = '0' // 买
+	THOST_FTDC_D_Sell TThostFtdcDirectionType = '1' // 卖
+)
 
 // 持仓类型类型
+//
+//go:generate stringer -type TThostFtdcPositionTypeType -linecomment
 type TThostFtdcPositionTypeType byte
 
-const THOST_FTDC_PT_Net TThostFtdcPositionTypeType = '1' // 净持仓
-
-const THOST_FTDC_PT_Gross TThostFtdcPositionTypeType = '2' // 综合持仓
-
-var mpTThostFtdcPositionTypeType = map[TThostFtdcPositionTypeType]string{'1': "THOST_FTDC_PT_Net", '2': "THOST_FTDC_PT_Gross"}
-
-func (e TThostFtdcPositionTypeType) String() string {
-	if s, ok := mpTThostFtdcPositionTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_PT_Net   TThostFtdcPositionTypeType = '1' // 净持仓
+	THOST_FTDC_PT_Gross TThostFtdcPositionTypeType = '2' // 综合持仓
+)
 
 // 持仓多空方向类型
+//
+//go:generate stringer -type TThostFtdcPosiDirectionType -linecomment
 type TThostFtdcPosiDirectionType byte
 
-const THOST_FTDC_PD_Net TThostFtdcPosiDirectionType = '1' // 净
-
-const THOST_FTDC_PD_Long TThostFtdcPosiDirectionType = '2' // 多头
-
-const THOST_FTDC_PD_Short TThostFtdcPosiDirectionType = '3' // 空头
-
-var mpTThostFtdcPosiDirectionType = map[TThostFtdcPosiDirectionType]string{'1': "THOST_FTDC_PD_Net", '2': "THOST_FTDC_PD_Long", '3': "THOST_FTDC_PD_Short"}
-
-func (e TThostFtdcPosiDirectionType) String() string {
-	if s, ok := mpTThostFtdcPosiDirectionType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_PD_Net   TThostFtdcPosiDirectionType = '1' // 净
+	THOST_FTDC_PD_Long  TThostFtdcPosiDirectionType = '2' // 多头
+	THOST_FTDC_PD_Short TThostFtdcPosiDirectionType = '3' // 空头
+)
 
 // 系统结算状态类型
+//
+//go:generate stringer -type TThostFtdcSysSettlementStatusType -linecomment
 type TThostFtdcSysSettlementStatusType byte
 
-const THOST_FTDC_SS_NonActive TThostFtdcSysSettlementStatusType = '1' // 不活跃
-
-const THOST_FTDC_SS_Startup TThostFtdcSysSettlementStatusType = '2' // 启动
-
-const THOST_FTDC_SS_Operating TThostFtdcSysSettlementStatusType = '3' // 操作
-
-const THOST_FTDC_SS_Settlement TThostFtdcSysSettlementStatusType = '4' // 结算
-
-const THOST_FTDC_SS_SettlementFinished TThostFtdcSysSettlementStatusType = '5' // 结算完成
-
-var mpTThostFtdcSysSettlementStatusType = map[TThostFtdcSysSettlementStatusType]string{'1': "THOST_FTDC_SS_NonActive", '2': "THOST_FTDC_SS_Startup", '3': "THOST_FTDC_SS_Operating", '4': "THOST_FTDC_SS_Settlement", '5': "THOST_FTDC_SS_SettlementFinished"}
-
-func (e TThostFtdcSysSettlementStatusType) String() string {
-	if s, ok := mpTThostFtdcSysSettlementStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_SS_NonActive          TThostFtdcSysSettlementStatusType = '1' // 不活跃
+	THOST_FTDC_SS_Startup            TThostFtdcSysSettlementStatusType = '2' // 启动
+	THOST_FTDC_SS_Operating          TThostFtdcSysSettlementStatusType = '3' // 操作
+	THOST_FTDC_SS_Settlement         TThostFtdcSysSettlementStatusType = '4' // 结算
+	THOST_FTDC_SS_SettlementFinished TThostFtdcSysSettlementStatusType = '5' // 结算完成
+)
 
 // 费率属性类型
+//
+//go:generate stringer -type TThostFtdcRatioAttrType -linecomment
 type TThostFtdcRatioAttrType byte
 
-const THOST_FTDC_RA_Trade TThostFtdcRatioAttrType = '0' // 交易费率
-
-const THOST_FTDC_RA_Settlement TThostFtdcRatioAttrType = '1' // 结算费率
-
-var mpTThostFtdcRatioAttrType = map[TThostFtdcRatioAttrType]string{'0': "THOST_FTDC_RA_Trade", '1': "THOST_FTDC_RA_Settlement"}
-
-func (e TThostFtdcRatioAttrType) String() string {
-	if s, ok := mpTThostFtdcRatioAttrType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_RA_Trade      TThostFtdcRatioAttrType = '0' // 交易费率
+	THOST_FTDC_RA_Settlement TThostFtdcRatioAttrType = '1' // 结算费率
+)
 
 // 投机套保标志类型
+//
+//go:generate stringer -type TThostFtdcHedgeFlagType -linecomment
 type TThostFtdcHedgeFlagType byte
 
-const THOST_FTDC_HF_Speculation TThostFtdcHedgeFlagType = '1' // 投机
-
-const THOST_FTDC_HF_Arbitrage TThostFtdcHedgeFlagType = '2' // 套利
-
-const THOST_FTDC_HF_Hedge TThostFtdcHedgeFlagType = '3' // 套保
-
-const THOST_FTDC_HF_MarketMaker TThostFtdcHedgeFlagType = '5' // 做市商
-
-const THOST_FTDC_HF_SpecHedge TThostFtdcHedgeFlagType = '6' // 第一腿投机第二腿套保
-
-const THOST_FTDC_HF_HedgeSpec TThostFtdcHedgeFlagType = '7' // 第一腿套保第二腿投机
-
-var mpTThostFtdcHedgeFlagType = map[TThostFtdcHedgeFlagType]string{'1': "THOST_FTDC_HF_Speculation", '2': "THOST_FTDC_HF_Arbitrage", '3': "THOST_FTDC_HF_Hedge", '5': "THOST_FTDC_HF_MarketMaker", '6': "THOST_FTDC_HF_SpecHedge", '7': "THOST_FTDC_HF_HedgeSpec"}
-
-func (e TThostFtdcHedgeFlagType) String() string {
-	if s, ok := mpTThostFtdcHedgeFlagType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_HF_Speculation TThostFtdcHedgeFlagType = '1' // 投机
+	THOST_FTDC_HF_Arbitrage   TThostFtdcHedgeFlagType = '2' // 套利
+	THOST_FTDC_HF_Hedge       TThostFtdcHedgeFlagType = '3' // 套保
+	THOST_FTDC_HF_MarketMaker TThostFtdcHedgeFlagType = '5' // 做市商
+	THOST_FTDC_HF_SpecHedge   TThostFtdcHedgeFlagType = '6' // 第一腿投机第二腿套保
+	THOST_FTDC_HF_HedgeSpec   TThostFtdcHedgeFlagType = '7' // 第一腿套保第二腿投机
+)
 
 // 投机套保标志类型
+//
+//go:generate stringer -type TThostFtdcBillHedgeFlagType -linecomment
 type TThostFtdcBillHedgeFlagType byte
 
-const THOST_FTDC_BHF_Speculation TThostFtdcBillHedgeFlagType = '1' // 投机
-
-const THOST_FTDC_BHF_Arbitrage TThostFtdcBillHedgeFlagType = '2' // 套利
-
-const THOST_FTDC_BHF_Hedge TThostFtdcBillHedgeFlagType = '3' // 套保
-
-var mpTThostFtdcBillHedgeFlagType = map[TThostFtdcBillHedgeFlagType]string{'1': "THOST_FTDC_BHF_Speculation", '2': "THOST_FTDC_BHF_Arbitrage", '3': "THOST_FTDC_BHF_Hedge"}
-
-func (e TThostFtdcBillHedgeFlagType) String() string {
-	if s, ok := mpTThostFtdcBillHedgeFlagType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_BHF_Speculation TThostFtdcBillHedgeFlagType = '1' // 投机
+	THOST_FTDC_BHF_Arbitrage   TThostFtdcBillHedgeFlagType = '2' // 套利
+	THOST_FTDC_BHF_Hedge       TThostFtdcBillHedgeFlagType = '3' // 套保
+)
 
 // 交易编码类型类型
+//
+//go:generate stringer -type TThostFtdcClientIDTypeType -linecomment
 type TThostFtdcClientIDTypeType byte
 
-const THOST_FTDC_CIDT_Speculation TThostFtdcClientIDTypeType = '1' // 投机
-
-const THOST_FTDC_CIDT_Arbitrage TThostFtdcClientIDTypeType = '2' // 套利
-
-const THOST_FTDC_CIDT_Hedge TThostFtdcClientIDTypeType = '3' // 套保
-
-const THOST_FTDC_CIDT_MarketMaker TThostFtdcClientIDTypeType = '5' // 做市商
-
-var mpTThostFtdcClientIDTypeType = map[TThostFtdcClientIDTypeType]string{'1': "THOST_FTDC_CIDT_Speculation", '2': "THOST_FTDC_CIDT_Arbitrage", '3': "THOST_FTDC_CIDT_Hedge", '5': "THOST_FTDC_CIDT_MarketMaker"}
-
-func (e TThostFtdcClientIDTypeType) String() string {
-	if s, ok := mpTThostFtdcClientIDTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_CIDT_Speculation TThostFtdcClientIDTypeType = '1' // 投机
+	THOST_FTDC_CIDT_Arbitrage   TThostFtdcClientIDTypeType = '2' // 套利
+	THOST_FTDC_CIDT_Hedge       TThostFtdcClientIDTypeType = '3' // 套保
+	THOST_FTDC_CIDT_MarketMaker TThostFtdcClientIDTypeType = '5' // 做市商
+)
 
 // 报单价格条件类型
+//
+//go:generate stringer -type TThostFtdcOrderPriceTypeType -linecomment
 type TThostFtdcOrderPriceTypeType byte
 
-const THOST_FTDC_OPT_AnyPrice TThostFtdcOrderPriceTypeType = '1' // 任意价
-
-const THOST_FTDC_OPT_LimitPrice TThostFtdcOrderPriceTypeType = '2' // 限价
-
-const THOST_FTDC_OPT_BestPrice TThostFtdcOrderPriceTypeType = '3' // 最优价
-
-const THOST_FTDC_OPT_LastPrice TThostFtdcOrderPriceTypeType = '4' // 最新价
-
-const THOST_FTDC_OPT_LastPricePlusOneTicks TThostFtdcOrderPriceTypeType = '5' // 最新价浮动上浮1个ticks
-
-const THOST_FTDC_OPT_LastPricePlusTwoTicks TThostFtdcOrderPriceTypeType = '6' // 最新价浮动上浮2个ticks
-
-const THOST_FTDC_OPT_LastPricePlusThreeTicks TThostFtdcOrderPriceTypeType = '7' // 最新价浮动上浮3个ticks
-
-const THOST_FTDC_OPT_AskPrice1 TThostFtdcOrderPriceTypeType = '8' // 卖一价
-
-const THOST_FTDC_OPT_AskPrice1PlusOneTicks TThostFtdcOrderPriceTypeType = '9' // 卖一价浮动上浮1个ticks
-
-const THOST_FTDC_OPT_AskPrice1PlusTwoTicks TThostFtdcOrderPriceTypeType = 'A' // 卖一价浮动上浮2个ticks
-
-const THOST_FTDC_OPT_AskPrice1PlusThreeTicks TThostFtdcOrderPriceTypeType = 'B' // 卖一价浮动上浮3个ticks
-
-const THOST_FTDC_OPT_BidPrice1 TThostFtdcOrderPriceTypeType = 'C' // 买一价
-
-const THOST_FTDC_OPT_BidPrice1PlusOneTicks TThostFtdcOrderPriceTypeType = 'D' // 买一价浮动上浮1个ticks
-
-const THOST_FTDC_OPT_BidPrice1PlusTwoTicks TThostFtdcOrderPriceTypeType = 'E' // 买一价浮动上浮2个ticks
-
-const THOST_FTDC_OPT_BidPrice1PlusThreeTicks TThostFtdcOrderPriceTypeType = 'F' // 买一价浮动上浮3个ticks
-
-const THOST_FTDC_OPT_FiveLevelPrice TThostFtdcOrderPriceTypeType = 'G' // 五档价
-
-var mpTThostFtdcOrderPriceTypeType = map[TThostFtdcOrderPriceTypeType]string{'1': "THOST_FTDC_OPT_AnyPrice", '2': "THOST_FTDC_OPT_LimitPrice", '3': "THOST_FTDC_OPT_BestPrice", '4': "THOST_FTDC_OPT_LastPrice", '5': "THOST_FTDC_OPT_LastPricePlusOneTicks", '6': "THOST_FTDC_OPT_LastPricePlusTwoTicks", '7': "THOST_FTDC_OPT_LastPricePlusThreeTicks", '8': "THOST_FTDC_OPT_AskPrice1", '9': "THOST_FTDC_OPT_AskPrice1PlusOneTicks", 'A': "THOST_FTDC_OPT_AskPrice1PlusTwoTicks", 'B': "THOST_FTDC_OPT_AskPrice1PlusThreeTicks", 'C': "THOST_FTDC_OPT_BidPrice1", 'D': "THOST_FTDC_OPT_BidPrice1PlusOneTicks", 'E': "THOST_FTDC_OPT_BidPrice1PlusTwoTicks", 'F': "THOST_FTDC_OPT_BidPrice1PlusThreeTicks", 'G': "THOST_FTDC_OPT_FiveLevelPrice"}
-
-func (e TThostFtdcOrderPriceTypeType) String() string {
-	if s, ok := mpTThostFtdcOrderPriceTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_OPT_AnyPrice                TThostFtdcOrderPriceTypeType = '1' // 任意价
+	THOST_FTDC_OPT_LimitPrice              TThostFtdcOrderPriceTypeType = '2' // 限价
+	THOST_FTDC_OPT_BestPrice               TThostFtdcOrderPriceTypeType = '3' // 最优价
+	THOST_FTDC_OPT_LastPrice               TThostFtdcOrderPriceTypeType = '4' // 最新价
+	THOST_FTDC_OPT_LastPricePlusOneTicks   TThostFtdcOrderPriceTypeType = '5' // 最新价浮动上浮1个ticks
+	THOST_FTDC_OPT_LastPricePlusTwoTicks   TThostFtdcOrderPriceTypeType = '6' // 最新价浮动上浮2个ticks
+	THOST_FTDC_OPT_LastPricePlusThreeTicks TThostFtdcOrderPriceTypeType = '7' // 最新价浮动上浮3个ticks
+	THOST_FTDC_OPT_AskPrice1               TThostFtdcOrderPriceTypeType = '8' // 卖一价
+	THOST_FTDC_OPT_AskPrice1PlusOneTicks   TThostFtdcOrderPriceTypeType = '9' // 卖一价浮动上浮1个ticks
+	THOST_FTDC_OPT_AskPrice1PlusTwoTicks   TThostFtdcOrderPriceTypeType = 'A' // 卖一价浮动上浮2个ticks
+	THOST_FTDC_OPT_AskPrice1PlusThreeTicks TThostFtdcOrderPriceTypeType = 'B' // 卖一价浮动上浮3个ticks
+	THOST_FTDC_OPT_BidPrice1               TThostFtdcOrderPriceTypeType = 'C' // 买一价
+	THOST_FTDC_OPT_BidPrice1PlusOneTicks   TThostFtdcOrderPriceTypeType = 'D' // 买一价浮动上浮1个ticks
+	THOST_FTDC_OPT_BidPrice1PlusTwoTicks   TThostFtdcOrderPriceTypeType = 'E' // 买一价浮动上浮2个ticks
+	THOST_FTDC_OPT_BidPrice1PlusThreeTicks TThostFtdcOrderPriceTypeType = 'F' // 买一价浮动上浮3个ticks
+	THOST_FTDC_OPT_FiveLevelPrice          TThostFtdcOrderPriceTypeType = 'G' // 五档价
+)
 
 // 开平标志类型
+//
+//go:generate stringer -type TThostFtdcOffsetFlagType -linecomment
 type TThostFtdcOffsetFlagType byte
 
-const THOST_FTDC_OF_Open TThostFtdcOffsetFlagType = '0' // 开仓
-
-const THOST_FTDC_OF_Close TThostFtdcOffsetFlagType = '1' // 平仓
-
-const THOST_FTDC_OF_ForceClose TThostFtdcOffsetFlagType = '2' // 强平
-
-const THOST_FTDC_OF_CloseToday TThostFtdcOffsetFlagType = '3' // 平今
-
-const THOST_FTDC_OF_CloseYesterday TThostFtdcOffsetFlagType = '4' // 平昨
-
-const THOST_FTDC_OF_ForceOff TThostFtdcOffsetFlagType = '5' // 强减
-
-const THOST_FTDC_OF_LocalForceClose TThostFtdcOffsetFlagType = '6' // 本地强平
-
-var mpTThostFtdcOffsetFlagType = map[TThostFtdcOffsetFlagType]string{'0': "THOST_FTDC_OF_Open", '1': "THOST_FTDC_OF_Close", '2': "THOST_FTDC_OF_ForceClose", '3': "THOST_FTDC_OF_CloseToday", '4': "THOST_FTDC_OF_CloseYesterday", '5': "THOST_FTDC_OF_ForceOff", '6': "THOST_FTDC_OF_LocalForceClose"}
-
-func (e TThostFtdcOffsetFlagType) String() string {
-	if s, ok := mpTThostFtdcOffsetFlagType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_OF_Open            TThostFtdcOffsetFlagType = '0' // 开仓
+	THOST_FTDC_OF_Close           TThostFtdcOffsetFlagType = '1' // 平仓
+	THOST_FTDC_OF_ForceClose      TThostFtdcOffsetFlagType = '2' // 强平
+	THOST_FTDC_OF_CloseToday      TThostFtdcOffsetFlagType = '3' // 平今
+	THOST_FTDC_OF_CloseYesterday  TThostFtdcOffsetFlagType = '4' // 平昨
+	THOST_FTDC_OF_ForceOff        TThostFtdcOffsetFlagType = '5' // 强减
+	THOST_FTDC_OF_LocalForceClose TThostFtdcOffsetFlagType = '6' // 本地强平
+)
 
 // 强平原因类型
+//
+//go:generate stringer -type TThostFtdcForceCloseReasonType -linecomment
 type TThostFtdcForceCloseReasonType byte
 
-const THOST_FTDC_FCC_NotForceClose TThostFtdcForceCloseReasonType = '0' // 非强平
-
-const THOST_FTDC_FCC_LackDeposit TThostFtdcForceCloseReasonType = '1' // 资金不足
-
-const THOST_FTDC_FCC_ClientOverPositionLimit TThostFtdcForceCloseReasonType = '2' // 客户超仓
-
-const THOST_FTDC_FCC_MemberOverPositionLimit TThostFtdcForceCloseReasonType = '3' // 会员超仓
-
-const THOST_FTDC_FCC_NotMultiple TThostFtdcForceCloseReasonType = '4' // 持仓非整数倍
-
-const THOST_FTDC_FCC_Violation TThostFtdcForceCloseReasonType = '5' // 违规
-
-const THOST_FTDC_FCC_Other TThostFtdcForceCloseReasonType = '6' // 其它
-
-const THOST_FTDC_FCC_PersonDeliv TThostFtdcForceCloseReasonType = '7' // 自然人临近交割
-
-const THOST_FTDC_FCC_Notverifycapital TThostFtdcForceCloseReasonType = '8' // 本地强平资金不足忽略敞口
-
-const THOST_FTDC_FCC_LocalLackDeposit TThostFtdcForceCloseReasonType = '9' // 本地强平资金不足
-
-const THOST_FTDC_FCC_LocalViolationNocheck TThostFtdcForceCloseReasonType = 'a' // 本地强平违规持仓忽略敞口
-
-const THOST_FTDC_FCC_LocalViolation TThostFtdcForceCloseReasonType = 'b' // 本地强平违规持仓
-
-var mpTThostFtdcForceCloseReasonType = map[TThostFtdcForceCloseReasonType]string{'0': "THOST_FTDC_FCC_NotForceClose", '1': "THOST_FTDC_FCC_LackDeposit", '2': "THOST_FTDC_FCC_ClientOverPositionLimit", '3': "THOST_FTDC_FCC_MemberOverPositionLimit", '4': "THOST_FTDC_FCC_NotMultiple", '5': "THOST_FTDC_FCC_Violation", '6': "THOST_FTDC_FCC_Other", '7': "THOST_FTDC_FCC_PersonDeliv", '8': "THOST_FTDC_FCC_Notverifycapital", '9': "THOST_FTDC_FCC_LocalLackDeposit", 'a': "THOST_FTDC_FCC_LocalViolationNocheck", 'b': "THOST_FTDC_FCC_LocalViolation"}
-
-func (e TThostFtdcForceCloseReasonType) String() string {
-	if s, ok := mpTThostFtdcForceCloseReasonType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FCC_NotForceClose           TThostFtdcForceCloseReasonType = '0' // 非强平
+	THOST_FTDC_FCC_LackDeposit             TThostFtdcForceCloseReasonType = '1' // 资金不足
+	THOST_FTDC_FCC_ClientOverPositionLimit TThostFtdcForceCloseReasonType = '2' // 客户超仓
+	THOST_FTDC_FCC_MemberOverPositionLimit TThostFtdcForceCloseReasonType = '3' // 会员超仓
+	THOST_FTDC_FCC_NotMultiple             TThostFtdcForceCloseReasonType = '4' // 持仓非整数倍
+	THOST_FTDC_FCC_Violation               TThostFtdcForceCloseReasonType = '5' // 违规
+	THOST_FTDC_FCC_Other                   TThostFtdcForceCloseReasonType = '6' // 其它
+	THOST_FTDC_FCC_PersonDeliv             TThostFtdcForceCloseReasonType = '7' // 自然人临近交割
+	THOST_FTDC_FCC_Notverifycapital        TThostFtdcForceCloseReasonType = '8' // 本地强平资金不足忽略敞口
+	THOST_FTDC_FCC_LocalLackDeposit        TThostFtdcForceCloseReasonType = '9' // 本地强平资金不足
+	THOST_FTDC_FCC_LocalViolationNocheck   TThostFtdcForceCloseReasonType = 'a' // 本地强平违规持仓忽略敞口
+	THOST_FTDC_FCC_LocalViolation          TThostFtdcForceCloseReasonType = 'b' // 本地强平违规持仓
+)
 
 // 报单类型类型
+//
+//go:generate stringer -type TThostFtdcOrderTypeType -linecomment
 type TThostFtdcOrderTypeType byte
 
-const THOST_FTDC_ORDT_Normal TThostFtdcOrderTypeType = '0' // 正常
-
-const THOST_FTDC_ORDT_DeriveFromQuote TThostFtdcOrderTypeType = '1' // 报价衍生
-
-const THOST_FTDC_ORDT_DeriveFromCombination TThostFtdcOrderTypeType = '2' // 组合衍生
-
-const THOST_FTDC_ORDT_Combination TThostFtdcOrderTypeType = '3' // 组合报单
-
-const THOST_FTDC_ORDT_ConditionalOrder TThostFtdcOrderTypeType = '4' // 条件单
-
-const THOST_FTDC_ORDT_Swap TThostFtdcOrderTypeType = '5' // 互换单
-
-const THOST_FTDC_ORDT_DeriveFromBlockTrade TThostFtdcOrderTypeType = '6' // 大宗交易成交衍生
-
-const THOST_FTDC_ORDT_DeriveFromEFPTrade TThostFtdcOrderTypeType = '7' // 期转现成交衍生
-
-var mpTThostFtdcOrderTypeType = map[TThostFtdcOrderTypeType]string{'0': "THOST_FTDC_ORDT_Normal", '1': "THOST_FTDC_ORDT_DeriveFromQuote", '2': "THOST_FTDC_ORDT_DeriveFromCombination", '3': "THOST_FTDC_ORDT_Combination", '4': "THOST_FTDC_ORDT_ConditionalOrder", '5': "THOST_FTDC_ORDT_Swap", '6': "THOST_FTDC_ORDT_DeriveFromBlockTrade", '7': "THOST_FTDC_ORDT_DeriveFromEFPTrade"}
-
-func (e TThostFtdcOrderTypeType) String() string {
-	if s, ok := mpTThostFtdcOrderTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_ORDT_Normal                TThostFtdcOrderTypeType = '0' // 正常
+	THOST_FTDC_ORDT_DeriveFromQuote       TThostFtdcOrderTypeType = '1' // 报价衍生
+	THOST_FTDC_ORDT_DeriveFromCombination TThostFtdcOrderTypeType = '2' // 组合衍生
+	THOST_FTDC_ORDT_Combination           TThostFtdcOrderTypeType = '3' // 组合报单
+	THOST_FTDC_ORDT_ConditionalOrder      TThostFtdcOrderTypeType = '4' // 条件单
+	THOST_FTDC_ORDT_Swap                  TThostFtdcOrderTypeType = '5' // 互换单
+	THOST_FTDC_ORDT_DeriveFromBlockTrade  TThostFtdcOrderTypeType = '6' // 大宗交易成交衍生
+	THOST_FTDC_ORDT_DeriveFromEFPTrade    TThostFtdcOrderTypeType = '7' // 期转现成交衍生
+)
 
 // 有效期类型类型
+//
+//go:generate stringer -type TThostFtdcTimeConditionType -linecomment
 type TThostFtdcTimeConditionType byte
 
-const THOST_FTDC_TC_IOC TThostFtdcTimeConditionType = '1' // 立即完成，否则撤销
-
-const THOST_FTDC_TC_GFS TThostFtdcTimeConditionType = '2' // 本节有效
-
-const THOST_FTDC_TC_GFD TThostFtdcTimeConditionType = '3' // 当日有效
-
-const THOST_FTDC_TC_GTD TThostFtdcTimeConditionType = '4' // 指定日期前有效
-
-const THOST_FTDC_TC_GTC TThostFtdcTimeConditionType = '5' // 撤销前有效
-
-const THOST_FTDC_TC_GFA TThostFtdcTimeConditionType = '6' // 集合竞价有效
-
-var mpTThostFtdcTimeConditionType = map[TThostFtdcTimeConditionType]string{'1': "THOST_FTDC_TC_IOC", '2': "THOST_FTDC_TC_GFS", '3': "THOST_FTDC_TC_GFD", '4': "THOST_FTDC_TC_GTD", '5': "THOST_FTDC_TC_GTC", '6': "THOST_FTDC_TC_GFA"}
-
-func (e TThostFtdcTimeConditionType) String() string {
-	if s, ok := mpTThostFtdcTimeConditionType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_TC_IOC TThostFtdcTimeConditionType = '1' // 立即完成，否则撤销
+	THOST_FTDC_TC_GFS TThostFtdcTimeConditionType = '2' // 本节有效
+	THOST_FTDC_TC_GFD TThostFtdcTimeConditionType = '3' // 当日有效
+	THOST_FTDC_TC_GTD TThostFtdcTimeConditionType = '4' // 指定日期前有效
+	THOST_FTDC_TC_GTC TThostFtdcTimeConditionType = '5' // 撤销前有效
+	THOST_FTDC_TC_GFA TThostFtdcTimeConditionType = '6' // 集合竞价有效
+)
 
 // 成交量类型类型
+//
+//go:generate stringer -type TThostFtdcVolumeConditionType -linecomment
 type TThostFtdcVolumeConditionType byte
 
-const THOST_FTDC_VC_AV TThostFtdcVolumeConditionType = '1' // 任何数量
-
-const THOST_FTDC_VC_MV TThostFtdcVolumeConditionType = '2' // 最小数量
-
-const THOST_FTDC_VC_CV TThostFtdcVolumeConditionType = '3' // 全部数量
-
-var mpTThostFtdcVolumeConditionType = map[TThostFtdcVolumeConditionType]string{'1': "THOST_FTDC_VC_AV", '2': "THOST_FTDC_VC_MV", '3': "THOST_FTDC_VC_CV"}
-
-func (e TThostFtdcVolumeConditionType) String() string {
-	if s, ok := mpTThostFtdcVolumeConditionType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_VC_AV TThostFtdcVolumeConditionType = '1' // 任何数量
+	THOST_FTDC_VC_MV TThostFtdcVolumeConditionType = '2' // 最小数量
+	THOST_FTDC_VC_CV TThostFtdcVolumeConditionType = '3' // 全部数量
+)
 
 // 触发条件类型
+//
+//go:generate stringer -type TThostFtdcContingentConditionType -linecomment
 type TThostFtdcContingentConditionType byte
 
-const THOST_FTDC_CC_Immediately TThostFtdcContingentConditionType = '1' // 立即
-
-const THOST_FTDC_CC_Touch TThostFtdcContingentConditionType = '2' // 止损
-
-const THOST_FTDC_CC_TouchProfit TThostFtdcContingentConditionType = '3' // 止赢
-
-const THOST_FTDC_CC_ParkedOrder TThostFtdcContingentConditionType = '4' // 预埋单
-
-const THOST_FTDC_CC_LastPriceGreaterThanStopPrice TThostFtdcContingentConditionType = '5' // 最新价大于条件价
-
-const THOST_FTDC_CC_LastPriceGreaterEqualStopPrice TThostFtdcContingentConditionType = '6' // 最新价大于等于条件价
-
-const THOST_FTDC_CC_LastPriceLesserThanStopPrice TThostFtdcContingentConditionType = '7' // 最新价小于条件价
-
-const THOST_FTDC_CC_LastPriceLesserEqualStopPrice TThostFtdcContingentConditionType = '8' // 最新价小于等于条件价
-
-const THOST_FTDC_CC_AskPriceGreaterThanStopPrice TThostFtdcContingentConditionType = '9' // 卖一价大于条件价
-
-const THOST_FTDC_CC_AskPriceGreaterEqualStopPrice TThostFtdcContingentConditionType = 'A' // 卖一价大于等于条件价
-
-const THOST_FTDC_CC_AskPriceLesserThanStopPrice TThostFtdcContingentConditionType = 'B' // 卖一价小于条件价
-
-const THOST_FTDC_CC_AskPriceLesserEqualStopPrice TThostFtdcContingentConditionType = 'C' // 卖一价小于等于条件价
-
-const THOST_FTDC_CC_BidPriceGreaterThanStopPrice TThostFtdcContingentConditionType = 'D' // 买一价大于条件价
-
-const THOST_FTDC_CC_BidPriceGreaterEqualStopPrice TThostFtdcContingentConditionType = 'E' // 买一价大于等于条件价
-
-const THOST_FTDC_CC_BidPriceLesserThanStopPrice TThostFtdcContingentConditionType = 'F' // 买一价小于条件价
-
-const THOST_FTDC_CC_BidPriceLesserEqualStopPrice TThostFtdcContingentConditionType = 'H' // 买一价小于等于条件价
-
-var mpTThostFtdcContingentConditionType = map[TThostFtdcContingentConditionType]string{'1': "THOST_FTDC_CC_Immediately", '2': "THOST_FTDC_CC_Touch", '3': "THOST_FTDC_CC_TouchProfit", '4': "THOST_FTDC_CC_ParkedOrder", '5': "THOST_FTDC_CC_LastPriceGreaterThanStopPrice", '6': "THOST_FTDC_CC_LastPriceGreaterEqualStopPrice", '7': "THOST_FTDC_CC_LastPriceLesserThanStopPrice", '8': "THOST_FTDC_CC_LastPriceLesserEqualStopPrice", '9': "THOST_FTDC_CC_AskPriceGreaterThanStopPrice", 'A': "THOST_FTDC_CC_AskPriceGreaterEqualStopPrice", 'B': "THOST_FTDC_CC_AskPriceLesserThanStopPrice", 'C': "THOST_FTDC_CC_AskPriceLesserEqualStopPrice", 'D': "THOST_FTDC_CC_BidPriceGreaterThanStopPrice", 'E': "THOST_FTDC_CC_BidPriceGreaterEqualStopPrice", 'F': "THOST_FTDC_CC_BidPriceLesserThanStopPrice", 'H': "THOST_FTDC_CC_BidPriceLesserEqualStopPrice"}
-
-func (e TThostFtdcContingentConditionType) String() string {
-	if s, ok := mpTThostFtdcContingentConditionType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_CC_Immediately                    TThostFtdcContingentConditionType = '1' // 立即
+	THOST_FTDC_CC_Touch                          TThostFtdcContingentConditionType = '2' // 止损
+	THOST_FTDC_CC_TouchProfit                    TThostFtdcContingentConditionType = '3' // 止赢
+	THOST_FTDC_CC_ParkedOrder                    TThostFtdcContingentConditionType = '4' // 预埋单
+	THOST_FTDC_CC_LastPriceGreaterThanStopPrice  TThostFtdcContingentConditionType = '5' // 最新价大于条件价
+	THOST_FTDC_CC_LastPriceGreaterEqualStopPrice TThostFtdcContingentConditionType = '6' // 最新价大于等于条件价
+	THOST_FTDC_CC_LastPriceLesserThanStopPrice   TThostFtdcContingentConditionType = '7' // 最新价小于条件价
+	THOST_FTDC_CC_LastPriceLesserEqualStopPrice  TThostFtdcContingentConditionType = '8' // 最新价小于等于条件价
+	THOST_FTDC_CC_AskPriceGreaterThanStopPrice   TThostFtdcContingentConditionType = '9' // 卖一价大于条件价
+	THOST_FTDC_CC_AskPriceGreaterEqualStopPrice  TThostFtdcContingentConditionType = 'A' // 卖一价大于等于条件价
+	THOST_FTDC_CC_AskPriceLesserThanStopPrice    TThostFtdcContingentConditionType = 'B' // 卖一价小于条件价
+	THOST_FTDC_CC_AskPriceLesserEqualStopPrice   TThostFtdcContingentConditionType = 'C' // 卖一价小于等于条件价
+	THOST_FTDC_CC_BidPriceGreaterThanStopPrice   TThostFtdcContingentConditionType = 'D' // 买一价大于条件价
+	THOST_FTDC_CC_BidPriceGreaterEqualStopPrice  TThostFtdcContingentConditionType = 'E' // 买一价大于等于条件价
+	THOST_FTDC_CC_BidPriceLesserThanStopPrice    TThostFtdcContingentConditionType = 'F' // 买一价小于条件价
+	THOST_FTDC_CC_BidPriceLesserEqualStopPrice   TThostFtdcContingentConditionType = 'H' // 买一价小于等于条件价
+)
 
 // 操作标志类型
+//
+//go:generate stringer -type TThostFtdcActionFlagType -linecomment
 type TThostFtdcActionFlagType byte
 
-const THOST_FTDC_AF_Delete TThostFtdcActionFlagType = '0' // 删除
-
-const THOST_FTDC_AF_Modify TThostFtdcActionFlagType = '3' // 修改
-
-var mpTThostFtdcActionFlagType = map[TThostFtdcActionFlagType]string{'0': "THOST_FTDC_AF_Delete", '3': "THOST_FTDC_AF_Modify"}
-
-func (e TThostFtdcActionFlagType) String() string {
-	if s, ok := mpTThostFtdcActionFlagType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_AF_Delete TThostFtdcActionFlagType = '0' // 删除
+	THOST_FTDC_AF_Modify TThostFtdcActionFlagType = '3' // 修改
+)
 
 // 交易权限类型
+//
+//go:generate stringer -type TThostFtdcTradingRightType -linecomment
 type TThostFtdcTradingRightType byte
 
-const THOST_FTDC_TR_Allow TThostFtdcTradingRightType = '0' // 可以交易
-
-const THOST_FTDC_TR_CloseOnly TThostFtdcTradingRightType = '1' // 只能平仓
-
-const THOST_FTDC_TR_Forbidden TThostFtdcTradingRightType = '2' // 不能交易
-
-var mpTThostFtdcTradingRightType = map[TThostFtdcTradingRightType]string{'0': "THOST_FTDC_TR_Allow", '1': "THOST_FTDC_TR_CloseOnly", '2': "THOST_FTDC_TR_Forbidden"}
-
-func (e TThostFtdcTradingRightType) String() string {
-	if s, ok := mpTThostFtdcTradingRightType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_TR_Allow     TThostFtdcTradingRightType = '0' // 可以交易
+	THOST_FTDC_TR_CloseOnly TThostFtdcTradingRightType = '1' // 只能平仓
+	THOST_FTDC_TR_Forbidden TThostFtdcTradingRightType = '2' // 不能交易
+)
 
 // 报单来源类型
+//
+//go:generate stringer -type TThostFtdcOrderSourceType -linecomment
 type TThostFtdcOrderSourceType byte
 
-const THOST_FTDC_OSRC_Participant TThostFtdcOrderSourceType = '0' // 来自参与者
-
-const THOST_FTDC_OSRC_Administrator TThostFtdcOrderSourceType = '1' // 来自管理员
-
-var mpTThostFtdcOrderSourceType = map[TThostFtdcOrderSourceType]string{'0': "THOST_FTDC_OSRC_Participant", '1': "THOST_FTDC_OSRC_Administrator"}
-
-func (e TThostFtdcOrderSourceType) String() string {
-	if s, ok := mpTThostFtdcOrderSourceType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_OSRC_Participant   TThostFtdcOrderSourceType = '0' // 来自参与者
+	THOST_FTDC_OSRC_Administrator TThostFtdcOrderSourceType = '1' // 来自管理员
+)
 
 // 成交类型类型
+//
+//go:generate stringer -type TThostFtdcTradeTypeType -linecomment
 type TThostFtdcTradeTypeType byte
 
-const THOST_FTDC_TRDT_SplitCombination TThostFtdcTradeTypeType = '#' // 组合持仓拆分为单一持仓,初始化不应包含该类型的持仓
-
-const THOST_FTDC_TRDT_Common TThostFtdcTradeTypeType = '0' // 普通成交
-
-const THOST_FTDC_TRDT_OptionsExecution TThostFtdcTradeTypeType = '1' // 期权执行
-
-const THOST_FTDC_TRDT_OTC TThostFtdcTradeTypeType = '2' // OTC成交
-
-const THOST_FTDC_TRDT_EFPDerived TThostFtdcTradeTypeType = '3' // 期转现衍生成交
-
-const THOST_FTDC_TRDT_CombinationDerived TThostFtdcTradeTypeType = '4' // 组合衍生成交
-
-const THOST_FTDC_TRDT_BlockTrade TThostFtdcTradeTypeType = '5' // 大宗交易成交
-
-var mpTThostFtdcTradeTypeType = map[TThostFtdcTradeTypeType]string{'#': "THOST_FTDC_TRDT_SplitCombination", '0': "THOST_FTDC_TRDT_Common", '1': "THOST_FTDC_TRDT_OptionsExecution", '2': "THOST_FTDC_TRDT_OTC", '3': "THOST_FTDC_TRDT_EFPDerived", '4': "THOST_FTDC_TRDT_CombinationDerived", '5': "THOST_FTDC_TRDT_BlockTrade"}
-
-func (e TThostFtdcTradeTypeType) String() string {
-	if s, ok := mpTThostFtdcTradeTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_TRDT_SplitCombination   TThostFtdcTradeTypeType = '#' // 组合持仓拆分为单一持仓,初始化不应包含该类型的持仓
+	THOST_FTDC_TRDT_Common             TThostFtdcTradeTypeType = '0' // 普通成交
+	THOST_FTDC_TRDT_OptionsExecution   TThostFtdcTradeTypeType = '1' // 期权执行
+	THOST_FTDC_TRDT_OTC                TThostFtdcTradeTypeType = '2' // OTC成交
+	THOST_FTDC_TRDT_EFPDerived         TThostFtdcTradeTypeType = '3' // 期转现衍生成交
+	THOST_FTDC_TRDT_CombinationDerived TThostFtdcTradeTypeType = '4' // 组合衍生成交
+	THOST_FTDC_TRDT_BlockTrade         TThostFtdcTradeTypeType = '5' // 大宗交易成交
+)
 
 // 特殊持仓明细标识类型
+//
+//go:generate stringer -type TThostFtdcSpecPosiTypeType -linecomment
 type TThostFtdcSpecPosiTypeType byte
 
-const THOST_FTDC_SPOST_Common TThostFtdcSpecPosiTypeType = '#' // 普通持仓明细
-
-const THOST_FTDC_SPOST_Tas TThostFtdcSpecPosiTypeType = '0' // TAS合约成交产生的标的合约持仓明细
-
-var mpTThostFtdcSpecPosiTypeType = map[TThostFtdcSpecPosiTypeType]string{'#': "THOST_FTDC_SPOST_Common", '0': "THOST_FTDC_SPOST_Tas"}
-
-func (e TThostFtdcSpecPosiTypeType) String() string {
-	if s, ok := mpTThostFtdcSpecPosiTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_SPOST_Common TThostFtdcSpecPosiTypeType = '#' // 普通持仓明细
+	THOST_FTDC_SPOST_Tas    TThostFtdcSpecPosiTypeType = '0' // TAS合约成交产生的标的合约持仓明细
+)
 
 // 成交价来源类型
+//
+//go:generate stringer -type TThostFtdcPriceSourceType -linecomment
 type TThostFtdcPriceSourceType byte
 
-const THOST_FTDC_PSRC_LastPrice TThostFtdcPriceSourceType = '0' // 前成交价
-
-const THOST_FTDC_PSRC_Buy TThostFtdcPriceSourceType = '1' // 买委托价
-
-const THOST_FTDC_PSRC_Sell TThostFtdcPriceSourceType = '2' // 卖委托价
-
-const THOST_FTDC_PSRC_OTC TThostFtdcPriceSourceType = '3' // 场外成交价
-
-var mpTThostFtdcPriceSourceType = map[TThostFtdcPriceSourceType]string{'0': "THOST_FTDC_PSRC_LastPrice", '1': "THOST_FTDC_PSRC_Buy", '2': "THOST_FTDC_PSRC_Sell", '3': "THOST_FTDC_PSRC_OTC"}
-
-func (e TThostFtdcPriceSourceType) String() string {
-	if s, ok := mpTThostFtdcPriceSourceType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_PSRC_LastPrice TThostFtdcPriceSourceType = '0' // 前成交价
+	THOST_FTDC_PSRC_Buy       TThostFtdcPriceSourceType = '1' // 买委托价
+	THOST_FTDC_PSRC_Sell      TThostFtdcPriceSourceType = '2' // 卖委托价
+	THOST_FTDC_PSRC_OTC       TThostFtdcPriceSourceType = '3' // 场外成交价
+)
 
 // 合约交易状态类型
+//
+//go:generate stringer -type TThostFtdcInstrumentStatusType -linecomment
 type TThostFtdcInstrumentStatusType byte
 
-const THOST_FTDC_IS_BeforeTrading TThostFtdcInstrumentStatusType = '0' // 开盘前
-
-const THOST_FTDC_IS_NoTrading TThostFtdcInstrumentStatusType = '1' // 非交易
-
-const THOST_FTDC_IS_Continous TThostFtdcInstrumentStatusType = '2' // 连续交易
-
-const THOST_FTDC_IS_AuctionOrdering TThostFtdcInstrumentStatusType = '3' // 集合竞价报单
-
-const THOST_FTDC_IS_AuctionBalance TThostFtdcInstrumentStatusType = '4' // 集合竞价价格平衡
-
-const THOST_FTDC_IS_AuctionMatch TThostFtdcInstrumentStatusType = '5' // 集合竞价撮合
-
-const THOST_FTDC_IS_Closed TThostFtdcInstrumentStatusType = '6' // 收盘
-
-const THOST_FTDC_IS_TransactionProcessing TThostFtdcInstrumentStatusType = '7' // 交易业务处理
-
-var mpTThostFtdcInstrumentStatusType = map[TThostFtdcInstrumentStatusType]string{'0': "THOST_FTDC_IS_BeforeTrading", '1': "THOST_FTDC_IS_NoTrading", '2': "THOST_FTDC_IS_Continous", '3': "THOST_FTDC_IS_AuctionOrdering", '4': "THOST_FTDC_IS_AuctionBalance", '5': "THOST_FTDC_IS_AuctionMatch", '6': "THOST_FTDC_IS_Closed", '7': "THOST_FTDC_IS_TransactionProcessing"}
-
-func (e TThostFtdcInstrumentStatusType) String() string {
-	if s, ok := mpTThostFtdcInstrumentStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_IS_BeforeTrading         TThostFtdcInstrumentStatusType = '0' // 开盘前
+	THOST_FTDC_IS_NoTrading             TThostFtdcInstrumentStatusType = '1' // 非交易
+	THOST_FTDC_IS_Continous             TThostFtdcInstrumentStatusType = '2' // 连续交易
+	THOST_FTDC_IS_AuctionOrdering       TThostFtdcInstrumentStatusType = '3' // 集合竞价报单
+	THOST_FTDC_IS_AuctionBalance        TThostFtdcInstrumentStatusType = '4' // 集合竞价价格平衡
+	THOST_FTDC_IS_AuctionMatch          TThostFtdcInstrumentStatusType = '5' // 集合竞价撮合
+	THOST_FTDC_IS_Closed                TThostFtdcInstrumentStatusType = '6' // 收盘
+	THOST_FTDC_IS_TransactionProcessing TThostFtdcInstrumentStatusType = '7' // 交易业务处理
+)
 
 // 品种进入交易状态原因类型
+//
+//go:generate stringer -type TThostFtdcInstStatusEnterReasonType -linecomment
 type TThostFtdcInstStatusEnterReasonType byte
 
-const THOST_FTDC_IER_Automatic TThostFtdcInstStatusEnterReasonType = '1' // 自动切换
-
-const THOST_FTDC_IER_Manual TThostFtdcInstStatusEnterReasonType = '2' // 手动切换
-
-const THOST_FTDC_IER_Fuse TThostFtdcInstStatusEnterReasonType = '3' // 熔断
-
-var mpTThostFtdcInstStatusEnterReasonType = map[TThostFtdcInstStatusEnterReasonType]string{'1': "THOST_FTDC_IER_Automatic", '2': "THOST_FTDC_IER_Manual", '3': "THOST_FTDC_IER_Fuse"}
-
-func (e TThostFtdcInstStatusEnterReasonType) String() string {
-	if s, ok := mpTThostFtdcInstStatusEnterReasonType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_IER_Automatic TThostFtdcInstStatusEnterReasonType = '1' // 自动切换
+	THOST_FTDC_IER_Manual    TThostFtdcInstStatusEnterReasonType = '2' // 手动切换
+	THOST_FTDC_IER_Fuse      TThostFtdcInstStatusEnterReasonType = '3' // 熔断
+)
 
 // 报单操作引用类型
 type TThostFtdcOrderActionRefType int32
@@ -1371,22 +916,15 @@ type TThostFtdcWebsiteType Byte51
 type TThostFtdcTaxNoType Byte31
 
 // 处理状态类型
+//
+//go:generate stringer -type TThostFtdcBatchStatusType -linecomment
 type TThostFtdcBatchStatusType byte
 
-const THOST_FTDC_BS_NoUpload TThostFtdcBatchStatusType = '1' // 未上传
-
-const THOST_FTDC_BS_Uploaded TThostFtdcBatchStatusType = '2' // 已上传
-
-const THOST_FTDC_BS_Failed TThostFtdcBatchStatusType = '3' // 审核失败
-
-var mpTThostFtdcBatchStatusType = map[TThostFtdcBatchStatusType]string{'1': "THOST_FTDC_BS_NoUpload", '2': "THOST_FTDC_BS_Uploaded", '3': "THOST_FTDC_BS_Failed"}
-
-func (e TThostFtdcBatchStatusType) String() string {
-	if s, ok := mpTThostFtdcBatchStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_BS_NoUpload TThostFtdcBatchStatusType = '1' // 未上传
+	THOST_FTDC_BS_Uploaded TThostFtdcBatchStatusType = '2' // 已上传
+	THOST_FTDC_BS_Failed   TThostFtdcBatchStatusType = '3' // 审核失败
+)
 
 // 属性代码类型
 type TThostFtdcPropertyIDType Byte33
@@ -1410,272 +948,156 @@ type TThostFtdcAgentGroupIDType Byte13
 type TThostFtdcAgentGroupNameType Byte41
 
 // 按品种返还方式类型
+//
+//go:generate stringer -type TThostFtdcReturnStyleType -linecomment
 type TThostFtdcReturnStyleType byte
 
-const THOST_FTDC_RS_All TThostFtdcReturnStyleType = '1' // 按所有品种
-
-const THOST_FTDC_RS_ByProduct TThostFtdcReturnStyleType = '2' // 按品种
-
-var mpTThostFtdcReturnStyleType = map[TThostFtdcReturnStyleType]string{'1': "THOST_FTDC_RS_All", '2': "THOST_FTDC_RS_ByProduct"}
-
-func (e TThostFtdcReturnStyleType) String() string {
-	if s, ok := mpTThostFtdcReturnStyleType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_RS_All       TThostFtdcReturnStyleType = '1' // 按所有品种
+	THOST_FTDC_RS_ByProduct TThostFtdcReturnStyleType = '2' // 按品种
+)
 
 // 返还模式类型
+//
+//go:generate stringer -type TThostFtdcReturnPatternType -linecomment
 type TThostFtdcReturnPatternType byte
 
-const THOST_FTDC_RP_ByVolume TThostFtdcReturnPatternType = '1' // 按成交手数
-
-const THOST_FTDC_RP_ByFeeOnHand TThostFtdcReturnPatternType = '2' // 按留存手续费
-
-var mpTThostFtdcReturnPatternType = map[TThostFtdcReturnPatternType]string{'1': "THOST_FTDC_RP_ByVolume", '2': "THOST_FTDC_RP_ByFeeOnHand"}
-
-func (e TThostFtdcReturnPatternType) String() string {
-	if s, ok := mpTThostFtdcReturnPatternType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_RP_ByVolume    TThostFtdcReturnPatternType = '1' // 按成交手数
+	THOST_FTDC_RP_ByFeeOnHand TThostFtdcReturnPatternType = '2' // 按留存手续费
+)
 
 // 返还级别类型
+//
+//go:generate stringer -type TThostFtdcReturnLevelType -linecomment
 type TThostFtdcReturnLevelType byte
 
-const THOST_FTDC_RL_Level1 TThostFtdcReturnLevelType = '1' // 级别1
-
-const THOST_FTDC_RL_Level2 TThostFtdcReturnLevelType = '2' // 级别2
-
-const THOST_FTDC_RL_Level3 TThostFtdcReturnLevelType = '3' // 级别3
-
-const THOST_FTDC_RL_Level4 TThostFtdcReturnLevelType = '4' // 级别4
-
-const THOST_FTDC_RL_Level5 TThostFtdcReturnLevelType = '5' // 级别5
-
-const THOST_FTDC_RL_Level6 TThostFtdcReturnLevelType = '6' // 级别6
-
-const THOST_FTDC_RL_Level7 TThostFtdcReturnLevelType = '7' // 级别7
-
-const THOST_FTDC_RL_Level8 TThostFtdcReturnLevelType = '8' // 级别8
-
-const THOST_FTDC_RL_Level9 TThostFtdcReturnLevelType = '9' // 级别9
-
-var mpTThostFtdcReturnLevelType = map[TThostFtdcReturnLevelType]string{'1': "THOST_FTDC_RL_Level1", '2': "THOST_FTDC_RL_Level2", '3': "THOST_FTDC_RL_Level3", '4': "THOST_FTDC_RL_Level4", '5': "THOST_FTDC_RL_Level5", '6': "THOST_FTDC_RL_Level6", '7': "THOST_FTDC_RL_Level7", '8': "THOST_FTDC_RL_Level8", '9': "THOST_FTDC_RL_Level9"}
-
-func (e TThostFtdcReturnLevelType) String() string {
-	if s, ok := mpTThostFtdcReturnLevelType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_RL_Level1 TThostFtdcReturnLevelType = '1' // 级别1
+	THOST_FTDC_RL_Level2 TThostFtdcReturnLevelType = '2' // 级别2
+	THOST_FTDC_RL_Level3 TThostFtdcReturnLevelType = '3' // 级别3
+	THOST_FTDC_RL_Level4 TThostFtdcReturnLevelType = '4' // 级别4
+	THOST_FTDC_RL_Level5 TThostFtdcReturnLevelType = '5' // 级别5
+	THOST_FTDC_RL_Level6 TThostFtdcReturnLevelType = '6' // 级别6
+	THOST_FTDC_RL_Level7 TThostFtdcReturnLevelType = '7' // 级别7
+	THOST_FTDC_RL_Level8 TThostFtdcReturnLevelType = '8' // 级别8
+	THOST_FTDC_RL_Level9 TThostFtdcReturnLevelType = '9' // 级别9
+)
 
 // 返还标准类型
+//
+//go:generate stringer -type TThostFtdcReturnStandardType -linecomment
 type TThostFtdcReturnStandardType byte
 
-const THOST_FTDC_RSD_ByPeriod TThostFtdcReturnStandardType = '1' // 分阶段返还
-
-const THOST_FTDC_RSD_ByStandard TThostFtdcReturnStandardType = '2' // 按某一标准
-
-var mpTThostFtdcReturnStandardType = map[TThostFtdcReturnStandardType]string{'1': "THOST_FTDC_RSD_ByPeriod", '2': "THOST_FTDC_RSD_ByStandard"}
-
-func (e TThostFtdcReturnStandardType) String() string {
-	if s, ok := mpTThostFtdcReturnStandardType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_RSD_ByPeriod   TThostFtdcReturnStandardType = '1' // 分阶段返还
+	THOST_FTDC_RSD_ByStandard TThostFtdcReturnStandardType = '2' // 按某一标准
+)
 
 // 质押类型类型
+//
+//go:generate stringer -type TThostFtdcMortgageTypeType -linecomment
 type TThostFtdcMortgageTypeType byte
 
-const THOST_FTDC_MT_Out TThostFtdcMortgageTypeType = '0' // 质出
-
-const THOST_FTDC_MT_In TThostFtdcMortgageTypeType = '1' // 质入
-
-var mpTThostFtdcMortgageTypeType = map[TThostFtdcMortgageTypeType]string{'0': "THOST_FTDC_MT_Out", '1': "THOST_FTDC_MT_In"}
-
-func (e TThostFtdcMortgageTypeType) String() string {
-	if s, ok := mpTThostFtdcMortgageTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_MT_Out TThostFtdcMortgageTypeType = '0' // 质出
+	THOST_FTDC_MT_In  TThostFtdcMortgageTypeType = '1' // 质入
+)
 
 // 投资者结算参数代码类型
+//
+//go:generate stringer -type TThostFtdcInvestorSettlementParamIDType -linecomment
 type TThostFtdcInvestorSettlementParamIDType byte
 
-const THOST_FTDC_ISPI_MortgageRatio TThostFtdcInvestorSettlementParamIDType = '4' // 质押比例
-
-const THOST_FTDC_ISPI_MarginWay TThostFtdcInvestorSettlementParamIDType = '5' // 保证金算法
-
-const THOST_FTDC_ISPI_BillDeposit TThostFtdcInvestorSettlementParamIDType = '9' // 结算单结存是否包含质押
-
-var mpTThostFtdcInvestorSettlementParamIDType = map[TThostFtdcInvestorSettlementParamIDType]string{'4': "THOST_FTDC_ISPI_MortgageRatio", '5': "THOST_FTDC_ISPI_MarginWay", '9': "THOST_FTDC_ISPI_BillDeposit"}
-
-func (e TThostFtdcInvestorSettlementParamIDType) String() string {
-	if s, ok := mpTThostFtdcInvestorSettlementParamIDType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_ISPI_MortgageRatio TThostFtdcInvestorSettlementParamIDType = '4' // 质押比例
+	THOST_FTDC_ISPI_MarginWay     TThostFtdcInvestorSettlementParamIDType = '5' // 保证金算法
+	THOST_FTDC_ISPI_BillDeposit   TThostFtdcInvestorSettlementParamIDType = '9' // 结算单结存是否包含质押
+)
 
 // 交易所结算参数代码类型
+//
+//go:generate stringer -type TThostFtdcExchangeSettlementParamIDType -linecomment
 type TThostFtdcExchangeSettlementParamIDType byte
 
-const THOST_FTDC_ESPI_MortgageRatio TThostFtdcExchangeSettlementParamIDType = '1' // 质押比例
-
-const THOST_FTDC_ESPI_OtherFundItem TThostFtdcExchangeSettlementParamIDType = '2' // 分项资金导入项
-
-const THOST_FTDC_ESPI_OtherFundImport TThostFtdcExchangeSettlementParamIDType = '3' // 分项资金入交易所出入金
-
-const THOST_FTDC_ESPI_CFFEXMinPrepa TThostFtdcExchangeSettlementParamIDType = '6' // 中金所开户最低可用金额
-
-const THOST_FTDC_ESPI_CZCESettlementType TThostFtdcExchangeSettlementParamIDType = '7' // 郑商所结算方式
-
-const THOST_FTDC_ESPI_ExchDelivFeeMode TThostFtdcExchangeSettlementParamIDType = '9' // 交易所交割手续费收取方式
-
-const THOST_FTDC_ESPI_DelivFeeMode TThostFtdcExchangeSettlementParamIDType = '0' // 投资者交割手续费收取方式
-
-const THOST_FTDC_ESPI_CZCEComMarginType TThostFtdcExchangeSettlementParamIDType = 'A' // 郑商所组合持仓保证金收取方式
-
-const THOST_FTDC_ESPI_DceComMarginType TThostFtdcExchangeSettlementParamIDType = 'B' // 大商所套利保证金是否优惠
-
-const THOST_FTDC_ESPI_OptOutDisCountRate TThostFtdcExchangeSettlementParamIDType = 'a' // 虚值期权保证金优惠比率
-
-const THOST_FTDC_ESPI_OptMiniGuarantee TThostFtdcExchangeSettlementParamIDType = 'b' // 最低保障系数
-
-var mpTThostFtdcExchangeSettlementParamIDType = map[TThostFtdcExchangeSettlementParamIDType]string{'1': "THOST_FTDC_ESPI_MortgageRatio", '2': "THOST_FTDC_ESPI_OtherFundItem", '3': "THOST_FTDC_ESPI_OtherFundImport", '6': "THOST_FTDC_ESPI_CFFEXMinPrepa", '7': "THOST_FTDC_ESPI_CZCESettlementType", '9': "THOST_FTDC_ESPI_ExchDelivFeeMode", '0': "THOST_FTDC_ESPI_DelivFeeMode", 'A': "THOST_FTDC_ESPI_CZCEComMarginType", 'B': "THOST_FTDC_ESPI_DceComMarginType", 'a': "THOST_FTDC_ESPI_OptOutDisCountRate", 'b': "THOST_FTDC_ESPI_OptMiniGuarantee"}
-
-func (e TThostFtdcExchangeSettlementParamIDType) String() string {
-	if s, ok := mpTThostFtdcExchangeSettlementParamIDType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_ESPI_MortgageRatio      TThostFtdcExchangeSettlementParamIDType = '1' // 质押比例
+	THOST_FTDC_ESPI_OtherFundItem      TThostFtdcExchangeSettlementParamIDType = '2' // 分项资金导入项
+	THOST_FTDC_ESPI_OtherFundImport    TThostFtdcExchangeSettlementParamIDType = '3' // 分项资金入交易所出入金
+	THOST_FTDC_ESPI_CFFEXMinPrepa      TThostFtdcExchangeSettlementParamIDType = '6' // 中金所开户最低可用金额
+	THOST_FTDC_ESPI_CZCESettlementType TThostFtdcExchangeSettlementParamIDType = '7' // 郑商所结算方式
+	THOST_FTDC_ESPI_ExchDelivFeeMode   TThostFtdcExchangeSettlementParamIDType = '9' // 交易所交割手续费收取方式
+	THOST_FTDC_ESPI_DelivFeeMode       TThostFtdcExchangeSettlementParamIDType = '0' // 投资者交割手续费收取方式
+	THOST_FTDC_ESPI_CZCEComMarginType  TThostFtdcExchangeSettlementParamIDType = 'A' // 郑商所组合持仓保证金收取方式
+	THOST_FTDC_ESPI_DceComMarginType   TThostFtdcExchangeSettlementParamIDType = 'B' // 大商所套利保证金是否优惠
+	THOST_FTDC_ESPI_OptOutDisCountRate TThostFtdcExchangeSettlementParamIDType = 'a' // 虚值期权保证金优惠比率
+	THOST_FTDC_ESPI_OptMiniGuarantee   TThostFtdcExchangeSettlementParamIDType = 'b' // 最低保障系数
+)
 
 // 系统参数代码类型
+//
+//go:generate stringer -type TThostFtdcSystemParamIDType -linecomment
 type TThostFtdcSystemParamIDType byte
 
-const THOST_FTDC_SPI_InvestorIDMinLength TThostFtdcSystemParamIDType = '1' // 投资者代码最小长度
-
-const THOST_FTDC_SPI_AccountIDMinLength TThostFtdcSystemParamIDType = '2' // 投资者帐号代码最小长度
-
-const THOST_FTDC_SPI_UserRightLogon TThostFtdcSystemParamIDType = '3' // 投资者开户默认登录权限
-
-const THOST_FTDC_SPI_SettlementBillTrade TThostFtdcSystemParamIDType = '4' // 投资者交易结算单成交汇总方式
-
-const THOST_FTDC_SPI_TradingCode TThostFtdcSystemParamIDType = '5' // 统一开户更新交易编码方式
-
-const THOST_FTDC_SPI_CheckFund TThostFtdcSystemParamIDType = '6' // 结算是否判断存在未复核的出入金和分项资金
-
-const THOST_FTDC_SPI_CommModelRight TThostFtdcSystemParamIDType = '7' // 是否启用手续费模板数据权限
-
-const THOST_FTDC_SPI_MarginModelRight TThostFtdcSystemParamIDType = '9' // 是否启用保证金率模板数据权限
-
-const THOST_FTDC_SPI_IsStandardActive TThostFtdcSystemParamIDType = '8' // 是否规范用户才能激活
-
-const THOST_FTDC_SPI_UploadSettlementFile TThostFtdcSystemParamIDType = 'U' // 上传的交易所结算文件路径
-
-const THOST_FTDC_SPI_DownloadCSRCFile TThostFtdcSystemParamIDType = 'D' // 上报保证金监控中心文件路径
-
-const THOST_FTDC_SPI_SettlementBillFile TThostFtdcSystemParamIDType = 'S' // 生成的结算单文件路径
-
-const THOST_FTDC_SPI_CSRCOthersFile TThostFtdcSystemParamIDType = 'C' // 证监会文件标识
-
-const THOST_FTDC_SPI_InvestorPhoto TThostFtdcSystemParamIDType = 'P' // 投资者照片路径
-
-const THOST_FTDC_SPI_CSRCData TThostFtdcSystemParamIDType = 'R' // 全结经纪公司上传文件路径
-
-const THOST_FTDC_SPI_InvestorPwdModel TThostFtdcSystemParamIDType = 'I' // 开户密码录入方式
-
-const THOST_FTDC_SPI_CFFEXInvestorSettleFile TThostFtdcSystemParamIDType = 'F' // 投资者中金所结算文件下载路径
-
-const THOST_FTDC_SPI_InvestorIDType TThostFtdcSystemParamIDType = 'a' // 投资者代码编码方式
-
-const THOST_FTDC_SPI_FreezeMaxReMain TThostFtdcSystemParamIDType = 'r' // 休眠户最高权益
-
-const THOST_FTDC_SPI_IsSync TThostFtdcSystemParamIDType = 'A' // 手续费相关操作实时上场开关
-
-const THOST_FTDC_SPI_RelieveOpenLimit TThostFtdcSystemParamIDType = 'O' // 解除开仓权限限制
-
-const THOST_FTDC_SPI_IsStandardFreeze TThostFtdcSystemParamIDType = 'X' // 是否规范用户才能休眠
-
-const THOST_FTDC_SPI_CZCENormalProductHedge TThostFtdcSystemParamIDType = 'B' // 郑商所是否开放所有品种套保交易
-
-var mpTThostFtdcSystemParamIDType = map[TThostFtdcSystemParamIDType]string{'1': "THOST_FTDC_SPI_InvestorIDMinLength", '2': "THOST_FTDC_SPI_AccountIDMinLength", '3': "THOST_FTDC_SPI_UserRightLogon", '4': "THOST_FTDC_SPI_SettlementBillTrade", '5': "THOST_FTDC_SPI_TradingCode", '6': "THOST_FTDC_SPI_CheckFund", '7': "THOST_FTDC_SPI_CommModelRight", '9': "THOST_FTDC_SPI_MarginModelRight", '8': "THOST_FTDC_SPI_IsStandardActive", 'U': "THOST_FTDC_SPI_UploadSettlementFile", 'D': "THOST_FTDC_SPI_DownloadCSRCFile", 'S': "THOST_FTDC_SPI_SettlementBillFile", 'C': "THOST_FTDC_SPI_CSRCOthersFile", 'P': "THOST_FTDC_SPI_InvestorPhoto", 'R': "THOST_FTDC_SPI_CSRCData", 'I': "THOST_FTDC_SPI_InvestorPwdModel", 'F': "THOST_FTDC_SPI_CFFEXInvestorSettleFile", 'a': "THOST_FTDC_SPI_InvestorIDType", 'r': "THOST_FTDC_SPI_FreezeMaxReMain", 'A': "THOST_FTDC_SPI_IsSync", 'O': "THOST_FTDC_SPI_RelieveOpenLimit", 'X': "THOST_FTDC_SPI_IsStandardFreeze", 'B': "THOST_FTDC_SPI_CZCENormalProductHedge"}
-
-func (e TThostFtdcSystemParamIDType) String() string {
-	if s, ok := mpTThostFtdcSystemParamIDType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_SPI_InvestorIDMinLength     TThostFtdcSystemParamIDType = '1' // 投资者代码最小长度
+	THOST_FTDC_SPI_AccountIDMinLength      TThostFtdcSystemParamIDType = '2' // 投资者帐号代码最小长度
+	THOST_FTDC_SPI_UserRightLogon          TThostFtdcSystemParamIDType = '3' // 投资者开户默认登录权限
+	THOST_FTDC_SPI_SettlementBillTrade     TThostFtdcSystemParamIDType = '4' // 投资者交易结算单成交汇总方式
+	THOST_FTDC_SPI_TradingCode             TThostFtdcSystemParamIDType = '5' // 统一开户更新交易编码方式
+	THOST_FTDC_SPI_CheckFund               TThostFtdcSystemParamIDType = '6' // 结算是否判断存在未复核的出入金和分项资金
+	THOST_FTDC_SPI_CommModelRight          TThostFtdcSystemParamIDType = '7' // 是否启用手续费模板数据权限
+	THOST_FTDC_SPI_MarginModelRight        TThostFtdcSystemParamIDType = '9' // 是否启用保证金率模板数据权限
+	THOST_FTDC_SPI_IsStandardActive        TThostFtdcSystemParamIDType = '8' // 是否规范用户才能激活
+	THOST_FTDC_SPI_UploadSettlementFile    TThostFtdcSystemParamIDType = 'U' // 上传的交易所结算文件路径
+	THOST_FTDC_SPI_DownloadCSRCFile        TThostFtdcSystemParamIDType = 'D' // 上报保证金监控中心文件路径
+	THOST_FTDC_SPI_SettlementBillFile      TThostFtdcSystemParamIDType = 'S' // 生成的结算单文件路径
+	THOST_FTDC_SPI_CSRCOthersFile          TThostFtdcSystemParamIDType = 'C' // 证监会文件标识
+	THOST_FTDC_SPI_InvestorPhoto           TThostFtdcSystemParamIDType = 'P' // 投资者照片路径
+	THOST_FTDC_SPI_CSRCData                TThostFtdcSystemParamIDType = 'R' // 全结经纪公司上传文件路径
+	THOST_FTDC_SPI_InvestorPwdModel        TThostFtdcSystemParamIDType = 'I' // 开户密码录入方式
+	THOST_FTDC_SPI_CFFEXInvestorSettleFile TThostFtdcSystemParamIDType = 'F' // 投资者中金所结算文件下载路径
+	THOST_FTDC_SPI_InvestorIDType          TThostFtdcSystemParamIDType = 'a' // 投资者代码编码方式
+	THOST_FTDC_SPI_FreezeMaxReMain         TThostFtdcSystemParamIDType = 'r' // 休眠户最高权益
+	THOST_FTDC_SPI_IsSync                  TThostFtdcSystemParamIDType = 'A' // 手续费相关操作实时上场开关
+	THOST_FTDC_SPI_RelieveOpenLimit        TThostFtdcSystemParamIDType = 'O' // 解除开仓权限限制
+	THOST_FTDC_SPI_IsStandardFreeze        TThostFtdcSystemParamIDType = 'X' // 是否规范用户才能休眠
+	THOST_FTDC_SPI_CZCENormalProductHedge  TThostFtdcSystemParamIDType = 'B' // 郑商所是否开放所有品种套保交易
+)
 
 // 交易系统参数代码类型
+//
+//go:generate stringer -type TThostFtdcTradeParamIDType -linecomment
 type TThostFtdcTradeParamIDType byte
 
-const THOST_FTDC_TPID_EncryptionStandard TThostFtdcTradeParamIDType = 'E' // 系统加密算法
-
-const THOST_FTDC_TPID_RiskMode TThostFtdcTradeParamIDType = 'R' // 系统风险算法
-
-const THOST_FTDC_TPID_RiskModeGlobal TThostFtdcTradeParamIDType = 'G' // 系统风险算法是否全局 0-否 1-是
-
-const THOST_FTDC_TPID_modeEncode TThostFtdcTradeParamIDType = 'P' // 密码加密算法
-
-const THOST_FTDC_TPID_tickMode TThostFtdcTradeParamIDType = 'T' // 价格小数位数参数
-
-const THOST_FTDC_TPID_SingleUserSessionMaxNum TThostFtdcTradeParamIDType = 'S' // 用户最大会话数
-
-const THOST_FTDC_TPID_LoginFailMaxNum TThostFtdcTradeParamIDType = 'L' // 最大连续登录失败数
-
-const THOST_FTDC_TPID_IsAuthForce TThostFtdcTradeParamIDType = 'A' // 是否强制认证
-
-const THOST_FTDC_TPID_IsPosiFreeze TThostFtdcTradeParamIDType = 'F' // 是否冻结证券持仓
-
-const THOST_FTDC_TPID_IsPosiLimit TThostFtdcTradeParamIDType = 'M' // 是否限仓
-
-const THOST_FTDC_TPID_ForQuoteTimeInterval TThostFtdcTradeParamIDType = 'Q' // 郑商所询价时间间隔
-
-const THOST_FTDC_TPID_IsFuturePosiLimit TThostFtdcTradeParamIDType = 'B' // 是否期货限仓
-
-const THOST_FTDC_TPID_IsFutureOrderFreq TThostFtdcTradeParamIDType = 'C' // 是否期货下单频率限制
-
-const THOST_FTDC_TPID_IsExecOrderProfit TThostFtdcTradeParamIDType = 'H' // 行权冻结是否计算盈利
-
-const THOST_FTDC_TPID_IsCheckBankAcc TThostFtdcTradeParamIDType = 'I' // 银期开户是否验证开户银行卡号是否是预留银行账户
-
-const THOST_FTDC_TPID_PasswordDeadLine TThostFtdcTradeParamIDType = 'J' // 弱密码最后修改日期
-
-const THOST_FTDC_TPID_IsStrongPassword TThostFtdcTradeParamIDType = 'K' // 强密码校验
-
-const THOST_FTDC_TPID_BalanceMorgage TThostFtdcTradeParamIDType = 'a' // 自有资金质押比
-
-const THOST_FTDC_TPID_MinPwdLen TThostFtdcTradeParamIDType = 'O' // 最小密码长度
-
-const THOST_FTDC_TPID_LoginFailMaxNumForIP TThostFtdcTradeParamIDType = 'U' // IP当日最大登陆失败次数
-
-const THOST_FTDC_TPID_PasswordPeriod TThostFtdcTradeParamIDType = 'V' // 密码有效期
-
-const THOST_FTDC_TPID_PwdHistoryCmp TThostFtdcTradeParamIDType = 'X' // 历史密码重复限制次数
-
-const THOST_FTDC_TPID_TranferChkProperty TThostFtdcTradeParamIDType = 'i' // 转账是否验证预留银行账户
-
-const THOST_FTDC_TPID_TradeChkPhase TThostFtdcTradeParamIDType = 'j' // 非交易时间异常报单校验参数
-
-const THOST_FTDC_TPID_TradeChkPriceVol TThostFtdcTradeParamIDType = 'k' // 其他异常报单校验参数（价格和手数）
-
-const THOST_FTDC_TPID_NewBESMarginAlgo TThostFtdcTradeParamIDType = 'l' // 卖出垂直价差组合新算法
-
-var mpTThostFtdcTradeParamIDType = map[TThostFtdcTradeParamIDType]string{'E': "THOST_FTDC_TPID_EncryptionStandard", 'R': "THOST_FTDC_TPID_RiskMode", 'G': "THOST_FTDC_TPID_RiskModeGlobal", 'P': "THOST_FTDC_TPID_modeEncode", 'T': "THOST_FTDC_TPID_tickMode", 'S': "THOST_FTDC_TPID_SingleUserSessionMaxNum", 'L': "THOST_FTDC_TPID_LoginFailMaxNum", 'A': "THOST_FTDC_TPID_IsAuthForce", 'F': "THOST_FTDC_TPID_IsPosiFreeze", 'M': "THOST_FTDC_TPID_IsPosiLimit", 'Q': "THOST_FTDC_TPID_ForQuoteTimeInterval", 'B': "THOST_FTDC_TPID_IsFuturePosiLimit", 'C': "THOST_FTDC_TPID_IsFutureOrderFreq", 'H': "THOST_FTDC_TPID_IsExecOrderProfit", 'I': "THOST_FTDC_TPID_IsCheckBankAcc", 'J': "THOST_FTDC_TPID_PasswordDeadLine", 'K': "THOST_FTDC_TPID_IsStrongPassword", 'a': "THOST_FTDC_TPID_BalanceMorgage", 'O': "THOST_FTDC_TPID_MinPwdLen", 'U': "THOST_FTDC_TPID_LoginFailMaxNumForIP", 'V': "THOST_FTDC_TPID_PasswordPeriod", 'X': "THOST_FTDC_TPID_PwdHistoryCmp", 'i': "THOST_FTDC_TPID_TranferChkProperty", 'j': "THOST_FTDC_TPID_TradeChkPhase", 'k': "THOST_FTDC_TPID_TradeChkPriceVol", 'l': "THOST_FTDC_TPID_NewBESMarginAlgo"}
-
-func (e TThostFtdcTradeParamIDType) String() string {
-	if s, ok := mpTThostFtdcTradeParamIDType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_TPID_EncryptionStandard      TThostFtdcTradeParamIDType = 'E' // 系统加密算法
+	THOST_FTDC_TPID_RiskMode                TThostFtdcTradeParamIDType = 'R' // 系统风险算法
+	THOST_FTDC_TPID_RiskModeGlobal          TThostFtdcTradeParamIDType = 'G' // 系统风险算法是否全局 0-否 1-是
+	THOST_FTDC_TPID_modeEncode              TThostFtdcTradeParamIDType = 'P' // 密码加密算法
+	THOST_FTDC_TPID_tickMode                TThostFtdcTradeParamIDType = 'T' // 价格小数位数参数
+	THOST_FTDC_TPID_SingleUserSessionMaxNum TThostFtdcTradeParamIDType = 'S' // 用户最大会话数
+	THOST_FTDC_TPID_LoginFailMaxNum         TThostFtdcTradeParamIDType = 'L' // 最大连续登录失败数
+	THOST_FTDC_TPID_IsAuthForce             TThostFtdcTradeParamIDType = 'A' // 是否强制认证
+	THOST_FTDC_TPID_IsPosiFreeze            TThostFtdcTradeParamIDType = 'F' // 是否冻结证券持仓
+	THOST_FTDC_TPID_IsPosiLimit             TThostFtdcTradeParamIDType = 'M' // 是否限仓
+	THOST_FTDC_TPID_ForQuoteTimeInterval    TThostFtdcTradeParamIDType = 'Q' // 郑商所询价时间间隔
+	THOST_FTDC_TPID_IsFuturePosiLimit       TThostFtdcTradeParamIDType = 'B' // 是否期货限仓
+	THOST_FTDC_TPID_IsFutureOrderFreq       TThostFtdcTradeParamIDType = 'C' // 是否期货下单频率限制
+	THOST_FTDC_TPID_IsExecOrderProfit       TThostFtdcTradeParamIDType = 'H' // 行权冻结是否计算盈利
+	THOST_FTDC_TPID_IsCheckBankAcc          TThostFtdcTradeParamIDType = 'I' // 银期开户是否验证开户银行卡号是否是预留银行账户
+	THOST_FTDC_TPID_PasswordDeadLine        TThostFtdcTradeParamIDType = 'J' // 弱密码最后修改日期
+	THOST_FTDC_TPID_IsStrongPassword        TThostFtdcTradeParamIDType = 'K' // 强密码校验
+	THOST_FTDC_TPID_BalanceMorgage          TThostFtdcTradeParamIDType = 'a' // 自有资金质押比
+	THOST_FTDC_TPID_MinPwdLen               TThostFtdcTradeParamIDType = 'O' // 最小密码长度
+	THOST_FTDC_TPID_LoginFailMaxNumForIP    TThostFtdcTradeParamIDType = 'U' // IP当日最大登陆失败次数
+	THOST_FTDC_TPID_PasswordPeriod          TThostFtdcTradeParamIDType = 'V' // 密码有效期
+	THOST_FTDC_TPID_PwdHistoryCmp           TThostFtdcTradeParamIDType = 'X' // 历史密码重复限制次数
+	THOST_FTDC_TPID_TranferChkProperty      TThostFtdcTradeParamIDType = 'i' // 转账是否验证预留银行账户
+	THOST_FTDC_TPID_TradeChkPhase           TThostFtdcTradeParamIDType = 'j' // 非交易时间异常报单校验参数
+	THOST_FTDC_TPID_TradeChkPriceVol        TThostFtdcTradeParamIDType = 'k' // 其他异常报单校验参数（价格和手数）
+	THOST_FTDC_TPID_NewBESMarginAlgo        TThostFtdcTradeParamIDType = 'l' // 卖出垂直价差组合新算法
+)
 
 // 参数代码值类型
 type TThostFtdcSettlementParamValueType Byte256
@@ -1714,115 +1136,71 @@ type TThostFtdcWeightType Byte41
 type TThostFtdcSubEntryFundNoType int32
 
 // 文件标识类型
+//
+//go:generate stringer -type TThostFtdcFileIDType -linecomment
 type TThostFtdcFileIDType byte
 
-const THOST_FTDC_FI_SettlementFund TThostFtdcFileIDType = 'F' // 资金数据
-
-const THOST_FTDC_FI_Trade TThostFtdcFileIDType = 'T' // 成交数据
-
-const THOST_FTDC_FI_InvestorPosition TThostFtdcFileIDType = 'P' // 投资者持仓数据
-
-const THOST_FTDC_FI_SubEntryFund TThostFtdcFileIDType = 'O' // 投资者分项资金数据
-
-const THOST_FTDC_FI_CZCECombinationPos TThostFtdcFileIDType = 'C' // 组合持仓数据
-
-const THOST_FTDC_FI_CSRCData TThostFtdcFileIDType = 'R' // 上报保证金监控中心数据
-
-const THOST_FTDC_FI_CZCEClose TThostFtdcFileIDType = 'L' // 郑商所平仓了结数据
-
-const THOST_FTDC_FI_CZCENoClose TThostFtdcFileIDType = 'N' // 郑商所非平仓了结数据
-
-const THOST_FTDC_FI_PositionDtl TThostFtdcFileIDType = 'D' // 持仓明细数据
-
-const THOST_FTDC_FI_OptionStrike TThostFtdcFileIDType = 'S' // 期权执行文件
-
-const THOST_FTDC_FI_SettlementPriceComparison TThostFtdcFileIDType = 'M' // 结算价比对文件
-
-const THOST_FTDC_FI_NonTradePosChange TThostFtdcFileIDType = 'B' // 上期所非持仓变动明细
-
-var mpTThostFtdcFileIDType = map[TThostFtdcFileIDType]string{'F': "THOST_FTDC_FI_SettlementFund", 'T': "THOST_FTDC_FI_Trade", 'P': "THOST_FTDC_FI_InvestorPosition", 'O': "THOST_FTDC_FI_SubEntryFund", 'C': "THOST_FTDC_FI_CZCECombinationPos", 'R': "THOST_FTDC_FI_CSRCData", 'L': "THOST_FTDC_FI_CZCEClose", 'N': "THOST_FTDC_FI_CZCENoClose", 'D': "THOST_FTDC_FI_PositionDtl", 'S': "THOST_FTDC_FI_OptionStrike", 'M': "THOST_FTDC_FI_SettlementPriceComparison", 'B': "THOST_FTDC_FI_NonTradePosChange"}
-
-func (e TThostFtdcFileIDType) String() string {
-	if s, ok := mpTThostFtdcFileIDType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FI_SettlementFund            TThostFtdcFileIDType = 'F' // 资金数据
+	THOST_FTDC_FI_Trade                     TThostFtdcFileIDType = 'T' // 成交数据
+	THOST_FTDC_FI_InvestorPosition          TThostFtdcFileIDType = 'P' // 投资者持仓数据
+	THOST_FTDC_FI_SubEntryFund              TThostFtdcFileIDType = 'O' // 投资者分项资金数据
+	THOST_FTDC_FI_CZCECombinationPos        TThostFtdcFileIDType = 'C' // 组合持仓数据
+	THOST_FTDC_FI_CSRCData                  TThostFtdcFileIDType = 'R' // 上报保证金监控中心数据
+	THOST_FTDC_FI_CZCEClose                 TThostFtdcFileIDType = 'L' // 郑商所平仓了结数据
+	THOST_FTDC_FI_CZCENoClose               TThostFtdcFileIDType = 'N' // 郑商所非平仓了结数据
+	THOST_FTDC_FI_PositionDtl               TThostFtdcFileIDType = 'D' // 持仓明细数据
+	THOST_FTDC_FI_OptionStrike              TThostFtdcFileIDType = 'S' // 期权执行文件
+	THOST_FTDC_FI_SettlementPriceComparison TThostFtdcFileIDType = 'M' // 结算价比对文件
+	THOST_FTDC_FI_NonTradePosChange         TThostFtdcFileIDType = 'B' // 上期所非持仓变动明细
+)
 
 // 文件名称类型
 type TThostFtdcFileNameType Byte257
 
 // 文件上传类型类型
+//
+//go:generate stringer -type TThostFtdcFileTypeType -linecomment
 type TThostFtdcFileTypeType byte
 
-const THOST_FTDC_FUT_Settlement TThostFtdcFileTypeType = '0' // 结算
-
-const THOST_FTDC_FUT_Check TThostFtdcFileTypeType = '1' // 核对
-
-var mpTThostFtdcFileTypeType = map[TThostFtdcFileTypeType]string{'0': "THOST_FTDC_FUT_Settlement", '1': "THOST_FTDC_FUT_Check"}
-
-func (e TThostFtdcFileTypeType) String() string {
-	if s, ok := mpTThostFtdcFileTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FUT_Settlement TThostFtdcFileTypeType = '0' // 结算
+	THOST_FTDC_FUT_Check      TThostFtdcFileTypeType = '1' // 核对
+)
 
 // 文件格式类型
+//
+//go:generate stringer -type TThostFtdcFileFormatType -linecomment
 type TThostFtdcFileFormatType byte
 
-const THOST_FTDC_FFT_Txt TThostFtdcFileFormatType = '0' // 文本文件(.txt)
-
-const THOST_FTDC_FFT_Zip TThostFtdcFileFormatType = '1' // 压缩文件(.zip)
-
-const THOST_FTDC_FFT_DBF TThostFtdcFileFormatType = '2' // DBF文件(.dbf)
-
-var mpTThostFtdcFileFormatType = map[TThostFtdcFileFormatType]string{'0': "THOST_FTDC_FFT_Txt", '1': "THOST_FTDC_FFT_Zip", '2': "THOST_FTDC_FFT_DBF"}
-
-func (e TThostFtdcFileFormatType) String() string {
-	if s, ok := mpTThostFtdcFileFormatType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FFT_Txt TThostFtdcFileFormatType = '0' // 文本文件(.txt)
+	THOST_FTDC_FFT_Zip TThostFtdcFileFormatType = '1' // 压缩文件(.zip)
+	THOST_FTDC_FFT_DBF TThostFtdcFileFormatType = '2' // DBF文件(.dbf)
+)
 
 // 文件状态类型
+//
+//go:generate stringer -type TThostFtdcFileUploadStatusType -linecomment
 type TThostFtdcFileUploadStatusType byte
 
-const THOST_FTDC_FUS_SucceedUpload TThostFtdcFileUploadStatusType = '1' // 上传成功
-
-const THOST_FTDC_FUS_FailedUpload TThostFtdcFileUploadStatusType = '2' // 上传失败
-
-const THOST_FTDC_FUS_SucceedLoad TThostFtdcFileUploadStatusType = '3' // 导入成功
-
-const THOST_FTDC_FUS_PartSucceedLoad TThostFtdcFileUploadStatusType = '4' // 导入部分成功
-
-const THOST_FTDC_FUS_FailedLoad TThostFtdcFileUploadStatusType = '5' // 导入失败
-
-var mpTThostFtdcFileUploadStatusType = map[TThostFtdcFileUploadStatusType]string{'1': "THOST_FTDC_FUS_SucceedUpload", '2': "THOST_FTDC_FUS_FailedUpload", '3': "THOST_FTDC_FUS_SucceedLoad", '4': "THOST_FTDC_FUS_PartSucceedLoad", '5': "THOST_FTDC_FUS_FailedLoad"}
-
-func (e TThostFtdcFileUploadStatusType) String() string {
-	if s, ok := mpTThostFtdcFileUploadStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FUS_SucceedUpload   TThostFtdcFileUploadStatusType = '1' // 上传成功
+	THOST_FTDC_FUS_FailedUpload    TThostFtdcFileUploadStatusType = '2' // 上传失败
+	THOST_FTDC_FUS_SucceedLoad     TThostFtdcFileUploadStatusType = '3' // 导入成功
+	THOST_FTDC_FUS_PartSucceedLoad TThostFtdcFileUploadStatusType = '4' // 导入部分成功
+	THOST_FTDC_FUS_FailedLoad      TThostFtdcFileUploadStatusType = '5' // 导入失败
+)
 
 // 移仓方向类型
+//
+//go:generate stringer -type TThostFtdcTransferDirectionType -linecomment
 type TThostFtdcTransferDirectionType byte
 
-const THOST_FTDC_TD_Out TThostFtdcTransferDirectionType = '0' // 移出
-
-const THOST_FTDC_TD_In TThostFtdcTransferDirectionType = '1' // 移入
-
-var mpTThostFtdcTransferDirectionType = map[TThostFtdcTransferDirectionType]string{'0': "THOST_FTDC_TD_Out", '1': "THOST_FTDC_TD_In"}
-
-func (e TThostFtdcTransferDirectionType) String() string {
-	if s, ok := mpTThostFtdcTransferDirectionType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_TD_Out TThostFtdcTransferDirectionType = '0' // 移出
+	THOST_FTDC_TD_In  TThostFtdcTransferDirectionType = '1' // 移入
+)
 
 // 上传文件类型类型
 type TThostFtdcUploadModeType Byte21
@@ -1867,70 +1245,45 @@ type TThostFtdcInstrumentIDExprType Byte41
 type TThostFtdcInstrumentNameExprType Byte41
 
 // 特殊的创建规则类型
+//
+//go:generate stringer -type TThostFtdcSpecialCreateRuleType -linecomment
 type TThostFtdcSpecialCreateRuleType byte
 
-const THOST_FTDC_SC_NoSpecialRule TThostFtdcSpecialCreateRuleType = '0' // 没有特殊创建规则
-
-const THOST_FTDC_SC_NoSpringFestival TThostFtdcSpecialCreateRuleType = '1' // 不包含春节
-
-var mpTThostFtdcSpecialCreateRuleType = map[TThostFtdcSpecialCreateRuleType]string{'0': "THOST_FTDC_SC_NoSpecialRule", '1': "THOST_FTDC_SC_NoSpringFestival"}
-
-func (e TThostFtdcSpecialCreateRuleType) String() string {
-	if s, ok := mpTThostFtdcSpecialCreateRuleType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_SC_NoSpecialRule    TThostFtdcSpecialCreateRuleType = '0' // 没有特殊创建规则
+	THOST_FTDC_SC_NoSpringFestival TThostFtdcSpecialCreateRuleType = '1' // 不包含春节
+)
 
 // 挂牌基准价类型类型
+//
+//go:generate stringer -type TThostFtdcBasisPriceTypeType -linecomment
 type TThostFtdcBasisPriceTypeType byte
 
-const THOST_FTDC_IPT_LastSettlement TThostFtdcBasisPriceTypeType = '1' // 上一合约结算价
-
-const THOST_FTDC_IPT_LaseClose TThostFtdcBasisPriceTypeType = '2' // 上一合约收盘价
-
-var mpTThostFtdcBasisPriceTypeType = map[TThostFtdcBasisPriceTypeType]string{'1': "THOST_FTDC_IPT_LastSettlement", '2': "THOST_FTDC_IPT_LaseClose"}
-
-func (e TThostFtdcBasisPriceTypeType) String() string {
-	if s, ok := mpTThostFtdcBasisPriceTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_IPT_LastSettlement TThostFtdcBasisPriceTypeType = '1' // 上一合约结算价
+	THOST_FTDC_IPT_LaseClose      TThostFtdcBasisPriceTypeType = '2' // 上一合约收盘价
+)
 
 // 产品生命周期状态类型
+//
+//go:generate stringer -type TThostFtdcProductLifePhaseType -linecomment
 type TThostFtdcProductLifePhaseType byte
 
-const THOST_FTDC_PLP_Active TThostFtdcProductLifePhaseType = '1' // 活跃
-
-const THOST_FTDC_PLP_NonActive TThostFtdcProductLifePhaseType = '2' // 不活跃
-
-const THOST_FTDC_PLP_Canceled TThostFtdcProductLifePhaseType = '3' // 注销
-
-var mpTThostFtdcProductLifePhaseType = map[TThostFtdcProductLifePhaseType]string{'1': "THOST_FTDC_PLP_Active", '2': "THOST_FTDC_PLP_NonActive", '3': "THOST_FTDC_PLP_Canceled"}
-
-func (e TThostFtdcProductLifePhaseType) String() string {
-	if s, ok := mpTThostFtdcProductLifePhaseType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_PLP_Active    TThostFtdcProductLifePhaseType = '1' // 活跃
+	THOST_FTDC_PLP_NonActive TThostFtdcProductLifePhaseType = '2' // 不活跃
+	THOST_FTDC_PLP_Canceled  TThostFtdcProductLifePhaseType = '3' // 注销
+)
 
 // 交割方式类型
+//
+//go:generate stringer -type TThostFtdcDeliveryModeType -linecomment
 type TThostFtdcDeliveryModeType byte
 
-const THOST_FTDC_DM_CashDeliv TThostFtdcDeliveryModeType = '1' // 现金交割
-
-const THOST_FTDC_DM_CommodityDeliv TThostFtdcDeliveryModeType = '2' // 实物交割
-
-var mpTThostFtdcDeliveryModeType = map[TThostFtdcDeliveryModeType]string{'1': "THOST_FTDC_DM_CashDeliv", '2': "THOST_FTDC_DM_CommodityDeliv"}
-
-func (e TThostFtdcDeliveryModeType) String() string {
-	if s, ok := mpTThostFtdcDeliveryModeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_DM_CashDeliv      TThostFtdcDeliveryModeType = '1' // 现金交割
+	THOST_FTDC_DM_CommodityDeliv TThostFtdcDeliveryModeType = '2' // 实物交割
+)
 
 // 日志级别类型
 type TThostFtdcLogLevelType Byte33
@@ -1942,76 +1295,48 @@ type TThostFtdcProcessNameType Byte257
 type TThostFtdcOperationMemoType Byte1025
 
 // 出入金类型类型
+//
+//go:generate stringer -type TThostFtdcFundIOTypeType -linecomment
 type TThostFtdcFundIOTypeType byte
 
-const THOST_FTDC_FIOT_FundIO TThostFtdcFundIOTypeType = '1' // 出入金
-
-const THOST_FTDC_FIOT_Transfer TThostFtdcFundIOTypeType = '2' // 银期转帐
-
-const THOST_FTDC_FIOT_SwapCurrency TThostFtdcFundIOTypeType = '3' // 银期换汇
-
-var mpTThostFtdcFundIOTypeType = map[TThostFtdcFundIOTypeType]string{'1': "THOST_FTDC_FIOT_FundIO", '2': "THOST_FTDC_FIOT_Transfer", '3': "THOST_FTDC_FIOT_SwapCurrency"}
-
-func (e TThostFtdcFundIOTypeType) String() string {
-	if s, ok := mpTThostFtdcFundIOTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FIOT_FundIO       TThostFtdcFundIOTypeType = '1' // 出入金
+	THOST_FTDC_FIOT_Transfer     TThostFtdcFundIOTypeType = '2' // 银期转帐
+	THOST_FTDC_FIOT_SwapCurrency TThostFtdcFundIOTypeType = '3' // 银期换汇
+)
 
 // 资金类型类型
+//
+//go:generate stringer -type TThostFtdcFundTypeType -linecomment
 type TThostFtdcFundTypeType byte
 
-const THOST_FTDC_FT_Deposite TThostFtdcFundTypeType = '1' // 银行存款
-
-const THOST_FTDC_FT_ItemFund TThostFtdcFundTypeType = '2' // 分项资金
-
-const THOST_FTDC_FT_Company TThostFtdcFundTypeType = '3' // 公司调整
-
-const THOST_FTDC_FT_InnerTransfer TThostFtdcFundTypeType = '4' // 资金内转
-
-var mpTThostFtdcFundTypeType = map[TThostFtdcFundTypeType]string{'1': "THOST_FTDC_FT_Deposite", '2': "THOST_FTDC_FT_ItemFund", '3': "THOST_FTDC_FT_Company", '4': "THOST_FTDC_FT_InnerTransfer"}
-
-func (e TThostFtdcFundTypeType) String() string {
-	if s, ok := mpTThostFtdcFundTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FT_Deposite      TThostFtdcFundTypeType = '1' // 银行存款
+	THOST_FTDC_FT_ItemFund      TThostFtdcFundTypeType = '2' // 分项资金
+	THOST_FTDC_FT_Company       TThostFtdcFundTypeType = '3' // 公司调整
+	THOST_FTDC_FT_InnerTransfer TThostFtdcFundTypeType = '4' // 资金内转
+)
 
 // 出入金方向类型
+//
+//go:generate stringer -type TThostFtdcFundDirectionType -linecomment
 type TThostFtdcFundDirectionType byte
 
-const THOST_FTDC_FD_In TThostFtdcFundDirectionType = '1' // 入金
-
-const THOST_FTDC_FD_Out TThostFtdcFundDirectionType = '2' // 出金
-
-var mpTThostFtdcFundDirectionType = map[TThostFtdcFundDirectionType]string{'1': "THOST_FTDC_FD_In", '2': "THOST_FTDC_FD_Out"}
-
-func (e TThostFtdcFundDirectionType) String() string {
-	if s, ok := mpTThostFtdcFundDirectionType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FD_In  TThostFtdcFundDirectionType = '1' // 入金
+	THOST_FTDC_FD_Out TThostFtdcFundDirectionType = '2' // 出金
+)
 
 // 资金状态类型
+//
+//go:generate stringer -type TThostFtdcFundStatusType -linecomment
 type TThostFtdcFundStatusType byte
 
-const THOST_FTDC_FS_Record TThostFtdcFundStatusType = '1' // 已录入
-
-const THOST_FTDC_FS_Check TThostFtdcFundStatusType = '2' // 已复核
-
-const THOST_FTDC_FS_Charge TThostFtdcFundStatusType = '3' // 已冲销
-
-var mpTThostFtdcFundStatusType = map[TThostFtdcFundStatusType]string{'1': "THOST_FTDC_FS_Record", '2': "THOST_FTDC_FS_Check", '3': "THOST_FTDC_FS_Charge"}
-
-func (e TThostFtdcFundStatusType) String() string {
-	if s, ok := mpTThostFtdcFundStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FS_Record TThostFtdcFundStatusType = '1' // 已录入
+	THOST_FTDC_FS_Check  TThostFtdcFundStatusType = '2' // 已复核
+	THOST_FTDC_FS_Charge TThostFtdcFundStatusType = '3' // 已冲销
+)
 
 // 票据号类型
 type TThostFtdcBillNoType Byte15
@@ -2020,22 +1345,15 @@ type TThostFtdcBillNoType Byte15
 type TThostFtdcBillNameType Byte33
 
 // 发布状态类型
+//
+//go:generate stringer -type TThostFtdcPublishStatusType -linecomment
 type TThostFtdcPublishStatusType byte
 
-const THOST_FTDC_PS_None TThostFtdcPublishStatusType = '1' // 未发布
-
-const THOST_FTDC_PS_Publishing TThostFtdcPublishStatusType = '2' // 正在发布
-
-const THOST_FTDC_PS_Published TThostFtdcPublishStatusType = '3' // 已发布
-
-var mpTThostFtdcPublishStatusType = map[TThostFtdcPublishStatusType]string{'1': "THOST_FTDC_PS_None", '2': "THOST_FTDC_PS_Publishing", '3': "THOST_FTDC_PS_Published"}
-
-func (e TThostFtdcPublishStatusType) String() string {
-	if s, ok := mpTThostFtdcPublishStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_PS_None       TThostFtdcPublishStatusType = '1' // 未发布
+	THOST_FTDC_PS_Publishing TThostFtdcPublishStatusType = '2' // 正在发布
+	THOST_FTDC_PS_Published  TThostFtdcPublishStatusType = '3' // 已发布
+)
 
 // 枚举值代码类型
 type TThostFtdcEnumValueIDType Byte65
@@ -2050,50 +1368,31 @@ type TThostFtdcEnumValueLabelType Byte65
 type TThostFtdcEnumValueResultType Byte33
 
 // 系统状态类型
+//
+//go:generate stringer -type TThostFtdcSystemStatusType -linecomment
 type TThostFtdcSystemStatusType byte
 
-const THOST_FTDC_ES_NonActive TThostFtdcSystemStatusType = '1' // 不活跃
-
-const THOST_FTDC_ES_Startup TThostFtdcSystemStatusType = '2' // 启动
-
-const THOST_FTDC_ES_Initialize TThostFtdcSystemStatusType = '3' // 交易开始初始化
-
-const THOST_FTDC_ES_Initialized TThostFtdcSystemStatusType = '4' // 交易完成初始化
-
-const THOST_FTDC_ES_Close TThostFtdcSystemStatusType = '5' // 收市开始
-
-const THOST_FTDC_ES_Closed TThostFtdcSystemStatusType = '6' // 收市完成
-
-const THOST_FTDC_ES_Settlement TThostFtdcSystemStatusType = '7' // 结算
-
-var mpTThostFtdcSystemStatusType = map[TThostFtdcSystemStatusType]string{'1': "THOST_FTDC_ES_NonActive", '2': "THOST_FTDC_ES_Startup", '3': "THOST_FTDC_ES_Initialize", '4': "THOST_FTDC_ES_Initialized", '5': "THOST_FTDC_ES_Close", '6': "THOST_FTDC_ES_Closed", '7': "THOST_FTDC_ES_Settlement"}
-
-func (e TThostFtdcSystemStatusType) String() string {
-	if s, ok := mpTThostFtdcSystemStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_ES_NonActive   TThostFtdcSystemStatusType = '1' // 不活跃
+	THOST_FTDC_ES_Startup     TThostFtdcSystemStatusType = '2' // 启动
+	THOST_FTDC_ES_Initialize  TThostFtdcSystemStatusType = '3' // 交易开始初始化
+	THOST_FTDC_ES_Initialized TThostFtdcSystemStatusType = '4' // 交易完成初始化
+	THOST_FTDC_ES_Close       TThostFtdcSystemStatusType = '5' // 收市开始
+	THOST_FTDC_ES_Closed      TThostFtdcSystemStatusType = '6' // 收市完成
+	THOST_FTDC_ES_Settlement  TThostFtdcSystemStatusType = '7' // 结算
+)
 
 // 结算状态类型
+//
+//go:generate stringer -type TThostFtdcSettlementStatusType -linecomment
 type TThostFtdcSettlementStatusType byte
 
-const THOST_FTDC_STS_Initialize TThostFtdcSettlementStatusType = '0' // 初始
-
-const THOST_FTDC_STS_Settlementing TThostFtdcSettlementStatusType = '1' // 结算中
-
-const THOST_FTDC_STS_Settlemented TThostFtdcSettlementStatusType = '2' // 已结算
-
-const THOST_FTDC_STS_Finished TThostFtdcSettlementStatusType = '3' // 结算完成
-
-var mpTThostFtdcSettlementStatusType = map[TThostFtdcSettlementStatusType]string{'0': "THOST_FTDC_STS_Initialize", '1': "THOST_FTDC_STS_Settlementing", '2': "THOST_FTDC_STS_Settlemented", '3': "THOST_FTDC_STS_Finished"}
-
-func (e TThostFtdcSettlementStatusType) String() string {
-	if s, ok := mpTThostFtdcSettlementStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_STS_Initialize    TThostFtdcSettlementStatusType = '0' // 初始
+	THOST_FTDC_STS_Settlementing TThostFtdcSettlementStatusType = '1' // 结算中
+	THOST_FTDC_STS_Settlemented  TThostFtdcSettlementStatusType = '2' // 已结算
+	THOST_FTDC_STS_Finished      TThostFtdcSettlementStatusType = '3' // 结算完成
+)
 
 // 限定值类型类型
 type TThostFtdcRangeIntTypeType Byte33
@@ -2129,152 +1428,94 @@ type TThostFtdcCombineIDType Byte25
 type TThostFtdcCombineTypeType Byte25
 
 // 投资者类型类型
+//
+//go:generate stringer -type TThostFtdcInvestorTypeType -linecomment
 type TThostFtdcInvestorTypeType byte
 
-const THOST_FTDC_CT_Person TThostFtdcInvestorTypeType = '0' // 自然人
-
-const THOST_FTDC_CT_Company TThostFtdcInvestorTypeType = '1' // 法人
-
-const THOST_FTDC_CT_Fund TThostFtdcInvestorTypeType = '2' // 投资基金
-
-const THOST_FTDC_CT_SpecialOrgan TThostFtdcInvestorTypeType = '3' // 特殊法人
-
-const THOST_FTDC_CT_Asset TThostFtdcInvestorTypeType = '4' // 资管户
-
-var mpTThostFtdcInvestorTypeType = map[TThostFtdcInvestorTypeType]string{'0': "THOST_FTDC_CT_Person", '1': "THOST_FTDC_CT_Company", '2': "THOST_FTDC_CT_Fund", '3': "THOST_FTDC_CT_SpecialOrgan", '4': "THOST_FTDC_CT_Asset"}
-
-func (e TThostFtdcInvestorTypeType) String() string {
-	if s, ok := mpTThostFtdcInvestorTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_CT_Person       TThostFtdcInvestorTypeType = '0' // 自然人
+	THOST_FTDC_CT_Company      TThostFtdcInvestorTypeType = '1' // 法人
+	THOST_FTDC_CT_Fund         TThostFtdcInvestorTypeType = '2' // 投资基金
+	THOST_FTDC_CT_SpecialOrgan TThostFtdcInvestorTypeType = '3' // 特殊法人
+	THOST_FTDC_CT_Asset        TThostFtdcInvestorTypeType = '4' // 资管户
+)
 
 // 经纪公司类型类型
+//
+//go:generate stringer -type TThostFtdcBrokerTypeType -linecomment
 type TThostFtdcBrokerTypeType byte
 
-const THOST_FTDC_BT_Trade TThostFtdcBrokerTypeType = '0' // 交易会员
-
-const THOST_FTDC_BT_TradeSettle TThostFtdcBrokerTypeType = '1' // 交易结算会员
-
-var mpTThostFtdcBrokerTypeType = map[TThostFtdcBrokerTypeType]string{'0': "THOST_FTDC_BT_Trade", '1': "THOST_FTDC_BT_TradeSettle"}
-
-func (e TThostFtdcBrokerTypeType) String() string {
-	if s, ok := mpTThostFtdcBrokerTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_BT_Trade       TThostFtdcBrokerTypeType = '0' // 交易会员
+	THOST_FTDC_BT_TradeSettle TThostFtdcBrokerTypeType = '1' // 交易结算会员
+)
 
 // 风险等级类型
+//
+//go:generate stringer -type TThostFtdcRiskLevelType -linecomment
 type TThostFtdcRiskLevelType byte
 
-const THOST_FTDC_FAS_Low TThostFtdcRiskLevelType = '1' // 低风险客户
-
-const THOST_FTDC_FAS_Normal TThostFtdcRiskLevelType = '2' // 普通客户
-
-const THOST_FTDC_FAS_Focus TThostFtdcRiskLevelType = '3' // 关注客户
-
-const THOST_FTDC_FAS_Risk TThostFtdcRiskLevelType = '4' // 风险客户
-
-var mpTThostFtdcRiskLevelType = map[TThostFtdcRiskLevelType]string{'1': "THOST_FTDC_FAS_Low", '2': "THOST_FTDC_FAS_Normal", '3': "THOST_FTDC_FAS_Focus", '4': "THOST_FTDC_FAS_Risk"}
-
-func (e TThostFtdcRiskLevelType) String() string {
-	if s, ok := mpTThostFtdcRiskLevelType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FAS_Low    TThostFtdcRiskLevelType = '1' // 低风险客户
+	THOST_FTDC_FAS_Normal TThostFtdcRiskLevelType = '2' // 普通客户
+	THOST_FTDC_FAS_Focus  TThostFtdcRiskLevelType = '3' // 关注客户
+	THOST_FTDC_FAS_Risk   TThostFtdcRiskLevelType = '4' // 风险客户
+)
 
 // 手续费收取方式类型
+//
+//go:generate stringer -type TThostFtdcFeeAcceptStyleType -linecomment
 type TThostFtdcFeeAcceptStyleType byte
 
-const THOST_FTDC_FAS_ByTrade TThostFtdcFeeAcceptStyleType = '1' // 按交易收取
-
-const THOST_FTDC_FAS_ByDeliv TThostFtdcFeeAcceptStyleType = '2' // 按交割收取
-
-const THOST_FTDC_FAS_None TThostFtdcFeeAcceptStyleType = '3' // 不收
-
-const THOST_FTDC_FAS_FixFee TThostFtdcFeeAcceptStyleType = '4' // 按指定手续费收取
-
-var mpTThostFtdcFeeAcceptStyleType = map[TThostFtdcFeeAcceptStyleType]string{'1': "THOST_FTDC_FAS_ByTrade", '2': "THOST_FTDC_FAS_ByDeliv", '3': "THOST_FTDC_FAS_None", '4': "THOST_FTDC_FAS_FixFee"}
-
-func (e TThostFtdcFeeAcceptStyleType) String() string {
-	if s, ok := mpTThostFtdcFeeAcceptStyleType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FAS_ByTrade TThostFtdcFeeAcceptStyleType = '1' // 按交易收取
+	THOST_FTDC_FAS_ByDeliv TThostFtdcFeeAcceptStyleType = '2' // 按交割收取
+	THOST_FTDC_FAS_None    TThostFtdcFeeAcceptStyleType = '3' // 不收
+	THOST_FTDC_FAS_FixFee  TThostFtdcFeeAcceptStyleType = '4' // 按指定手续费收取
+)
 
 // 密码类型类型
+//
+//go:generate stringer -type TThostFtdcPasswordTypeType -linecomment
 type TThostFtdcPasswordTypeType byte
 
-const THOST_FTDC_PWDT_Trade TThostFtdcPasswordTypeType = '1' // 交易密码
-
-const THOST_FTDC_PWDT_Account TThostFtdcPasswordTypeType = '2' // 资金密码
-
-var mpTThostFtdcPasswordTypeType = map[TThostFtdcPasswordTypeType]string{'1': "THOST_FTDC_PWDT_Trade", '2': "THOST_FTDC_PWDT_Account"}
-
-func (e TThostFtdcPasswordTypeType) String() string {
-	if s, ok := mpTThostFtdcPasswordTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_PWDT_Trade   TThostFtdcPasswordTypeType = '1' // 交易密码
+	THOST_FTDC_PWDT_Account TThostFtdcPasswordTypeType = '2' // 资金密码
+)
 
 // 盈亏算法类型
+//
+//go:generate stringer -type TThostFtdcAlgorithmType -linecomment
 type TThostFtdcAlgorithmType byte
 
-const THOST_FTDC_AG_All TThostFtdcAlgorithmType = '1' // 浮盈浮亏都计算
-
-const THOST_FTDC_AG_OnlyLost TThostFtdcAlgorithmType = '2' // 浮盈不计，浮亏计
-
-const THOST_FTDC_AG_OnlyGain TThostFtdcAlgorithmType = '3' // 浮盈计，浮亏不计
-
-const THOST_FTDC_AG_None TThostFtdcAlgorithmType = '4' // 浮盈浮亏都不计算
-
-var mpTThostFtdcAlgorithmType = map[TThostFtdcAlgorithmType]string{'1': "THOST_FTDC_AG_All", '2': "THOST_FTDC_AG_OnlyLost", '3': "THOST_FTDC_AG_OnlyGain", '4': "THOST_FTDC_AG_None"}
-
-func (e TThostFtdcAlgorithmType) String() string {
-	if s, ok := mpTThostFtdcAlgorithmType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_AG_All      TThostFtdcAlgorithmType = '1' // 浮盈浮亏都计算
+	THOST_FTDC_AG_OnlyLost TThostFtdcAlgorithmType = '2' // 浮盈不计，浮亏计
+	THOST_FTDC_AG_OnlyGain TThostFtdcAlgorithmType = '3' // 浮盈计，浮亏不计
+	THOST_FTDC_AG_None     TThostFtdcAlgorithmType = '4' // 浮盈浮亏都不计算
+)
 
 // 是否包含平仓盈利类型
+//
+//go:generate stringer -type TThostFtdcIncludeCloseProfitType -linecomment
 type TThostFtdcIncludeCloseProfitType byte
 
-const THOST_FTDC_ICP_Include TThostFtdcIncludeCloseProfitType = '0' // 包含平仓盈利
-
-const THOST_FTDC_ICP_NotInclude TThostFtdcIncludeCloseProfitType = '2' // 不包含平仓盈利
-
-var mpTThostFtdcIncludeCloseProfitType = map[TThostFtdcIncludeCloseProfitType]string{'0': "THOST_FTDC_ICP_Include", '2': "THOST_FTDC_ICP_NotInclude"}
-
-func (e TThostFtdcIncludeCloseProfitType) String() string {
-	if s, ok := mpTThostFtdcIncludeCloseProfitType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_ICP_Include    TThostFtdcIncludeCloseProfitType = '0' // 包含平仓盈利
+	THOST_FTDC_ICP_NotInclude TThostFtdcIncludeCloseProfitType = '2' // 不包含平仓盈利
+)
 
 // 是否受可提比例限制类型
+//
+//go:generate stringer -type TThostFtdcAllWithoutTradeType -linecomment
 type TThostFtdcAllWithoutTradeType byte
 
-const THOST_FTDC_AWT_Enable TThostFtdcAllWithoutTradeType = '0' // 无仓无成交不受可提比例限制
-
-const THOST_FTDC_AWT_Disable TThostFtdcAllWithoutTradeType = '2' // 受可提比例限制
-
-const THOST_FTDC_AWT_NoHoldEnable TThostFtdcAllWithoutTradeType = '3' // 无仓不受可提比例限制
-
-var mpTThostFtdcAllWithoutTradeType = map[TThostFtdcAllWithoutTradeType]string{'0': "THOST_FTDC_AWT_Enable", '2': "THOST_FTDC_AWT_Disable", '3': "THOST_FTDC_AWT_NoHoldEnable"}
-
-func (e TThostFtdcAllWithoutTradeType) String() string {
-	if s, ok := mpTThostFtdcAllWithoutTradeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_AWT_Enable       TThostFtdcAllWithoutTradeType = '0' // 无仓无成交不受可提比例限制
+	THOST_FTDC_AWT_Disable      TThostFtdcAllWithoutTradeType = '2' // 受可提比例限制
+	THOST_FTDC_AWT_NoHoldEnable TThostFtdcAllWithoutTradeType = '3' // 无仓不受可提比例限制
+)
 
 // 盈亏算法说明类型
 type TThostFtdcCommentType Byte31
@@ -2322,36 +1563,24 @@ type TThostFtdcRecordNumType Byte7
 type TThostFtdcFutureAccountType Byte22
 
 // 资金密码核对标志类型
+//
+//go:generate stringer -type TThostFtdcFuturePwdFlagType -linecomment
 type TThostFtdcFuturePwdFlagType byte
 
-const THOST_FTDC_FPWD_UnCheck TThostFtdcFuturePwdFlagType = '0' // 不核对
-
-const THOST_FTDC_FPWD_Check TThostFtdcFuturePwdFlagType = '1' // 核对
-
-var mpTThostFtdcFuturePwdFlagType = map[TThostFtdcFuturePwdFlagType]string{'0': "THOST_FTDC_FPWD_UnCheck", '1': "THOST_FTDC_FPWD_Check"}
-
-func (e TThostFtdcFuturePwdFlagType) String() string {
-	if s, ok := mpTThostFtdcFuturePwdFlagType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FPWD_UnCheck TThostFtdcFuturePwdFlagType = '0' // 不核对
+	THOST_FTDC_FPWD_Check   TThostFtdcFuturePwdFlagType = '1' // 核对
+)
 
 // 银期转账类型类型
+//
+//go:generate stringer -type TThostFtdcTransferTypeType -linecomment
 type TThostFtdcTransferTypeType byte
 
-const THOST_FTDC_TT_BankToFuture TThostFtdcTransferTypeType = '0' // 银行转期货
-
-const THOST_FTDC_TT_FutureToBank TThostFtdcTransferTypeType = '1' // 期货转银行
-
-var mpTThostFtdcTransferTypeType = map[TThostFtdcTransferTypeType]string{'0': "THOST_FTDC_TT_BankToFuture", '1': "THOST_FTDC_TT_FutureToBank"}
-
-func (e TThostFtdcTransferTypeType) String() string {
-	if s, ok := mpTThostFtdcTransferTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_TT_BankToFuture TThostFtdcTransferTypeType = '0' // 银行转期货
+	THOST_FTDC_TT_FutureToBank TThostFtdcTransferTypeType = '1' // 期货转银行
+)
 
 // 期货资金密码类型
 type TThostFtdcFutureAccPwdType Byte17
@@ -2375,64 +1604,43 @@ type TThostFtdcUseAmtType Byte20
 type TThostFtdcFetchAmtType Byte20
 
 // 转账有效标志类型
+//
+//go:generate stringer -type TThostFtdcTransferValidFlagType -linecomment
 type TThostFtdcTransferValidFlagType byte
 
-const THOST_FTDC_TVF_Invalid TThostFtdcTransferValidFlagType = '0' // 无效或失败
-
-const THOST_FTDC_TVF_Valid TThostFtdcTransferValidFlagType = '1' // 有效
-
-const THOST_FTDC_TVF_Reverse TThostFtdcTransferValidFlagType = '2' // 冲正
-
-var mpTThostFtdcTransferValidFlagType = map[TThostFtdcTransferValidFlagType]string{'0': "THOST_FTDC_TVF_Invalid", '1': "THOST_FTDC_TVF_Valid", '2': "THOST_FTDC_TVF_Reverse"}
-
-func (e TThostFtdcTransferValidFlagType) String() string {
-	if s, ok := mpTThostFtdcTransferValidFlagType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_TVF_Invalid TThostFtdcTransferValidFlagType = '0' // 无效或失败
+	THOST_FTDC_TVF_Valid   TThostFtdcTransferValidFlagType = '1' // 有效
+	THOST_FTDC_TVF_Reverse TThostFtdcTransferValidFlagType = '2' // 冲正
+)
 
 // 证件号码类型
 type TThostFtdcCertCodeType Byte21
 
 // 事由类型
+//
+//go:generate stringer -type TThostFtdcReasonType -linecomment
 type TThostFtdcReasonType byte
 
-const THOST_FTDC_RN_CD TThostFtdcReasonType = '0' // 错单
-
-const THOST_FTDC_RN_ZT TThostFtdcReasonType = '1' // 资金在途
-
-const THOST_FTDC_RN_QT TThostFtdcReasonType = '2' // 其它
-
-var mpTThostFtdcReasonType = map[TThostFtdcReasonType]string{'0': "THOST_FTDC_RN_CD", '1': "THOST_FTDC_RN_ZT", '2': "THOST_FTDC_RN_QT"}
-
-func (e TThostFtdcReasonType) String() string {
-	if s, ok := mpTThostFtdcReasonType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_RN_CD TThostFtdcReasonType = '0' // 错单
+	THOST_FTDC_RN_ZT TThostFtdcReasonType = '1' // 资金在途
+	THOST_FTDC_RN_QT TThostFtdcReasonType = '2' // 其它
+)
 
 // 资金项目编号类型
 type TThostFtdcFundProjectIDType Byte5
 
 // 性别类型
+//
+//go:generate stringer -type TThostFtdcSexType -linecomment
 type TThostFtdcSexType byte
 
-const THOST_FTDC_SEX_None TThostFtdcSexType = '0' // 未知
-
-const THOST_FTDC_SEX_Man TThostFtdcSexType = '1' // 男
-
-const THOST_FTDC_SEX_Woman TThostFtdcSexType = '2' // 女
-
-var mpTThostFtdcSexType = map[TThostFtdcSexType]string{'0': "THOST_FTDC_SEX_None", '1': "THOST_FTDC_SEX_Man", '2': "THOST_FTDC_SEX_Woman"}
-
-func (e TThostFtdcSexType) String() string {
-	if s, ok := mpTThostFtdcSexType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_SEX_None  TThostFtdcSexType = '0' // 未知
+	THOST_FTDC_SEX_Man   TThostFtdcSexType = '1' // 男
+	THOST_FTDC_SEX_Woman TThostFtdcSexType = '2' // 女
+)
 
 // 职业类型
 type TThostFtdcProfessionType Byte101
@@ -2462,79 +1670,49 @@ type TThostFtdcBusinessScopeType Byte1001
 type TThostFtdcCapitalCurrencyType Byte4
 
 // 用户类型类型
+//
+//go:generate stringer -type TThostFtdcUserTypeType -linecomment
 type TThostFtdcUserTypeType byte
 
-const THOST_FTDC_UT_Investor TThostFtdcUserTypeType = '0' // 投资者
-
-const THOST_FTDC_UT_Operator TThostFtdcUserTypeType = '1' // 操作员
-
-const THOST_FTDC_UT_SuperUser TThostFtdcUserTypeType = '2' // 管理员
-
-var mpTThostFtdcUserTypeType = map[TThostFtdcUserTypeType]string{'0': "THOST_FTDC_UT_Investor", '1': "THOST_FTDC_UT_Operator", '2': "THOST_FTDC_UT_SuperUser"}
-
-func (e TThostFtdcUserTypeType) String() string {
-	if s, ok := mpTThostFtdcUserTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_UT_Investor  TThostFtdcUserTypeType = '0' // 投资者
+	THOST_FTDC_UT_Operator  TThostFtdcUserTypeType = '1' // 操作员
+	THOST_FTDC_UT_SuperUser TThostFtdcUserTypeType = '2' // 管理员
+)
 
 // 营业部编号类型
 type TThostFtdcBranchIDType Byte9
 
 // 费率类型类型
+//
+//go:generate stringer -type TThostFtdcRateTypeType -linecomment
 type TThostFtdcRateTypeType byte
 
 const THOST_FTDC_RATETYPE_MarginRate TThostFtdcRateTypeType = '2' // 保证金率
 
-var mpTThostFtdcRateTypeType = map[TThostFtdcRateTypeType]string{'2': "THOST_FTDC_RATETYPE_MarginRate"}
-
-func (e TThostFtdcRateTypeType) String() string {
-	if s, ok := mpTThostFtdcRateTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
-
 // 通知类型类型
+//
+//go:generate stringer -type TThostFtdcNoteTypeType -linecomment
 type TThostFtdcNoteTypeType byte
 
-const THOST_FTDC_NOTETYPE_TradeSettleBill TThostFtdcNoteTypeType = '1' // 交易结算单
-
-const THOST_FTDC_NOTETYPE_TradeSettleMonth TThostFtdcNoteTypeType = '2' // 交易结算月报
-
-const THOST_FTDC_NOTETYPE_CallMarginNotes TThostFtdcNoteTypeType = '3' // 追加保证金通知书
-
-const THOST_FTDC_NOTETYPE_ForceCloseNotes TThostFtdcNoteTypeType = '4' // 强行平仓通知书
-
-const THOST_FTDC_NOTETYPE_TradeNotes TThostFtdcNoteTypeType = '5' // 成交通知书
-
-const THOST_FTDC_NOTETYPE_DelivNotes TThostFtdcNoteTypeType = '6' // 交割通知书
-
-var mpTThostFtdcNoteTypeType = map[TThostFtdcNoteTypeType]string{'1': "THOST_FTDC_NOTETYPE_TradeSettleBill", '2': "THOST_FTDC_NOTETYPE_TradeSettleMonth", '3': "THOST_FTDC_NOTETYPE_CallMarginNotes", '4': "THOST_FTDC_NOTETYPE_ForceCloseNotes", '5': "THOST_FTDC_NOTETYPE_TradeNotes", '6': "THOST_FTDC_NOTETYPE_DelivNotes"}
-
-func (e TThostFtdcNoteTypeType) String() string {
-	if s, ok := mpTThostFtdcNoteTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_NOTETYPE_TradeSettleBill  TThostFtdcNoteTypeType = '1' // 交易结算单
+	THOST_FTDC_NOTETYPE_TradeSettleMonth TThostFtdcNoteTypeType = '2' // 交易结算月报
+	THOST_FTDC_NOTETYPE_CallMarginNotes  TThostFtdcNoteTypeType = '3' // 追加保证金通知书
+	THOST_FTDC_NOTETYPE_ForceCloseNotes  TThostFtdcNoteTypeType = '4' // 强行平仓通知书
+	THOST_FTDC_NOTETYPE_TradeNotes       TThostFtdcNoteTypeType = '5' // 成交通知书
+	THOST_FTDC_NOTETYPE_DelivNotes       TThostFtdcNoteTypeType = '6' // 交割通知书
+)
 
 // 结算单方式类型
+//
+//go:generate stringer -type TThostFtdcSettlementStyleType -linecomment
 type TThostFtdcSettlementStyleType byte
 
-const THOST_FTDC_SBS_Day TThostFtdcSettlementStyleType = '1' // 逐日盯市
-
-const THOST_FTDC_SBS_Volume TThostFtdcSettlementStyleType = '2' // 逐笔对冲
-
-var mpTThostFtdcSettlementStyleType = map[TThostFtdcSettlementStyleType]string{'1': "THOST_FTDC_SBS_Day", '2': "THOST_FTDC_SBS_Volume"}
-
-func (e TThostFtdcSettlementStyleType) String() string {
-	if s, ok := mpTThostFtdcSettlementStyleType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_SBS_Day    TThostFtdcSettlementStyleType = '1' // 逐日盯市
+	THOST_FTDC_SBS_Volume TThostFtdcSettlementStyleType = '2' // 逐笔对冲
+)
 
 // 域名类型
 type TThostFtdcBrokerDNSType Byte256
@@ -2543,230 +1721,139 @@ type TThostFtdcBrokerDNSType Byte256
 type TThostFtdcSentenceType Byte501
 
 // 结算单类型类型
+//
+//go:generate stringer -type TThostFtdcSettlementBillTypeType -linecomment
 type TThostFtdcSettlementBillTypeType byte
 
-const THOST_FTDC_ST_Day TThostFtdcSettlementBillTypeType = '0' // 日报
-
-const THOST_FTDC_ST_Month TThostFtdcSettlementBillTypeType = '1' // 月报
-
-var mpTThostFtdcSettlementBillTypeType = map[TThostFtdcSettlementBillTypeType]string{'0': "THOST_FTDC_ST_Day", '1': "THOST_FTDC_ST_Month"}
-
-func (e TThostFtdcSettlementBillTypeType) String() string {
-	if s, ok := mpTThostFtdcSettlementBillTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_ST_Day   TThostFtdcSettlementBillTypeType = '0' // 日报
+	THOST_FTDC_ST_Month TThostFtdcSettlementBillTypeType = '1' // 月报
+)
 
 // 客户权限类型类型
+//
+//go:generate stringer -type TThostFtdcUserRightTypeType -linecomment
 type TThostFtdcUserRightTypeType byte
 
-const THOST_FTDC_URT_Logon TThostFtdcUserRightTypeType = '1' // 登录
-
-const THOST_FTDC_URT_Transfer TThostFtdcUserRightTypeType = '2' // 银期转帐
-
-const THOST_FTDC_URT_EMail TThostFtdcUserRightTypeType = '3' // 邮寄结算单
-
-const THOST_FTDC_URT_Fax TThostFtdcUserRightTypeType = '4' // 传真结算单
-
-const THOST_FTDC_URT_ConditionOrder TThostFtdcUserRightTypeType = '5' // 条件单
-
-var mpTThostFtdcUserRightTypeType = map[TThostFtdcUserRightTypeType]string{'1': "THOST_FTDC_URT_Logon", '2': "THOST_FTDC_URT_Transfer", '3': "THOST_FTDC_URT_EMail", '4': "THOST_FTDC_URT_Fax", '5': "THOST_FTDC_URT_ConditionOrder"}
-
-func (e TThostFtdcUserRightTypeType) String() string {
-	if s, ok := mpTThostFtdcUserRightTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_URT_Logon          TThostFtdcUserRightTypeType = '1' // 登录
+	THOST_FTDC_URT_Transfer       TThostFtdcUserRightTypeType = '2' // 银期转帐
+	THOST_FTDC_URT_EMail          TThostFtdcUserRightTypeType = '3' // 邮寄结算单
+	THOST_FTDC_URT_Fax            TThostFtdcUserRightTypeType = '4' // 传真结算单
+	THOST_FTDC_URT_ConditionOrder TThostFtdcUserRightTypeType = '5' // 条件单
+)
 
 // 保证金价格类型类型
+//
+//go:generate stringer -type TThostFtdcMarginPriceTypeType -linecomment
 type TThostFtdcMarginPriceTypeType byte
 
-const THOST_FTDC_MPT_PreSettlementPrice TThostFtdcMarginPriceTypeType = '1' // 昨结算价
-
-const THOST_FTDC_MPT_SettlementPrice TThostFtdcMarginPriceTypeType = '2' // 最新价
-
-const THOST_FTDC_MPT_AveragePrice TThostFtdcMarginPriceTypeType = '3' // 成交均价
-
-const THOST_FTDC_MPT_OpenPrice TThostFtdcMarginPriceTypeType = '4' // 开仓价
-
-var mpTThostFtdcMarginPriceTypeType = map[TThostFtdcMarginPriceTypeType]string{'1': "THOST_FTDC_MPT_PreSettlementPrice", '2': "THOST_FTDC_MPT_SettlementPrice", '3': "THOST_FTDC_MPT_AveragePrice", '4': "THOST_FTDC_MPT_OpenPrice"}
-
-func (e TThostFtdcMarginPriceTypeType) String() string {
-	if s, ok := mpTThostFtdcMarginPriceTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_MPT_PreSettlementPrice TThostFtdcMarginPriceTypeType = '1' // 昨结算价
+	THOST_FTDC_MPT_SettlementPrice    TThostFtdcMarginPriceTypeType = '2' // 最新价
+	THOST_FTDC_MPT_AveragePrice       TThostFtdcMarginPriceTypeType = '3' // 成交均价
+	THOST_FTDC_MPT_OpenPrice          TThostFtdcMarginPriceTypeType = '4' // 开仓价
+)
 
 // 结算单生成状态类型
+//
+//go:generate stringer -type TThostFtdcBillGenStatusType -linecomment
 type TThostFtdcBillGenStatusType byte
 
-const THOST_FTDC_BGS_None TThostFtdcBillGenStatusType = '0' // 未生成
-
-const THOST_FTDC_BGS_NoGenerated TThostFtdcBillGenStatusType = '1' // 生成中
-
-const THOST_FTDC_BGS_Generated TThostFtdcBillGenStatusType = '2' // 已生成
-
-var mpTThostFtdcBillGenStatusType = map[TThostFtdcBillGenStatusType]string{'0': "THOST_FTDC_BGS_None", '1': "THOST_FTDC_BGS_NoGenerated", '2': "THOST_FTDC_BGS_Generated"}
-
-func (e TThostFtdcBillGenStatusType) String() string {
-	if s, ok := mpTThostFtdcBillGenStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_BGS_None        TThostFtdcBillGenStatusType = '0' // 未生成
+	THOST_FTDC_BGS_NoGenerated TThostFtdcBillGenStatusType = '1' // 生成中
+	THOST_FTDC_BGS_Generated   TThostFtdcBillGenStatusType = '2' // 已生成
+)
 
 // 算法类型类型
+//
+//go:generate stringer -type TThostFtdcAlgoTypeType -linecomment
 type TThostFtdcAlgoTypeType byte
 
-const THOST_FTDC_AT_HandlePositionAlgo TThostFtdcAlgoTypeType = '1' // 持仓处理算法
-
-const THOST_FTDC_AT_FindMarginRateAlgo TThostFtdcAlgoTypeType = '2' // 寻找保证金率算法
-
-var mpTThostFtdcAlgoTypeType = map[TThostFtdcAlgoTypeType]string{'1': "THOST_FTDC_AT_HandlePositionAlgo", '2': "THOST_FTDC_AT_FindMarginRateAlgo"}
-
-func (e TThostFtdcAlgoTypeType) String() string {
-	if s, ok := mpTThostFtdcAlgoTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_AT_HandlePositionAlgo TThostFtdcAlgoTypeType = '1' // 持仓处理算法
+	THOST_FTDC_AT_FindMarginRateAlgo TThostFtdcAlgoTypeType = '2' // 寻找保证金率算法
+)
 
 // 持仓处理算法编号类型
+//
+//go:generate stringer -type TThostFtdcHandlePositionAlgoIDType -linecomment
 type TThostFtdcHandlePositionAlgoIDType byte
 
-const THOST_FTDC_HPA_Base TThostFtdcHandlePositionAlgoIDType = '1' // 基本
-
-const THOST_FTDC_HPA_DCE TThostFtdcHandlePositionAlgoIDType = '2' // 大连商品交易所
-
-const THOST_FTDC_HPA_CZCE TThostFtdcHandlePositionAlgoIDType = '3' // 郑州商品交易所
-
-var mpTThostFtdcHandlePositionAlgoIDType = map[TThostFtdcHandlePositionAlgoIDType]string{'1': "THOST_FTDC_HPA_Base", '2': "THOST_FTDC_HPA_DCE", '3': "THOST_FTDC_HPA_CZCE"}
-
-func (e TThostFtdcHandlePositionAlgoIDType) String() string {
-	if s, ok := mpTThostFtdcHandlePositionAlgoIDType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_HPA_Base TThostFtdcHandlePositionAlgoIDType = '1' // 基本
+	THOST_FTDC_HPA_DCE  TThostFtdcHandlePositionAlgoIDType = '2' // 大连商品交易所
+	THOST_FTDC_HPA_CZCE TThostFtdcHandlePositionAlgoIDType = '3' // 郑州商品交易所
+)
 
 // 寻找保证金率算法编号类型
+//
+//go:generate stringer -type TThostFtdcFindMarginRateAlgoIDType -linecomment
 type TThostFtdcFindMarginRateAlgoIDType byte
 
-const THOST_FTDC_FMRA_Base TThostFtdcFindMarginRateAlgoIDType = '1' // 基本
-
-const THOST_FTDC_FMRA_DCE TThostFtdcFindMarginRateAlgoIDType = '2' // 大连商品交易所
-
-const THOST_FTDC_FMRA_CZCE TThostFtdcFindMarginRateAlgoIDType = '3' // 郑州商品交易所
-
-var mpTThostFtdcFindMarginRateAlgoIDType = map[TThostFtdcFindMarginRateAlgoIDType]string{'1': "THOST_FTDC_FMRA_Base", '2': "THOST_FTDC_FMRA_DCE", '3': "THOST_FTDC_FMRA_CZCE"}
-
-func (e TThostFtdcFindMarginRateAlgoIDType) String() string {
-	if s, ok := mpTThostFtdcFindMarginRateAlgoIDType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_FMRA_Base TThostFtdcFindMarginRateAlgoIDType = '1' // 基本
+	THOST_FTDC_FMRA_DCE  TThostFtdcFindMarginRateAlgoIDType = '2' // 大连商品交易所
+	THOST_FTDC_FMRA_CZCE TThostFtdcFindMarginRateAlgoIDType = '3' // 郑州商品交易所
+)
 
 // 资金处理算法编号类型
+//
+//go:generate stringer -type TThostFtdcHandleTradingAccountAlgoIDType -linecomment
 type TThostFtdcHandleTradingAccountAlgoIDType byte
 
-const THOST_FTDC_HTAA_Base TThostFtdcHandleTradingAccountAlgoIDType = '1' // 基本
-
-const THOST_FTDC_HTAA_DCE TThostFtdcHandleTradingAccountAlgoIDType = '2' // 大连商品交易所
-
-const THOST_FTDC_HTAA_CZCE TThostFtdcHandleTradingAccountAlgoIDType = '3' // 郑州商品交易所
-
-var mpTThostFtdcHandleTradingAccountAlgoIDType = map[TThostFtdcHandleTradingAccountAlgoIDType]string{'1': "THOST_FTDC_HTAA_Base", '2': "THOST_FTDC_HTAA_DCE", '3': "THOST_FTDC_HTAA_CZCE"}
-
-func (e TThostFtdcHandleTradingAccountAlgoIDType) String() string {
-	if s, ok := mpTThostFtdcHandleTradingAccountAlgoIDType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_HTAA_Base TThostFtdcHandleTradingAccountAlgoIDType = '1' // 基本
+	THOST_FTDC_HTAA_DCE  TThostFtdcHandleTradingAccountAlgoIDType = '2' // 大连商品交易所
+	THOST_FTDC_HTAA_CZCE TThostFtdcHandleTradingAccountAlgoIDType = '3' // 郑州商品交易所
+)
 
 // 联系人类型类型
+//
+//go:generate stringer -type TThostFtdcPersonTypeType -linecomment
 type TThostFtdcPersonTypeType byte
 
-const THOST_FTDC_PST_Order TThostFtdcPersonTypeType = '1' // 指定下单人
-
-const THOST_FTDC_PST_Open TThostFtdcPersonTypeType = '2' // 开户授权人
-
-const THOST_FTDC_PST_Fund TThostFtdcPersonTypeType = '3' // 资金调拨人
-
-const THOST_FTDC_PST_Settlement TThostFtdcPersonTypeType = '4' // 结算单确认人
-
-const THOST_FTDC_PST_Company TThostFtdcPersonTypeType = '5' // 法人
-
-const THOST_FTDC_PST_Corporation TThostFtdcPersonTypeType = '6' // 法人代表
-
-const THOST_FTDC_PST_LinkMan TThostFtdcPersonTypeType = '7' // 投资者联系人
-
-const THOST_FTDC_PST_Ledger TThostFtdcPersonTypeType = '8' // 分户管理资产负责人
-
-const THOST_FTDC_PST_Trustee TThostFtdcPersonTypeType = '9' // 托（保）管人
-
-const THOST_FTDC_PST_TrusteeCorporation TThostFtdcPersonTypeType = 'A' // 托（保）管机构法人代表
-
-const THOST_FTDC_PST_TrusteeOpen TThostFtdcPersonTypeType = 'B' // 托（保）管机构开户授权人
-
-const THOST_FTDC_PST_TrusteeContact TThostFtdcPersonTypeType = 'C' // 托（保）管机构联系人
-
-const THOST_FTDC_PST_ForeignerRefer TThostFtdcPersonTypeType = 'D' // 境外自然人参考证件
-
-const THOST_FTDC_PST_CorporationRefer TThostFtdcPersonTypeType = 'E' // 法人代表参考证件
-
-var mpTThostFtdcPersonTypeType = map[TThostFtdcPersonTypeType]string{'1': "THOST_FTDC_PST_Order", '2': "THOST_FTDC_PST_Open", '3': "THOST_FTDC_PST_Fund", '4': "THOST_FTDC_PST_Settlement", '5': "THOST_FTDC_PST_Company", '6': "THOST_FTDC_PST_Corporation", '7': "THOST_FTDC_PST_LinkMan", '8': "THOST_FTDC_PST_Ledger", '9': "THOST_FTDC_PST_Trustee", 'A': "THOST_FTDC_PST_TrusteeCorporation", 'B': "THOST_FTDC_PST_TrusteeOpen", 'C': "THOST_FTDC_PST_TrusteeContact", 'D': "THOST_FTDC_PST_ForeignerRefer", 'E': "THOST_FTDC_PST_CorporationRefer"}
-
-func (e TThostFtdcPersonTypeType) String() string {
-	if s, ok := mpTThostFtdcPersonTypeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_PST_Order              TThostFtdcPersonTypeType = '1' // 指定下单人
+	THOST_FTDC_PST_Open               TThostFtdcPersonTypeType = '2' // 开户授权人
+	THOST_FTDC_PST_Fund               TThostFtdcPersonTypeType = '3' // 资金调拨人
+	THOST_FTDC_PST_Settlement         TThostFtdcPersonTypeType = '4' // 结算单确认人
+	THOST_FTDC_PST_Company            TThostFtdcPersonTypeType = '5' // 法人
+	THOST_FTDC_PST_Corporation        TThostFtdcPersonTypeType = '6' // 法人代表
+	THOST_FTDC_PST_LinkMan            TThostFtdcPersonTypeType = '7' // 投资者联系人
+	THOST_FTDC_PST_Ledger             TThostFtdcPersonTypeType = '8' // 分户管理资产负责人
+	THOST_FTDC_PST_Trustee            TThostFtdcPersonTypeType = '9' // 托（保）管人
+	THOST_FTDC_PST_TrusteeCorporation TThostFtdcPersonTypeType = 'A' // 托（保）管机构法人代表
+	THOST_FTDC_PST_TrusteeOpen        TThostFtdcPersonTypeType = 'B' // 托（保）管机构开户授权人
+	THOST_FTDC_PST_TrusteeContact     TThostFtdcPersonTypeType = 'C' // 托（保）管机构联系人
+	THOST_FTDC_PST_ForeignerRefer     TThostFtdcPersonTypeType = 'D' // 境外自然人参考证件
+	THOST_FTDC_PST_CorporationRefer   TThostFtdcPersonTypeType = 'E' // 法人代表参考证件
+)
 
 // 查询范围类型
+//
+//go:generate stringer -type TThostFtdcQueryInvestorRangeType -linecomment
 type TThostFtdcQueryInvestorRangeType byte
 
-const THOST_FTDC_QIR_All TThostFtdcQueryInvestorRangeType = '1' // 所有
-
-const THOST_FTDC_QIR_Group TThostFtdcQueryInvestorRangeType = '2' // 查询分类
-
-const THOST_FTDC_QIR_Single TThostFtdcQueryInvestorRangeType = '3' // 单一投资者
-
-var mpTThostFtdcQueryInvestorRangeType = map[TThostFtdcQueryInvestorRangeType]string{'1': "THOST_FTDC_QIR_All", '2': "THOST_FTDC_QIR_Group", '3': "THOST_FTDC_QIR_Single"}
-
-func (e TThostFtdcQueryInvestorRangeType) String() string {
-	if s, ok := mpTThostFtdcQueryInvestorRangeType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_QIR_All    TThostFtdcQueryInvestorRangeType = '1' // 所有
+	THOST_FTDC_QIR_Group  TThostFtdcQueryInvestorRangeType = '2' // 查询分类
+	THOST_FTDC_QIR_Single TThostFtdcQueryInvestorRangeType = '3' // 单一投资者
+)
 
 // 投资者风险状态类型
+//
+//go:generate stringer -type TThostFtdcInvestorRiskStatusType -linecomment
 type TThostFtdcInvestorRiskStatusType byte
 
-const THOST_FTDC_IRS_Normal TThostFtdcInvestorRiskStatusType = '1' // 正常
-
-const THOST_FTDC_IRS_Warn TThostFtdcInvestorRiskStatusType = '2' // 警告
-
-const THOST_FTDC_IRS_Call TThostFtdcInvestorRiskStatusType = '3' // 追保
-
-const THOST_FTDC_IRS_Force TThostFtdcInvestorRiskStatusType = '4' // 强平
-
-const THOST_FTDC_IRS_Exception TThostFtdcInvestorRiskStatusType = '5' // 异常
-
-var mpTThostFtdcInvestorRiskStatusType = map[TThostFtdcInvestorRiskStatusType]string{'1': "THOST_FTDC_IRS_Normal", '2': "THOST_FTDC_IRS_Warn", '3': "THOST_FTDC_IRS_Call", '4': "THOST_FTDC_IRS_Force", '5': "THOST_FTDC_IRS_Exception"}
-
-func (e TThostFtdcInvestorRiskStatusType) String() string {
-	if s, ok := mpTThostFtdcInvestorRiskStatusType[e]; ok {
-		return s[strings.LastIndex(s, "_")+1:]
-	}
-	return string(e) + "值未定义"
-}
+const (
+	THOST_FTDC_IRS_Normal    TThostFtdcInvestorRiskStatusType = '1' // 正常
+	THOST_FTDC_IRS_Warn      TThostFtdcInvestorRiskStatusType = '2' // 警告
+	THOST_FTDC_IRS_Call      TThostFtdcInvestorRiskStatusType = '3' // 追保
+	THOST_FTDC_IRS_Force     TThostFtdcInvestorRiskStatusType = '4' // 强平
+	THOST_FTDC_IRS_Exception TThostFtdcInvestorRiskStatusType = '5' // 异常
+)
 
 // 单腿编号类型
 type TThostFtdcLegIDType int32

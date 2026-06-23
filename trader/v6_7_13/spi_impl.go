@@ -14,6 +14,7 @@ import (
 	"unsafe"
 
 	"github.com/frozenpine/ctp4go/thost"
+	"github.com/frozenpine/ctp4go/thost/types"
 )
 
 var (
@@ -2334,7 +2335,7 @@ func CgoOnRspError(
 		"CgoOnRspError called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -2397,7 +2398,7 @@ func CgoOnErrRtnOrderInsert(
 		"CgoOnErrRtnOrderInsert called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -2422,7 +2423,7 @@ func CgoOnErrRtnOrderAction(
 		"CgoOnErrRtnOrderAction called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -2537,7 +2538,7 @@ func CgoOnErrRtnExecOrderInsert(
 		"CgoOnErrRtnExecOrderInsert called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -2562,7 +2563,7 @@ func CgoOnErrRtnExecOrderAction(
 		"CgoOnErrRtnExecOrderAction called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -2587,7 +2588,7 @@ func CgoOnErrRtnForQuoteInsert(
 		"CgoOnErrRtnForQuoteInsert called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -2630,7 +2631,7 @@ func CgoOnErrRtnQuoteInsert(
 		"CgoOnErrRtnQuoteInsert called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -2655,7 +2656,7 @@ func CgoOnErrRtnQuoteAction(
 		"CgoOnErrRtnQuoteAction called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -2716,7 +2717,7 @@ func CgoOnErrRtnBatchOrderAction(
 		"CgoOnErrRtnBatchOrderAction called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -2759,7 +2760,7 @@ func CgoOnErrRtnOptionSelfCloseInsert(
 		"CgoOnErrRtnOptionSelfCloseInsert called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -2784,7 +2785,7 @@ func CgoOnErrRtnOptionSelfCloseAction(
 		"CgoOnErrRtnOptionSelfCloseAction called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -2827,7 +2828,7 @@ func CgoOnErrRtnCombActionInsert(
 		"CgoOnErrRtnCombActionInsert called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -3182,7 +3183,7 @@ func CgoOnErrRtnBankToFutureByFuture(
 		"CgoOnErrRtnBankToFutureByFuture called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -3207,7 +3208,7 @@ func CgoOnErrRtnFutureToBankByFuture(
 		"CgoOnErrRtnFutureToBankByFuture called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -3232,7 +3233,7 @@ func CgoOnErrRtnRepealBankToFutureByFutureManual(
 		"CgoOnErrRtnRepealBankToFutureByFutureManual called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -3257,7 +3258,7 @@ func CgoOnErrRtnRepealFutureToBankByFutureManual(
 		"CgoOnErrRtnRepealFutureToBankByFutureManual called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -3282,7 +3283,7 @@ func CgoOnErrRtnQueryBankBalanceByFuture(
 		"CgoOnErrRtnQueryBankBalanceByFuture called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -4279,7 +4280,7 @@ func CgoOnErrRtnOffsetSetting(
 		"CgoOnErrRtnOffsetSetting called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -4304,7 +4305,7 @@ func CgoOnErrRtnCancelOffsetSetting(
 		"CgoOnErrRtnCancelOffsetSetting called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -4467,7 +4468,7 @@ func CgoOnErrRtnSpdApply(
 		"CgoOnErrRtnSpdApply called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -4492,7 +4493,7 @@ func CgoOnErrRtnSpdApplyAction(
 		"CgoOnErrRtnSpdApplyAction called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -4607,7 +4608,7 @@ func CgoOnErrRtnHedgeCfm(
 		"CgoOnErrRtnHedgeCfm called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),
@@ -4632,7 +4633,7 @@ func CgoOnErrRtnHedgeCfmAction(
 		"CgoOnErrRtnHedgeCfmAction called",
 		slog.Any("this", this),
 		slog.Int("error_id", int(pRspInfo.ErrorID)),
-		slog.String("error_msg", thost.DecodeGBK(unsafe.Slice(
+		slog.String("error_msg", types.DecodeGBK(unsafe.Slice(
 			(*byte)(unsafe.Pointer(&pRspInfo.ErrorMsg[0])),
 			len(pRspInfo.ErrorMsg),
 		))),

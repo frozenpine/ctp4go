@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+
+	"github.com/frozenpine/ctp4go/thost/types"
 )
 
 type apiCfg struct {
@@ -103,7 +105,7 @@ func WithBrokerID(id string) apiOpt {
 			return fmt.Errorf("%w: empty broker id", ErrInvalidArgs)
 		}
 
-		if len(id) >= len(TThostFtdcBrokerIDType{}) {
+		if len(id) >= len(types.TThostFtdcBrokerIDType{}) {
 			return fmt.Errorf("%w: broker id size exceeded", ErrInvalidArgs)
 		}
 
@@ -128,7 +130,7 @@ func WithUserID(id string) apiOpt {
 			return fmt.Errorf("%w: empty user id", ErrInvalidArgs)
 		}
 
-		if len(id) >= len(TThostFtdcUserIDType{}) {
+		if len(id) >= len(types.TThostFtdcUserIDType{}) {
 			return fmt.Errorf("%w: user id size exceeded", ErrInvalidArgs)
 		}
 
@@ -153,7 +155,7 @@ func WithUserPass(pass string) apiOpt {
 			return fmt.Errorf("%w: empty user pass", ErrInvalidArgs)
 		}
 
-		if len(pass) >= len(TThostFtdcPasswordType{}) {
+		if len(pass) >= len(types.TThostFtdcPasswordType{}) {
 			return fmt.Errorf("%w: user pass size exceeded", ErrInvalidArgs)
 		}
 
@@ -178,7 +180,7 @@ func WithAppID(id string) apiOpt {
 			return fmt.Errorf("%w: empty app id", ErrInvalidArgs)
 		}
 
-		if len(id) >= len(TThostFtdcAppIDType{}) {
+		if len(id) >= len(types.TThostFtdcAppIDType{}) {
 			return fmt.Errorf("%w: app id size exceeded", ErrInvalidArgs)
 		}
 
@@ -203,7 +205,7 @@ func WithAuthCode(code string) apiOpt {
 			return fmt.Errorf("%w: empty auth code", ErrInvalidArgs)
 		}
 
-		if len(code) >= len(TThostFtdcAuthCodeType{}) {
+		if len(code) >= len(types.TThostFtdcAuthCodeType{}) {
 			return fmt.Errorf("%w: auth code size exceeded", ErrInvalidArgs)
 		}
 
