@@ -70,8 +70,7 @@ func TestCTPApi(t *testing.T) {
 
 	ins.RegisterSpi(&testSpi{
 		BaseLogSpi: thost.BaseLogSpi{
-			Logger:    slog.Default(),
-			FrontAddr: front,
+			Logger: slog.Default(),
 		},
 		api: ins,
 

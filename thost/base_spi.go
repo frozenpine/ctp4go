@@ -11,7 +11,7 @@ import (
 type BaseLogSpi struct {
 	*slog.Logger
 
-	FrontAddr string
+	FrontInfo CThostFtdcFrontInfoField
 }
 
 func (spi *BaseLogSpi) CheckRsp(rsp *CThostFtdcRspInfoField) error {
@@ -35,14 +35,14 @@ func (spi *BaseLogSpi) OnFrontConnected() {
 
 	spi.Info(
 		"thost trader [OnFrontConnected]",
-		slog.String("front", spi.FrontAddr),
+		slog.Any("front", spi.FrontInfo),
 	)
 }
 
 func (spi *BaseLogSpi) OnFrontDisconnected(nReason int) {
 	spi.Info(
 		"thost trader [OnFrontDisconnected]",
-		slog.String("front", spi.FrontAddr),
+		slog.Any("front", spi.FrontInfo),
 		slog.Int("reason", nReason),
 	)
 }
@@ -50,7 +50,7 @@ func (spi *BaseLogSpi) OnFrontDisconnected(nReason int) {
 func (spi *BaseLogSpi) OnHeartBeatWarning(nTimeLapse int) {
 	spi.Info(
 		"thost trader [OnHeartBeatWarning]",
-		slog.String("front", spi.FrontAddr),
+		slog.Any("front", spi.FrontInfo),
 		slog.Int("time_lapse", nTimeLapse),
 	)
 }
