@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strconv"
 
+	"github.com/frozenpine/ctp4go/state"
 	"github.com/frozenpine/ctp4go/thost"
 	"github.com/frozenpine/ctp4go/thost/types"
 )
@@ -293,5 +294,20 @@ func WithFrontAddr(v string) tracerOpt {
 
 		tc.frontAddrs = append(tc.frontAddrs, v)
 		return nil
+	}
+}
+
+type stateOpt func(*state.FlagResponsor[traderState]) error
+
+func WithStateResponsor(
+	s traderState, hdl func() error, options ...state.HandlerOpt,
+) stateOpt {
+	return func(fr *state.FlagResponsor[traderState]) error {
+		hdl, err := state.NewHandler(hdl, options...)
+		if err != nil {
+			return err
+		}
+
+		return fr.AddHandler(s, hdl)
 	}
 }

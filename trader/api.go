@@ -7,7 +7,6 @@ import (
 	"log/slog"
 	"sync"
 	"sync/atomic"
-	"time"
 
 	"github.com/frozenpine/ctp4go/state"
 	"github.com/frozenpine/ctp4go/thost"
@@ -24,7 +23,7 @@ type TraderApi struct {
 	finalOnce sync.Once
 	done      chan struct{}
 
-	state *state.Flag[traderState]
+	state *state.FlagResponsor[traderState]
 
 	api       thost.TraderApi
 	requestID atomic.Int32
@@ -58,7 +57,7 @@ func NewTraderApi(
 			flowMode: thost.DEFAULT_FLOW_MODE,
 			flowPath: thost.DEFAULT_FLOW_PATH,
 		},
-		state: state.NewFlag[traderState]("traderState"),
+		state: state.NewFlagResponsor[traderState]("state"),
 		done:  make(chan struct{}),
 	}
 
@@ -86,16 +85,14 @@ func NewTraderApi(
 	return &trader, nil
 }
 
-func (td *TraderApi) Initialize(
-	timeout time.Duration, options ...tracerOpt,
-) (err error) {
+func (td *TraderApi) Initialize(options ...stateOpt) (err error) {
 	td.initOnce.Do(func() {
 		for _, opt := range options {
 			if opt == nil {
 				continue
 			}
 
-			if err = opt(&td.cfg); err != nil {
+			if err = opt(td.state); err != nil {
 				return
 			}
 		}
@@ -138,7 +135,7 @@ func (td *TraderApi) Initialize(
 
 		td.api.Init()
 
-		td.state.SetFlag(Initialized)
+		err = td.state.SetFlag(Initialized)
 	})
 
 	return
@@ -153,24 +150,48 @@ func (td *TraderApi) Finalize() (err error) {
 	return
 }
 
-func (td *TraderApi) OnFrontConnected() {
-	defer td.state.SetFlag(Connected)
-
-	td.api.GetFrontInfo(&td.FrontInfo)
-
-	td.TraderLogSpi.OnFrontConnected()
-
+func (td *TraderApi) Authenticate() error {
 	auth := thost.CThostFtdcReqAuthenticateField{}
 	auth.BrokerID.SetString(td.cfg.brokerID)
 	auth.UserID.SetString(td.cfg.userID)
 	auth.AppID.SetString(td.cfg.appID)
 	auth.AuthCode.SetString(td.cfg.authCode)
 
-	td.api.ReqAuthenticate(&auth, int(td.requestID.Add(1)))
+	rtn := td.api.ReqAuthenticate(&auth, int(td.requestID.Add(1)))
+
+	return thost.Rtn{Code: rtn}.Error()
+}
+
+func (td *TraderApi) Login() error {
+	login := thost.CThostFtdcReqUserLoginField{}
+	login.BrokerID.SetString(td.cfg.brokerID)
+	login.UserID.SetString(td.cfg.userID)
+	login.Password.SetString(td.cfg.userPass)
+
+	rtn := td.api.ReqUserLogin(&login, int(td.requestID.Add(1)))
+
+	return thost.Rtn{Code: rtn}.Error()
+}
+
+func (td *TraderApi) migrateState(v traderState) {
+	if err := td.state.SetFlag(v); err != nil {
+		td.Error(
+			"migrate state failed",
+			slog.Any("error", err),
+		)
+	}
+}
+
+func (td *TraderApi) OnFrontConnected() {
+	defer td.migrateState(Connected)
+
+	td.api.GetFrontInfo(&td.FrontInfo)
+
+	td.TraderLogSpi.OnFrontConnected()
 }
 
 func (td *TraderApi) OnFrontDisconnected(nReason int) {
-	defer td.state.SetFlag(Disconnected)
+	defer td.migrateState(Disconnected)
 
 	td.TraderLogSpi.OnFrontDisconnected(nReason)
 }
@@ -182,24 +203,15 @@ func (td *TraderApi) OnRspAuthenticate(
 ) {
 	defer func() {
 		if pRspInfo.ErrorID == 0 {
-			td.state.SetFlag(AuthSuccess)
+			td.migrateState(AuthSuccess)
 		} else {
-			td.state.SetFlag(AuthFailed)
+			td.migrateState(AuthFailed)
 		}
 	}()
 
 	td.TraderLogSpi.OnRspAuthenticate(
 		pRspAuthenticateField, pRspInfo, nRequestID, bIsLast,
 	)
-
-	if pRspInfo != nil && pRspInfo.ErrorID == 0 {
-		login := thost.CThostFtdcReqUserLoginField{}
-		login.BrokerID.SetString(td.cfg.brokerID)
-		login.UserID.SetString(td.cfg.userID)
-		login.Password.SetString(td.cfg.userPass)
-
-		td.api.ReqUserLogin(&login, int(td.requestID.Add(1)))
-	}
 }
 
 func (td *TraderApi) OnRspUserLogin(
@@ -209,9 +221,9 @@ func (td *TraderApi) OnRspUserLogin(
 ) {
 	defer func() {
 		if pRspInfo.ErrorID == 0 {
-			td.state.SetFlag(LoginSuccess)
+			td.migrateState(LoginSuccess)
 		} else {
-			td.state.SetFlag(LoginFailed)
+			td.migrateState(LoginFailed)
 		}
 	}()
 

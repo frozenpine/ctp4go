@@ -32,7 +32,10 @@ func TestTraderApi(t *testing.T) {
 	}
 	defer td.Finalize()
 
-	if err = td.Initialize(time.Second * 15); err != nil {
+	if err = td.Initialize(
+		trader.WithStateResponsor(trader.Connected, td.Authenticate),
+		trader.WithStateResponsor(trader.AuthSuccess, td.Login),
+	); err != nil {
 		t.Fatal(err)
 	}
 
