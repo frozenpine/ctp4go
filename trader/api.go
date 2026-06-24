@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"path/filepath"
+	"runtime"
 	"sync"
 	"sync/atomic"
 
@@ -15,13 +17,13 @@ import (
 type TraderApi struct {
 	thost.TraderLogSpi
 
-	ctx    context.Context
-	cancel context.CancelFunc
-	cfg    traderCfg
+	rootCtx   context.Context
+	apiCtx    context.Context
+	apiCancel context.CancelFunc
+	cfg       traderCfg
 
 	initOnce  sync.Once
 	finalOnce sync.Once
-	done      chan struct{}
 
 	state *state.FlagResponsor[traderState]
 
@@ -30,35 +32,42 @@ type TraderApi struct {
 }
 
 func NewTraderApi(
-	ctx context.Context, libPath string, options ...cfgOpt,
+	ctx context.Context, options ...cfgOpt,
 ) (*TraderApi, error) {
-	if libPath == "" {
-		return nil, fmt.Errorf(
-			"%w: no lib path specified", thost.ErrApiCreateFailed,
-		)
-	}
-
-	maker := thost.GetTraderMaker()
-	if maker == nil {
-		return nil, fmt.Errorf(
-			"%w: no version maker found", thost.ErrCreatorMissing,
-		)
-	}
-
 	if ctx == nil {
 		ctx = context.Background()
 	}
 
+	var (
+		libPath string
+		err     error
+	)
+	switch runtime.GOOS {
+	case "windows":
+		libPath = filepath.Join(".", "libs", "thosttraderapi_se.dll")
+	case "linux":
+		libPath = filepath.Join(".", "libs", "thosttraderapi_se.so")
+	default:
+		return nil, fmt.Errorf(
+			"%w: unsupported platform %s",
+			thost.ErrApiCreateFailed, runtime.GOOS,
+		)
+	}
+	if libPath, err = filepath.Abs(libPath); err != nil {
+		return nil, errors.Join(thost.ErrApiCreateFailed, err)
+	}
+
 	trader := TraderApi{
+		rootCtx: ctx,
 		TraderLogSpi: thost.TraderLogSpi{
 			Logger: slog.Default(),
 		},
 		cfg: traderCfg{
+			libPath:  libPath,
 			flowMode: thost.DEFAULT_FLOW_MODE,
 			flowPath: thost.DEFAULT_FLOW_PATH,
 		},
 		state: state.NewFlagResponsor[traderState]("state"),
-		done:  make(chan struct{}),
 	}
 
 	for _, opt := range options {
@@ -71,18 +80,33 @@ func NewTraderApi(
 		}
 	}
 
-	api, err := maker.TraderMaker(
-		libPath, trader.cfg.flowPath,
-		thost.Param{Key: thost.ParamRunMode, Value: !trader.cfg.isTest},
-	)()
-	if err != nil {
-		return nil, errors.Join(thost.ErrApiCreateFailed, err)
+	if err := trader.createApi(); err != nil {
+		return nil, err
 	}
 
-	trader.ctx, trader.cancel = context.WithCancel(ctx)
-	trader.api = api
-
 	return &trader, nil
+}
+
+func (td *TraderApi) createApi() error {
+	maker := thost.GetTraderMaker()
+	if maker == nil {
+		return fmt.Errorf(
+			"%w: no version maker found", thost.ErrCreatorMissing,
+		)
+	}
+
+	api, err := maker.TraderMaker(
+		td.cfg.libPath, td.cfg.flowPath,
+		thost.Param{Key: thost.ParamRunMode, Value: !td.cfg.isTest},
+	)()
+	if err != nil {
+		return errors.Join(thost.ErrApiCreateFailed, err)
+	}
+
+	td.apiCtx, td.apiCancel = context.WithCancel(td.rootCtx)
+	td.api = api
+
+	return nil
 }
 
 func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
@@ -143,11 +167,18 @@ func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 
 func (td *TraderApi) Finalize() (err error) {
 	td.finalOnce.Do(func() {
-		defer close(td.done)
 		td.api.Release()
+
+		err = td.migrateState(Finalized)
 	})
 
 	return
+}
+
+func (td *TraderApi) Reset() error {
+	td.Finalize()
+
+	return nil
 }
 
 func (td *TraderApi) Authenticate() error {
@@ -173,13 +204,15 @@ func (td *TraderApi) Login() error {
 	return thost.Rtn{Code: rtn}.Error()
 }
 
-func (td *TraderApi) migrateState(v traderState) {
-	if err := td.state.SetFlag(v); err != nil {
+func (td *TraderApi) migrateState(v traderState) error {
+	err := td.state.SetFlag(v)
+	if err != nil {
 		td.Error(
 			"migrate state failed",
 			slog.Any("error", err),
 		)
 	}
+	return err
 }
 
 func (td *TraderApi) OnFrontConnected() {

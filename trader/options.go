@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strconv"
 
 	"github.com/frozenpine/ctp4go/state"
 	"github.com/frozenpine/ctp4go/thost"
@@ -15,6 +14,7 @@ import (
 type traderCfg struct {
 	lazyInit   bool
 	isTest     bool
+	libPath    string
 	flowPath   string
 	flowMode   types.THOST_TE_RESUME_TYPE
 	flowSeq    int
@@ -34,6 +34,19 @@ func WithTestMode() cfgOpt {
 	return func(ac *traderCfg) error {
 		ac.isTest = true
 
+		return nil
+	}
+}
+
+func WithLibPath(p string) cfgOpt {
+	return func(tc *traderCfg) error {
+		if p == "" {
+			return fmt.Errorf(
+				"%w: invalid lib path", thost.ErrInvalidArgs,
+			)
+		}
+
+		tc.libPath = p
 		return nil
 	}
 }
@@ -64,10 +77,15 @@ func WithFlowMode(mode types.THOST_TE_RESUME_TYPE, seq ...int) cfgOpt {
 	}
 }
 
-func WithFensMode(mode types.TThostFtdcLoginModeType) cfgOpt {
+func WithFensMode(mode types.TThostFtdcLoginModeType, nsSvrs ...string) cfgOpt {
 	return func(tc *traderCfg) error {
 		switch mode {
 		case types.THOST_FTDC_LM_Trade, types.THOST_FTDC_LM_Transfer:
+			if len(nsSvrs) < 1 {
+				return fmt.Errorf(
+					"%w: no name servers specified", thost.ErrInvalidArgs,
+				)
+			}
 		default:
 			return fmt.Errorf(
 				"%w: invalid fens mode: %s",
@@ -76,31 +94,7 @@ func WithFensMode(mode types.TThostFtdcLoginModeType) cfgOpt {
 		}
 
 		tc.fensMode = mode
-		return nil
-	}
-}
-
-func WithModeEnvKey(env string) cfgOpt {
-	return func(ac *traderCfg) error {
-		if env == "" {
-			return fmt.Errorf(
-				"%w: test mode env key empty",
-				thost.ErrInvalidArgs,
-			)
-		}
-
-		flag := os.Getenv(env)
-		if flag == "" {
-			ac.isTest = false
-			return nil
-		}
-
-		parsed, err := strconv.ParseBool(flag)
-		if err != nil {
-			return errors.Join(thost.ErrInvalidArgs, err)
-		}
-
-		ac.isTest = parsed
+		tc.nameSvrs = append(tc.nameSvrs, nsSvrs...)
 		return nil
 	}
 }

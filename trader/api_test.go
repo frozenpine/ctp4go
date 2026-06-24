@@ -20,7 +20,8 @@ func TestTraderApi(t *testing.T) {
 	//  front := "tcp://222.76.240.170:51205"
 
 	td, err := trader.NewTraderApi(
-		t.Context(), libPath,
+		t.Context(),
+		trader.WithLibPath(libPath),
 		trader.WithFrontAddr(front),
 		trader.WithBrokerID("5100"),
 		trader.WithUserID("000008"),
