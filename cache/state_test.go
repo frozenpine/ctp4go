@@ -1,17 +1,17 @@
-package trader_test
+package cache_test
 
 import (
 	"log/slog"
 	"testing"
 	"time"
 
-	"github.com/frozenpine/ctp4go/trader"
+	"github.com/frozenpine/ctp4go/cache"
 )
 
 func TestState(t *testing.T) {
 	slog.SetLogLoggerLevel(slog.LevelDebug - 2)
 
-	state := trader.NewState[bool]("test")
+	state := cache.NewState[bool]("test")
 
 	for idx := range 10 {
 		go func() {

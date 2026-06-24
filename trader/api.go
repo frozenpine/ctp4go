@@ -8,8 +8,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
-	"weak"
 
+	"github.com/frozenpine/ctp4go/cache"
 	"github.com/frozenpine/ctp4go/thost"
 )
 
@@ -24,9 +24,9 @@ type TraderApi struct {
 	finalOnce sync.Once
 	done      chan struct{}
 
-	connState  State[bool]
-	authState  State[bool]
-	loginState State[bool]
+	connState  *cache.State[bool]
+	authState  *cache.State[bool]
+	loginState *cache.State[bool]
 
 	api       thost.TraderApi
 	requestID atomic.Int32
@@ -60,19 +60,10 @@ func NewTraderApi(
 			flowMode: thost.DEFAULT_FLOW_MODE,
 			flowPath: thost.DEFAULT_FLOW_PATH,
 		},
-		connState: State[bool]{
-			name:     "connected",
-			notifies: map[weak.Pointer[notify]]struct{}{},
-		},
-		authState: State[bool]{
-			name:     "authenticated",
-			notifies: map[weak.Pointer[notify]]struct{}{},
-		},
-		loginState: State[bool]{
-			name:     "login",
-			notifies: map[weak.Pointer[notify]]struct{}{},
-		},
-		done: make(chan struct{}),
+		connState:  cache.NewState[bool]("connected"),
+		authState:  cache.NewState[bool]("authenticated"),
+		loginState: cache.NewState[bool]("login"),
+		done:       make(chan struct{}),
 	}
 
 	for _, opt := range options {
