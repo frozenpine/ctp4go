@@ -28,9 +28,9 @@ type traderCfg struct {
 	authCode   string
 }
 
-type tracerOpt func(*traderCfg) error
+type cfgOpt func(*traderCfg) error
 
-func WithTestMode() tracerOpt {
+func WithTestMode() cfgOpt {
 	return func(ac *traderCfg) error {
 		ac.isTest = true
 
@@ -38,7 +38,7 @@ func WithTestMode() tracerOpt {
 	}
 }
 
-func WithFlowMode(mode types.THOST_TE_RESUME_TYPE, seq ...int) tracerOpt {
+func WithFlowMode(mode types.THOST_TE_RESUME_TYPE, seq ...int) cfgOpt {
 	return func(tc *traderCfg) error {
 		switch mode {
 		case types.THOST_TERT_RESTART, types.THOST_TERT_RESUME,
@@ -64,7 +64,7 @@ func WithFlowMode(mode types.THOST_TE_RESUME_TYPE, seq ...int) tracerOpt {
 	}
 }
 
-func WithFensMode(mode types.TThostFtdcLoginModeType) tracerOpt {
+func WithFensMode(mode types.TThostFtdcLoginModeType) cfgOpt {
 	return func(tc *traderCfg) error {
 		switch mode {
 		case types.THOST_FTDC_LM_Trade, types.THOST_FTDC_LM_Transfer:
@@ -80,7 +80,7 @@ func WithFensMode(mode types.TThostFtdcLoginModeType) tracerOpt {
 	}
 }
 
-func WithModeEnvKey(env string) tracerOpt {
+func WithModeEnvKey(env string) cfgOpt {
 	return func(ac *traderCfg) error {
 		if env == "" {
 			return fmt.Errorf(
@@ -105,7 +105,7 @@ func WithModeEnvKey(env string) tracerOpt {
 	}
 }
 
-func WithFlowPath(flowPath string) tracerOpt {
+func WithFlowPath(flowPath string) cfgOpt {
 	return func(ac *traderCfg) error {
 		if flowPath == "" {
 			return fmt.Errorf(
@@ -142,7 +142,7 @@ func WithFlowPath(flowPath string) tracerOpt {
 	}
 }
 
-func WithBrokerID(id string) tracerOpt {
+func WithBrokerID(id string) cfgOpt {
 	return func(ac *traderCfg) error {
 		if id == "" {
 			return fmt.Errorf("%w: empty broker id", thost.ErrInvalidArgs)
@@ -159,7 +159,7 @@ func WithBrokerID(id string) tracerOpt {
 	}
 }
 
-func WithBrokerIDEnvKey(env string) tracerOpt {
+func WithBrokerIDEnvKey(env string) cfgOpt {
 	return func(ac *traderCfg) error {
 		if env == "" {
 			return fmt.Errorf(
@@ -171,7 +171,7 @@ func WithBrokerIDEnvKey(env string) tracerOpt {
 	}
 }
 
-func WithUserID(id string) tracerOpt {
+func WithUserID(id string) cfgOpt {
 	return func(ac *traderCfg) error {
 		if id == "" {
 			return fmt.Errorf("%w: empty user id", thost.ErrInvalidArgs)
@@ -188,7 +188,7 @@ func WithUserID(id string) tracerOpt {
 	}
 }
 
-func WithUserIDEnvKey(env string) tracerOpt {
+func WithUserIDEnvKey(env string) cfgOpt {
 	return func(ac *traderCfg) error {
 		if env == "" {
 			return fmt.Errorf(
@@ -200,7 +200,7 @@ func WithUserIDEnvKey(env string) tracerOpt {
 	}
 }
 
-func WithUserPass(pass string) tracerOpt {
+func WithUserPass(pass string) cfgOpt {
 	return func(ac *traderCfg) error {
 		if pass == "" {
 			return fmt.Errorf("%w: empty user pass", thost.ErrInvalidArgs)
@@ -217,7 +217,7 @@ func WithUserPass(pass string) tracerOpt {
 	}
 }
 
-func WithUserPassEnvKey(env string) tracerOpt {
+func WithUserPassEnvKey(env string) cfgOpt {
 	return func(ac *traderCfg) error {
 		if env == "" {
 			return fmt.Errorf(
@@ -229,7 +229,7 @@ func WithUserPassEnvKey(env string) tracerOpt {
 	}
 }
 
-func WithAppID(id string) tracerOpt {
+func WithAppID(id string) cfgOpt {
 	return func(ac *traderCfg) error {
 		if id == "" {
 			return fmt.Errorf("%w: empty app id", thost.ErrInvalidArgs)
@@ -246,7 +246,7 @@ func WithAppID(id string) tracerOpt {
 	}
 }
 
-func WithAppIDEnvKey(env string) tracerOpt {
+func WithAppIDEnvKey(env string) cfgOpt {
 	return func(ac *traderCfg) error {
 		if env == "" {
 			return fmt.Errorf("%w: app id env key empty", thost.ErrInvalidArgs)
@@ -256,7 +256,7 @@ func WithAppIDEnvKey(env string) tracerOpt {
 	}
 }
 
-func WithAuthCode(code string) tracerOpt {
+func WithAuthCode(code string) cfgOpt {
 	return func(ac *traderCfg) error {
 		if code == "" {
 			return fmt.Errorf("%w: empty auth code", thost.ErrInvalidArgs)
@@ -273,7 +273,7 @@ func WithAuthCode(code string) tracerOpt {
 	}
 }
 
-func WithAuthCodeEnvKey(env string) tracerOpt {
+func WithAuthCodeEnvKey(env string) cfgOpt {
 	return func(ac *traderCfg) error {
 		if env == "" {
 			return fmt.Errorf(
@@ -284,7 +284,7 @@ func WithAuthCodeEnvKey(env string) tracerOpt {
 	}
 }
 
-func WithFrontAddr(v string) tracerOpt {
+func WithFrontAddr(v string) cfgOpt {
 	return func(tc *traderCfg) error {
 		if v == "" {
 			return fmt.Errorf(
@@ -293,6 +293,32 @@ func WithFrontAddr(v string) tracerOpt {
 		}
 
 		tc.frontAddrs = append(tc.frontAddrs, v)
+		return nil
+	}
+}
+
+type traderOpt func(*TraderApi) error
+
+func WithTraderState(stateOpts ...stateOpt) traderOpt {
+	return func(tc *TraderApi) error {
+		if len(stateOpts) < 1 {
+			return errors.New("no state opt specified")
+		}
+
+		if tc.state == nil {
+			return errors.New("trader state not initialized")
+		}
+
+		for _, opt := range stateOpts {
+			if opt == nil {
+				continue
+			}
+
+			if err := opt(tc.state); err != nil {
+				return err
+			}
+		}
+
 		return nil
 	}
 }

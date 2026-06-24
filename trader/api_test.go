@@ -26,6 +26,7 @@ func TestTraderApi(t *testing.T) {
 		trader.WithUserID("000008"),
 		trader.WithAppID("client_dtprobe_1.0.0"),
 		trader.WithAuthCodeEnvKey("RDQH_CTP_AUTH_CODE"),
+		trader.WithUserPassEnvKey("RDQH_CTP_USER_PASS"),
 	)
 	if err != nil {
 		t.Fatal(err)
@@ -33,8 +34,10 @@ func TestTraderApi(t *testing.T) {
 	defer td.Finalize()
 
 	if err = td.Initialize(
-		trader.WithStateResponsor(trader.Connected, td.Authenticate),
-		trader.WithStateResponsor(trader.AuthSuccess, td.Login),
+		trader.WithTraderState(
+			trader.WithStateResponsor(trader.Connected, td.Authenticate),
+			trader.WithStateResponsor(trader.AuthSuccess, td.Login),
+		),
 	); err != nil {
 		t.Fatal(err)
 	}

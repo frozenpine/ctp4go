@@ -30,7 +30,7 @@ type TraderApi struct {
 }
 
 func NewTraderApi(
-	ctx context.Context, libPath string, options ...tracerOpt,
+	ctx context.Context, libPath string, options ...cfgOpt,
 ) (*TraderApi, error) {
 	if libPath == "" {
 		return nil, fmt.Errorf(
@@ -85,14 +85,14 @@ func NewTraderApi(
 	return &trader, nil
 }
 
-func (td *TraderApi) Initialize(options ...stateOpt) (err error) {
+func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 	td.initOnce.Do(func() {
 		for _, opt := range options {
 			if opt == nil {
 				continue
 			}
 
-			if err = opt(td.state); err != nil {
+			if err = opt(td); err != nil {
 				return
 			}
 		}
