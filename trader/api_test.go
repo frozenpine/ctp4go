@@ -2,6 +2,7 @@ package trader_test
 
 import (
 	"log/slog"
+	"sync"
 	"testing"
 	"time"
 
@@ -34,14 +35,23 @@ func TestTraderApi(t *testing.T) {
 	}
 	defer td.Finalize()
 
+	var resetOnce sync.Once
+
 	if err = td.Initialize(
 		trader.WithTraderState(
 			trader.WithStateResponsor(trader.Connected, td.Authenticate),
 			trader.WithStateResponsor(trader.AuthSuccess, td.Login),
+			trader.WithStateResponsor(trader.LoginSuccess, func() error {
+				resetOnce.Do(func() {
+					go td.Reset()
+				})
+
+				return nil
+			}),
 		),
 	); err != nil {
 		t.Fatal(err)
 	}
 
-	<-time.After(time.Second * 15)
+	<-time.After(time.Second * 20)
 }

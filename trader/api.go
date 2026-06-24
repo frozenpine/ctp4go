@@ -68,7 +68,6 @@ func NewTraderApi(
 			flowMode: thost.DEFAULT_FLOW_MODE,
 			flowPath: thost.DEFAULT_FLOW_PATH,
 		},
-		state: state.NewFlagResponsor[traderState]("state"),
 	}
 
 	for _, opt := range options {
@@ -104,6 +103,7 @@ func (td *TraderApi) createApi() error {
 		return errors.Join(thost.ErrApiCreateFailed, err)
 	}
 
+	td.state = state.NewFlagResponsor[traderState]("state")
 	td.apiCtx, td.apiCancel = context.WithCancel(td.rootCtx)
 	td.api = api
 	td.requestID.Store(0)
@@ -113,6 +113,8 @@ func (td *TraderApi) createApi() error {
 
 func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 	td.initOnce.Do(func() {
+		td.Info("initializing trader api")
+
 		for _, opt := range options {
 			if opt == nil {
 				continue
@@ -173,6 +175,8 @@ func (td *TraderApi) Finalize() (err error) {
 	td.finalOnce.Do(func() {
 		defer td.api.Release()
 
+		td.Info("finalizing trader api")
+
 		td.apiCancel()
 
 		err = td.migrateState(Finalized)
@@ -184,6 +188,7 @@ func (td *TraderApi) Finalize() (err error) {
 func (td *TraderApi) Reset(options ...traderOpt) error {
 	td.Finalize()
 
+	td.Info("reseting trader api")
 	td.initOnce = sync.Once{}
 	td.finalOnce = sync.Once{}
 

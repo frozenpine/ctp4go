@@ -80,10 +80,13 @@ func (s *Flag[T]) SetFlag(v T) error {
 	defer s.Unlock()
 
 	if s.migrator != nil {
-		return s.migrator(&s.flag, v)
+		err := s.migrator(&s.flag, v)
+		if err != nil {
+			return err
+		}
+	} else {
+		s.flag = v
 	}
-
-	s.flag = v
 
 	slog.Log(
 		context.Background(), slog.LevelDebug-2,
