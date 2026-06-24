@@ -1,8 +1,9 @@
-package cache
+package state
 
 import (
 	"context"
 	"log/slog"
+	"reflect"
 	"sync"
 	"time"
 	"weak"
@@ -19,22 +20,43 @@ func (n *notify) close() {
 	})
 }
 
-type State[T comparable] struct {
+type Flag[T comparable] struct {
 	sync.RWMutex
 
 	name     string
 	flag     T
+	migrator func(*T, T) error
+
 	notifies map[weak.Pointer[notify]]struct{}
 }
 
-func NewState[T comparable](name string) *State[T] {
-	return &State[T]{
+func NewFlag[T comparable](name string) (flag *Flag[T]) {
+	flagType := reflect.TypeFor[T]()
+
+	if flagType.Kind() != reflect.Pointer {
+		flagType = reflect.PointerTo(flagType)
+	}
+
+	flag = &Flag[T]{
 		name:     name,
 		notifies: map[weak.Pointer[notify]]struct{}{},
 	}
+
+	if fn, ok := flagType.MethodByName(
+		"Migrate",
+	); ok {
+		reflect.ValueOf(&flag.migrator).Elem().Set(reflect.MakeFunc(
+			reflect.TypeOf(flag.migrator),
+			func(args []reflect.Value) []reflect.Value {
+				return fn.Func.Call(args)
+			},
+		))
+	}
+
+	return
 }
 
-func (s *State[T]) makeNoitfy() (<-chan struct{}, func()) {
+func (s *Flag[T]) makeNoitfy() (<-chan struct{}, func()) {
 	n := &notify{ch: make(chan struct{})}
 	wait := weak.Make(n)
 
@@ -52,9 +74,14 @@ func (s *State[T]) makeNoitfy() (<-chan struct{}, func()) {
 	}
 }
 
-func (s *State[T]) SetFlag(v T) {
+// SetFlag 设置当前标记值
+func (s *Flag[T]) SetFlag(v T) error {
 	s.Lock()
 	defer s.Unlock()
+
+	if s.migrator != nil {
+		return s.migrator(&s.flag, v)
+	}
 
 	s.flag = v
 
@@ -93,16 +120,28 @@ func (s *State[T]) SetFlag(v T) {
 		slog.String("name", s.name),
 		slog.Int("count", count),
 	)
+	return nil
 }
 
-func (s *State[T]) GetFlag() T {
+// GetFlag 获取当前标记值
+func (s *Flag[T]) GetFlag() T {
 	s.RLock()
 	defer s.RUnlock()
 
 	return s.flag
 }
 
-func (s *State[T]) Wait(v T, timeout time.Duration) error {
+// CheckFlag 检测当前标记值是否为指定值
+func (s *Flag[T]) CheckFlag(v T) bool {
+	s.RLock()
+	defer s.RUnlock()
+
+	return s.flag == v
+}
+
+// Wait 同步等待指定标记值
+// 超时最小间隔为1s，小于等于0则无超时
+func (s *Flag[T]) Wait(v T, timeout time.Duration) error {
 	tm := context.Background()
 	if timeout = timeout.Round(time.Second); timeout > 0 {
 		var tmCancel context.CancelFunc

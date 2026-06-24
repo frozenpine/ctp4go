@@ -1,17 +1,17 @@
-package cache_test
+package state_test
 
 import (
 	"log/slog"
 	"testing"
 	"time"
 
-	"github.com/frozenpine/ctp4go/cache"
+	"github.com/frozenpine/ctp4go/state"
 )
 
 func TestState(t *testing.T) {
 	slog.SetLogLoggerLevel(slog.LevelDebug - 2)
 
-	state := cache.NewState[bool]("test")
+	state := state.NewFlag[bool]("test")
 
 	for idx := range 10 {
 		go func() {
