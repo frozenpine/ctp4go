@@ -23,6 +23,7 @@ type TraderApi struct {
 	cfg       traderCfg
 
 	initOnce  sync.Once
+	initOpts  []traderOpt
 	finalOnce sync.Once
 
 	state *state.FlagResponsor[traderState]
@@ -105,8 +106,9 @@ func (td *TraderApi) createApi() error {
 
 	td.apiCtx, td.apiCancel = context.WithCancel(td.rootCtx)
 	td.api = api
+	td.requestID.Store(0)
 
-	return nil
+	return td.state.SetFlag(Created)
 }
 
 func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
@@ -120,6 +122,8 @@ func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 				return
 			}
 		}
+
+		td.initOpts = options
 
 		td.api.RegisterSpi(td)
 
@@ -167,7 +171,9 @@ func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 
 func (td *TraderApi) Finalize() (err error) {
 	td.finalOnce.Do(func() {
-		td.api.Release()
+		defer td.api.Release()
+
+		td.apiCancel()
 
 		err = td.migrateState(Finalized)
 	})
@@ -175,10 +181,21 @@ func (td *TraderApi) Finalize() (err error) {
 	return
 }
 
-func (td *TraderApi) Reset() error {
+func (td *TraderApi) Reset(options ...traderOpt) error {
 	td.Finalize()
 
-	return nil
+	td.initOnce = sync.Once{}
+	td.finalOnce = sync.Once{}
+
+	if err := td.createApi(); err != nil {
+		return err
+	}
+
+	if len(options) > 0 {
+		return td.Initialize(options...)
+	}
+
+	return td.Initialize(td.initOpts...)
 }
 
 func (td *TraderApi) Authenticate() error {
