@@ -123,13 +123,11 @@ func CreateThostFtdcTraderApi(
 		)
 	}
 
-	api := &ThostFtdcTraderApi{
+	return &ThostFtdcTraderApi{
 		apiPtr:  (*C.CThostFtdcTraderApiExt)(instance),
 		version: apiVer,
 		lib:     lib,
-	}
-
-	return api, nil
+	}, nil
 }
 
 type ThostFtdcTraderApi struct {
