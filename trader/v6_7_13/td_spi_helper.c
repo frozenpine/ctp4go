@@ -811,11 +811,6 @@ void COnErrRtnQuoteAction(void *this, struct CThostFtdcQuoteActionField *pQuoteA
     CgoOnErrRtnQuoteAction(this, pQuoteAction, pRspInfo);
 }
 
-void COnRtnForQuoteRsp(void *this, struct CThostFtdcForQuoteRspField *pForQuoteRsp)
-{
-    CgoOnRtnForQuoteRsp(this, pForQuoteRsp);
-}
-
 void COnRtnCFMMCTradingAccountToken(void *this, struct CThostFtdcCFMMCTradingAccountTokenField *pCFMMCTradingAccountToken)
 {
     CgoOnRtnCFMMCTradingAccountToken(this, pCFMMCTradingAccountToken);

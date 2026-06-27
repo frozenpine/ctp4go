@@ -85,3 +85,8 @@ void COnRtnDepthMarketData(void *this, struct CThostFtdcDepthMarketDataField *pD
 {
     CgoOnRtnDepthMarketData(this, pDepthMarketData);
 }
+
+void COnRtnForQuoteRsp(void *this, struct CThostFtdcForQuoteRspField *pForQuoteRsp)
+{
+    CgoOnRtnForQuoteRsp(this, pForQuoteRsp);
+}
