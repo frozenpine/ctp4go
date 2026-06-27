@@ -76,8 +76,8 @@ func CreateThostFtdcTraderApi(
 	)
 
 	var (
-		createFnName  = C.CString(CREATE_FN_NAME)
-		versionFnName = C.CString(VERSION_FN_NAME)
+		createFnName  = C.CString(TRADER_CREATE_FN_NAME)
+		versionFnName = C.CString(TRADER_VERSION_FN_NAME)
 
 		apiVer string
 	)

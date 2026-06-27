@@ -76,8 +76,8 @@ func CreateThostFtdcMduserApi(
 	)
 
 	var (
-		createFnName  = C.CString(CREATE_FN_NAME)
-		versionFnName = C.CString(VERSION_FN_NAME)
+		createFnName  = C.CString(MDUSER_CREATE_FN_NAME)
+		versionFnName = C.CString(MDUSER_VERSION_FN_NAME)
 
 		apiVer string
 	)

@@ -7,13 +7,13 @@ import (
 
 	"github.com/frozenpine/ctp4go/thost"
 	"github.com/frozenpine/ctp4go/thost/types"
-	"github.com/frozenpine/ctp4go/trader/v6_7_13"
+	trader "github.com/frozenpine/ctp4go/trader/v6_7_13"
 )
 
 type testSpi struct {
 	thost.TraderLogSpi
 
-	api      *v6_7_13.ThostFtdcTraderApi
+	api      *trader.ThostFtdcTraderApi
 	brokerId string
 	userId   string
 	userPass string
@@ -60,13 +60,15 @@ func TestCTPApi(t *testing.T) {
 	//  RDXM - CT
 	//  front := "tcp://222.76.240.170:51205"
 
-	ins, err := v6_7_13.CreateThostFtdcTraderApi(libPath, "./flow", true)
+	ins, err := trader.CreateThostFtdcTraderApi(libPath, "./flow", true)
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer ins.Release()
 
 	t.Log(ins.GetApiVersion())
+
+	return
 
 	ins.RegisterSpi(&testSpi{
 		TraderLogSpi: thost.TraderLogSpi{

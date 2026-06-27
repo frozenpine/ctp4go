@@ -3,6 +3,6 @@
 package v6_7_13
 
 const (
-	CREATE_FN_NAME  = "_ZN19CThostFtdcTraderApi19CreateFtdcTraderApiEPKcb"
-	VERSION_FN_NAME = "_ZN19CThostFtdcTraderApi13GetApiVersionEv"
+	TRADER_CREATE_FN_NAME  = "_ZN19CThostFtdcTraderApi19CreateFtdcTraderApiEPKcb"
+	TRADER_VERSION_FN_NAME = "_ZN19CThostFtdcTraderApi13GetApiVersionEv"
 )
