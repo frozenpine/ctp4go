@@ -9,6 +9,8 @@ package v6_7_13
 import "C"
 
 import (
+	"context"
+	"log/slog"
 	"runtime"
 	"unsafe"
 
@@ -57,13 +59,43 @@ type ThostFtdcMduserSpi struct {
 }
 
 //export CgoOnFrontConnected
-func CgoOnFrontConnected(this unsafe.Pointer) {}
+func CgoOnFrontConnected(this unsafe.Pointer) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnFrontConnected called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnFrontConnected()
+}
 
 //export CgoOnFrontDisconnected
-func CgoOnFrontDisconnected(this unsafe.Pointer, nReason C.int) {}
+func CgoOnFrontDisconnected(this unsafe.Pointer, nReason C.int) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnFrontDisconnected called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnFrontDisconnected(int(nReason))
+}
 
 //export CgoOnHeartBeatWarning
-func CgoOnHeartBeatWarning(this unsafe.Pointer, nTimeLapse C.int) {}
+func CgoOnHeartBeatWarning(this unsafe.Pointer, nTimeLapse C.int) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnHeartBeatWarning called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnHeartBeatWarning(int(nTimeLapse))
+}
 
 //export CgoOnRspUserLogin
 func CgoOnRspUserLogin(
@@ -72,6 +104,19 @@ func CgoOnRspUserLogin(
 	pRspInfo *C.struct_CThostFtdcRspInfoField,
 	nRequestID C.int, bIsLast C.bool,
 ) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnRspUserLogin called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnRspUserLogin(
+		(*thost.CThostFtdcRspUserLoginField)(unsafe.Pointer(pRspUserLogin)),
+		(*thost.CThostFtdcRspInfoField)(unsafe.Pointer(pRspInfo)),
+		int(nRequestID), bool(bIsLast),
+	)
 }
 
 //export CgoOnRspUserLogout
@@ -81,6 +126,19 @@ func CgoOnRspUserLogout(
 	pRspInfo *C.struct_CThostFtdcRspInfoField,
 	nRequestID C.int, bIsLast C.bool,
 ) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnRspUserLogout called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnRspUserLogout(
+		(*thost.CThostFtdcUserLogoutField)(unsafe.Pointer(pUserLogout)),
+		(*thost.CThostFtdcRspInfoField)(unsafe.Pointer(pRspInfo)),
+		int(nRequestID), bool(bIsLast),
+	)
 }
 
 //export CgoOnRspQryMulticastInstrument
@@ -90,6 +148,20 @@ func CgoOnRspQryMulticastInstrument(
 	pRspInfo *C.struct_CThostFtdcRspInfoField,
 	nRequestID C.int, bIsLast C.bool,
 ) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnRspQryMulticastInstrument called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnRspQryMulticastInstrument(
+		(*thost.CThostFtdcMulticastInstrumentField)(
+			unsafe.Pointer(pMulticastInstrument)),
+		(*thost.CThostFtdcRspInfoField)(unsafe.Pointer(pRspInfo)),
+		int(nRequestID), bool(bIsLast),
+	)
 }
 
 //export CgoOnRspError
@@ -98,6 +170,18 @@ func CgoOnRspError(
 	pRspInfo *C.struct_CThostFtdcRspInfoField,
 	nRequestID C.int, bIsLast C.bool,
 ) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnRspError called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnRspError(
+		(*thost.CThostFtdcRspInfoField)(unsafe.Pointer(pRspInfo)),
+		int(nRequestID), bool(bIsLast),
+	)
 }
 
 //export CgoOnRspSubMarketData
@@ -107,6 +191,20 @@ func CgoOnRspSubMarketData(
 	pRspInfo *C.struct_CThostFtdcRspInfoField,
 	nRequestID C.int, bIsLast C.bool,
 ) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnRspSubMarketData called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnRspSubMarketData(
+		(*thost.CThostFtdcSpecificInstrumentField)(
+			unsafe.Pointer(pSpecificInstrument)),
+		(*thost.CThostFtdcRspInfoField)(unsafe.Pointer(pRspInfo)),
+		int(nRequestID), bool(bIsLast),
+	)
 }
 
 //export CgoOnRspUnSubMarketData
@@ -116,6 +214,20 @@ func CgoOnRspUnSubMarketData(
 	pRspInfo *C.struct_CThostFtdcRspInfoField,
 	nRequestID C.int, bIsLast C.bool,
 ) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnRspUnSubMarketData called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnRspUnSubMarketData(
+		(*thost.CThostFtdcSpecificInstrumentField)(
+			unsafe.Pointer(pSpecificInstrument)),
+		(*thost.CThostFtdcRspInfoField)(unsafe.Pointer(pRspInfo)),
+		int(nRequestID), bool(bIsLast),
+	)
 }
 
 //export CgoOnRspSubForQuoteRsp
@@ -125,6 +237,20 @@ func CgoOnRspSubForQuoteRsp(
 	pRspInfo *C.struct_CThostFtdcRspInfoField,
 	nRequestID C.int, bIsLast C.bool,
 ) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnRspSubForQuoteRsp called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnRspSubForQuoteRsp(
+		(*thost.CThostFtdcSpecificInstrumentField)(
+			unsafe.Pointer(pSpecificInstrument)),
+		(*thost.CThostFtdcRspInfoField)(unsafe.Pointer(pRspInfo)),
+		int(nRequestID), bool(bIsLast),
+	)
 }
 
 //export CgoOnRspUnSubForQuoteRsp
@@ -134,6 +260,20 @@ func CgoOnRspUnSubForQuoteRsp(
 	pRspInfo *C.struct_CThostFtdcRspInfoField,
 	nRequestID C.int, bIsLast C.bool,
 ) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnRspUnSubForQuoteRsp called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnRspUnSubForQuoteRsp(
+		(*thost.CThostFtdcSpecificInstrumentField)(
+			unsafe.Pointer(pSpecificInstrument)),
+		(*thost.CThostFtdcRspInfoField)(unsafe.Pointer(pRspInfo)),
+		int(nRequestID), bool(bIsLast),
+	)
 }
 
 //export CgoOnRtnDepthMarketData
@@ -141,6 +281,18 @@ func CgoOnRtnDepthMarketData(
 	this unsafe.Pointer,
 	pDepthMarketData *C.struct_CThostFtdcDepthMarketDataField,
 ) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnRtnDepthMarketData called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnRtnDepthMarketData(
+		(*thost.CThostFtdcDepthMarketDataField)(
+			unsafe.Pointer(pDepthMarketData)),
+	)
 }
 
 //export CgoOnRtnForQuoteRsp
@@ -148,4 +300,16 @@ func CgoOnRtnForQuoteRsp(
 	this unsafe.Pointer,
 	pForQuoteRsp *C.struct_CThostFtdcForQuoteRspField,
 ) {
+	slog.Log(
+		context.Background(), slog.LevelDebug-2,
+		"CgoOnRtnForQuoteRsp called",
+		slog.Any("this", this),
+	)
+
+	(*ThostFtdcMduserSpi)(
+		(*C.CThostFtdcMduserSpiExt)(this).spi,
+	).callback.OnRtnForQuoteRsp(
+		(*thost.CThostFtdcForQuoteRspField)(
+			unsafe.Pointer(pForQuoteRsp)),
+	)
 }

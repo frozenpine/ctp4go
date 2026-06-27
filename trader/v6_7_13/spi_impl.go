@@ -686,7 +686,8 @@ func CgoOnRspUserLogout(
 	(*ThostFtdcTraderSpi)(
 		(*C.CThostFtdcTraderSpiExt)(this).spi,
 	).callback.OnRspUserLogout(
-		(*thost.CThostFtdcUserLogoutField)(unsafe.Pointer(pUserLogout)),
+		(*thost.CThostFtdcUserLogoutField)(
+			unsafe.Pointer(pUserLogout)),
 		(*thost.CThostFtdcRspInfoField)(unsafe.Pointer(pRspInfo)),
 		int(nRequestID), bool(bIsLast),
 	)
