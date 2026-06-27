@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	mduser "github.com/frozenpine/ctp4go/mduser/v6_7_13"
+	"github.com/frozenpine/ctp4go/thost"
 )
 
 func TestMduserApi(t *testing.T) {
@@ -20,6 +21,8 @@ func TestMduserApi(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer ins.Release()
+
+	ins.RegisterSpi(&thost.ThostLogSpi{})
 
 	t.Log(ins.GetApiVersion())
 }

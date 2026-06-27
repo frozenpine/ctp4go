@@ -9,16 +9,17 @@ import (
 )
 
 var (
-	_ TraderSpi = &TraderLogSpi{}
+	_ TraderSpi = &ThostLogSpi{}
+	_ MdSpi     = &ThostLogSpi{}
 )
 
-type TraderLogSpi struct {
+type ThostLogSpi struct {
 	*slog.Logger
 
 	FrontInfo CThostFtdcFrontInfoField
 }
 
-func (spi *TraderLogSpi) CheckRsp(rsp *CThostFtdcRspInfoField) error {
+func (spi *ThostLogSpi) CheckRsp(rsp *CThostFtdcRspInfoField) error {
 	if rsp == nil {
 		return nil
 	}
@@ -32,34 +33,34 @@ func (spi *TraderLogSpi) CheckRsp(rsp *CThostFtdcRspInfoField) error {
 	return nil
 }
 
-func (spi *TraderLogSpi) OnFrontConnected() {
+func (spi *ThostLogSpi) OnFrontConnected() {
 	if spi.Logger == nil {
 		spi.Logger = slog.Default()
 	}
 
 	spi.Info(
-		"thost trader [OnFrontConnected]",
+		"thost [OnFrontConnected]",
 		slog.Any("front", spi.FrontInfo),
 	)
 }
 
-func (spi *TraderLogSpi) OnFrontDisconnected(nReason int) {
+func (spi *ThostLogSpi) OnFrontDisconnected(nReason int) {
 	spi.Info(
-		"thost trader [OnFrontDisconnected]",
+		"thost [OnFrontDisconnected]",
 		slog.Any("front", spi.FrontInfo),
 		slog.Int("reason", nReason),
 	)
 }
 
-func (spi *TraderLogSpi) OnHeartBeatWarning(nTimeLapse int) {
+func (spi *ThostLogSpi) OnHeartBeatWarning(nTimeLapse int) {
 	spi.Info(
-		"thost trader [OnHeartBeatWarning]",
+		"thost [OnHeartBeatWarning]",
 		slog.Any("front", spi.FrontInfo),
 		slog.Int("time_lapse", nTimeLapse),
 	)
 }
 
-func (spi *TraderLogSpi) OnRspAuthenticate(
+func (spi *ThostLogSpi) OnRspAuthenticate(
 	pRspAuthenticateField *CThostFtdcRspAuthenticateField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -81,7 +82,7 @@ func (spi *TraderLogSpi) OnRspAuthenticate(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnPrivateSeqNo(nSeqNo int) {
+func (spi *ThostLogSpi) OnRtnPrivateSeqNo(nSeqNo int) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRtnPrivateSeqNo]",
@@ -89,7 +90,7 @@ func (spi *TraderLogSpi) OnRtnPrivateSeqNo(nSeqNo int) {
 	)
 }
 
-func (spi *TraderLogSpi) OnRspUserLogin(
+func (spi *ThostLogSpi) OnRspUserLogin(
 	pRspUserLogin *CThostFtdcRspUserLoginField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -97,7 +98,7 @@ func (spi *TraderLogSpi) OnRspUserLogin(
 	err := spi.CheckRsp(pRspInfo)
 	if err != nil {
 		spi.Error(
-			"thost trader [OnRspUserLogin] failed",
+			"thost [OnRspUserLogin] failed",
 			slog.Any("error", err),
 			slog.Int("request_id", nRequestID),
 			slog.Bool("is_last", bIsLast),
@@ -106,12 +107,12 @@ func (spi *TraderLogSpi) OnRspUserLogin(
 	}
 
 	spi.Info(
-		"thost trader [OnRspUserLogin] succeeded",
+		"thost [OnRspUserLogin] succeeded",
 		slog.Any("login", pRspUserLogin),
 	)
 }
 
-func (spi *TraderLogSpi) OnRspUserLogout(
+func (spi *ThostLogSpi) OnRspUserLogout(
 	pUserLogout *CThostFtdcUserLogoutField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -119,7 +120,7 @@ func (spi *TraderLogSpi) OnRspUserLogout(
 	err := spi.CheckRsp(pRspInfo)
 	if err != nil {
 		spi.Error(
-			"thost trader [OnRspUserLogout] failed",
+			"thost [OnRspUserLogout] failed",
 			slog.Any("error", err),
 			slog.Int("request_id", nRequestID),
 			slog.Bool("is_last", bIsLast),
@@ -128,12 +129,12 @@ func (spi *TraderLogSpi) OnRspUserLogout(
 	}
 
 	spi.Info(
-		"thost trader [OnRspUserLogout] succeeded",
+		"thost [OnRspUserLogout] succeeded",
 		slog.Any("logout", pUserLogout),
 	)
 }
 
-func (spi *TraderLogSpi) OnRspUserPasswordUpdate(
+func (spi *ThostLogSpi) OnRspUserPasswordUpdate(
 	pUserPasswordUpdate *CThostFtdcUserPasswordUpdateField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -155,7 +156,7 @@ func (spi *TraderLogSpi) OnRspUserPasswordUpdate(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspTradingAccountPasswordUpdate(
+func (spi *ThostLogSpi) OnRspTradingAccountPasswordUpdate(
 	pTradingAccountPasswordUpdate *CThostFtdcTradingAccountPasswordUpdateField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -177,7 +178,7 @@ func (spi *TraderLogSpi) OnRspTradingAccountPasswordUpdate(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspUserAuthMethod(
+func (spi *ThostLogSpi) OnRspUserAuthMethod(
 	pRspUserAuthMethod *CThostFtdcRspUserAuthMethodField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -199,7 +200,7 @@ func (spi *TraderLogSpi) OnRspUserAuthMethod(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspGenUserCaptcha(
+func (spi *ThostLogSpi) OnRspGenUserCaptcha(
 	pRspGenUserCaptcha *CThostFtdcRspGenUserCaptchaField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -221,7 +222,7 @@ func (spi *TraderLogSpi) OnRspGenUserCaptcha(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspGenUserText(
+func (spi *ThostLogSpi) OnRspGenUserText(
 	pRspGenUserText *CThostFtdcRspGenUserTextField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -243,7 +244,7 @@ func (spi *TraderLogSpi) OnRspGenUserText(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspOrderInsert(
+func (spi *ThostLogSpi) OnRspOrderInsert(
 	pInputOrder *CThostFtdcInputOrderField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -265,7 +266,7 @@ func (spi *TraderLogSpi) OnRspOrderInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspParkedOrderInsert(
+func (spi *ThostLogSpi) OnRspParkedOrderInsert(
 	pParkedOrder *CThostFtdcParkedOrderField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -287,7 +288,7 @@ func (spi *TraderLogSpi) OnRspParkedOrderInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspParkedOrderAction(
+func (spi *ThostLogSpi) OnRspParkedOrderAction(
 	pParkedOrderAction *CThostFtdcParkedOrderActionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -309,7 +310,7 @@ func (spi *TraderLogSpi) OnRspParkedOrderAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspOrderAction(
+func (spi *ThostLogSpi) OnRspOrderAction(
 	pInputOrderAction *CThostFtdcInputOrderActionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -331,7 +332,7 @@ func (spi *TraderLogSpi) OnRspOrderAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryMaxOrderVolume(
+func (spi *ThostLogSpi) OnRspQryMaxOrderVolume(
 	pQryMaxOrderVolume *CThostFtdcQryMaxOrderVolumeField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -353,7 +354,7 @@ func (spi *TraderLogSpi) OnRspQryMaxOrderVolume(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspSettlementInfoConfirm(
+func (spi *ThostLogSpi) OnRspSettlementInfoConfirm(
 	pSettlementInfoConfirm *CThostFtdcSettlementInfoConfirmField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -375,7 +376,7 @@ func (spi *TraderLogSpi) OnRspSettlementInfoConfirm(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspRemoveParkedOrder(
+func (spi *ThostLogSpi) OnRspRemoveParkedOrder(
 	pRemoveParkedOrder *CThostFtdcRemoveParkedOrderField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -397,7 +398,7 @@ func (spi *TraderLogSpi) OnRspRemoveParkedOrder(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspRemoveParkedOrderAction(
+func (spi *ThostLogSpi) OnRspRemoveParkedOrderAction(
 	pRemoveParkedOrderAction *CThostFtdcRemoveParkedOrderActionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -419,7 +420,7 @@ func (spi *TraderLogSpi) OnRspRemoveParkedOrderAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspExecOrderInsert(
+func (spi *ThostLogSpi) OnRspExecOrderInsert(
 	pInputExecOrder *CThostFtdcInputExecOrderField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -441,7 +442,7 @@ func (spi *TraderLogSpi) OnRspExecOrderInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspExecOrderAction(
+func (spi *ThostLogSpi) OnRspExecOrderAction(
 	pInputExecOrderAction *CThostFtdcInputExecOrderActionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -463,7 +464,7 @@ func (spi *TraderLogSpi) OnRspExecOrderAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspForQuoteInsert(
+func (spi *ThostLogSpi) OnRspForQuoteInsert(
 	pInputForQuote *CThostFtdcInputForQuoteField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -485,7 +486,7 @@ func (spi *TraderLogSpi) OnRspForQuoteInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQuoteInsert(
+func (spi *ThostLogSpi) OnRspQuoteInsert(
 	pInputQuote *CThostFtdcInputQuoteField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -507,7 +508,7 @@ func (spi *TraderLogSpi) OnRspQuoteInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQuoteAction(
+func (spi *ThostLogSpi) OnRspQuoteAction(
 	pInputQuoteAction *CThostFtdcInputQuoteActionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -529,7 +530,7 @@ func (spi *TraderLogSpi) OnRspQuoteAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspBatchOrderAction(
+func (spi *ThostLogSpi) OnRspBatchOrderAction(
 	pInputBatchOrderAction *CThostFtdcInputBatchOrderActionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -551,7 +552,7 @@ func (spi *TraderLogSpi) OnRspBatchOrderAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspOptionSelfCloseInsert(
+func (spi *ThostLogSpi) OnRspOptionSelfCloseInsert(
 	pInputOptionSelfClose *CThostFtdcInputOptionSelfCloseField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -573,7 +574,7 @@ func (spi *TraderLogSpi) OnRspOptionSelfCloseInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspOptionSelfCloseAction(
+func (spi *ThostLogSpi) OnRspOptionSelfCloseAction(
 	pInputOptionSelfCloseAction *CThostFtdcInputOptionSelfCloseActionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -595,7 +596,7 @@ func (spi *TraderLogSpi) OnRspOptionSelfCloseAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspCombActionInsert(
+func (spi *ThostLogSpi) OnRspCombActionInsert(
 	pInputCombAction *CThostFtdcInputCombActionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -617,7 +618,7 @@ func (spi *TraderLogSpi) OnRspCombActionInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryOrder(
+func (spi *ThostLogSpi) OnRspQryOrder(
 	pOrder *CThostFtdcOrderField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -639,7 +640,7 @@ func (spi *TraderLogSpi) OnRspQryOrder(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryTrade(
+func (spi *ThostLogSpi) OnRspQryTrade(
 	pTrade *CThostFtdcTradeField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -661,7 +662,7 @@ func (spi *TraderLogSpi) OnRspQryTrade(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestorPosition(
+func (spi *ThostLogSpi) OnRspQryInvestorPosition(
 	pInvestorPosition *CThostFtdcInvestorPositionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -683,7 +684,7 @@ func (spi *TraderLogSpi) OnRspQryInvestorPosition(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryTradingAccount(
+func (spi *ThostLogSpi) OnRspQryTradingAccount(
 	pTradingAccount *CThostFtdcTradingAccountField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -705,7 +706,7 @@ func (spi *TraderLogSpi) OnRspQryTradingAccount(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestor(
+func (spi *ThostLogSpi) OnRspQryInvestor(
 	pInvestor *CThostFtdcInvestorField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -727,7 +728,7 @@ func (spi *TraderLogSpi) OnRspQryInvestor(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryTradingCode(
+func (spi *ThostLogSpi) OnRspQryTradingCode(
 	pTradingCode *CThostFtdcTradingCodeField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -749,7 +750,7 @@ func (spi *TraderLogSpi) OnRspQryTradingCode(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInstrumentMarginRate(
+func (spi *ThostLogSpi) OnRspQryInstrumentMarginRate(
 	pInstrumentMarginRate *CThostFtdcInstrumentMarginRateField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -771,7 +772,7 @@ func (spi *TraderLogSpi) OnRspQryInstrumentMarginRate(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInstrumentCommissionRate(
+func (spi *ThostLogSpi) OnRspQryInstrumentCommissionRate(
 	pInstrumentCommissionRate *CThostFtdcInstrumentCommissionRateField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -793,7 +794,7 @@ func (spi *TraderLogSpi) OnRspQryInstrumentCommissionRate(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryUserSession(
+func (spi *ThostLogSpi) OnRspQryUserSession(
 	pUserSession *CThostFtdcUserSessionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -815,7 +816,7 @@ func (spi *TraderLogSpi) OnRspQryUserSession(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryExchange(
+func (spi *ThostLogSpi) OnRspQryExchange(
 	pExchange *CThostFtdcExchangeField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -837,7 +838,7 @@ func (spi *TraderLogSpi) OnRspQryExchange(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryProduct(
+func (spi *ThostLogSpi) OnRspQryProduct(
 	pProduct *CThostFtdcProductField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -859,7 +860,7 @@ func (spi *TraderLogSpi) OnRspQryProduct(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInstrument(
+func (spi *ThostLogSpi) OnRspQryInstrument(
 	pInstrument *CThostFtdcInstrumentField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -881,7 +882,7 @@ func (spi *TraderLogSpi) OnRspQryInstrument(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryDepthMarketData(
+func (spi *ThostLogSpi) OnRspQryDepthMarketData(
 	pDepthMarketData *CThostFtdcDepthMarketDataField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -903,7 +904,7 @@ func (spi *TraderLogSpi) OnRspQryDepthMarketData(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryTraderOffer(
+func (spi *ThostLogSpi) OnRspQryTraderOffer(
 	pTraderOffer *CThostFtdcTraderOfferField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -925,7 +926,7 @@ func (spi *TraderLogSpi) OnRspQryTraderOffer(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySettlementInfo(
+func (spi *ThostLogSpi) OnRspQrySettlementInfo(
 	pSettlementInfo *CThostFtdcSettlementInfoField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -947,7 +948,7 @@ func (spi *TraderLogSpi) OnRspQrySettlementInfo(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryTransferBank(
+func (spi *ThostLogSpi) OnRspQryTransferBank(
 	pTransferBank *CThostFtdcTransferBankField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -969,7 +970,7 @@ func (spi *TraderLogSpi) OnRspQryTransferBank(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestorPositionDetail(
+func (spi *ThostLogSpi) OnRspQryInvestorPositionDetail(
 	pInvestorPositionDetail *CThostFtdcInvestorPositionDetailField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -991,7 +992,7 @@ func (spi *TraderLogSpi) OnRspQryInvestorPositionDetail(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryNotice(
+func (spi *ThostLogSpi) OnRspQryNotice(
 	pNotice *CThostFtdcNoticeField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1013,7 +1014,7 @@ func (spi *TraderLogSpi) OnRspQryNotice(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySettlementInfoConfirm(
+func (spi *ThostLogSpi) OnRspQrySettlementInfoConfirm(
 	pSettlementInfoConfirm *CThostFtdcSettlementInfoConfirmField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1035,7 +1036,7 @@ func (spi *TraderLogSpi) OnRspQrySettlementInfoConfirm(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestorPositionCombineDetail(
+func (spi *ThostLogSpi) OnRspQryInvestorPositionCombineDetail(
 	pInvestorPositionCombineDetail *CThostFtdcInvestorPositionCombineDetailField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1057,7 +1058,7 @@ func (spi *TraderLogSpi) OnRspQryInvestorPositionCombineDetail(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryCFMMCTradingAccountKey(
+func (spi *ThostLogSpi) OnRspQryCFMMCTradingAccountKey(
 	pCFMMCTradingAccountKey *CThostFtdcCFMMCTradingAccountKeyField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1079,7 +1080,7 @@ func (spi *TraderLogSpi) OnRspQryCFMMCTradingAccountKey(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryEWarrantOffset(
+func (spi *ThostLogSpi) OnRspQryEWarrantOffset(
 	pEWarrantOffset *CThostFtdcEWarrantOffsetField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1101,7 +1102,7 @@ func (spi *TraderLogSpi) OnRspQryEWarrantOffset(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestorProductGroupMargin(
+func (spi *ThostLogSpi) OnRspQryInvestorProductGroupMargin(
 	pInvestorProductGroupMargin *CThostFtdcInvestorProductGroupMarginField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1123,7 +1124,7 @@ func (spi *TraderLogSpi) OnRspQryInvestorProductGroupMargin(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryExchangeMarginRate(
+func (spi *ThostLogSpi) OnRspQryExchangeMarginRate(
 	pExchangeMarginRate *CThostFtdcExchangeMarginRateField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1145,7 +1146,7 @@ func (spi *TraderLogSpi) OnRspQryExchangeMarginRate(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryExchangeMarginRateAdjust(
+func (spi *ThostLogSpi) OnRspQryExchangeMarginRateAdjust(
 	pExchangeMarginRateAdjust *CThostFtdcExchangeMarginRateAdjustField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1167,7 +1168,7 @@ func (spi *TraderLogSpi) OnRspQryExchangeMarginRateAdjust(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryExchangeRate(
+func (spi *ThostLogSpi) OnRspQryExchangeRate(
 	pExchangeRate *CThostFtdcExchangeRateField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1189,7 +1190,7 @@ func (spi *TraderLogSpi) OnRspQryExchangeRate(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySecAgentACIDMap(
+func (spi *ThostLogSpi) OnRspQrySecAgentACIDMap(
 	pSecAgentACIDMap *CThostFtdcSecAgentACIDMapField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1211,7 +1212,7 @@ func (spi *TraderLogSpi) OnRspQrySecAgentACIDMap(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryProductExchRate(
+func (spi *ThostLogSpi) OnRspQryProductExchRate(
 	pProductExchRate *CThostFtdcProductExchRateField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1233,7 +1234,7 @@ func (spi *TraderLogSpi) OnRspQryProductExchRate(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryProductGroup(
+func (spi *ThostLogSpi) OnRspQryProductGroup(
 	pProductGroup *CThostFtdcProductGroupField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1255,7 +1256,7 @@ func (spi *TraderLogSpi) OnRspQryProductGroup(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryMMInstrumentCommissionRate(
+func (spi *ThostLogSpi) OnRspQryMMInstrumentCommissionRate(
 	pMMInstrumentCommissionRate *CThostFtdcMMInstrumentCommissionRateField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1277,7 +1278,7 @@ func (spi *TraderLogSpi) OnRspQryMMInstrumentCommissionRate(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryMMOptionInstrCommRate(
+func (spi *ThostLogSpi) OnRspQryMMOptionInstrCommRate(
 	pMMOptionInstrCommRate *CThostFtdcMMOptionInstrCommRateField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1299,7 +1300,7 @@ func (spi *TraderLogSpi) OnRspQryMMOptionInstrCommRate(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInstrumentOrderCommRate(
+func (spi *ThostLogSpi) OnRspQryInstrumentOrderCommRate(
 	pInstrumentOrderCommRate *CThostFtdcInstrumentOrderCommRateField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1321,7 +1322,7 @@ func (spi *TraderLogSpi) OnRspQryInstrumentOrderCommRate(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySecAgentTradingAccount(
+func (spi *ThostLogSpi) OnRspQrySecAgentTradingAccount(
 	pTradingAccount *CThostFtdcTradingAccountField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1343,7 +1344,7 @@ func (spi *TraderLogSpi) OnRspQrySecAgentTradingAccount(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySecAgentCheckMode(
+func (spi *ThostLogSpi) OnRspQrySecAgentCheckMode(
 	pSecAgentCheckMode *CThostFtdcSecAgentCheckModeField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1365,7 +1366,7 @@ func (spi *TraderLogSpi) OnRspQrySecAgentCheckMode(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySecAgentTradeInfo(
+func (spi *ThostLogSpi) OnRspQrySecAgentTradeInfo(
 	pSecAgentTradeInfo *CThostFtdcSecAgentTradeInfoField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1387,7 +1388,7 @@ func (spi *TraderLogSpi) OnRspQrySecAgentTradeInfo(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryOptionInstrTradeCost(
+func (spi *ThostLogSpi) OnRspQryOptionInstrTradeCost(
 	pOptionInstrTradeCost *CThostFtdcOptionInstrTradeCostField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1409,7 +1410,7 @@ func (spi *TraderLogSpi) OnRspQryOptionInstrTradeCost(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryOptionInstrCommRate(
+func (spi *ThostLogSpi) OnRspQryOptionInstrCommRate(
 	pOptionInstrCommRate *CThostFtdcOptionInstrCommRateField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1431,7 +1432,7 @@ func (spi *TraderLogSpi) OnRspQryOptionInstrCommRate(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryExecOrder(
+func (spi *ThostLogSpi) OnRspQryExecOrder(
 	pExecOrder *CThostFtdcExecOrderField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1453,7 +1454,7 @@ func (spi *TraderLogSpi) OnRspQryExecOrder(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryForQuote(
+func (spi *ThostLogSpi) OnRspQryForQuote(
 	pForQuote *CThostFtdcForQuoteField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1475,7 +1476,7 @@ func (spi *TraderLogSpi) OnRspQryForQuote(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryQuote(
+func (spi *ThostLogSpi) OnRspQryQuote(
 	pQuote *CThostFtdcQuoteField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1497,7 +1498,7 @@ func (spi *TraderLogSpi) OnRspQryQuote(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryOptionSelfClose(
+func (spi *ThostLogSpi) OnRspQryOptionSelfClose(
 	pOptionSelfClose *CThostFtdcOptionSelfCloseField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1519,7 +1520,7 @@ func (spi *TraderLogSpi) OnRspQryOptionSelfClose(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestUnit(
+func (spi *ThostLogSpi) OnRspQryInvestUnit(
 	pInvestUnit *CThostFtdcInvestUnitField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1541,7 +1542,7 @@ func (spi *TraderLogSpi) OnRspQryInvestUnit(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryCombInstrumentGuard(
+func (spi *ThostLogSpi) OnRspQryCombInstrumentGuard(
 	pCombInstrumentGuard *CThostFtdcCombInstrumentGuardField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1563,7 +1564,7 @@ func (spi *TraderLogSpi) OnRspQryCombInstrumentGuard(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryCombAction(
+func (spi *ThostLogSpi) OnRspQryCombAction(
 	pCombAction *CThostFtdcCombActionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1585,7 +1586,7 @@ func (spi *TraderLogSpi) OnRspQryCombAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryTransferSerial(
+func (spi *ThostLogSpi) OnRspQryTransferSerial(
 	pTransferSerial *CThostFtdcTransferSerialField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1607,7 +1608,7 @@ func (spi *TraderLogSpi) OnRspQryTransferSerial(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryAccountregister(
+func (spi *ThostLogSpi) OnRspQryAccountregister(
 	pAccountregister *CThostFtdcAccountregisterField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1629,7 +1630,7 @@ func (spi *TraderLogSpi) OnRspQryAccountregister(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspError(pRspInfo *CThostFtdcRspInfoField, nRequestID int, bIsLast bool) {
+func (spi *ThostLogSpi) OnRspError(pRspInfo *CThostFtdcRspInfoField, nRequestID int, bIsLast bool) {
 	spi.Error(
 		"thost trader [OnRspError]",
 		slog.Any("error", spi.CheckRsp(pRspInfo)),
@@ -1638,7 +1639,7 @@ func (spi *TraderLogSpi) OnRspError(pRspInfo *CThostFtdcRspInfoField, nRequestID
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnOrder(pOrder *CThostFtdcOrderField) {
+func (spi *ThostLogSpi) OnRtnOrder(pOrder *CThostFtdcOrderField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnOrder]",
@@ -1646,7 +1647,7 @@ func (spi *TraderLogSpi) OnRtnOrder(pOrder *CThostFtdcOrderField) {
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnTrade(pTrade *CThostFtdcTradeField) {
+func (spi *ThostLogSpi) OnRtnTrade(pTrade *CThostFtdcTradeField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnTrade]",
@@ -1654,7 +1655,7 @@ func (spi *TraderLogSpi) OnRtnTrade(pTrade *CThostFtdcTradeField) {
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnOrderInsert(
+func (spi *ThostLogSpi) OnErrRtnOrderInsert(
 	pInputOrder *CThostFtdcInputOrderField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -1664,7 +1665,7 @@ func (spi *TraderLogSpi) OnErrRtnOrderInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnOrderAction(
+func (spi *ThostLogSpi) OnErrRtnOrderAction(
 	pOrderAction *CThostFtdcOrderActionField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -1674,7 +1675,7 @@ func (spi *TraderLogSpi) OnErrRtnOrderAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnInstrumentStatus(pInstrumentStatus *CThostFtdcInstrumentStatusField) {
+func (spi *ThostLogSpi) OnRtnInstrumentStatus(pInstrumentStatus *CThostFtdcInstrumentStatusField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnInstrumentStatus]",
@@ -1682,7 +1683,7 @@ func (spi *TraderLogSpi) OnRtnInstrumentStatus(pInstrumentStatus *CThostFtdcInst
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnBulletin(pBulletin *CThostFtdcBulletinField) {
+func (spi *ThostLogSpi) OnRtnBulletin(pBulletin *CThostFtdcBulletinField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnBulletin]",
@@ -1690,7 +1691,7 @@ func (spi *TraderLogSpi) OnRtnBulletin(pBulletin *CThostFtdcBulletinField) {
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnTradingNotice(pTradingNoticeInfo *CThostFtdcTradingNoticeInfoField) {
+func (spi *ThostLogSpi) OnRtnTradingNotice(pTradingNoticeInfo *CThostFtdcTradingNoticeInfoField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnTradingNotice]",
@@ -1698,7 +1699,7 @@ func (spi *TraderLogSpi) OnRtnTradingNotice(pTradingNoticeInfo *CThostFtdcTradin
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnErrorConditionalOrder(pErrorConditionalOrder *CThostFtdcErrorConditionalOrderField) {
+func (spi *ThostLogSpi) OnRtnErrorConditionalOrder(pErrorConditionalOrder *CThostFtdcErrorConditionalOrderField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnErrorConditionalOrder]",
@@ -1706,7 +1707,7 @@ func (spi *TraderLogSpi) OnRtnErrorConditionalOrder(pErrorConditionalOrder *CTho
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnExecOrder(pExecOrder *CThostFtdcExecOrderField) {
+func (spi *ThostLogSpi) OnRtnExecOrder(pExecOrder *CThostFtdcExecOrderField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnExecOrder]",
@@ -1714,7 +1715,7 @@ func (spi *TraderLogSpi) OnRtnExecOrder(pExecOrder *CThostFtdcExecOrderField) {
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnExecOrderInsert(
+func (spi *ThostLogSpi) OnErrRtnExecOrderInsert(
 	pInputExecOrder *CThostFtdcInputExecOrderField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -1724,7 +1725,7 @@ func (spi *TraderLogSpi) OnErrRtnExecOrderInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnExecOrderAction(
+func (spi *ThostLogSpi) OnErrRtnExecOrderAction(
 	pExecOrderAction *CThostFtdcExecOrderActionField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -1734,7 +1735,7 @@ func (spi *TraderLogSpi) OnErrRtnExecOrderAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnForQuoteInsert(
+func (spi *ThostLogSpi) OnErrRtnForQuoteInsert(
 	pInputForQuote *CThostFtdcInputForQuoteField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -1744,7 +1745,7 @@ func (spi *TraderLogSpi) OnErrRtnForQuoteInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnQuote(pQuote *CThostFtdcQuoteField) {
+func (spi *ThostLogSpi) OnRtnQuote(pQuote *CThostFtdcQuoteField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnQuote]",
@@ -1752,7 +1753,7 @@ func (spi *TraderLogSpi) OnRtnQuote(pQuote *CThostFtdcQuoteField) {
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnQuoteInsert(
+func (spi *ThostLogSpi) OnErrRtnQuoteInsert(
 	pInputQuote *CThostFtdcInputQuoteField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -1762,7 +1763,7 @@ func (spi *TraderLogSpi) OnErrRtnQuoteInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnQuoteAction(
+func (spi *ThostLogSpi) OnErrRtnQuoteAction(
 	pQuoteAction *CThostFtdcQuoteActionField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -1772,15 +1773,15 @@ func (spi *TraderLogSpi) OnErrRtnQuoteAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnForQuoteRsp(pForQuoteRsp *CThostFtdcForQuoteRspField) {
+func (spi *ThostLogSpi) OnRtnForQuoteRsp(pForQuoteRsp *CThostFtdcForQuoteRspField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
-		"thost trader [OnRtnForQuoteRsp]",
+		"thost [OnRtnForQuoteRsp]",
 		slog.Any("data", pForQuoteRsp),
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnCFMMCTradingAccountToken(pCFMMCTradingAccountToken *CThostFtdcCFMMCTradingAccountTokenField) {
+func (spi *ThostLogSpi) OnRtnCFMMCTradingAccountToken(pCFMMCTradingAccountToken *CThostFtdcCFMMCTradingAccountTokenField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnCFMMCTradingAccountToken]",
@@ -1788,7 +1789,7 @@ func (spi *TraderLogSpi) OnRtnCFMMCTradingAccountToken(pCFMMCTradingAccountToken
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnBatchOrderAction(
+func (spi *ThostLogSpi) OnErrRtnBatchOrderAction(
 	pBatchOrderAction *CThostFtdcBatchOrderActionField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -1798,7 +1799,7 @@ func (spi *TraderLogSpi) OnErrRtnBatchOrderAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnOptionSelfClose(pOptionSelfClose *CThostFtdcOptionSelfCloseField) {
+func (spi *ThostLogSpi) OnRtnOptionSelfClose(pOptionSelfClose *CThostFtdcOptionSelfCloseField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnOptionSelfClose]",
@@ -1806,7 +1807,7 @@ func (spi *TraderLogSpi) OnRtnOptionSelfClose(pOptionSelfClose *CThostFtdcOption
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnOptionSelfCloseInsert(
+func (spi *ThostLogSpi) OnErrRtnOptionSelfCloseInsert(
 	pInputOptionSelfClose *CThostFtdcInputOptionSelfCloseField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -1816,7 +1817,7 @@ func (spi *TraderLogSpi) OnErrRtnOptionSelfCloseInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnOptionSelfCloseAction(
+func (spi *ThostLogSpi) OnErrRtnOptionSelfCloseAction(
 	pOptionSelfCloseAction *CThostFtdcOptionSelfCloseActionField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -1826,7 +1827,7 @@ func (spi *TraderLogSpi) OnErrRtnOptionSelfCloseAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnCombAction(pCombAction *CThostFtdcCombActionField) {
+func (spi *ThostLogSpi) OnRtnCombAction(pCombAction *CThostFtdcCombActionField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnCombAction]",
@@ -1834,7 +1835,7 @@ func (spi *TraderLogSpi) OnRtnCombAction(pCombAction *CThostFtdcCombActionField)
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnCombActionInsert(
+func (spi *ThostLogSpi) OnErrRtnCombActionInsert(
 	pInputCombAction *CThostFtdcInputCombActionField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -1844,7 +1845,7 @@ func (spi *TraderLogSpi) OnErrRtnCombActionInsert(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryContractBank(
+func (spi *ThostLogSpi) OnRspQryContractBank(
 	pContractBank *CThostFtdcContractBankField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1866,7 +1867,7 @@ func (spi *TraderLogSpi) OnRspQryContractBank(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryParkedOrder(
+func (spi *ThostLogSpi) OnRspQryParkedOrder(
 	pParkedOrder *CThostFtdcParkedOrderField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1888,7 +1889,7 @@ func (spi *TraderLogSpi) OnRspQryParkedOrder(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryParkedOrderAction(
+func (spi *ThostLogSpi) OnRspQryParkedOrderAction(
 	pParkedOrderAction *CThostFtdcParkedOrderActionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1910,7 +1911,7 @@ func (spi *TraderLogSpi) OnRspQryParkedOrderAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryTradingNotice(
+func (spi *ThostLogSpi) OnRspQryTradingNotice(
 	pTradingNotice *CThostFtdcTradingNoticeField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1932,7 +1933,7 @@ func (spi *TraderLogSpi) OnRspQryTradingNotice(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryBrokerTradingParams(
+func (spi *ThostLogSpi) OnRspQryBrokerTradingParams(
 	pBrokerTradingParams *CThostFtdcBrokerTradingParamsField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1954,7 +1955,7 @@ func (spi *TraderLogSpi) OnRspQryBrokerTradingParams(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryBrokerTradingAlgos(
+func (spi *ThostLogSpi) OnRspQryBrokerTradingAlgos(
 	pBrokerTradingAlgos *CThostFtdcBrokerTradingAlgosField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1976,7 +1977,7 @@ func (spi *TraderLogSpi) OnRspQryBrokerTradingAlgos(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQueryCFMMCTradingAccountToken(
+func (spi *ThostLogSpi) OnRspQueryCFMMCTradingAccountToken(
 	pQueryCFMMCTradingAccountToken *CThostFtdcQueryCFMMCTradingAccountTokenField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -1998,7 +1999,7 @@ func (spi *TraderLogSpi) OnRspQueryCFMMCTradingAccountToken(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnFromBankToFutureByBank(pRspTransfer *CThostFtdcRspTransferField) {
+func (spi *ThostLogSpi) OnRtnFromBankToFutureByBank(pRspTransfer *CThostFtdcRspTransferField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnFromBankToFutureByBank]",
@@ -2006,7 +2007,7 @@ func (spi *TraderLogSpi) OnRtnFromBankToFutureByBank(pRspTransfer *CThostFtdcRsp
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnFromFutureToBankByBank(pRspTransfer *CThostFtdcRspTransferField) {
+func (spi *ThostLogSpi) OnRtnFromFutureToBankByBank(pRspTransfer *CThostFtdcRspTransferField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnFromFutureToBankByBank]",
@@ -2014,7 +2015,7 @@ func (spi *TraderLogSpi) OnRtnFromFutureToBankByBank(pRspTransfer *CThostFtdcRsp
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnRepealFromBankToFutureByBank(pRspRepeal *CThostFtdcRspRepealField) {
+func (spi *ThostLogSpi) OnRtnRepealFromBankToFutureByBank(pRspRepeal *CThostFtdcRspRepealField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnRepealFromBankToFutureByBank]",
@@ -2022,7 +2023,7 @@ func (spi *TraderLogSpi) OnRtnRepealFromBankToFutureByBank(pRspRepeal *CThostFtd
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnRepealFromFutureToBankByBank(pRspRepeal *CThostFtdcRspRepealField) {
+func (spi *ThostLogSpi) OnRtnRepealFromFutureToBankByBank(pRspRepeal *CThostFtdcRspRepealField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnRepealFromFutureToBankByBank]",
@@ -2030,7 +2031,7 @@ func (spi *TraderLogSpi) OnRtnRepealFromFutureToBankByBank(pRspRepeal *CThostFtd
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnFromBankToFutureByFuture(pRspTransfer *CThostFtdcRspTransferField) {
+func (spi *ThostLogSpi) OnRtnFromBankToFutureByFuture(pRspTransfer *CThostFtdcRspTransferField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnFromBankToFutureByFuture]",
@@ -2038,7 +2039,7 @@ func (spi *TraderLogSpi) OnRtnFromBankToFutureByFuture(pRspTransfer *CThostFtdcR
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnFromFutureToBankByFuture(pRspTransfer *CThostFtdcRspTransferField) {
+func (spi *ThostLogSpi) OnRtnFromFutureToBankByFuture(pRspTransfer *CThostFtdcRspTransferField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnFromFutureToBankByFuture]",
@@ -2046,7 +2047,7 @@ func (spi *TraderLogSpi) OnRtnFromFutureToBankByFuture(pRspTransfer *CThostFtdcR
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnRepealFromBankToFutureByFutureManual(pRspRepeal *CThostFtdcRspRepealField) {
+func (spi *ThostLogSpi) OnRtnRepealFromBankToFutureByFutureManual(pRspRepeal *CThostFtdcRspRepealField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnRepealFromBankToFutureByFutureManual]",
@@ -2054,7 +2055,7 @@ func (spi *TraderLogSpi) OnRtnRepealFromBankToFutureByFutureManual(pRspRepeal *C
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnRepealFromFutureToBankByFutureManual(pRspRepeal *CThostFtdcRspRepealField) {
+func (spi *ThostLogSpi) OnRtnRepealFromFutureToBankByFutureManual(pRspRepeal *CThostFtdcRspRepealField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnRepealFromFutureToBankByFutureManual]",
@@ -2062,7 +2063,7 @@ func (spi *TraderLogSpi) OnRtnRepealFromFutureToBankByFutureManual(pRspRepeal *C
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnQueryBankBalanceByFuture(pNotifyQueryAccount *CThostFtdcNotifyQueryAccountField) {
+func (spi *ThostLogSpi) OnRtnQueryBankBalanceByFuture(pNotifyQueryAccount *CThostFtdcNotifyQueryAccountField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnQueryBankBalanceByFuture]",
@@ -2070,7 +2071,7 @@ func (spi *TraderLogSpi) OnRtnQueryBankBalanceByFuture(pNotifyQueryAccount *CTho
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnBankToFutureByFuture(
+func (spi *ThostLogSpi) OnErrRtnBankToFutureByFuture(
 	pReqTransfer *CThostFtdcReqTransferField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -2080,7 +2081,7 @@ func (spi *TraderLogSpi) OnErrRtnBankToFutureByFuture(
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnFutureToBankByFuture(
+func (spi *ThostLogSpi) OnErrRtnFutureToBankByFuture(
 	pReqTransfer *CThostFtdcReqTransferField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -2090,7 +2091,7 @@ func (spi *TraderLogSpi) OnErrRtnFutureToBankByFuture(
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnRepealBankToFutureByFutureManual(
+func (spi *ThostLogSpi) OnErrRtnRepealBankToFutureByFutureManual(
 	pReqRepeal *CThostFtdcReqRepealField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -2100,7 +2101,7 @@ func (spi *TraderLogSpi) OnErrRtnRepealBankToFutureByFutureManual(
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnRepealFutureToBankByFutureManual(
+func (spi *ThostLogSpi) OnErrRtnRepealFutureToBankByFutureManual(
 	pReqRepeal *CThostFtdcReqRepealField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -2110,7 +2111,7 @@ func (spi *TraderLogSpi) OnErrRtnRepealFutureToBankByFutureManual(
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnQueryBankBalanceByFuture(
+func (spi *ThostLogSpi) OnErrRtnQueryBankBalanceByFuture(
 	pReqQueryAccount *CThostFtdcReqQueryAccountField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -2120,7 +2121,7 @@ func (spi *TraderLogSpi) OnErrRtnQueryBankBalanceByFuture(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnRepealFromBankToFutureByFuture(pRspRepeal *CThostFtdcRspRepealField) {
+func (spi *ThostLogSpi) OnRtnRepealFromBankToFutureByFuture(pRspRepeal *CThostFtdcRspRepealField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnRepealFromBankToFutureByFuture]",
@@ -2128,7 +2129,7 @@ func (spi *TraderLogSpi) OnRtnRepealFromBankToFutureByFuture(pRspRepeal *CThostF
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnRepealFromFutureToBankByFuture(pRspRepeal *CThostFtdcRspRepealField) {
+func (spi *ThostLogSpi) OnRtnRepealFromFutureToBankByFuture(pRspRepeal *CThostFtdcRspRepealField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnRepealFromFutureToBankByFuture]",
@@ -2136,7 +2137,7 @@ func (spi *TraderLogSpi) OnRtnRepealFromFutureToBankByFuture(pRspRepeal *CThostF
 	)
 }
 
-func (spi *TraderLogSpi) OnRspFromBankToFutureByFuture(
+func (spi *ThostLogSpi) OnRspFromBankToFutureByFuture(
 	pReqTransfer *CThostFtdcReqTransferField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2158,7 +2159,7 @@ func (spi *TraderLogSpi) OnRspFromBankToFutureByFuture(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspFromFutureToBankByFuture(
+func (spi *ThostLogSpi) OnRspFromFutureToBankByFuture(
 	pReqTransfer *CThostFtdcReqTransferField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2180,7 +2181,7 @@ func (spi *TraderLogSpi) OnRspFromFutureToBankByFuture(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQueryBankAccountMoneyByFuture(
+func (spi *ThostLogSpi) OnRspQueryBankAccountMoneyByFuture(
 	pReqQueryAccount *CThostFtdcReqQueryAccountField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2202,7 +2203,7 @@ func (spi *TraderLogSpi) OnRspQueryBankAccountMoneyByFuture(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnOpenAccountByBank(pOpenAccount *CThostFtdcOpenAccountField) {
+func (spi *ThostLogSpi) OnRtnOpenAccountByBank(pOpenAccount *CThostFtdcOpenAccountField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnOpenAccountByBank]",
@@ -2210,7 +2211,7 @@ func (spi *TraderLogSpi) OnRtnOpenAccountByBank(pOpenAccount *CThostFtdcOpenAcco
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnCancelAccountByBank(pCancelAccount *CThostFtdcCancelAccountField) {
+func (spi *ThostLogSpi) OnRtnCancelAccountByBank(pCancelAccount *CThostFtdcCancelAccountField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnCancelAccountByBank]",
@@ -2218,7 +2219,7 @@ func (spi *TraderLogSpi) OnRtnCancelAccountByBank(pCancelAccount *CThostFtdcCanc
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnChangeAccountByBank(pChangeAccount *CThostFtdcChangeAccountField) {
+func (spi *ThostLogSpi) OnRtnChangeAccountByBank(pChangeAccount *CThostFtdcChangeAccountField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnChangeAccountByBank]",
@@ -2226,7 +2227,7 @@ func (spi *TraderLogSpi) OnRtnChangeAccountByBank(pChangeAccount *CThostFtdcChan
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryClassifiedInstrument(
+func (spi *ThostLogSpi) OnRspQryClassifiedInstrument(
 	pInstrument *CThostFtdcInstrumentField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2248,7 +2249,7 @@ func (spi *TraderLogSpi) OnRspQryClassifiedInstrument(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryCombPromotionParam(
+func (spi *ThostLogSpi) OnRspQryCombPromotionParam(
 	pCombPromotionParam *CThostFtdcCombPromotionParamField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2270,7 +2271,7 @@ func (spi *TraderLogSpi) OnRspQryCombPromotionParam(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryRiskSettleInvstPosition(
+func (spi *ThostLogSpi) OnRspQryRiskSettleInvstPosition(
 	pRiskSettleInvstPosition *CThostFtdcRiskSettleInvstPositionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2292,7 +2293,7 @@ func (spi *TraderLogSpi) OnRspQryRiskSettleInvstPosition(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryRiskSettleProductStatus(
+func (spi *ThostLogSpi) OnRspQryRiskSettleProductStatus(
 	pRiskSettleProductStatus *CThostFtdcRiskSettleProductStatusField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2314,7 +2315,7 @@ func (spi *TraderLogSpi) OnRspQryRiskSettleProductStatus(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySPBMFutureParameter(
+func (spi *ThostLogSpi) OnRspQrySPBMFutureParameter(
 	pSPBMFutureParameter *CThostFtdcSPBMFutureParameterField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2336,7 +2337,7 @@ func (spi *TraderLogSpi) OnRspQrySPBMFutureParameter(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySPBMOptionParameter(
+func (spi *ThostLogSpi) OnRspQrySPBMOptionParameter(
 	pSPBMOptionParameter *CThostFtdcSPBMOptionParameterField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2358,7 +2359,7 @@ func (spi *TraderLogSpi) OnRspQrySPBMOptionParameter(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySPBMIntraParameter(
+func (spi *ThostLogSpi) OnRspQrySPBMIntraParameter(
 	pSPBMIntraParameter *CThostFtdcSPBMIntraParameterField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2380,7 +2381,7 @@ func (spi *TraderLogSpi) OnRspQrySPBMIntraParameter(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySPBMInterParameter(
+func (spi *ThostLogSpi) OnRspQrySPBMInterParameter(
 	pSPBMInterParameter *CThostFtdcSPBMInterParameterField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2402,7 +2403,7 @@ func (spi *TraderLogSpi) OnRspQrySPBMInterParameter(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySPBMPortfDefinition(
+func (spi *ThostLogSpi) OnRspQrySPBMPortfDefinition(
 	pSPBMPortfDefinition *CThostFtdcSPBMPortfDefinitionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2424,7 +2425,7 @@ func (spi *TraderLogSpi) OnRspQrySPBMPortfDefinition(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySPBMInvestorPortfDef(
+func (spi *ThostLogSpi) OnRspQrySPBMInvestorPortfDef(
 	pSPBMInvestorPortfDef *CThostFtdcSPBMInvestorPortfDefField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2446,7 +2447,7 @@ func (spi *TraderLogSpi) OnRspQrySPBMInvestorPortfDef(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestorPortfMarginRatio(
+func (spi *ThostLogSpi) OnRspQryInvestorPortfMarginRatio(
 	pInvestorPortfMarginRatio *CThostFtdcInvestorPortfMarginRatioField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2468,7 +2469,7 @@ func (spi *TraderLogSpi) OnRspQryInvestorPortfMarginRatio(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestorProdSPBMDetail(
+func (spi *ThostLogSpi) OnRspQryInvestorProdSPBMDetail(
 	pInvestorProdSPBMDetail *CThostFtdcInvestorProdSPBMDetailField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2490,7 +2491,7 @@ func (spi *TraderLogSpi) OnRspQryInvestorProdSPBMDetail(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestorCommoditySPMMMargin(
+func (spi *ThostLogSpi) OnRspQryInvestorCommoditySPMMMargin(
 	pInvestorCommoditySPMMMargin *CThostFtdcInvestorCommoditySPMMMarginField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2512,7 +2513,7 @@ func (spi *TraderLogSpi) OnRspQryInvestorCommoditySPMMMargin(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestorCommodityGroupSPMMMargin(
+func (spi *ThostLogSpi) OnRspQryInvestorCommodityGroupSPMMMargin(
 	pInvestorCommodityGroupSPMMMargin *CThostFtdcInvestorCommodityGroupSPMMMarginField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2534,7 +2535,7 @@ func (spi *TraderLogSpi) OnRspQryInvestorCommodityGroupSPMMMargin(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySPMMInstParam(
+func (spi *ThostLogSpi) OnRspQrySPMMInstParam(
 	pSPMMInstParam *CThostFtdcSPMMInstParamField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2556,7 +2557,7 @@ func (spi *TraderLogSpi) OnRspQrySPMMInstParam(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySPMMProductParam(
+func (spi *ThostLogSpi) OnRspQrySPMMProductParam(
 	pSPMMProductParam *CThostFtdcSPMMProductParamField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2578,7 +2579,7 @@ func (spi *TraderLogSpi) OnRspQrySPMMProductParam(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySPBMAddOnInterParameter(
+func (spi *ThostLogSpi) OnRspQrySPBMAddOnInterParameter(
 	pSPBMAddOnInterParameter *CThostFtdcSPBMAddOnInterParameterField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2600,7 +2601,7 @@ func (spi *TraderLogSpi) OnRspQrySPBMAddOnInterParameter(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryRCAMSCombProductInfo(
+func (spi *ThostLogSpi) OnRspQryRCAMSCombProductInfo(
 	pRCAMSCombProductInfo *CThostFtdcRCAMSCombProductInfoField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2622,7 +2623,7 @@ func (spi *TraderLogSpi) OnRspQryRCAMSCombProductInfo(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryRCAMSInstrParameter(
+func (spi *ThostLogSpi) OnRspQryRCAMSInstrParameter(
 	pRCAMSInstrParameter *CThostFtdcRCAMSInstrParameterField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2644,7 +2645,7 @@ func (spi *TraderLogSpi) OnRspQryRCAMSInstrParameter(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryRCAMSIntraParameter(
+func (spi *ThostLogSpi) OnRspQryRCAMSIntraParameter(
 	pRCAMSIntraParameter *CThostFtdcRCAMSIntraParameterField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2666,7 +2667,7 @@ func (spi *TraderLogSpi) OnRspQryRCAMSIntraParameter(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryRCAMSInterParameter(
+func (spi *ThostLogSpi) OnRspQryRCAMSInterParameter(
 	pRCAMSInterParameter *CThostFtdcRCAMSInterParameterField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2688,7 +2689,7 @@ func (spi *TraderLogSpi) OnRspQryRCAMSInterParameter(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryRCAMSShortOptAdjustParam(
+func (spi *ThostLogSpi) OnRspQryRCAMSShortOptAdjustParam(
 	pRCAMSShortOptAdjustParam *CThostFtdcRCAMSShortOptAdjustParamField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2710,7 +2711,7 @@ func (spi *TraderLogSpi) OnRspQryRCAMSShortOptAdjustParam(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryRCAMSInvestorCombPosition(
+func (spi *ThostLogSpi) OnRspQryRCAMSInvestorCombPosition(
 	pRCAMSInvestorCombPosition *CThostFtdcRCAMSInvestorCombPositionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2732,7 +2733,7 @@ func (spi *TraderLogSpi) OnRspQryRCAMSInvestorCombPosition(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestorProdRCAMSMargin(
+func (spi *ThostLogSpi) OnRspQryInvestorProdRCAMSMargin(
 	pInvestorProdRCAMSMargin *CThostFtdcInvestorProdRCAMSMarginField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2754,7 +2755,7 @@ func (spi *TraderLogSpi) OnRspQryInvestorProdRCAMSMargin(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryRULEInstrParameter(
+func (spi *ThostLogSpi) OnRspQryRULEInstrParameter(
 	pRULEInstrParameter *CThostFtdcRULEInstrParameterField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2776,7 +2777,7 @@ func (spi *TraderLogSpi) OnRspQryRULEInstrParameter(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryRULEIntraParameter(
+func (spi *ThostLogSpi) OnRspQryRULEIntraParameter(
 	pRULEIntraParameter *CThostFtdcRULEIntraParameterField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2798,7 +2799,7 @@ func (spi *TraderLogSpi) OnRspQryRULEIntraParameter(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryRULEInterParameter(
+func (spi *ThostLogSpi) OnRspQryRULEInterParameter(
 	pRULEInterParameter *CThostFtdcRULEInterParameterField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2820,7 +2821,7 @@ func (spi *TraderLogSpi) OnRspQryRULEInterParameter(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestorProdRULEMargin(
+func (spi *ThostLogSpi) OnRspQryInvestorProdRULEMargin(
 	pInvestorProdRULEMargin *CThostFtdcInvestorProdRULEMarginField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2842,7 +2843,7 @@ func (spi *TraderLogSpi) OnRspQryInvestorProdRULEMargin(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestorPortfSetting(
+func (spi *ThostLogSpi) OnRspQryInvestorPortfSetting(
 	pInvestorPortfSetting *CThostFtdcInvestorPortfSettingField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2864,7 +2865,7 @@ func (spi *TraderLogSpi) OnRspQryInvestorPortfSetting(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryInvestorInfoCommRec(
+func (spi *ThostLogSpi) OnRspQryInvestorInfoCommRec(
 	pInvestorInfoCommRec *CThostFtdcInvestorInfoCommRecField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2886,7 +2887,7 @@ func (spi *TraderLogSpi) OnRspQryInvestorInfoCommRec(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryCombLeg(
+func (spi *ThostLogSpi) OnRspQryCombLeg(
 	pCombLeg *CThostFtdcCombLegField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2908,7 +2909,7 @@ func (spi *TraderLogSpi) OnRspQryCombLeg(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspOffsetSetting(
+func (spi *ThostLogSpi) OnRspOffsetSetting(
 	pInputOffsetSetting *CThostFtdcInputOffsetSettingField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2930,7 +2931,7 @@ func (spi *TraderLogSpi) OnRspOffsetSetting(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspCancelOffsetSetting(
+func (spi *ThostLogSpi) OnRspCancelOffsetSetting(
 	pInputOffsetSetting *CThostFtdcInputOffsetSettingField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -2952,7 +2953,7 @@ func (spi *TraderLogSpi) OnRspCancelOffsetSetting(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnOffsetSetting(pOffsetSetting *CThostFtdcOffsetSettingField) {
+func (spi *ThostLogSpi) OnRtnOffsetSetting(pOffsetSetting *CThostFtdcOffsetSettingField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnOffsetSetting]",
@@ -2960,7 +2961,7 @@ func (spi *TraderLogSpi) OnRtnOffsetSetting(pOffsetSetting *CThostFtdcOffsetSett
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnOffsetSetting(
+func (spi *ThostLogSpi) OnErrRtnOffsetSetting(
 	pInputOffsetSetting *CThostFtdcInputOffsetSettingField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -2970,7 +2971,7 @@ func (spi *TraderLogSpi) OnErrRtnOffsetSetting(
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnCancelOffsetSetting(
+func (spi *ThostLogSpi) OnErrRtnCancelOffsetSetting(
 	pCancelOffsetSetting *CThostFtdcCancelOffsetSettingField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -2980,7 +2981,7 @@ func (spi *TraderLogSpi) OnErrRtnCancelOffsetSetting(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryOffsetSetting(
+func (spi *ThostLogSpi) OnRspQryOffsetSetting(
 	pOffsetSetting *CThostFtdcOffsetSettingField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -3002,7 +3003,7 @@ func (spi *TraderLogSpi) OnRspQryOffsetSetting(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspGenSMSCode(
+func (spi *ThostLogSpi) OnRspGenSMSCode(
 	pRspGenSMSCode *CThostFtdcRspGenSMSCodeField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -3024,7 +3025,7 @@ func (spi *TraderLogSpi) OnRspGenSMSCode(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnSMSVerifyInfoFromSec(pSMSVerifyInfoFromSec *CThostFtdcSMSVerifyInfoFromSecField) {
+func (spi *ThostLogSpi) OnRtnSMSVerifyInfoFromSec(pSMSVerifyInfoFromSec *CThostFtdcSMSVerifyInfoFromSecField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnSMSVerifyInfoFromSec]",
@@ -3032,7 +3033,7 @@ func (spi *TraderLogSpi) OnRtnSMSVerifyInfoFromSec(pSMSVerifyInfoFromSec *CThost
 	)
 }
 
-func (spi *TraderLogSpi) OnRspSpdApply(
+func (spi *ThostLogSpi) OnRspSpdApply(
 	pInputSpdApply *CThostFtdcInputSpdApplyField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -3054,7 +3055,7 @@ func (spi *TraderLogSpi) OnRspSpdApply(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspSpdApplyAction(
+func (spi *ThostLogSpi) OnRspSpdApplyAction(
 	pInputSpdApplyAction *CThostFtdcInputSpdApplyActionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -3076,7 +3077,7 @@ func (spi *TraderLogSpi) OnRspSpdApplyAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQrySpdApply(
+func (spi *ThostLogSpi) OnRspQrySpdApply(
 	pSpdApply *CThostFtdcSpdApplyField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -3098,7 +3099,7 @@ func (spi *TraderLogSpi) OnRspQrySpdApply(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnSpdApply(pSpdApply *CThostFtdcSpdApplyField) {
+func (spi *ThostLogSpi) OnRtnSpdApply(pSpdApply *CThostFtdcSpdApplyField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnSpdApply]",
@@ -3106,7 +3107,7 @@ func (spi *TraderLogSpi) OnRtnSpdApply(pSpdApply *CThostFtdcSpdApplyField) {
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnSpdApply(
+func (spi *ThostLogSpi) OnErrRtnSpdApply(
 	pInputSpdApply *CThostFtdcInputSpdApplyField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -3116,7 +3117,7 @@ func (spi *TraderLogSpi) OnErrRtnSpdApply(
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnSpdApplyAction(
+func (spi *ThostLogSpi) OnErrRtnSpdApplyAction(
 	pSpdApplyAction *CThostFtdcSpdApplyActionField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -3126,7 +3127,7 @@ func (spi *TraderLogSpi) OnErrRtnSpdApplyAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspHedgeCfm(
+func (spi *ThostLogSpi) OnRspHedgeCfm(
 	pInputHedgeCfm *CThostFtdcInputHedgeCfmField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -3148,7 +3149,7 @@ func (spi *TraderLogSpi) OnRspHedgeCfm(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspHedgeCfmAction(
+func (spi *ThostLogSpi) OnRspHedgeCfmAction(
 	pInputHedgeCfmAction *CThostFtdcInputHedgeCfmActionField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -3170,7 +3171,7 @@ func (spi *TraderLogSpi) OnRspHedgeCfmAction(
 	)
 }
 
-func (spi *TraderLogSpi) OnRspQryHedgeCfm(
+func (spi *ThostLogSpi) OnRspQryHedgeCfm(
 	pHedgeCfm *CThostFtdcHedgeCfmField,
 	pRspInfo *CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
@@ -3192,7 +3193,7 @@ func (spi *TraderLogSpi) OnRspQryHedgeCfm(
 	)
 }
 
-func (spi *TraderLogSpi) OnRtnHedgeCfm(pHedgeCfm *CThostFtdcHedgeCfmField) {
+func (spi *ThostLogSpi) OnRtnHedgeCfm(pHedgeCfm *CThostFtdcHedgeCfmField) {
 	spi.Log(
 		context.Background(), slog.LevelDebug-1,
 		"thost trader [OnRtnHedgeCfm]",
@@ -3200,7 +3201,7 @@ func (spi *TraderLogSpi) OnRtnHedgeCfm(pHedgeCfm *CThostFtdcHedgeCfmField) {
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnHedgeCfm(
+func (spi *ThostLogSpi) OnErrRtnHedgeCfm(
 	pInputHedgeCfm *CThostFtdcInputHedgeCfmField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
@@ -3210,12 +3211,131 @@ func (spi *TraderLogSpi) OnErrRtnHedgeCfm(
 	)
 }
 
-func (spi *TraderLogSpi) OnErrRtnHedgeCfmAction(
+func (spi *ThostLogSpi) OnErrRtnHedgeCfmAction(
 	pHedgeCfmAction *CThostFtdcHedgeCfmActionField, pRspInfo *CThostFtdcRspInfoField,
 ) {
 	spi.Error(
 		"thost trader [OnRtnHedgeCfmAction] error",
 		slog.Any("error", spi.CheckRsp(pRspInfo)),
 		slog.Any("data", pHedgeCfmAction),
+	)
+}
+
+func (spi *ThostLogSpi) OnRspQryMulticastInstrument(
+	pMulticastInstrument *CThostFtdcMulticastInstrumentField,
+	pRspInfo *CThostFtdcRspInfoField,
+	nRequestID int, bIsLast bool,
+) {
+	err := spi.CheckRsp(pRspInfo)
+	if err != nil {
+		spi.Error(
+			"thost mduser [OnRspQryMulticastInstrument] failed",
+			slog.Any("error", err),
+			slog.Int("request_id", nRequestID),
+			slog.Bool("is_last", bIsLast),
+		)
+		return
+	}
+
+	spi.Info(
+		"thost mduser [OnRspQryMulticastInstrument] succeeded",
+		slog.Any("data", pMulticastInstrument),
+	)
+}
+
+func (spi *ThostLogSpi) OnRspSubMarketData(
+	pSpecificInstrument *CThostFtdcSpecificInstrumentField,
+	pRspInfo *CThostFtdcRspInfoField,
+	nRequestID int, bIsLast bool,
+) {
+	err := spi.CheckRsp(pRspInfo)
+	if err != nil {
+		spi.Error(
+			"thost mduser [OnRspSubMarketData] failed",
+			slog.Any("error", err),
+			slog.Int("request_id", nRequestID),
+			slog.Bool("is_last", bIsLast),
+		)
+		return
+	}
+
+	spi.Info(
+		"thost mduser [OnRspSubMarketData] succeeded",
+		slog.Any("data", pSpecificInstrument),
+	)
+}
+
+func (spi *ThostLogSpi) OnRspUnSubMarketData(
+	pSpecificInstrument *CThostFtdcSpecificInstrumentField,
+	pRspInfo *CThostFtdcRspInfoField,
+	nRequestID int, bIsLast bool,
+) {
+	err := spi.CheckRsp(pRspInfo)
+	if err != nil {
+		spi.Error(
+			"thost mduser [OnRspUnSubMarketData] failed",
+			slog.Any("error", err),
+			slog.Int("request_id", nRequestID),
+			slog.Bool("is_last", bIsLast),
+		)
+		return
+	}
+
+	spi.Info(
+		"thost mduser [OnRspUnSubMarketData] succeeded",
+		slog.Any("data", pSpecificInstrument),
+	)
+}
+
+func (spi *ThostLogSpi) OnRspSubForQuoteRsp(
+	pSpecificInstrument *CThostFtdcSpecificInstrumentField,
+	pRspInfo *CThostFtdcRspInfoField,
+	nRequestID int, bIsLast bool,
+) {
+	err := spi.CheckRsp(pRspInfo)
+	if err != nil {
+		spi.Error(
+			"thost mduser [OnRspSubForQuoteRsp] failed",
+			slog.Any("error", err),
+			slog.Int("request_id", nRequestID),
+			slog.Bool("is_last", bIsLast),
+		)
+		return
+	}
+
+	spi.Info(
+		"thost mduser [OnRspSubForQuoteRsp] succeeded",
+		slog.Any("data", pSpecificInstrument),
+	)
+}
+
+func (spi *ThostLogSpi) OnRspUnSubForQuoteRsp(
+	pSpecificInstrument *CThostFtdcSpecificInstrumentField,
+	pRspInfo *CThostFtdcRspInfoField,
+	nRequestID int, bIsLast bool,
+) {
+	err := spi.CheckRsp(pRspInfo)
+	if err != nil {
+		spi.Error(
+			"thost mduser [OnRspUnSubForQuoteRsp] failed",
+			slog.Any("error", err),
+			slog.Int("request_id", nRequestID),
+			slog.Bool("is_last", bIsLast),
+		)
+		return
+	}
+
+	spi.Info(
+		"thost mduser [OnRspUnSubForQuoteRsp] succeeded",
+		slog.Any("data", pSpecificInstrument),
+	)
+}
+
+func (spi *ThostLogSpi) OnRtnDepthMarketData(
+	pDepthMarketData *CThostFtdcDepthMarketDataField,
+) {
+	spi.Info(
+		"thost mduser [OnRtnDepthMarketData] succeeded",
+		slog.Any("data", pDepthMarketData),
 	)
 }

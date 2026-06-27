@@ -15,7 +15,7 @@ import (
 )
 
 type TraderApi struct {
-	thost.TraderLogSpi
+	thost.ThostLogSpi
 
 	rootCtx   context.Context
 	apiCtx    context.Context
@@ -60,7 +60,7 @@ func NewTraderApi(
 
 	trader := TraderApi{
 		rootCtx: ctx,
-		TraderLogSpi: thost.TraderLogSpi{
+		ThostLogSpi: thost.ThostLogSpi{
 			Logger: slog.Default(),
 		},
 		cfg: traderCfg{
@@ -242,13 +242,13 @@ func (td *TraderApi) OnFrontConnected() {
 
 	td.api.GetFrontInfo(&td.FrontInfo)
 
-	td.TraderLogSpi.OnFrontConnected()
+	td.ThostLogSpi.OnFrontConnected()
 }
 
 func (td *TraderApi) OnFrontDisconnected(nReason int) {
 	defer td.migrateState(Disconnected)
 
-	td.TraderLogSpi.OnFrontDisconnected(nReason)
+	td.ThostLogSpi.OnFrontDisconnected(nReason)
 }
 
 func (td *TraderApi) OnRspAuthenticate(
@@ -264,7 +264,7 @@ func (td *TraderApi) OnRspAuthenticate(
 		}
 	}()
 
-	td.TraderLogSpi.OnRspAuthenticate(
+	td.ThostLogSpi.OnRspAuthenticate(
 		pRspAuthenticateField, pRspInfo, nRequestID, bIsLast,
 	)
 }
@@ -282,7 +282,7 @@ func (td *TraderApi) OnRspUserLogin(
 		}
 	}()
 
-	td.TraderLogSpi.OnRspUserLogin(
+	td.ThostLogSpi.OnRspUserLogin(
 		pRspUserLogin, pRspInfo, nRequestID, bIsLast,
 	)
 }
