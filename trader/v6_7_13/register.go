@@ -9,31 +9,32 @@ import (
 func thostCreator(
 	libPath, flowPath string, params ...thost.Param,
 ) func() (thost.TraderApi, error) {
-	for _, v := range params {
-		if v.Key != thost.ParamRunMode {
-			continue
-		}
+	var (
+		isProduct bool
 
-		mode, ok := v.Value.(bool)
-		if !ok {
-			return func() (thost.TraderApi, error) {
-				return nil, fmt.Errorf(
-					"%w: invalid run mode value: %+v",
-					thost.ErrInvalidArgs, v.Value,
-				)
+		ok bool
+	)
+
+NEXT:
+	for _, v := range params {
+		switch v.Key {
+		case thost.ParamRunMode:
+			if isProduct, ok = v.Value.(bool); ok {
+				continue NEXT
 			}
 		}
 
 		return func() (thost.TraderApi, error) {
-			return CreateThostFtdcTraderApi(
-				libPath, flowPath, mode,
+			return nil, fmt.Errorf(
+				"%w: invalid creator args[%s]: %+v",
+				thost.ErrInvalidArgs, v.Key, v.Value,
 			)
 		}
 	}
 
 	return func() (thost.TraderApi, error) {
-		return nil, fmt.Errorf(
-			"%w: no run mode specified", thost.ErrInvalidArgs,
+		return CreateThostFtdcTraderApi(
+			libPath, flowPath, isProduct,
 		)
 	}
 }

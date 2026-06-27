@@ -19,6 +19,12 @@ var (
 	// ParamRunMode true for Product, false for Test
 	ParamRunMode paramKey = "runMode"
 
+	// ParamUseUDP true for transport in UDP
+	ParamUseUDP paramKey = "useUDP"
+
+	// ParamUseMulticast true for transport by Multicast
+	ParamUseMulticast paramKey = "useMulticast"
+
 	ErrInvalidCreator = errors.New("invalid creator")
 )
 
@@ -40,8 +46,22 @@ func (u *traderMaker) GetVersionTag() string {
 	return u.version
 }
 
+type MduserMaker func(
+	libPath, flowPath string, params ...Param,
+) func() (MdApi, error)
+
+type mduserMaker struct {
+	MduserMaker
+	version string
+}
+
+func (u *mduserMaker) GetVersionTag() string {
+	return u.version
+}
+
 var (
-	tdMaker atomic.Pointer[traderMaker]
+	trader atomic.Pointer[traderMaker]
+	mduser atomic.Pointer[mduserMaker]
 
 	ErrCreatorMissing  = errors.New("thost api creator missing")
 	ErrCreatorConflict = errors.New(
@@ -50,14 +70,14 @@ var (
 )
 
 func SetTraderMaker(version string, fn TraderMaker) error {
-	if tdMaker.CompareAndSwap(nil, &traderMaker{
+	if trader.CompareAndSwap(nil, &traderMaker{
 		TraderMaker: fn,
 		version:     version,
 	}) {
 		return nil
 	}
 
-	exist := tdMaker.Load()
+	exist := trader.Load()
 
 	return fmt.Errorf(
 		"%w: trader api[%s] conflicted with [%s]",
@@ -66,5 +86,25 @@ func SetTraderMaker(version string, fn TraderMaker) error {
 }
 
 func GetTraderMaker() *traderMaker {
-	return tdMaker.Load()
+	return trader.Load()
+}
+
+func SetMduserMaker(version string, fn MduserMaker) error {
+	if mduser.CompareAndSwap(nil, &mduserMaker{
+		MduserMaker: fn,
+		version:     version,
+	}) {
+		return nil
+	}
+
+	exist := trader.Load()
+
+	return fmt.Errorf(
+		"%w mduser api[%s] conflicted with [%s]",
+		ErrInvalidCreator, version, exist.version,
+	)
+}
+
+func GetMduserMaker() *mduserMaker {
+	return mduser.Load()
 }
