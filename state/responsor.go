@@ -3,7 +3,9 @@ package state
 import (
 	"context"
 	"errors"
+	"fmt"
 	"math/rand"
+	"runtime/debug"
 	"time"
 )
 
@@ -81,6 +83,14 @@ TRY:
 		waitHandle := make(chan error)
 
 		go func() {
+			defer func() {
+				if err := recover(); err != nil {
+					waitHandle <- fmt.Errorf(
+						"handler run failed: %+v\n%s",
+						err, string(debug.Stack()),
+					)
+				}
+			}()
 			waitHandle <- h.hdl()
 		}()
 
@@ -110,51 +120,6 @@ TRY:
 
 	if h.next != nil {
 		return h.next.Handle()
-	}
-
-	return nil
-}
-
-type FlagResponsor[T comparable] struct {
-	*Flag[T]
-
-	responsors map[T]*Handler
-}
-
-func NewFlagResponsor[T comparable](name string) *FlagResponsor[T] {
-	return &FlagResponsor[T]{
-		Flag:       NewFlag[T](name),
-		responsors: make(map[T]*Handler),
-	}
-}
-
-func (r *FlagResponsor[T]) SetFlag(v T) (err error) {
-	if err = r.Flag.SetFlag(v); err == nil {
-		r.RLock()
-		defer r.RUnlock()
-
-		if rsp, exist := r.responsors[v]; !exist {
-			return
-		} else {
-			return rsp.Handle()
-		}
-	}
-
-	return
-}
-
-func (r *FlagResponsor[T]) AddHandler(v T, hdl *Handler) error {
-	if hdl == nil {
-		return errors.New("invalid responsor handler")
-	}
-
-	r.Lock()
-	defer r.Unlock()
-
-	if rsp, exist := r.responsors[v]; !exist {
-		r.responsors[v] = hdl
-	} else {
-		rsp.SetNext(hdl)
 	}
 
 	return nil
