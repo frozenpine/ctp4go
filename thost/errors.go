@@ -25,5 +25,5 @@ func (r Rtn) Error() error {
 		return nil
 	}
 
-	return fmt.Errorf("%w: code[%d]", r.Code)
+	return fmt.Errorf("%w: code[%d]", ErrRequestFailed, r.Code)
 }

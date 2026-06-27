@@ -1,4 +1,4 @@
-#include "mduser_spi_helper.h"
+#include "md_spi_helper.h"
 
 extern void CgoOnFrontConnected(void *this);
 

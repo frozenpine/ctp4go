@@ -68,8 +68,6 @@ func TestCTPApi(t *testing.T) {
 
 	t.Log(ins.GetApiVersion())
 
-	return
-
 	ins.RegisterSpi(&testSpi{
 		ThostLogSpi: thost.ThostLogSpi{
 			Logger: slog.Default(),

@@ -4,7 +4,7 @@ package v6_7_13
 #cgo CFLAGS: -I. -I${SRCDIR} -I${SRCDIR}/../../dependencies/future/v6.7.13/
 #cgo LDFLAGS: -ldl
 
-#include "mduser_spi_helper.h"
+#include "md_spi_helper.h"
 */
 import "C"
 

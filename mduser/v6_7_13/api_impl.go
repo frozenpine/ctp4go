@@ -4,8 +4,8 @@ package v6_7_13
 #cgo CFLAGS: -I. -I${SRCDIR} -I${SRCDIR}/../../dependencies/future/v6.7.13/
 #cgo LDFLAGS: -ldl
 
-#include "mduser_api_helper.h"
-#include "mduser_spi_helper.h"
+#include "md_api_helper.h"
+#include "md_spi_helper.h"
 */
 import "C"
 import (
@@ -159,7 +159,7 @@ func (api *ThostFtdcMduserApi) Release() {
 
 		C.CallRelease(
 			api.apiPtr.vtable.CThostFtdcMduserApiVTable_Release,
-			unsafe.Pointer(&api.apiPtr),
+			unsafe.Pointer(api.apiPtr),
 		)
 
 		slog.Info("thost mduser api Release executed")
