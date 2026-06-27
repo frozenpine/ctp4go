@@ -1,2 +1,4 @@
+github.com/go-clang/clang-v15 v0.0.0-20230222085438-ee3102fa0c71 h1:gXlg4/q29AOo0gVARaK3LxsjP0md+Ugovk02J8yI8D4=
+github.com/go-clang/clang-v15 v0.0.0-20230222085438-ee3102fa0c71/go.mod h1:mVo0vKBuX8TWkoMpROywGoG9IpIXCCoHp2VQ7IRsVT8=
 golang.org/x/text v0.38.0 h1:sXmwo9DwP3OK9EZ7PqAdaooSGozfl/3a6/xJcbzPRhE=
 golang.org/x/text v0.38.0/go.mod h1:YXZt3QhHUKYT53r2lLKFIVi6Ao1jdzrTR/KQ09qyxF4=
