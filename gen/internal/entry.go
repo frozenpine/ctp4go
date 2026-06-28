@@ -181,20 +181,20 @@ func (e *entry) walk(cursor, parent clang.Cursor) clang.ChildVisitResult {
 			fmt.Fprintf(os.Stdout, "%s\n", typedef)
 		}
 	case clang.Cursor_StructDecl:
-		if stru, err := e.ParseStruct(&cursor); err != nil {
+		if data, err := e.ParseStruct(&cursor); err != nil {
 			fmt.Fprintf(
 				os.Stderr, "struct parse failed: %+v", err,
 			)
 		} else {
-			fmt.Fprintf(os.Stdout, "%s\n", stru)
+			fmt.Fprintf(os.Stdout, "%s\n", data)
 		}
 	case clang.Cursor_ClassDecl:
-		if _, err := e.ParseClass(&cursor); err != nil {
+		if class, err := e.ParseClass(&cursor); err != nil {
 			fmt.Fprintf(
 				os.Stderr, "class parse failed: %+v", err,
 			)
 		} else {
-			// fmt.Fprintf(os.Stdout, "%s\n", class)
+			fmt.Fprintf(os.Stdout, "%s\n", class)
 		}
 	case clang.Cursor_MacroDefinition:
 		if _, err := e.ParseMacro(&cursor, e.definePrefix); err != nil {

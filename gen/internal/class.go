@@ -1,6 +1,9 @@
 package internal
 
 import (
+	"bytes"
+	"fmt"
+
 	"github.com/go-clang/clang-v15/clang"
 )
 
@@ -19,6 +22,7 @@ type ClsMethod struct {
 	Params []*Param
 
 	IsVirtual bool
+	IsStatic  bool
 }
 
 func (fn *ClsMethod) walkParam(cursor, parent clang.Cursor) clang.ChildVisitResult {
@@ -30,6 +34,28 @@ type ClassDefine struct {
 	baseDefine
 
 	Methods []*ClsMethod
+}
+
+func (c ClassDefine) String() string {
+	buff := bytes.NewBufferString("")
+
+	for _, m := range c.Methods {
+		fmt.Fprintf(buff, "%s\n", m.Comments)
+
+		if !m.IsStatic {
+			fmt.Fprintf(buff, "%s(%s* this, ", m.Name, c.Name)
+		}
+
+		for idx, p := range m.Params {
+			if idx > 0 {
+				buff.WriteString(", ")
+			}
+			fmt.Fprintf(buff, "%+v", p)
+		}
+		buff.WriteString(")\n")
+	}
+
+	return buff.String()
 }
 
 func (c *ClassDefine) walkMethods(cursor, parent clang.Cursor) clang.ChildVisitResult {
@@ -44,6 +70,7 @@ func (c *ClassDefine) walkMethods(cursor, parent clang.Cursor) clang.ChildVisitR
 			},
 
 			IsVirtual: cursor.CXXMethod_IsVirtual(),
+			IsStatic:  cursor.CXXMethod_IsStatic(),
 		}
 
 		cursor.Visit(method.walkParam)
