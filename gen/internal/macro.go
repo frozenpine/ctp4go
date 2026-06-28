@@ -43,9 +43,7 @@ func (m MacroDefine) String() string {
 	}
 
 	fmt.Fprintf(buff, " = %s", m.Token)
-	if len(m.Comments) > 0 {
-		fmt.Fprintf(buff, " // %s", strings.Join(m.Comments, " "))
-	}
+	fmt.Fprintf(buff, " %s", m.Comments)
 
 	buff.WriteString("\n")
 
@@ -143,7 +141,7 @@ PARSE:
 		if comment := strings.TrimSpace(
 			strings.ReplaceAll(seeker.Text(), "/", ""),
 		); comment != "" {
-			define.Comments = append(define.Comments, comment)
+			define.Comments.Summary = append(define.Comments.Summary, comment)
 		}
 		break
 	}
@@ -161,16 +159,17 @@ PARSE:
 	if !exist {
 		g = &MacroGroup{
 			baseDefine: baseDefine{
-				Name:     rType,
-				Comments: rTypeComments,
+				Name: rType,
+				Comments: CommentDefine{
+					Summary: rTypeComments,
+				},
 			},
 		}
 		e.defineCache[rType] = g
-		g.trimComments()
+		g.Comments.trimComments()
 	}
 	g.Defines = append(g.Defines, &define)
 	define.RefType = g
-	define.trimComments()
 
 	return &define, nil
 }

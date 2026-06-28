@@ -2,7 +2,6 @@ package internal
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"strings"
 
@@ -29,8 +28,7 @@ func (u UnderType) String() string {
 }
 
 type TypedefDefine struct {
-	Name     string
-	Comments []string
+	baseDefine
 
 	Underlying  UnderType
 	MacroDefine *MacroGroup
@@ -39,9 +37,7 @@ type TypedefDefine struct {
 func (t TypedefDefine) String() string {
 	buff := bytes.NewBufferString("")
 
-	for _, c := range t.Comments {
-		fmt.Fprintf(buff, "// %s\n", c)
-	}
+	fmt.Fprintf(buff, "%s\n", t.Comments)
 
 	fmt.Fprintf(
 		buff, "type %s %s\n",
@@ -62,13 +58,11 @@ func (t TypedefDefine) String() string {
 }
 
 func (e *entry) ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
-	if cursor.Kind() != clang.Cursor_TypedefDecl {
-		return nil, errors.New("not typedef type")
-	}
-
 	define := TypedefDefine{
-		Name:     cursor.DisplayName(),
-		Comments: ParseComment(cursor.ParsedComment()),
+		baseDefine: baseDefine{
+			Name:     cursor.DisplayName(),
+			Comments: ParseComment(cursor.ParsedComment()),
+		},
 	}
 	define.Underlying.typ = cursor.TypedefDeclUnderlyingType()
 	define.Underlying.kind = define.Underlying.typ.Kind()

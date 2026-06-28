@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/go-clang/clang-v15/clang"
 )
@@ -27,28 +26,26 @@ const (
 	DefaultDefinePrefix = "THOST_FTDC_"
 )
 
-var sdkHeaderName map[sdk]string = map[sdk]string{
-	Trader: "ThostFtdcTraderApi.h",
-	Mduser: "ThostFtdcMdApi.h",
-}
+var (
+	sdkHeaderName map[sdk]string = map[sdk]string{
+		Trader: "ThostFtdcTraderApi.h",
+		Mduser: "ThostFtdcMdApi.h",
+	}
+
+	sdkSpiName map[sdk]string = map[sdk]string{
+		Mduser: "CThostFtdcMdSpi",
+		Trader: "CThostFtdcTraderSpi",
+	}
+
+	sdkApiName map[sdk]string = map[sdk]string{
+		Mduser: "CThostFtdcMdApi",
+		Trader: "CThostFtdcTraderApi",
+	}
+)
 
 type baseDefine struct {
 	Name     string
-	Comments []string
-}
-
-func (d *baseDefine) trimComments() {
-	trimmed := make([]string, 0, len(d.Comments))
-
-	for _, c := range d.Comments {
-		if v := strings.TrimSpace(
-			strings.ReplaceAll(c, "/", ""),
-		); v != "" {
-			trimmed = append(trimmed, v)
-		}
-	}
-
-	d.Comments = trimmed
+	Comments CommentDefine
 }
 
 type parseOpt func(*entry) error
@@ -105,6 +102,10 @@ type entry struct {
 	sdk  sdk
 	plat platform
 	ver  string
+
+	hdrFileName string
+	apiName     string
+	spiName     string
 
 	files        map[string]*os.File
 	definePrefix string

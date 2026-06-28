@@ -2,7 +2,6 @@ package internal
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 	"strings"
 
@@ -27,15 +26,14 @@ func (e EnumDefine) String() string {
 
 	fmt.Fprintf(buff, "const (\n")
 	for _, m := range e.Members {
-		if len(m.Comments) < 1 {
+		if len(m.Comments.Summary) < 1 {
 			v := strings.Split(m.Name, "_")
-			m.Comments = append(m.Comments, v[len(v)-1])
+			m.Comments.Summary = append(m.Comments.Summary, v[len(v)-1])
 		}
 
 		fmt.Fprintf(
-			buff, "\t%s %s = %d // %s\n",
-			m.Name, e.Name, m.Value,
-			strings.Join(m.Comments, " "),
+			buff, "\t%s %s = %d %s",
+			m.Name, e.Name, m.Value, m.Comments,
 		)
 	}
 	buff.WriteString(")\n")
@@ -54,7 +52,6 @@ func (e *EnumDefine) walkChilds(cursor, parent clang.Cursor) clang.ChildVisitRes
 			},
 			Value: cursor.EnumConstantDeclValue(),
 		}
-		member.trimComments()
 
 		e.Members = append(e.Members, member)
 	}
@@ -63,10 +60,6 @@ func (e *EnumDefine) walkChilds(cursor, parent clang.Cursor) clang.ChildVisitRes
 }
 
 func (e *entry) ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
-	if cursor.Kind() != clang.Cursor_EnumDecl {
-		return nil, errors.New("not enum type")
-	}
-
 	define := EnumDefine{
 		baseDefine: baseDefine{
 			Name:     cursor.DisplayName(),
@@ -77,7 +70,6 @@ func (e *entry) ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
 	}
 
 	cursor.Visit(define.walkChilds)
-	define.trimComments()
 
 	return &define, nil
 }

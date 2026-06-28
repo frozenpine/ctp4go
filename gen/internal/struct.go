@@ -2,7 +2,6 @@ package internal
 
 import (
 	"bytes"
-	"errors"
 	"fmt"
 
 	"github.com/go-clang/clang-v15/clang"
@@ -23,16 +22,14 @@ type StructDefine struct {
 func (s StructDefine) String() string {
 	buff := bytes.NewBufferString("")
 
-	for _, c := range s.Comments {
-		fmt.Fprintf(buff, "// %s\n", c)
-	}
+	fmt.Fprintf(buff, "%s", s.Comments)
 
 	fmt.Fprintf(buff, "type %s struct {\n", s.Name)
 	for _, f := range s.Fields {
-		for _, c := range f.Comments {
-			fmt.Fprintf(buff, "\t// %s\n", c)
-		}
-		fmt.Fprintf(buff, "\t%s %s\n", f.Name, f.Type)
+		fmt.Fprintf(
+			buff, "\t%s\t%s %s\n",
+			f.Comments, f.Name, f.Type,
+		)
 	}
 	buff.WriteString("}\n")
 
@@ -51,7 +48,6 @@ func (s *StructDefine) walkFields(cursor, parent clang.Cursor) clang.ChildVisitR
 			},
 			Type: cursor.Type().DefName(),
 		}
-		field.trimComments()
 		s.Fields = append(s.Fields, field)
 	}
 
@@ -59,10 +55,6 @@ func (s *StructDefine) walkFields(cursor, parent clang.Cursor) clang.ChildVisitR
 }
 
 func (e *entry) ParseStruct(cursor *clang.Cursor) (*StructDefine, error) {
-	if cursor.Kind() != clang.Cursor_StructDecl {
-		return nil, errors.New("not struct type")
-	}
-
 	define := StructDefine{
 		baseDefine: baseDefine{
 			Name:     cursor.DisplayName(),
@@ -71,7 +63,6 @@ func (e *entry) ParseStruct(cursor *clang.Cursor) (*StructDefine, error) {
 	}
 
 	cursor.Visit(define.walkFields)
-	define.trimComments()
 
 	return &define, nil
 }
