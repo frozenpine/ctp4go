@@ -37,10 +37,10 @@ type TypedefDefine struct {
 func (t TypedefDefine) String() string {
 	buff := bytes.NewBufferString("")
 
-	fmt.Fprintf(buff, "%s\n", t.Comments)
+	fmt.Fprintf(buff, "%s", t.Comments)
 
 	fmt.Fprintf(
-		buff, "type %s %s\n",
+		buff, "typedef %s %s\n",
 		t.Name, t.Underlying,
 	)
 
@@ -73,7 +73,10 @@ func (e *entry) ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
 
 		define.Underlying.Name = elemType.Kind().String()
 		define.Underlying.Size = define.Underlying.typ.ArraySize()
-	case clang.Type_Char_S, clang.Type_Char_U:
+	case clang.Type_Char_S, clang.Type_Char_U,
+		clang.Type_Double, clang.Type_Int,
+		clang.Type_Short, clang.Type_UShort,
+		clang.Type_Long, clang.Type_ULong:
 		define.Underlying.Name = define.Underlying.kind.String()
 
 		macroTypeName := strings.Replace(

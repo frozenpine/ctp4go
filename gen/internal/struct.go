@@ -24,7 +24,7 @@ func (s StructDefine) String() string {
 
 	fmt.Fprintf(buff, "%s", s.Comments)
 
-	fmt.Fprintf(buff, "type %s struct {\n", s.Name)
+	fmt.Fprintf(buff, "struct %s {\n", s.Name)
 	for _, f := range s.Fields {
 		fmt.Fprintf(
 			buff, "\t%s\t%s %s\n",

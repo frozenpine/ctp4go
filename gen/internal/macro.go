@@ -34,12 +34,12 @@ type MacroDefine struct {
 }
 
 func (m MacroDefine) String() string {
-	buff := bytes.NewBufferString(m.Name)
+	buff := bytes.NewBufferString("")
 
 	if m.RefType != nil {
-		fmt.Fprintf(buff, " %s", m.RefType.Name)
+		fmt.Fprintf(buff, "#define %s %s", m.Name, m.RefType.Name)
 	} else {
-		fmt.Fprintf(buff, " byte")
+		fmt.Fprintf(buff, "#define %s byte", m.Name)
 	}
 
 	fmt.Fprintf(buff, " = %s", m.Token)

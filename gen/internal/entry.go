@@ -197,13 +197,13 @@ func (e *entry) walk(cursor, parent clang.Cursor) clang.ChildVisitResult {
 			fmt.Fprintf(os.Stdout, "%s\n", class)
 		}
 	case clang.Cursor_MacroDefinition:
-		if macro, err := e.ParseMacro(&cursor, e.definePrefix); err != nil {
+		if _, err := e.ParseMacro(&cursor, e.definePrefix); err != nil {
 			fmt.Fprintf(
 				os.Stderr, "class parse failed: %+v", err,
 			)
-		} else if macro != nil {
+		} /*else if macro != nil {
 			fmt.Fprintf(os.Stdout, "%s\n", macro)
-		}
+		}*/
 	}
 
 	return clang.ChildVisit_Continue

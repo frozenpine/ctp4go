@@ -24,7 +24,7 @@ type EnumDefine struct {
 func (e EnumDefine) String() string {
 	buff := bytes.NewBufferString("")
 
-	fmt.Fprintf(buff, "const (\n")
+	fmt.Fprintf(buff, "enum %s {\n", e.Name)
 	for _, m := range e.Members {
 		if len(m.Comments.Summary) < 1 {
 			v := strings.Split(m.Name, "_")
@@ -32,11 +32,11 @@ func (e EnumDefine) String() string {
 		}
 
 		fmt.Fprintf(
-			buff, "\t%s %s = %d %s",
-			m.Name, e.Name, m.Value, m.Comments,
+			buff, "\t%s = %d %s",
+			m.Name, m.Value, m.Comments,
 		)
 	}
-	buff.WriteString(")\n")
+	buff.WriteString("}\n")
 
 	return buff.String()
 }
