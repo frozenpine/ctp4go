@@ -10,25 +10,21 @@ import (
 )
 
 type EnumMember struct {
-	Name     string
-	Value    int64
-	Comments []string
+	baseDefine
+
+	Value int64
 }
 
 type EnumDefine struct {
-	Name     string
-	Type     string
-	Comments []string
-	Members  []EnumMember
+	baseDefine
+
+	Type    string
+	Members []EnumMember
 }
 
 func (e EnumDefine) String() string {
 	buff := bytes.NewBufferString("")
 
-	fmt.Fprintf(
-		buff, "//go:generate stringer -type %s -linecomment\ntype %s int32\n\n",
-		e.Name, e.Name,
-	)
 	fmt.Fprintf(buff, "const (\n")
 	for _, m := range e.Members {
 		if len(m.Comments) < 1 {
@@ -51,29 +47,37 @@ func (e *EnumDefine) walkChilds(cursor, parent clang.Cursor) clang.ChildVisitRes
 	memKind := cursor.Kind()
 	switch memKind {
 	case clang.Cursor_EnumConstantDecl:
-		e.Members = append(
-			e.Members, EnumMember{
+		member := EnumMember{
+			baseDefine: baseDefine{
 				Name:     cursor.Spelling(),
-				Value:    cursor.EnumConstantDeclValue(),
 				Comments: ParseComment(cursor.ParsedComment()),
-			})
+			},
+			Value: cursor.EnumConstantDeclValue(),
+		}
+		member.trimComments()
+
+		e.Members = append(e.Members, member)
 	}
 
 	return clang.ChildVisit_Continue
 }
 
-func ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
+func (e *entry) ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
 	if cursor.Kind() != clang.Cursor_EnumDecl {
 		return nil, errors.New("not enum type")
 	}
 
 	define := EnumDefine{
-		Name:     cursor.DisplayName(),
-		Type:     cursor.EnumDeclIntegerType().Kind().String(),
-		Comments: ParseComment(cursor.ParsedComment()),
+		baseDefine: baseDefine{
+			Name:     cursor.DisplayName(),
+			Comments: ParseComment(cursor.ParsedComment()),
+		},
+
+		Type: cursor.EnumDeclIntegerType().Kind().String(),
 	}
 
 	cursor.Visit(define.walkChilds)
+	define.trimComments()
 
 	return &define, nil
 }

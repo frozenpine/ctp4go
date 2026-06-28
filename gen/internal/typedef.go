@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/go-clang/clang-v15/clang"
 )
@@ -19,15 +20,20 @@ type UnderType struct {
 func (u UnderType) String() string {
 	buff := bytes.NewBufferString("")
 
-	fmt.Fprintf(buff, "[%d]byte", u.Size)
+	if u.Size > 0 {
+		fmt.Fprintf(buff, "[%d]", u.Size)
+	}
+	buff.WriteString(u.Name)
 
 	return buff.String()
 }
 
 type TypedefDefine struct {
-	Name       string
-	Comments   []string
-	Underlying UnderType
+	Name     string
+	Comments []string
+
+	Underlying  UnderType
+	MacroDefine *MacroGroup
 }
 
 func (t TypedefDefine) String() string {
@@ -37,12 +43,25 @@ func (t TypedefDefine) String() string {
 		fmt.Fprintf(buff, "// %s\n", c)
 	}
 
-	fmt.Fprintf(buff, "type %s %s\n\n", t.Name, t.Underlying)
+	fmt.Fprintf(
+		buff, "type %s %s\n",
+		t.Name, t.Underlying,
+	)
+
+	if t.MacroDefine != nil {
+		for _, field := range t.MacroDefine.Defines {
+			fmt.Fprintf(
+				buff, "\t%s %s\n", field.Name, field.Token,
+			)
+		}
+	}
+
+	buff.WriteString("\n")
 
 	return buff.String()
 }
 
-func ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
+func (e *entry) ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
 	if cursor.Kind() != clang.Cursor_TypedefDecl {
 		return nil, errors.New("not typedef type")
 	}
@@ -56,9 +75,21 @@ func ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
 
 	switch define.Underlying.kind {
 	case clang.Type_ConstantArray:
-		define.Underlying.Size = define.Underlying.typ.ArraySize()
 		elemType := define.Underlying.typ.ArrayElementType()
+
 		define.Underlying.Name = elemType.Kind().String()
+		define.Underlying.Size = define.Underlying.typ.ArraySize()
+	case clang.Type_Char_S, clang.Type_Char_U:
+		define.Underlying.Name = define.Underlying.kind.String()
+
+		macroTypeName := strings.Replace(
+			define.Name, "TThost", "T", 1,
+		)
+
+		if g, exist := e.defineCache[macroTypeName]; exist {
+			define.Comments = g.Comments
+			define.MacroDefine = g
+		}
 	}
 
 	return &define, nil

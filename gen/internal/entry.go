@@ -1,67 +1,156 @@
 package internal
 
+// #cgo pkg-config: llvm
+import "C"
+
 import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/go-clang/clang-v15/clang"
 )
 
-type parseConfig struct {
-	dataOut  string
-	sepTypes bool
+type sdk string
+type platform string
 
-	sdkOut string
+const (
+	Trader sdk = "trader"
+	Mduser sdk = "mduser"
+
+	PlatFuture platform = "future"
+	PlatMini   platform = "mini"
+	PlatETF    platform = "etf"
+
+	DefaultDefinePrefix = "THOST_FTDC_"
+)
+
+var sdkHeaderName map[sdk]string = map[sdk]string{
+	Trader: "ThostFtdcTraderApi.h",
+	Mduser: "ThostFtdcMdApi.h",
 }
 
-type parseOpt func(*parseConfig) error
-
-type Entry struct {
-	filePath string
+type baseDefine struct {
+	Name     string
+	Comments []string
 }
 
-func (e *Entry) walk(cursor, parent clang.Cursor) clang.ChildVisitResult {
-	kind := cursor.Kind()
+func (d *baseDefine) trimComments() {
+	trimmed := make([]string, 0, len(d.Comments))
 
-	switch kind {
-	case clang.Cursor_EnumDecl:
-		if enum, err := ParseEnum(&cursor); err != nil {
-			fmt.Fprintf(os.Stderr, "enum parse failed: %+v", err)
-		} else {
-			fmt.Fprintf(os.Stdout, "%s\n", enum)
-		}
-	case clang.Cursor_TypedefDecl:
-		if typedef, err := ParseTypedef(&cursor); err != nil {
-			fmt.Fprintf(os.Stderr, "typedef parse failed: %+v", err)
-		} else {
-			fmt.Fprintf(os.Stdout, "%s\n", typedef)
-		}
-	case clang.Cursor_StructDecl:
-		if stru, err := ParseStruct(&cursor); err != nil {
-			fmt.Fprintf(
-				os.Stderr, "struct parse failed: %+v", err,
-			)
-		} else {
-			fmt.Fprintf(os.Stdout, "%s\n", stru)
+	for _, c := range d.Comments {
+		if v := strings.TrimSpace(
+			strings.ReplaceAll(c, "/", ""),
+		); v != "" {
+			trimmed = append(trimmed, v)
 		}
 	}
 
-	return clang.ChildVisit_Continue
+	d.Comments = trimmed
 }
 
-func (e *Entry) Parse(filePath string, options ...parseOpt) error {
-	e.filePath = filePath
+type parseOpt func(*entry) error
+
+func WithSDK(d string) parseOpt {
+	return func(pc *entry) error {
+		v := sdk(d)
+		switch v {
+		case Trader, Mduser:
+		default:
+			return errors.New("invalid sdk")
+		}
+
+		pc.sdk = v
+		return nil
+	}
+}
+
+func WithPlatform(plat string) parseOpt {
+	return func(pc *entry) error {
+		v := platform(plat)
+		switch v {
+		case PlatFuture, PlatMini, PlatETF:
+		default:
+			return errors.New("invalid platform")
+		}
+
+		pc.plat = v
+		return nil
+	}
+}
+
+func WithVersion(ver string) parseOpt {
+	return func(pc *entry) error {
+		if ver == "" {
+			return errors.New("invalid version")
+		}
+
+		pc.ver = ver
+		return nil
+	}
+}
+
+var CTPEntry = entry{
+	sdk:          Trader,
+	plat:         PlatFuture,
+	definePrefix: DefaultDefinePrefix,
+}
+
+type entry struct {
+	baseDir   string
+	entryPath string
+
+	sdk  sdk
+	plat platform
+	ver  string
+
+	files        map[string]*os.File
+	definePrefix string
+	defineType   map[string]string
+	defineCache  map[string]*MacroGroup
+}
+
+func (e *entry) EntryFile() string {
+	return e.entryPath
+}
+
+func (e *entry) Parse(base string, options ...parseOpt) error {
+	for _, opt := range options {
+		if opt == nil {
+			continue
+		}
+
+		if err := opt(e); err != nil {
+			return err
+		}
+	}
+
+	platVerBase := filepath.Join(base, string(e.plat), e.ver)
+	e.entryPath = filepath.Join(platVerBase, sdkHeaderName[e.sdk])
+
+	if info, err := os.Stat(e.entryPath); err != nil {
+		return err
+	} else if info.IsDir() {
+		return errors.New("entry path is not file")
+	}
 
 	idx := clang.NewIndex(0, 0)
 	defer idx.Dispose()
 
 	// clang.TranslationUnit_DetailedPreprocessingRecord 宏解析及展开
 	// clang.TranslationUnit_CXXChainedPCH
+	// clang.TranslationUnit_SkipFunctionBodies 不解析函数体
+	// 解析时可以传入 -CC (包含注释的宏) 和 -fparse-all-comments (解析所有注释风格)
 	tu := idx.ParseTranslationUnit(
-		e.filePath, []string{}, nil,
+		e.entryPath, []string{
+			"-x", "c++",
+			"-fparse-all-comments", "-CC",
+		}, nil,
 		clang.TranslationUnit_CXXChainedPCH|
-			clang.TranslationUnit_DetailedPreprocessingRecord,
+			clang.TranslationUnit_DetailedPreprocessingRecord|
+			clang.TranslationUnit_SkipFunctionBodies,
 	)
 	if !tu.IsValid() {
 		return errors.New("parse entry file failed")
@@ -72,4 +161,49 @@ func (e *Entry) Parse(filePath string, options ...parseOpt) error {
 	cursor.Visit(e.walk)
 
 	return nil
+}
+
+func (e *entry) walk(cursor, parent clang.Cursor) clang.ChildVisitResult {
+	kind := cursor.Kind()
+
+	switch kind {
+	case clang.Cursor_EnumDecl:
+		if enum, err := e.ParseEnum(&cursor); err != nil {
+			fmt.Fprintf(os.Stderr, "enum parse failed: %+v", err)
+		} else {
+			fmt.Fprintf(os.Stdout, "%s\n", enum)
+		}
+	case clang.Cursor_TypedefDecl:
+		if typedef, err := e.ParseTypedef(&cursor); err != nil {
+			fmt.Fprintf(os.Stderr, "typedef parse failed: %+v", err)
+		} else {
+			fmt.Fprintf(os.Stdout, "%s\n", typedef)
+		}
+	case clang.Cursor_StructDecl:
+		if stru, err := e.ParseStruct(&cursor); err != nil {
+			fmt.Fprintf(
+				os.Stderr, "struct parse failed: %+v", err,
+			)
+		} else {
+			fmt.Fprintf(os.Stdout, "%s\n", stru)
+		}
+	case clang.Cursor_ClassDecl:
+		if class, err := e.ParseClass(&cursor); err != nil {
+			fmt.Fprintf(
+				os.Stderr, "class parse failed: %+v", err,
+			)
+		} else {
+			fmt.Fprintf(os.Stdout, "%s\n", class)
+		}
+	case clang.Cursor_MacroDefinition:
+		if macro, err := e.ParseMacro(&cursor, e.definePrefix); err != nil {
+			fmt.Fprintf(
+				os.Stderr, "class parse failed: %+v", err,
+			)
+		} else if macro != nil {
+			fmt.Fprintf(os.Stdout, "%s\n", macro)
+		}
+	}
+
+	return clang.ChildVisit_Continue
 }
