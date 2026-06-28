@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/frozenpine/ctp4go/gen/internal"
 	"github.com/go-clang/clang-v15/clang"
@@ -65,13 +64,6 @@ func main() {
 
 	cursor := tu.TranslationUnitCursor()
 	cursor.Visit(func(cursor, parent clang.Cursor) (status clang.ChildVisitResult) {
-		loc := cursor.Location()
-		file, line, column, offset := loc.FileLocation()
-
-		if !strings.HasPrefix(file.Name(), fileBase) {
-			return clang.Visit_Continue
-		}
-
 		kind := cursor.Kind()
 
 		switch kind {
@@ -79,26 +71,13 @@ func main() {
 			if enum, err := internal.ParseEnum(&cursor); err != nil {
 				fmt.Fprintf(os.Stderr, "enum parse failed: %+v", err)
 			} else {
-				fmt.Fprintf(
-					os.Stdout, "%s\n[%d:%d:%d] %s: %s\n",
-					strings.Join(enum.Comments, "\n"),
-					line, column, offset, enum.Name, enum.Type,
-				)
-				for _, m := range enum.Members {
-					fmt.Fprintf(os.Stdout, "\t%s: %d\n", m.Name, m.Value)
-				}
-				fmt.Fprintf(os.Stdout, "\n")
+				fmt.Fprintf(os.Stdout, "%s\n", enum)
 			}
 		case clang.Cursor_TypedefDecl:
 			if typedef, err := internal.ParseTypedef(&cursor); err != nil {
 				fmt.Fprintf(os.Stderr, "typedef parse failed: %+v", err)
 			} else {
-				fmt.Fprintf(
-					os.Stdout, "%s\n[%d:%d:%d] %s: [%d]%s\n\n",
-					strings.Join(typedef.Comments, "\n"),
-					line, column, offset, typedef.Name,
-					typedef.Underlying.Size, typedef.Underlying.Name,
-				)
+				fmt.Fprintf(os.Stdout, "%s\n", typedef)
 			}
 		case clang.Cursor_StructDecl:
 			if stru, err := internal.ParseStruct(&cursor); err != nil {
@@ -106,19 +85,7 @@ func main() {
 					os.Stderr, "struct parse failed: %+v", err,
 				)
 			} else {
-				fmt.Fprintf(
-					os.Stdout, "%s\n%s:\n",
-					strings.Join(stru.Comments, "\n"),
-					stru.Name,
-				)
-				for _, f := range stru.Fields {
-					fmt.Fprintf(
-						os.Stdout, "\t%s\n\t%s: %s\n",
-						strings.Join(f.Comments, "\n"),
-						f.Name, f.Type,
-					)
-				}
-				fmt.Fprintf(os.Stdout, "\n")
+				fmt.Fprintf(os.Stdout, "%s\n", stru)
 			}
 		}
 
