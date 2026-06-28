@@ -42,7 +42,9 @@ func (c ClassDefine) String() string {
 	for _, m := range c.Methods {
 		fmt.Fprintf(buff, "%s\n", m.Comments)
 
-		if !m.IsStatic {
+		if m.IsStatic {
+			fmt.Fprintf(buff, "%s* %s(", c.Name, m.Name)
+		} else {
 			fmt.Fprintf(buff, "%s(%s* this, ", m.Name, c.Name)
 		}
 
