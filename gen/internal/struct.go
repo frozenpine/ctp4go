@@ -18,6 +18,21 @@ type StructDefine struct {
 	Fields   []StructField
 }
 
+func (s *StructDefine) walkFields(cursor, parent clang.Cursor) clang.ChildVisitResult {
+	fieldKind := cursor.Kind()
+
+	switch fieldKind {
+	case clang.Cursor_FieldDecl:
+		s.Fields = append(s.Fields, StructField{
+			Name:     cursor.DisplayName(),
+			Type:     cursor.Type().DefName(),
+			Comments: ParseComment(cursor.ParsedComment()),
+		})
+	}
+
+	return clang.ChildVisit_Continue
+}
+
 func ParseStruct(cursor *clang.Cursor) (*StructDefine, error) {
 	if cursor.Kind() != clang.Cursor_StructDecl {
 		return nil, errors.New("not struct type")
@@ -28,20 +43,7 @@ func ParseStruct(cursor *clang.Cursor) (*StructDefine, error) {
 		Comments: ParseComment(cursor.ParsedComment()),
 	}
 
-	cursor.Visit(func(cursor, parent clang.Cursor) (status clang.ChildVisitResult) {
-		fieldKind := cursor.Kind()
-
-		switch fieldKind {
-		case clang.Cursor_FieldDecl:
-			define.Fields = append(define.Fields, StructField{
-				Name:     cursor.DisplayName(),
-				Type:     cursor.Type().DefName(),
-				Comments: ParseComment(cursor.ParsedComment()),
-			})
-		}
-
-		return clang.ChildVisit_Continue
-	})
+	cursor.Visit(define.walkFields)
 
 	return &define, nil
 }

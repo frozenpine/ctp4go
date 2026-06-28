@@ -19,6 +19,21 @@ type EnumDefine struct {
 	Members  []EnumMember
 }
 
+func (e *EnumDefine) walkChilds(cursor, parent clang.Cursor) clang.ChildVisitResult {
+	memKind := cursor.Kind()
+	switch memKind {
+	case clang.Cursor_EnumConstantDecl:
+		e.Members = append(
+			e.Members, EnumMember{
+				Name:     cursor.Spelling(),
+				Value:    cursor.EnumConstantDeclValue(),
+				Comments: ParseComment(cursor.ParsedComment()),
+			})
+	}
+
+	return clang.ChildVisit_Continue
+}
+
 func ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
 	if cursor.Kind() != clang.Cursor_EnumDecl {
 		return nil, errors.New("not enum type")
@@ -30,20 +45,7 @@ func ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
 		Comments: ParseComment(cursor.ParsedComment()),
 	}
 
-	cursor.Visit(func(cursor, parent clang.Cursor) (status clang.ChildVisitResult) {
-		memKind := cursor.Kind()
-		switch memKind {
-		case clang.Cursor_EnumConstantDecl:
-			define.Members = append(
-				define.Members, EnumMember{
-					Name:     cursor.Spelling(),
-					Value:    cursor.EnumConstantDeclValue(),
-					Comments: ParseComment(cursor.ParsedComment()),
-				})
-		}
-
-		return clang.ChildVisit_Continue
-	})
+	cursor.Visit(define.walkChilds)
 
 	return &define, nil
 }
