@@ -49,46 +49,10 @@ func main() {
 		fileBase, headerFileName[ctpType],
 	)
 
-	// clang.TranslationUnit_DetailedPreprocessingRecord 宏解析及展开
-	// clang.TranslationUnit_CXXChainedPCH
-	tu := idx.ParseTranslationUnit(
-		sdkFile, []string{}, nil,
-		clang.TranslationUnit_CXXChainedPCH|
-			clang.TranslationUnit_DetailedPreprocessingRecord,
-	)
-	if !tu.IsValid() {
-		fmt.Fprintf(os.Stderr, "Parse header file failed: %s", sdkFile)
-		return
+	var entry internal.Entry
+	if err := entry.Parse(sdkFile); err != nil {
+		fmt.Fprintf(os.Stderr, "parse failed: %+v\n", err)
+	} else {
+		fmt.Fprintf(os.Stdout, "entry file parsed: %s\n", sdkFile)
 	}
-	defer tu.Dispose()
-
-	cursor := tu.TranslationUnitCursor()
-	cursor.Visit(func(cursor, parent clang.Cursor) (status clang.ChildVisitResult) {
-		kind := cursor.Kind()
-
-		switch kind {
-		case clang.Cursor_EnumDecl:
-			if enum, err := internal.ParseEnum(&cursor); err != nil {
-				fmt.Fprintf(os.Stderr, "enum parse failed: %+v", err)
-			} else {
-				fmt.Fprintf(os.Stdout, "%s\n", enum)
-			}
-		case clang.Cursor_TypedefDecl:
-			if typedef, err := internal.ParseTypedef(&cursor); err != nil {
-				fmt.Fprintf(os.Stderr, "typedef parse failed: %+v", err)
-			} else {
-				fmt.Fprintf(os.Stdout, "%s\n", typedef)
-			}
-		case clang.Cursor_StructDecl:
-			if stru, err := internal.ParseStruct(&cursor); err != nil {
-				fmt.Fprintf(
-					os.Stderr, "struct parse failed: %+v", err,
-				)
-			} else {
-				fmt.Fprintf(os.Stdout, "%s\n", stru)
-			}
-		}
-
-		return clang.ChildVisit_Continue
-	})
 }
