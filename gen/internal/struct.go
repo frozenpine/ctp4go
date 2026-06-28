@@ -22,12 +22,12 @@ type StructDefine struct {
 func (s StructDefine) String() string {
 	buff := bytes.NewBufferString("")
 
-	fmt.Fprintf(buff, "%s", s.Comments)
+	fmt.Fprintf(buff, "%s\n", s.Comments)
 
 	fmt.Fprintf(buff, "struct %s {\n", s.Name)
 	for _, f := range s.Fields {
 		fmt.Fprintf(
-			buff, "\t%s\t%s %s\n",
+			buff, "\t%s\n\t%s %s\n",
 			f.Comments, f.Name, f.Type,
 		)
 	}

@@ -189,12 +189,12 @@ func (e *entry) walk(cursor, parent clang.Cursor) clang.ChildVisitResult {
 			fmt.Fprintf(os.Stdout, "%s\n", stru)
 		}
 	case clang.Cursor_ClassDecl:
-		if class, err := e.ParseClass(&cursor); err != nil {
+		if _, err := e.ParseClass(&cursor); err != nil {
 			fmt.Fprintf(
 				os.Stderr, "class parse failed: %+v", err,
 			)
 		} else {
-			fmt.Fprintf(os.Stdout, "%s\n", class)
+			// fmt.Fprintf(os.Stdout, "%s\n", class)
 		}
 	case clang.Cursor_MacroDefinition:
 		if _, err := e.ParseMacro(&cursor, e.definePrefix); err != nil {

@@ -3,7 +3,6 @@ package internal
 import (
 	"bytes"
 	"fmt"
-	"strings"
 
 	"github.com/go-clang/clang-v15/clang"
 )
@@ -24,15 +23,11 @@ type EnumDefine struct {
 func (e EnumDefine) String() string {
 	buff := bytes.NewBufferString("")
 
+	fmt.Fprintf(buff, "%s\n", e.Comments)
 	fmt.Fprintf(buff, "enum %s {\n", e.Name)
 	for _, m := range e.Members {
-		if len(m.Comments.Summary) < 1 {
-			v := strings.Split(m.Name, "_")
-			m.Comments.Summary = append(m.Comments.Summary, v[len(v)-1])
-		}
-
 		fmt.Fprintf(
-			buff, "\t%s = %d %s",
+			buff, "\t%s = %d %s\n",
 			m.Name, m.Value, m.Comments,
 		)
 	}

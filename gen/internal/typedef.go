@@ -37,7 +37,7 @@ type TypedefDefine struct {
 func (t TypedefDefine) String() string {
 	buff := bytes.NewBufferString("")
 
-	fmt.Fprintf(buff, "%s", t.Comments)
+	fmt.Fprintf(buff, "%s\n", t.Comments)
 
 	fmt.Fprintf(
 		buff, "typedef %s %s\n",
@@ -51,8 +51,6 @@ func (t TypedefDefine) String() string {
 			)
 		}
 	}
-
-	buff.WriteString("\n")
 
 	return buff.String()
 }

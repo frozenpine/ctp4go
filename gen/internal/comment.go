@@ -39,15 +39,19 @@ func (c CommentDefine) String() string {
 	if len(c.Summary) < 1 {
 		fmt.Fprintf(buff, "// No comment")
 	} else {
-		for _, v := range c.Summary {
-			fmt.Fprintf(buff, "// %s\n", v)
+		for idx, v := range c.Summary {
+			if idx > 0 {
+				fmt.Fprintf(buff, "\n// %s", v)
+			} else {
+				fmt.Fprintf(buff, "// %s", v)
+			}
 		}
 	}
 
 	for _, p := range c.ParamComment {
-		fmt.Fprintf(buff, "//  @param %s %s\n", p.ArgName, p.Description)
+		fmt.Fprintf(buff, "\n//  @param %s %s", p.ArgName, p.Description)
 		for _, v := range p.Values {
-			fmt.Fprintf(buff, "//\t%s\n", v)
+			fmt.Fprintf(buff, "\n//\t%s\n", v)
 		}
 	}
 
