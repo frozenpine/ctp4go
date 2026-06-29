@@ -55,6 +55,10 @@ func (t TypedefDefine) String() string {
 	return buff.String()
 }
 
+func (t TypedefDefine) HasDefine() bool {
+	return t.MacroDefine != nil
+}
+
 func ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
 	define := TypedefDefine{
 		baseDefine: baseDefine{

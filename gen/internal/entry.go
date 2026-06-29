@@ -48,6 +48,10 @@ type baseDefine struct {
 	Comments CommentDefine
 }
 
+func (d baseDefine) HasComments() bool {
+	return len(d.Comments.Summary) > 0 || len(d.Comments.ParamComment) > 0
+}
+
 type parseOpt func(*entry) error
 type ParseOptions []parseOpt
 
