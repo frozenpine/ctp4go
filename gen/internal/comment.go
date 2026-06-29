@@ -49,9 +49,9 @@ func (c CommentDefine) String() string {
 	}
 
 	for _, p := range c.ParamComment {
-		fmt.Fprintf(buff, "\n//  @param %s %s", p.ArgName, p.Description)
+		fmt.Fprintf(buff, "\n//   @param %s %s", p.ArgName, p.Description)
 		for _, v := range p.Values {
-			fmt.Fprintf(buff, "\n//\t%s\n", v)
+			fmt.Fprintf(buff, "\n//\t%s", v)
 		}
 	}
 

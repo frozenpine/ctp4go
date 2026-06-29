@@ -41,6 +41,8 @@ func TestTraderApi(t *testing.T) {
 		trader.WithTraderState(
 			trader.WithStateResponsor(trader.Connected, td.Authenticate),
 			trader.WithStateResponsor(trader.AuthSuccess, td.Login),
+			// 重置会锁状态，Responsor执行也会锁状态
+			// 此处需要异步以避免死锁
 			trader.WithStateResponsor(trader.LoginSuccess, func() error {
 				resetOnce.Do(func() {
 					go td.Reset()

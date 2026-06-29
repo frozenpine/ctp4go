@@ -12,12 +12,12 @@ import (
 	"github.com/go-clang/clang-v15/clang"
 )
 
-type sdk string
+type sdkName string
 type platform string
 
 const (
-	Trader sdk = "trader"
-	Mduser sdk = "mduser"
+	Trader sdkName = "trader"
+	Mduser sdkName = "mduser"
 
 	PlatFuture platform = "future"
 	PlatMini   platform = "mini"
@@ -27,17 +27,17 @@ const (
 )
 
 var (
-	sdkHeaderName map[sdk]string = map[sdk]string{
+	sdkHdrFileName map[sdkName]string = map[sdkName]string{
 		Trader: "ThostFtdcTraderApi.h",
 		Mduser: "ThostFtdcMdApi.h",
 	}
 
-	sdkSpiName map[sdk]string = map[sdk]string{
+	sdkSpiName map[sdkName]string = map[sdkName]string{
 		Mduser: "CThostFtdcMdSpi",
 		Trader: "CThostFtdcTraderSpi",
 	}
 
-	sdkApiName map[sdk]string = map[sdk]string{
+	sdkApiName map[sdkName]string = map[sdkName]string{
 		Mduser: "CThostFtdcMdApi",
 		Trader: "CThostFtdcTraderApi",
 	}
@@ -49,17 +49,102 @@ type baseDefine struct {
 }
 
 type parseOpt func(*entry) error
+type ParseOptions []parseOpt
 
-func WithSDK(d string) parseOpt {
-	return func(pc *entry) error {
-		v := sdk(d)
+type sdkOpt func(*sdkInfo) error
+type SdkOptions []sdkOpt
+
+func WithHdrFileName(n string) sdkOpt {
+	return func(e *sdkInfo) error {
+		if n == "" {
+			return errors.New("invalid header file name")
+		}
+
+		e.hdrFileName = n
+		return nil
+	}
+}
+
+func WithApiName(n string, to ...string) sdkOpt {
+	return func(e *sdkInfo) error {
+		if n == "" {
+			return errors.New("invalid api name")
+		}
+
+		e.apiName = n
+		if len(to) > 0 {
+			e.apiExtName = to[0]
+		} else {
+			e.apiExtName = e.apiName + "Ext"
+		}
+		return nil
+	}
+}
+
+func WithSpiName(n string, to ...string) sdkOpt {
+	return func(e *sdkInfo) error {
+		if n == "" {
+			return errors.New("invalid spi name")
+		}
+
+		e.spiName = n
+		if len(to) > 0 {
+			e.spiExtName = to[0]
+		} else {
+			e.spiExtName = e.spiName + "Ext"
+		}
+
+		return nil
+	}
+}
+
+func WithVersion(ver string) sdkOpt {
+	return func(pc *sdkInfo) error {
+		if ver == "" {
+			return errors.New("invalid version")
+		}
+
+		pc.ver = ver
+		return nil
+	}
+}
+
+func WithSDK(d string, options ...sdkOpt) parseOpt {
+	return func(e *entry) error {
+		v := sdkName(d)
 		switch v {
 		case Trader, Mduser:
 		default:
 			return errors.New("invalid sdk")
 		}
 
-		pc.sdk = v
+		e.sdk.name = v
+
+		for _, opt := range append([]sdkOpt{
+			WithHdrFileName(sdkHdrFileName[v]),
+			WithApiName(sdkApiName[v]),
+			WithSpiName(sdkSpiName[v]),
+		}, options...) {
+			if opt == nil {
+				continue
+			}
+
+			if err := opt(&e.sdk); err != nil {
+				return err
+			}
+		}
+
+		return nil
+	}
+}
+
+func withBase(b string) parseOpt {
+	return func(e *entry) error {
+		if b == "" {
+			return errors.New("invalid entry base")
+		}
+
+		e.baseDir = b
 		return nil
 	}
 }
@@ -78,34 +163,78 @@ func WithPlatform(plat string) parseOpt {
 	}
 }
 
-func WithVersion(ver string) parseOpt {
-	return func(pc *entry) error {
-		if ver == "" {
-			return errors.New("invalid version")
+func WithDefPrefix(pre string) parseOpt {
+	return func(e *entry) error {
+		if pre == "" {
+			return errors.New("invalid prefix for #DEFINE")
 		}
 
-		pc.ver = ver
+		e.definePrefix = pre
 		return nil
 	}
 }
 
 var CTPEntry = entry{
-	sdk:          Trader,
+	sdk: sdkInfo{
+		name:        Trader,
+		hdrFileName: sdkHdrFileName[Trader],
+		apiName:     sdkApiName[Trader],
+		apiExtName:  sdkApiName[Trader] + "Ext",
+		spiName:     sdkSpiName[Trader],
+		spiExtName:  sdkSpiName[Trader] + "Ext",
+	},
 	plat:         PlatFuture,
 	definePrefix: DefaultDefinePrefix,
+}
+
+type sdkInfo struct {
+	name        sdkName
+	ver         string
+	hdrFileName string
+	apiName     string
+	apiExtName  string
+	spiName     string
+	spiExtName  string
+}
+
+func (i sdkInfo) validate() error {
+	if i.name == "" {
+		return errors.New("sdk name not specified")
+	}
+
+	if i.ver == "" {
+		return errors.New("sdk version not specified")
+	}
+
+	if i.hdrFileName == "" {
+		return errors.New("sdk hdr file missing")
+	}
+
+	if i.apiName == "" {
+		return errors.New("sdk api name missing")
+	}
+
+	if i.apiExtName == "" {
+		return errors.New("sdk api extend name missing")
+	}
+
+	if i.spiName == "" {
+		return errors.New("sdk spi name missing")
+	}
+
+	if i.spiExtName == "" {
+		return errors.New("sdk spi extend name missing")
+	}
+
+	return nil
 }
 
 type entry struct {
 	baseDir   string
 	entryPath string
 
-	sdk  sdk
 	plat platform
-	ver  string
-
-	hdrFileName string
-	apiName     string
-	spiName     string
+	sdk  sdkInfo
 
 	files        map[string]*os.File
 	definePrefix string
@@ -117,8 +246,20 @@ func (e *entry) EntryFile() string {
 	return e.entryPath
 }
 
+func (e *entry) validate() error {
+	if e.baseDir == "" {
+		return errors.New("no entry base specified")
+	}
+
+	if e.plat == "" {
+		return errors.New("no platform specified")
+	}
+
+	return e.sdk.validate()
+}
+
 func (e *entry) Parse(base string, options ...parseOpt) error {
-	for _, opt := range options {
+	for _, opt := range append(options, withBase(base)) {
 		if opt == nil {
 			continue
 		}
@@ -128,8 +269,12 @@ func (e *entry) Parse(base string, options ...parseOpt) error {
 		}
 	}
 
-	platVerBase := filepath.Join(base, string(e.plat), e.ver)
-	e.entryPath = filepath.Join(platVerBase, sdkHeaderName[e.sdk])
+	if err := e.validate(); err != nil {
+		return err
+	}
+
+	platVerBase := filepath.Join(e.baseDir, string(e.plat), e.sdk.ver)
+	e.entryPath = filepath.Join(platVerBase, e.sdk.hdrFileName)
 
 	if info, err := os.Stat(e.entryPath); err != nil {
 		return err
