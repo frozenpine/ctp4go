@@ -27,8 +27,9 @@ func (p Param) String() string {
 		buff.WriteString("*")
 	}
 	if p.IsArray {
-		fmt.Fprintf(buff, " [%s]%s", p.ArrSizeName, p.Name)
-	} else {
+		fmt.Fprintf(buff, " [%s]", p.ArrSizeName)
+	}
+	if p.Name != "" {
 		fmt.Fprintf(buff, " %s", p.Name)
 	}
 
@@ -49,18 +50,25 @@ type ClsMethod struct {
 
 func (fn *ClsMethod) ParseParam(cursor *clang.Cursor) {
 	methodType := cursor.Type()
-	rtnType := methodType.ResultType()
-	rtnName := rtnType.Spelling()
+	rtnType := methodType.ResultType().CanonicalType()
 
-	if rtnName != "void" {
+	if rtnType.Spelling() != "void" {
 		fn.Rtn = &Param{
-			Name:    rtnName,
 			IsConst: rtnType.IsConstQualifiedType(),
 		}
 		switch rtnType.Kind() {
 		case clang.Type_Pointer:
 			fn.Rtn.IsPointer = true
-			fn.Rtn.Type = rtnType.PointeeType().Kind().String()
+
+			ptrType := rtnType.PointeeType()
+
+			switch ptrType.Kind() {
+			case clang.Type_Record:
+				under := ptrType.Declaration()
+				fn.Rtn.Type = under.Spelling()
+			default:
+				fn.Rtn.Type = ptrType.Kind().String()
+			}
 		default:
 			fn.Rtn.Type = rtnType.Kind().String()
 		}
@@ -135,10 +143,14 @@ func (c ClassDefine) String() string {
 		fmt.Fprintf(buff, "%s\n", m.Comments)
 
 		if m.IsStatic {
-			fmt.Fprintf(buff, "%s* %s(", c.Name, m.Name)
-		} else {
-			fmt.Fprintf(buff, "%s(%s* this, ", m.Name, c.Name)
+			buff.WriteString("static ")
 		}
+
+		if m.Rtn != nil {
+			fmt.Fprintf(buff, "%+v ", m.Rtn)
+		}
+
+		fmt.Fprintf(buff, "%s(", m.Name)
 
 		for idx, p := range m.Params {
 			if idx > 0 {
