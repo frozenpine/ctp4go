@@ -292,6 +292,8 @@ func (e *entry) Parse(base string, options ...parseOpt) error {
 	tu := idx.ParseTranslationUnit(
 		e.entryPath, []string{
 			"-x", "c++",
+			"-std=c++11",
+			"-fsyntax-only",
 			"-fparse-all-comments", "-CC",
 		}, nil,
 		clang.TranslationUnit_CXXChainedPCH|

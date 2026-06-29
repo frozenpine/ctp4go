@@ -9,6 +9,7 @@ import (
 )
 
 type ParamComment struct {
+	Cmd         string
 	ArgName     string
 	Description string
 	Values      []string
@@ -49,9 +50,15 @@ func (c CommentDefine) String() string {
 	}
 
 	for _, p := range c.ParamComment {
-		fmt.Fprintf(buff, "\n//   @param %s %s", p.ArgName, p.Description)
+		fmt.Fprintf(buff, "\n//   @%s", p.Cmd)
+		if p.ArgName != "" {
+			fmt.Fprintf(buff, " %s", p.ArgName)
+		}
+		if p.Description != "" {
+			fmt.Fprintf(buff, " %s", p.Description)
+		}
 		for _, v := range p.Values {
-			fmt.Fprintf(buff, "\n//\t%s", v)
+			fmt.Fprintf(buff, "\n//     %s", v)
 		}
 	}
 
@@ -65,6 +72,11 @@ func recursiveComment(comment clang.Comment) []string {
 
 	switch cKind {
 	case clang.Comment_Paragraph:
+	case clang.Comment_BlockCommand:
+		cmd := comment.BlockCommandComment_getCommandName()
+		comments = append(
+			comments, fmt.Sprintf(
+				"@%s = ", strings.TrimSpace(cmd)))
 	case clang.Comment_ParamCommand:
 		comments = append(
 			comments, fmt.Sprintf(
@@ -101,9 +113,13 @@ func ParseComment(c clang.Comment) CommentDefine {
 			var param *ParamComment
 
 			for idx, c := range recursiveComment(c.Child(i)) {
-				if after, ok := strings.CutPrefix(c, "@param = "); ok {
+				if after, ok := strings.CutPrefix(c, "@"); ok {
+					values := strings.Split(after, " = ")
 					param = &ParamComment{
-						ArgName: after,
+						Cmd: values[0],
+					}
+					if param.Cmd == "param" {
+						param.ArgName = values[len(values)-1]
 					}
 				} else if param != nil {
 					if idx == 1 {
