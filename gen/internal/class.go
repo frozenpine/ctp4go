@@ -12,6 +12,7 @@ type Param struct {
 	Type        string
 	IsPointer   bool
 	IsConst     bool
+	IsStruct    bool
 	IsArray     bool
 	ArrSizeName string
 }
@@ -31,6 +32,44 @@ func (p Param) String() string {
 	}
 	if p.Name != "" {
 		fmt.Fprintf(buff, " %s", p.Name)
+	}
+
+	return buff.String()
+}
+
+func (p Param) CType() string {
+	buff := bytes.NewBufferString("")
+
+	if p.IsConst {
+		buff.WriteString("const ")
+	}
+
+	switch p.Type {
+	case "Int":
+		buff.WriteString("int")
+	case "Bool":
+		buff.WriteString("bool")
+	case "Char_S":
+		buff.WriteString("char")
+	default:
+		if p.IsStruct {
+			buff.WriteString("struct ")
+		}
+		fmt.Fprintf(buff, "%s", p.Type)
+	}
+
+	if p.Name != "" {
+		buff.WriteString(" ")
+	}
+
+	if p.IsPointer {
+		buff.WriteString("*")
+	}
+	if p.Name != "" {
+		buff.WriteString(p.Name)
+	}
+	if p.IsArray {
+		fmt.Fprintf(buff, "[], int %s", p.ArrSizeName)
 	}
 
 	return buff.String()
@@ -64,6 +103,7 @@ func (fn *ClsMethod) ParseParam(cursor *clang.Cursor) {
 
 			switch ptrType.Kind() {
 			case clang.Type_Record:
+				fn.Rtn.IsStruct = true
 				under := ptrType.Declaration()
 				fn.Rtn.Type = under.Spelling()
 			default:
@@ -95,6 +135,7 @@ func (fn *ClsMethod) ParseParam(cursor *clang.Cursor) {
 
 			switch ptrType.Kind() {
 			case clang.Type_Record:
+				param.IsStruct = true
 				under := ptrType.Declaration()
 				param.Type = under.Spelling()
 			default:
@@ -125,9 +166,36 @@ func (fn *ClsMethod) ParseParam(cursor *clang.Cursor) {
 	}
 }
 
+func (fn ClsMethod) String() string {
+	buff := bytes.NewBufferString("")
+
+	fmt.Fprintf(buff, "%s\n", fn.Comments)
+
+	if fn.IsStatic {
+		buff.WriteString("static ")
+	}
+
+	if fn.Rtn != nil {
+		fmt.Fprintf(buff, "%+v ", fn.Rtn)
+	}
+
+	fmt.Fprintf(buff, "%s(", fn.Name)
+
+	for idx, p := range fn.Params {
+		if idx > 0 {
+			buff.WriteString(", ")
+		}
+		fmt.Fprintf(buff, "%+v", p)
+	}
+	buff.WriteString(")\n")
+
+	return buff.String()
+}
+
 type ClassDefine struct {
 	baseDefine
 
+	Statics []*ClsMethod
 	Methods []*ClsMethod
 }
 
@@ -136,29 +204,16 @@ func (c ClassDefine) String() string {
 
 	fmt.Fprintf(buff, "class %s\n", c.Name)
 
-	for idx, m := range c.Methods {
+	for idx, m := range c.Statics {
 		if idx > 0 {
 			buff.WriteString("\n")
 		}
-		fmt.Fprintf(buff, "%s\n", m.Comments)
 
-		if m.IsStatic {
-			buff.WriteString("static ")
-		}
+		fmt.Fprintf(buff, "%s", m)
+	}
 
-		if m.Rtn != nil {
-			fmt.Fprintf(buff, "%+v ", m.Rtn)
-		}
-
-		fmt.Fprintf(buff, "%s(", m.Name)
-
-		for idx, p := range m.Params {
-			if idx > 0 {
-				buff.WriteString(", ")
-			}
-			fmt.Fprintf(buff, "%+v", p)
-		}
-		buff.WriteString(")\n")
+	for _, m := range c.Methods {
+		fmt.Fprintf(buff, "\n%s", m)
 	}
 
 	return buff.String()
@@ -181,7 +236,11 @@ func (c *ClassDefine) walkMethods(cursor, parent clang.Cursor) clang.ChildVisitR
 
 		method.ParseParam(&cursor)
 
-		c.Methods = append(c.Methods, &method)
+		if method.IsStatic {
+			c.Statics = append(c.Statics, &method)
+		} else {
+			c.Methods = append(c.Methods, &method)
+		}
 	}
 
 	return clang.ChildVisit_Continue

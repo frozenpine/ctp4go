@@ -2,11 +2,17 @@ package main
 
 import (
 	"bytes"
+	"embed"
+	"errors"
 	"flag"
 	"fmt"
+	"io"
+	"io/fs"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
+	"text/template"
 
 	"github.com/frozenpine/ctp4go/gen/internal"
 )
@@ -20,8 +26,18 @@ var (
 		name: "mduser",
 		ver:  "v6.7.13",
 	}
-	output string
+	debug  bool
+	stdout bool
+	output outputOpt
+
+	cTplMapper = map[string][]string{
+		"api": {"api_helper.h.gotmpl", "api_helper.c.gotmpl"},
+		"spi": {"spi_helper.h.gotmpl", "spi_helper.c.gotmpl"},
+	}
 )
+
+//go:embed templates
+var tplFs embed.FS
 
 type sdkOpt struct {
 	name        string
@@ -105,14 +121,44 @@ func (sdk sdkOpt) options() internal.ParseOptions {
 	return internal.ParseOptions{internal.WithSDK(sdk.name, options...)}
 }
 
+type outputOpt []string
+
+func (out outputOpt) Type() string { return "OUTPUT" }
+
+func (out outputOpt) String() string {
+	return fmt.Sprintf("%+v", ([]string)(out))
+}
+
+func (out *outputOpt) Set(v string) error {
+	for v := range strings.SplitSeq(v, ",") {
+		module := strings.ToLower(strings.TrimSpace(v))
+
+		switch module {
+		case "api", "spi", "thost":
+		default:
+			return errors.New("invalid module name")
+		}
+
+		if slices.Contains(*out, module) {
+			continue
+		}
+
+		*out = append(*out, module)
+	}
+
+	return nil
+}
+
 func init() {
 	showVersion := flag.Bool("version", false, "Show tool version")
 
 	flag.StringVar(&dep, "dep", "", "CTP SDK dependencies base DIR")
 	flag.StringVar(&plat, "plat", "future", "CTP platform: future | mini | etf")
 	flag.Var(&sdk, "sdk", "CTP SDK catagory: trader | mduser")
+	flag.BoolVar(&debug, "debug", false, "Debug print AST parsing")
 
-	flag.StringVar(&output, "output", "", "Parsed data output DIR")
+	flag.BoolVar(&stdout, "stdout", false, "Print converted moduels to STDOUT")
+	flag.Var(&output, "output", "Convert output modules")
 
 	flag.Parse()
 
@@ -128,14 +174,77 @@ func init() {
 }
 
 func main() {
+	defer internal.CTPEntry.Release()
+
+	templates := map[string][]*template.Template{}
+
+	tplBase, err := fs.Sub(tplFs, "templates")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "open embed templates dir failed: %+v", err)
+		os.Exit(1)
+	}
+
+	for _, o := range output {
+		for _, f := range cTplMapper[o] {
+			tpl, err := template.New(f).Funcs(template.FuncMap{
+				"ToUpper": strings.ToUpper,
+			}).ParseFS(tplBase, f)
+			if err != nil {
+				fmt.Fprintf(
+					os.Stderr, "parse %s template failed: %+v",
+					output, err,
+				)
+				os.Exit(1)
+			}
+
+			templates[o] = append(templates[o], tpl)
+		}
+	}
+
+	options := internal.ParseOptions{internal.WithPlatform(plat)}
+	if debug {
+		options = append(options, internal.WithDebug())
+	}
+
 	if err := internal.CTPEntry.Parse(
-		dep, append(sdk.options(), internal.WithPlatform(plat))...,
+		dep, append(options, sdk.options()...)...,
 	); err != nil {
 		fmt.Fprintf(os.Stderr, "parse failed: %+v\n", err)
+		os.Exit(255)
 	} else {
 		fmt.Fprintf(
 			os.Stdout, "entry file parsed: %s\n",
 			internal.CTPEntry.EntryFile(),
 		)
+	}
+
+	for mod, tpls := range templates {
+		for _, v := range tpls {
+			fmt.Fprintf(os.Stdout, "converting %s %s\n", mod, v.Name())
+
+			var wr io.Writer
+
+			if stdout {
+				wr = os.Stdout
+			} else {
+				outFilePath := strings.TrimSuffix(v.Name(), ".gotmpl")
+
+				if outFile, err := os.OpenFile(
+					outFilePath,
+					os.O_CREATE|os.O_TRUNC|os.O_WRONLY,
+					os.ModePerm,
+				); err != nil {
+					fmt.Fprintf(os.Stderr, "open output file failed: %+v", err)
+					os.Exit(2)
+				} else {
+					wr = outFile
+					defer outFile.Close()
+				}
+			}
+
+			if err := v.Execute(wr, &internal.CTPEntry); err != nil {
+				fmt.Fprintf(os.Stderr, "convert failed: %+v", err)
+			}
+		}
 	}
 }

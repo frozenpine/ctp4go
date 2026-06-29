@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
+	"sync"
 
 	"github.com/go-clang/clang-v15/clang"
 )
@@ -178,6 +180,13 @@ func WithDefPrefix(pre string) parseOpt {
 	}
 }
 
+func WithDebug() parseOpt {
+	return func(e *entry) error {
+		e.debug = true
+		return nil
+	}
+}
+
 var CTPEntry = entry{
 	sdk: sdkInfo{
 		name:        Trader,
@@ -241,12 +250,13 @@ func (i sdkInfo) validate() error {
 type entry struct {
 	baseDir   string
 	entryPath string
-	outputDir string
+	debug     bool
 
 	plat platform
 	sdk  sdkInfo
 
 	files        map[string]*os.File
+	releaseOnce  sync.Once
 	definePrefix string
 	defineType   map[string]string
 	defineCache  map[string]*MacroGroup
@@ -257,6 +267,18 @@ type entry struct {
 	apiClass  *ClassDefine
 	spiClass  *ClassDefine
 }
+
+func (e *entry) ApiClass() *ClassDefine { return e.apiClass }
+
+func (e *entry) SpiClass() *ClassDefine { return e.spiClass }
+
+func (e *entry) SdkVersion() string { return e.sdk.ver }
+
+func (e *entry) SdkVerName() string {
+	return strings.ToUpper(strings.ReplaceAll(e.sdk.ver, ".", ""))
+}
+
+func (e *entry) SdkName() string { return string(e.sdk.name) }
 
 func (e *entry) EntryFile() string {
 	return e.entryPath
@@ -272,6 +294,19 @@ func (e *entry) validate() error {
 	}
 
 	return e.sdk.validate()
+}
+
+func (e *entry) Release() {
+	e.releaseOnce.Do(func() {
+		for k, v := range e.files {
+			if err := v.Close(); err != nil {
+				fmt.Fprintf(
+					os.Stderr, "close file[%s] failed: %+v",
+					k, err,
+				)
+			}
+		}
+	})
 }
 
 func (e *entry) Parse(base string, options ...parseOpt) error {
@@ -322,7 +357,10 @@ func (e *entry) Parse(base string, options ...parseOpt) error {
 	defer tu.Dispose()
 
 	cursor := tu.TranslationUnitCursor()
-	cursor.Visit(e.walk)
+
+	if !cursor.Visit(e.walk) {
+		return errors.New("ast walk breaked")
+	}
 
 	return nil
 }
@@ -335,28 +373,28 @@ func (e *entry) walk(cursor, parent clang.Cursor) clang.ChildVisitResult {
 		if enum, err := e.ParseEnum(&cursor); err != nil {
 			fmt.Fprintf(os.Stderr, "enum parse failed: %+v", err)
 			return clang.ChildVisit_Break
-		} else if e.outputDir == "" {
+		} else if e.debug {
 			fmt.Fprintf(os.Stdout, "%+v\n", enum)
 		}
 	case clang.Cursor_TypedefDecl:
 		if typedef, err := e.ParseTypedef(&cursor); err != nil {
 			fmt.Fprintf(os.Stderr, "typedef parse failed: %+v", err)
 			return clang.ChildVisit_Break
-		} else if e.outputDir == "" {
+		} else if e.debug {
 			fmt.Fprintf(os.Stdout, "%+v\n", typedef)
 		}
 	case clang.Cursor_StructDecl:
 		if data, err := e.ParseStruct(&cursor); err != nil {
 			fmt.Fprintf(os.Stderr, "struct parse failed: %+v", err)
 			return clang.ChildVisit_Break
-		} else if e.outputDir == "" {
+		} else if e.debug {
 			fmt.Fprintf(os.Stdout, "%s\n", data)
 		}
 	case clang.Cursor_ClassDecl:
 		if class, err := e.ParseClass(&cursor); err != nil {
 			fmt.Fprintf(os.Stderr, "class parse failed: %+v", err)
 			return clang.ChildVisit_Break
-		} else if e.outputDir == "" {
+		} else if e.debug {
 			fmt.Fprintf(os.Stdout, "%s\n", class)
 		}
 	case clang.Cursor_MacroDefinition:
