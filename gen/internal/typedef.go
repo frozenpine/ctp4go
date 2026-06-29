@@ -55,7 +55,7 @@ func (t TypedefDefine) String() string {
 	return buff.String()
 }
 
-func (e *entry) ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
+func ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
 	define := TypedefDefine{
 		baseDefine: baseDefine{
 			Name:     cursor.DisplayName(),
@@ -77,15 +77,31 @@ func (e *entry) ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
 		clang.Type_Long, clang.Type_ULong:
 		define.Underlying.Name = define.Underlying.kind.String()
 
-		macroTypeName := strings.Replace(
-			define.Name, "TThost", "T", 1,
-		)
-
-		if g, exist := e.defineCache[macroTypeName]; exist {
-			define.Comments = g.Comments
-			define.MacroDefine = g
-		}
 	}
 
 	return &define, nil
+}
+
+func (e *entry) ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
+	define, err := ParseTypedef(cursor)
+	if err != nil {
+		return nil, err
+	}
+
+	macroTypeName := strings.Replace(
+		define.Name, "TThost", "T", 1,
+	)
+
+	if g, exist := e.defineCache[macroTypeName]; exist {
+		define.Comments = g.Comments
+		define.MacroDefine = g
+	}
+
+	if _, exist := e.typeCache[define.Name]; exist {
+		return nil, fmt.Errorf("typedef duplicated: %+v", define)
+	}
+
+	e.typeCache[define.Name] = define
+
+	return define, nil
 }

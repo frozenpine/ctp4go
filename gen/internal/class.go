@@ -8,10 +8,31 @@ import (
 )
 
 type Param struct {
-	Name string
-	Type string
+	Name        string
+	Type        string
+	IsPointer   bool
+	IsConst     bool
+	IsArray     bool
+	ArrSizeName string
+}
 
-	DefaultValue any
+func (p Param) String() string {
+	buff := bytes.NewBufferString("")
+	if p.IsConst {
+		buff.WriteString("const ")
+	}
+
+	buff.WriteString(p.Type)
+	if p.IsPointer {
+		buff.WriteString("*")
+	}
+	if p.IsArray {
+		fmt.Fprintf(buff, " [%s]%s", p.ArrSizeName, p.Name)
+	} else {
+		fmt.Fprintf(buff, " %s", p.Name)
+	}
+
+	return buff.String()
 }
 
 type ClsMethod struct {
@@ -20,14 +41,80 @@ type ClsMethod struct {
 	MangledName string
 
 	Params []*Param
+	Rtn    *Param
 
 	IsVirtual bool
 	IsStatic  bool
 }
 
-func (fn *ClsMethod) walkParam(cursor, parent clang.Cursor) clang.ChildVisitResult {
+func (fn *ClsMethod) ParseParam(cursor *clang.Cursor) {
+	methodType := cursor.Type()
+	rtnType := methodType.ResultType()
+	rtnName := rtnType.Spelling()
 
-	return clang.ChildVisit_Continue
+	if rtnName != "void" {
+		fn.Rtn = &Param{
+			Name:    rtnName,
+			IsConst: rtnType.IsConstQualifiedType(),
+		}
+		switch rtnType.Kind() {
+		case clang.Type_Pointer:
+			fn.Rtn.IsPointer = true
+			fn.Rtn.Type = rtnType.PointeeType().Kind().String()
+		default:
+			fn.Rtn.Type = rtnType.Kind().String()
+		}
+	}
+
+	var param *Param
+
+	for i := range cursor.NumArguments() {
+		arg := cursor.Argument(uint32(i))
+		argType := arg.Type().CanonicalType()
+
+		if param == nil {
+			param = &Param{
+				Name:    arg.Spelling(),
+				IsConst: argType.IsConstQualifiedType(),
+			}
+		}
+
+		switch argType.Kind() {
+		case clang.Type_Pointer:
+			param.IsPointer = true
+
+			ptrType := argType.PointeeType()
+
+			switch ptrType.Kind() {
+			case clang.Type_Record:
+				under := ptrType.Declaration()
+				param.Type = under.Spelling()
+			default:
+				param.Type = ptrType.Kind().String()
+			}
+		case clang.Type_IncompleteArray:
+			eleType := argType.ArrayElementType()
+
+			if eleType.Kind() == clang.Type_Pointer {
+				param.Type = eleType.PointeeType().Kind().String()
+			} else {
+				param.Type = eleType.Kind().String()
+			}
+
+			param.IsArray = true
+			param.IsPointer = true
+			continue
+		default:
+			if param.IsArray {
+				param.ArrSizeName = arg.Spelling()
+			} else {
+				param.Type = argType.Kind().String()
+			}
+		}
+
+		fn.Params = append(fn.Params, param)
+		param = nil
+	}
 }
 
 type ClassDefine struct {
@@ -75,7 +162,7 @@ func (c *ClassDefine) walkMethods(cursor, parent clang.Cursor) clang.ChildVisitR
 			IsStatic:  cursor.CXXMethod_IsStatic(),
 		}
 
-		cursor.Visit(method.walkParam)
+		method.ParseParam(&cursor)
 
 		c.Methods = append(c.Methods, &method)
 	}
@@ -83,7 +170,7 @@ func (c *ClassDefine) walkMethods(cursor, parent clang.Cursor) clang.ChildVisitR
 	return clang.ChildVisit_Continue
 }
 
-func (e *entry) ParseClass(cursor *clang.Cursor) (*ClassDefine, error) {
+func ParseClass(cursor *clang.Cursor) (*ClassDefine, error) {
 	define := ClassDefine{
 		baseDefine: baseDefine{
 			Name:     cursor.DisplayName(),
@@ -94,4 +181,28 @@ func (e *entry) ParseClass(cursor *clang.Cursor) (*ClassDefine, error) {
 	cursor.Visit(define.walkMethods)
 
 	return &define, nil
+}
+
+func (e *entry) ParseClass(cursor *clang.Cursor) (*ClassDefine, error) {
+	define, err := ParseClass(cursor)
+	if err != nil {
+		return nil, err
+	}
+
+	switch define.Name {
+	case e.sdk.apiName:
+		if e.apiClass != nil {
+			return nil, fmt.Errorf("api class duplicated: %+v", define)
+		}
+
+		e.apiClass = define
+	case e.sdk.spiName:
+		if e.spiClass != nil {
+			return nil, fmt.Errorf("spi class duplicated: %+v", define)
+		}
+
+		e.spiClass = define
+	}
+
+	return define, nil
 }

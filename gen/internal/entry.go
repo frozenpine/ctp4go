@@ -185,6 +185,11 @@ var CTPEntry = entry{
 	},
 	plat:         PlatFuture,
 	definePrefix: DefaultDefinePrefix,
+	defineType:   make(map[string]string),
+	defineCache:  make(map[string]*MacroGroup),
+	enumCache:    make(map[string]*EnumDefine),
+	typeCache:    make(map[string]*TypedefDefine),
+	dataCache:    make(map[string]*StructDefine),
 }
 
 type sdkInfo struct {
@@ -232,6 +237,7 @@ func (i sdkInfo) validate() error {
 type entry struct {
 	baseDir   string
 	entryPath string
+	outputDir string
 
 	plat platform
 	sdk  sdkInfo
@@ -240,6 +246,12 @@ type entry struct {
 	definePrefix string
 	defineType   map[string]string
 	defineCache  map[string]*MacroGroup
+
+	typeCache map[string]*TypedefDefine
+	enumCache map[string]*EnumDefine
+	dataCache map[string]*StructDefine
+	apiClass  *ClassDefine
+	spiClass  *ClassDefine
 }
 
 func (e *entry) EntryFile() string {
@@ -318,39 +330,36 @@ func (e *entry) walk(cursor, parent clang.Cursor) clang.ChildVisitResult {
 	case clang.Cursor_EnumDecl:
 		if enum, err := e.ParseEnum(&cursor); err != nil {
 			fmt.Fprintf(os.Stderr, "enum parse failed: %+v", err)
-		} else {
-			fmt.Fprintf(os.Stdout, "%s\n", enum)
+			return clang.ChildVisit_Break
+		} else if e.outputDir == "" {
+			fmt.Fprintf(os.Stdout, "%+v\n", enum)
 		}
 	case clang.Cursor_TypedefDecl:
 		if typedef, err := e.ParseTypedef(&cursor); err != nil {
 			fmt.Fprintf(os.Stderr, "typedef parse failed: %+v", err)
-		} else {
-			fmt.Fprintf(os.Stdout, "%s\n", typedef)
+			return clang.ChildVisit_Break
+		} else if e.outputDir == "" {
+			fmt.Fprintf(os.Stdout, "%+v\n", typedef)
 		}
 	case clang.Cursor_StructDecl:
 		if data, err := e.ParseStruct(&cursor); err != nil {
-			fmt.Fprintf(
-				os.Stderr, "struct parse failed: %+v", err,
-			)
-		} else {
+			fmt.Fprintf(os.Stderr, "struct parse failed: %+v", err)
+			return clang.ChildVisit_Break
+		} else if e.outputDir == "" {
 			fmt.Fprintf(os.Stdout, "%s\n", data)
 		}
 	case clang.Cursor_ClassDecl:
 		if class, err := e.ParseClass(&cursor); err != nil {
-			fmt.Fprintf(
-				os.Stderr, "class parse failed: %+v", err,
-			)
-		} else {
+			fmt.Fprintf(os.Stderr, "class parse failed: %+v", err)
+			return clang.ChildVisit_Break
+		} else if e.outputDir == "" {
 			fmt.Fprintf(os.Stdout, "%s\n", class)
 		}
 	case clang.Cursor_MacroDefinition:
-		if _, err := e.ParseMacro(&cursor, e.definePrefix); err != nil {
-			fmt.Fprintf(
-				os.Stderr, "class parse failed: %+v", err,
-			)
-		} /*else if macro != nil {
-			fmt.Fprintf(os.Stdout, "%s\n", macro)
-		}*/
+		if macro, err := e.ParseMacro(&cursor, e.definePrefix); err != nil {
+			fmt.Fprintf(os.Stderr, "%+v: %+v", err, macro)
+			return clang.ChildVisit_Break
+		}
 	}
 
 	return clang.ChildVisit_Continue

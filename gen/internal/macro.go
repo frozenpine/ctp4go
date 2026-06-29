@@ -14,6 +14,8 @@ import (
 
 var (
 	rTypePattern = regexp.MustCompile(`^/// ([a-zA-Z]+).+`)
+
+	errRefTypeNotFound = errors.New("define ref type not found")
 )
 
 type MacroGroup struct {
@@ -93,8 +95,10 @@ PARSE:
 		return nil, err
 	}
 
-	cataList := strings.Split(define.Name, "_")
-	cataName := strings.Join(cataList[:len(cataList)-1], "_")
+	cataList := strings.SplitN(
+		strings.TrimPrefix(define.Name, e.definePrefix), "_", 2,
+	)
+	cataName := fmt.Sprintf("%s_%s", e.definePrefix, cataList[0])
 
 	reverse := 1
 
@@ -151,7 +155,7 @@ PARSE:
 	}
 
 	if rType == "" {
-		return nil, errors.New("define ref type not found")
+		return nil, errRefTypeNotFound
 	}
 
 	e.defineType[cataName] = rType

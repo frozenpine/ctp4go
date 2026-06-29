@@ -2,6 +2,7 @@
 
 **/flow
 **/bin
+**/*.exe
 
 **/*.con
 *.json

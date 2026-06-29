@@ -54,7 +54,7 @@ func (s *StructDefine) walkFields(cursor, parent clang.Cursor) clang.ChildVisitR
 	return clang.ChildVisit_Continue
 }
 
-func (e *entry) ParseStruct(cursor *clang.Cursor) (*StructDefine, error) {
+func ParseStruct(cursor *clang.Cursor) (*StructDefine, error) {
 	define := StructDefine{
 		baseDefine: baseDefine{
 			Name:     cursor.DisplayName(),
@@ -65,4 +65,19 @@ func (e *entry) ParseStruct(cursor *clang.Cursor) (*StructDefine, error) {
 	cursor.Visit(define.walkFields)
 
 	return &define, nil
+}
+
+func (e *entry) ParseStruct(cursor *clang.Cursor) (*StructDefine, error) {
+	define, err := ParseStruct(cursor)
+	if err != nil {
+		return nil, err
+	}
+
+	if _, exist := e.dataCache[define.Name]; exist {
+		return nil, fmt.Errorf("data struct duplicated: %+v", define)
+	}
+
+	e.dataCache[define.Name] = define
+
+	return define, nil
 }

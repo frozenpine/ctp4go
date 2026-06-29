@@ -54,7 +54,7 @@ func (e *EnumDefine) walkChilds(cursor, parent clang.Cursor) clang.ChildVisitRes
 	return clang.ChildVisit_Continue
 }
 
-func (e *entry) ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
+func ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
 	define := EnumDefine{
 		baseDefine: baseDefine{
 			Name:     cursor.DisplayName(),
@@ -67,4 +67,19 @@ func (e *entry) ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
 	cursor.Visit(define.walkChilds)
 
 	return &define, nil
+}
+
+func (e *entry) ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
+	define, err := ParseEnum(cursor)
+	if err != nil {
+		return nil, err
+	}
+
+	if _, exist := e.enumCache[define.Name]; exist {
+		return nil, fmt.Errorf("enum duplicated: %+v", define)
+	}
+
+	e.enumCache[define.Name] = define
+
+	return define, nil
 }
