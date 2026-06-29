@@ -126,7 +126,12 @@ type ClassDefine struct {
 func (c ClassDefine) String() string {
 	buff := bytes.NewBufferString("")
 
-	for _, m := range c.Methods {
+	fmt.Fprintf(buff, "class %s\n", c.Name)
+
+	for idx, m := range c.Methods {
+		if idx > 0 {
+			buff.WriteString("\n")
+		}
 		fmt.Fprintf(buff, "%s\n", m.Comments)
 
 		if m.IsStatic {
