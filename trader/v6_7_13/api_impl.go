@@ -144,25 +144,23 @@ func (api *ThostFtdcTraderApi) GetApiVersion() string {
 }
 
 func (api *ThostFtdcTraderApi) Release() {
-	api.releaseOnce.Do(func() {
-		slog.Info("executing thost trader api Release")
+	slog.Info("executing thost trader api Release")
 
-		defer func() {
-			if api.spiPtr != nil {
-				api.spiPtr.Pinner.Unpin()
-				api.spiPtr = nil
-			}
+	defer func() {
+		if api.spiPtr != nil {
+			api.spiPtr.Pinner.Unpin()
+			api.spiPtr = nil
+		}
 
-			C.dlclose(api.lib)
-		}()
+		C.dlclose(api.lib)
+	}()
 
-		C.CallRelease(
-			api.apiPtr.vtable.CThostFtdcTraderApiVTable_Release,
-			unsafe.Pointer(api.apiPtr),
-		)
+	C.CallRelease(
+		api.apiPtr.vtable.CThostFtdcTraderApiVTable_Release,
+		unsafe.Pointer(api.apiPtr),
+	)
 
-		slog.Info("thost trader api Release executed")
-	})
+	slog.Info("thost trader api Release executed")
 }
 
 func (api *ThostFtdcTraderApi) Init() {

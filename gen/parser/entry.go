@@ -1,4 +1,4 @@
-package internal
+package parser
 
 // #cgo pkg-config: llvm
 import "C"
@@ -82,6 +82,8 @@ func WithApiName(n string, to ...string) sdkOpt {
 		switch len(to) {
 		case 0:
 			e.apiExtName = e.apiName + "Ext"
+			e.createCallName = strings.Replace(
+				sdkApiName[e.name], "CThost", "Create", 1)
 		case 2:
 			e.apiExtName = to[1]
 			fallthrough
@@ -315,6 +317,8 @@ func (e *entry) CreateCall() *ClsMethod { return e.createCall }
 func (e *entry) VersionCall() *ClsMethod { return e.versionCall }
 
 func (e *entry) Sdk() sdkInfo { return e.sdk }
+
+func (e *entry) Platform() string { return string(e.plat) }
 
 func (e *entry) EntryFile() string {
 	return e.entryPath

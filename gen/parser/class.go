@@ -1,4 +1,4 @@
-package internal
+package parser
 
 import (
 	"bytes"
@@ -15,6 +15,8 @@ type Param struct {
 	IsStruct    bool
 	IsArray     bool
 	ArrSizeName string
+
+	Fn *ClsMethod
 }
 
 func (p Param) String() string {
@@ -51,6 +53,8 @@ type ClsMethod struct {
 
 	IsVirtual bool
 	IsStatic  bool
+
+	Cls *ClassDefine
 }
 
 func (fn *ClsMethod) ParseParam(cursor *clang.Cursor) {
@@ -127,6 +131,7 @@ func (fn *ClsMethod) ParseParam(cursor *clang.Cursor) {
 			}
 		}
 
+		param.Fn = fn
 		fn.Params = append(fn.Params, param)
 		param = nil
 	}
@@ -202,6 +207,7 @@ func (c *ClassDefine) walkMethods(cursor, parent clang.Cursor) clang.ChildVisitR
 
 		method.ParseParam(&cursor)
 
+		method.Cls = c
 		if method.IsStatic {
 			c.Statics = append(c.Statics, &method)
 		} else {

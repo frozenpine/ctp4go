@@ -15,7 +15,7 @@ import (
 	"text/template"
 
 	"github.com/frozenpine/ctp4go/gen/handlers"
-	"github.com/frozenpine/ctp4go/gen/internal"
+	"github.com/frozenpine/ctp4go/gen/parser"
 )
 
 var (
@@ -32,21 +32,32 @@ var (
 	output outputOpt
 
 	cTplMapper = map[string][]string{
-		"api": {"api_helper.h.gotmpl", "api_helper.c.gotmpl"},
-		"spi": {"spi_helper.h.gotmpl", "spi_helper.c.gotmpl"},
+		"api": {
+			"api_helper.h.gotmpl",
+			"api_helper.c.gotmpl",
+			"api_impl.go.gotmpl",
+		},
+		"spi": {
+			"spi_helper.h.gotmpl",
+			"spi_helper.c.gotmpl",
+		},
 	}
 
 	tplFuncs = template.FuncMap{
-		"ToUpper":    strings.ToUpper,
-		"ToLower":    strings.ToLower,
-		"Title":      strings.ToTitle,
-		"Replace":    strings.Replace,
-		"ReplaceAll": strings.ReplaceAll,
-		"TrimSpace":  strings.TrimSpace,
-		"TrimPrefix": strings.TrimPrefix,
-		"TrimSuffix": strings.TrimSuffix,
-		"CParamType": handlers.CParamType,
-		"CParamName": handlers.CParamName,
+		"ToUpper":      strings.ToUpper,
+		"ToLower":      strings.ToLower,
+		"Title":        strings.ToTitle,
+		"Replace":      strings.Replace,
+		"ReplaceAll":   strings.ReplaceAll,
+		"TrimSpace":    strings.TrimSpace,
+		"TrimPrefix":   strings.TrimPrefix,
+		"TrimSuffix":   strings.TrimSuffix,
+		"Contains":     strings.Contains,
+		"CParamType":   handlers.CParamType,
+		"CParamName":   handlers.CParamName,
+		"GoParamType":  handlers.GoParamType,
+		"GoParamName":  handlers.GoParamName,
+		"CgoParamName": handlers.CgoParamName,
 	}
 )
 
@@ -127,12 +138,12 @@ func (sdk *sdkOpt) Set(v string) error {
 	return nil
 }
 
-func (sdk sdkOpt) options() internal.ParseOptions {
-	options := internal.SdkOptions{
-		internal.WithVersion(sdk.ver),
+func (sdk sdkOpt) options() parser.ParseOptions {
+	options := parser.SdkOptions{
+		parser.WithVersion(sdk.ver),
 	}
 
-	return internal.ParseOptions{internal.WithSDK(sdk.name, options...)}
+	return parser.ParseOptions{parser.WithSDK(sdk.name, options...)}
 }
 
 type outputOpt []string
@@ -188,7 +199,7 @@ func init() {
 }
 
 func main() {
-	defer internal.CTPEntry.Release()
+	defer parser.CTPEntry.Release()
 
 	templates := map[string][]*template.Template{}
 
@@ -213,12 +224,12 @@ func main() {
 		}
 	}
 
-	options := internal.ParseOptions{internal.WithPlatform(plat)}
+	options := parser.ParseOptions{parser.WithPlatform(plat)}
 	if debug {
-		options = append(options, internal.WithDebug())
+		options = append(options, parser.WithDebug())
 	}
 
-	if err := internal.CTPEntry.Parse(
+	if err := parser.CTPEntry.Parse(
 		dep, append(options, sdk.options()...)...,
 	); err != nil {
 		fmt.Fprintf(os.Stderr, "parse failed: %+v\n", err)
@@ -226,7 +237,7 @@ func main() {
 	} else {
 		fmt.Fprintf(
 			os.Stdout, "entry file parsed: %s\n",
-			internal.CTPEntry.EntryFile(),
+			parser.CTPEntry.EntryFile(),
 		)
 	}
 
@@ -254,7 +265,7 @@ func main() {
 				}
 			}
 
-			if err := v.Execute(wr, &internal.CTPEntry); err != nil {
+			if err := v.Execute(wr, &parser.CTPEntry); err != nil {
 				fmt.Fprintf(os.Stderr, "convert failed: %+v", err)
 			}
 		}

@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/frozenpine/ctp4go/gen/internal"
+	"github.com/frozenpine/ctp4go/gen/parser"
 )
 
-func CParamType(p *internal.Param) string {
+func CParamType(p *parser.Param) string {
 	buff := bytes.NewBufferString("")
 
 	if p.IsConst {
@@ -28,16 +28,10 @@ func CParamType(p *internal.Param) string {
 		fmt.Fprintf(buff, "%s", p.Type)
 	}
 
-	if p.Name != "" {
-		buff.WriteString(" ")
-	}
-
 	if p.IsPointer {
 		buff.WriteString("*")
 	}
-	if p.Name != "" {
-		buff.WriteString(p.Name)
-	}
+
 	if p.IsArray {
 		fmt.Fprintf(buff, "[], int %s", p.ArrSizeName)
 	}
@@ -45,7 +39,7 @@ func CParamType(p *internal.Param) string {
 	return buff.String()
 }
 
-func CParamName(p *internal.Param) string {
+func CParamName(p *parser.Param) string {
 	if !p.IsArray {
 		return p.Name
 	}

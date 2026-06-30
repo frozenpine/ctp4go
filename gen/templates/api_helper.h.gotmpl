@@ -1,5 +1,5 @@
-{{- $sdk := .Sdk }}
-{{ $className := .ApiClass.Name -}}
+{{- $sdk := .Sdk -}}
+{{- $className := .ApiClass.Name -}}
 #pragma once
 #ifndef {{ $sdk.Name | ToUpper }}_API_HELPER_H
 #define {{ $sdk.Name | ToUpper }}_API_HELPER_H
@@ -20,7 +20,7 @@ extern "C"
 // converted from {{ .EntryFile }}
 // function call ptr
 {{- range .ApiClass.Methods }}
-typedef {{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void{{ end }} (*{{ .Name }})(void *this{{ range .Params }}, {{ if eq .Type $sdk.SpiName }}void *{{ .Name }}{{ else }}{{ CParamType . }}{{ end }}{{ end }});
+typedef {{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void{{ end }} (*{{ .Name }})(void *this{{ range .Params }}, {{ if eq .Type $sdk.SpiName }}void *{{ .Name }}{{ else }}{{ CParamType . }} {{ CParamName .}}{{ end }}{{ end }});
 {{ end }}
 
 // api methods all vtable
@@ -39,13 +39,13 @@ typedef struct
 
 // static functions to create cpp api instance & get version
 {{ range .ApiClass.Statics }}
-typedef {{ if .Rtn }}{{ if eq .Rtn.Type $className }}void*{{ else }}{{ CParamType .Rtn }}{{ end }}{{ else }}void{{ end }} (*{{ .Name }})({{ range $idx, $ele := .Params }}{{ if ne $idx 0}}, {{ end }}{{ CParamType $ele }}{{ end }});
-{{ if .Rtn }}{{ if eq .Rtn.Type $className }}void*{{ else }}{{ CParamType .Rtn }}{{ end }}{{ else }}void{{ end }} Call{{ .Name }}({{ .Name }} fn{{ range .Params }}, {{ CParamType . }}{{ end }});
+typedef {{ if .Rtn }}{{ if eq .Rtn.Type $className }}void*{{ else }}{{ CParamType .Rtn }}{{ end }}{{ else }}void{{ end }} (*{{ .Name }})({{ range $idx, $ele := .Params }}{{ if ne $idx 0}}, {{ end }}{{ CParamType $ele }} {{ CParamName $ele }}{{ end }});
+{{ if .Rtn }}{{ if eq .Rtn.Type $className }}void*{{ else }}{{ CParamType .Rtn }}{{ end }}{{ else }}void{{ end }} Call{{ .Name }}({{ .Name }} fn{{ range .Params }}, {{ CParamType . }} {{ CParamName . }}{{ end }});
 {{ end }}
 
 // helper function call for cgo
 {{- range .ApiClass.Methods }}
-{{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void{{ end }} Call{{ .Name }}({{ .Name }} fn, void *this{{ range .Params }}, {{ if eq .Type $sdk.SpiName }}void *{{ .Name }}{{ else }}{{ CParamType . }}{{ end }}{{ end }});
+{{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void{{ end }} Call{{ .Name }}({{ .Name }} fn, void *this{{ range .Params }}, {{ if eq .Type $sdk.SpiName }}void *{{ .Name }}{{ else }}{{ CParamType . }} {{ CParamName . }}{{ end }}{{ end }});
 {{ end }}
 
 #ifdef __cplusplus
