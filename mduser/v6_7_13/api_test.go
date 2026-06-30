@@ -15,11 +15,11 @@ func TestMduserApi(t *testing.T) {
 	// libPath := "../../dependencies/future/v6.7.13/thostmduserapi_se.so"
 
 	//  SHZJ - CT
-	front := "tcp://180.166.6.245:51205"
+	front := "tcp://101.226.250.133:42205"
 	//  RDXM - CT
 	//  front := "tcp://222.76.240.170:51205"
 
-	ins, err := mduser.CreateThostFtdcMduserApi(
+	ins, err := mduser.CreateThostFtdcMdApi(
 		libPath, "./flow", false, false, true,
 	)
 	if err != nil {
@@ -31,7 +31,7 @@ func TestMduserApi(t *testing.T) {
 
 	ins.RegisterSpi(&thost.ThostLogSpi{})
 	ins.RegisterFront(front)
-	// ins.Init()
+	ins.Init()
 
 	// <-time.After(time.Second * 10)
 }

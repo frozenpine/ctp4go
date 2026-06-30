@@ -41,7 +41,7 @@ NEXT:
 	}
 
 	return func() (thost.MdApi, error) {
-		return CreateThostFtdcMduserApi(
+		return CreateThostFtdcMdApi(
 			libPath, flowPath, isUdp, isMulti, isProduct,
 		)
 	}

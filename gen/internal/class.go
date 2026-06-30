@@ -37,42 +37,8 @@ func (p Param) String() string {
 	return buff.String()
 }
 
-func (p Param) CType() string {
-	buff := bytes.NewBufferString("")
-
-	if p.IsConst {
-		buff.WriteString("const ")
-	}
-
-	switch p.Type {
-	case "Int":
-		buff.WriteString("int")
-	case "Bool":
-		buff.WriteString("bool")
-	case "Char_S":
-		buff.WriteString("char")
-	default:
-		if p.IsStruct {
-			buff.WriteString("struct ")
-		}
-		fmt.Fprintf(buff, "%s", p.Type)
-	}
-
-	if p.Name != "" {
-		buff.WriteString(" ")
-	}
-
-	if p.IsPointer {
-		buff.WriteString("*")
-	}
-	if p.Name != "" {
-		buff.WriteString(p.Name)
-	}
-	if p.IsArray {
-		fmt.Fprintf(buff, "[], int %s", p.ArrSizeName)
-	}
-
-	return buff.String()
+func (p Param) GoType() string {
+	return ""
 }
 
 type ClsMethod struct {
@@ -272,6 +238,15 @@ func (e *entry) ParseClass(cursor *clang.Cursor) (*ClassDefine, error) {
 		}
 
 		e.apiClass = define
+
+		for _, fn := range define.Statics {
+			switch fn.Name {
+			case e.sdk.createCallName:
+				e.createCall = fn
+			case e.sdk.versionCallName:
+				e.versionCall = fn
+			}
+		}
 	case e.sdk.spiName:
 		if e.spiClass != nil {
 			return nil, fmt.Errorf("spi class duplicated: %+v", define)

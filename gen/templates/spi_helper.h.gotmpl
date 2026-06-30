@@ -1,8 +1,7 @@
+{{- $sdk := .Sdk -}}
 #pragma once
-{{- $verName := .SdkVerName }}
-{{ $sdkName := .SdkName -}}
-#ifndef {{ $sdkName | ToUpper }}_{{ $verName }}_SPI_HELPER_H
-#define {{ $sdkName | ToUpper }}_{{ $verName }}_SPI_HELPER_H
+#ifndef {{ $sdk.Name | ToUpper }}_SPI_HELPER_H
+#define {{ $sdk.Name | ToUpper }}_SPI_HELPER_H
 
 #ifdef __cplusplus
 extern "C"
@@ -21,12 +20,12 @@ extern "C"
 // converted from {{ .EntryFile }}
 // function call ptr
 {{- range .SpiClass.Methods }}
-typedef {{ if .Rtn }}{{ .Rtn.CType }}{{ else }}void{{ end }} (*{{ .Name }})(void *this{{ range .Params }}, {{ .CType }}{{ end }});
+typedef {{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void{{ end }} (*{{ .Name }})(void *this{{ range .Params }}, {{ CParamType . }}{{ end }});
 {{ end }}
 
 // helper function callback for cgo
 {{- range .SpiClass.Methods }}
-{{ if .Rtn }}{{ .Rtn.CType }}{{ else }}void {{ end }}C{{ .Name }}({{ .Name }} fn, void *this{{ range .Params }}, {{ .CType }}{{ end }});
+{{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void {{ end }}C{{ .Name }}(void *this{{ range .Params }}, {{ CParamType . }}{{ end }});
 {{ end }}
 
 // spi callback vtable
@@ -35,7 +34,7 @@ typedef struct
 {{- range .SpiClass.Methods }}
     {{ .Name }} {{ $className }}VTable_{{ .Name }};
 {{ end }}
-} {{ $className }}VTable
+} {{ $className }}VTable;
 
 // cpp spi instance C wrapper
 typedef struct
@@ -43,7 +42,7 @@ typedef struct
     {{ $className }}VTable *vtable;
     // spi instance ptr in go, ptr must be Pinned
     void *spi;
-} {{ $className }}Ext;
+} {{ $sdk.SpiExtName }};
 
 #ifdef __cplusplus
 }

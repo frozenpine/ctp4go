@@ -14,6 +14,7 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/frozenpine/ctp4go/gen/handlers"
 	"github.com/frozenpine/ctp4go/gen/internal"
 )
 
@@ -33,6 +34,19 @@ var (
 	cTplMapper = map[string][]string{
 		"api": {"api_helper.h.gotmpl", "api_helper.c.gotmpl"},
 		"spi": {"spi_helper.h.gotmpl", "spi_helper.c.gotmpl"},
+	}
+
+	tplFuncs = template.FuncMap{
+		"ToUpper":    strings.ToUpper,
+		"ToLower":    strings.ToLower,
+		"Title":      strings.ToTitle,
+		"Replace":    strings.Replace,
+		"ReplaceAll": strings.ReplaceAll,
+		"TrimSpace":  strings.TrimSpace,
+		"TrimPrefix": strings.TrimPrefix,
+		"TrimSuffix": strings.TrimSuffix,
+		"CParamType": handlers.CParamType,
+		"CParamName": handlers.CParamName,
 	}
 )
 
@@ -186,9 +200,7 @@ func main() {
 
 	for _, o := range output {
 		for _, f := range cTplMapper[o] {
-			tpl, err := template.New(f).Funcs(template.FuncMap{
-				"ToUpper": strings.ToUpper,
-			}).ParseFS(tplBase, f)
+			tpl, err := template.New(f).Funcs(tplFuncs).ParseFS(tplBase, f)
 			if err != nil {
 				fmt.Fprintf(
 					os.Stderr, "parse %s template failed: %+v",

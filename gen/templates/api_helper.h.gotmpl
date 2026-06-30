@@ -1,8 +1,8 @@
+{{- $sdk := .Sdk }}
+{{ $className := .ApiClass.Name -}}
 #pragma once
-{{- $verName := .SdkVerName }}
-{{ $sdkName := .SdkName -}}
-#ifndef {{ $sdkName | ToUpper }}_{{ $verName }}_API_HELPER_H
-#define {{ $sdkName | ToUpper }}_{{ $verName }}_API_HELPER_H
+#ifndef {{ $sdk.Name | ToUpper }}_API_HELPER_H
+#define {{ $sdk.Name | ToUpper }}_API_HELPER_H
 
 #ifdef __cplusplus
 extern "C"
@@ -17,11 +17,10 @@ extern "C"
 #include <dlfcn.h>
 
 #include "ThostFtdcUserApiStruct.h"
-{{ $className := .ApiClass.Name }}
 // converted from {{ .EntryFile }}
 // function call ptr
 {{- range .ApiClass.Methods }}
-typedef {{ if .Rtn }}{{ .Rtn.CType }}{{ else }}void{{ end }} (*{{ .Name }})(void *this{{ range .Params }}, {{ .CType }}{{ end }});
+typedef {{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void{{ end }} (*{{ .Name }})(void *this{{ range .Params }}, {{ if eq .Type $sdk.SpiName }}void *{{ .Name }}{{ else }}{{ CParamType . }}{{ end }}{{ end }});
 {{ end }}
 
 // api methods all vtable
@@ -30,23 +29,23 @@ typedef struct
 {{- range .ApiClass.Methods }}
     {{ .Name }} {{ $className }}VTable_{{ .Name }};
 {{ end }}
-} {{ $className }}VTable
+} {{ $className }}VTable;
 
 // cpp api instance C wrapper
 typedef struct
 {
     {{ $className }}VTable *vtable;
-} {{ $className }}Ext;
+} {{ $sdk.ApiExtName }};
 
 // static functions to create cpp api instance & get version
 {{ range .ApiClass.Statics }}
-typedef {{ if .Rtn }}{{ if eq .Rtn.Type $className }}void*{{ else }}{{ .Rtn.CType }}{{ end }}{{ else }}void{{ end }} (*{{ .Name }})({{ range $idx, $ele := .Params }}{{ if ne $idx 0}}, {{ end }}{{ $ele.CType }}{{ end }});
-{{ if .Rtn }}{{ if eq .Rtn.Type $className }}void*{{ else }}{{ .Rtn.CType }}{{ end }}{{ else }}void{{ end }} Call{{ .Name }}({{ .Name }} fn{{ range .Params }}, {{ .CType }}{{ end }});
+typedef {{ if .Rtn }}{{ if eq .Rtn.Type $className }}void*{{ else }}{{ CParamType .Rtn }}{{ end }}{{ else }}void{{ end }} (*{{ .Name }})({{ range $idx, $ele := .Params }}{{ if ne $idx 0}}, {{ end }}{{ CParamType $ele }}{{ end }});
+{{ if .Rtn }}{{ if eq .Rtn.Type $className }}void*{{ else }}{{ CParamType .Rtn }}{{ end }}{{ else }}void{{ end }} Call{{ .Name }}({{ .Name }} fn{{ range .Params }}, {{ CParamType . }}{{ end }});
 {{ end }}
 
 // helper function call for cgo
 {{- range .ApiClass.Methods }}
-{{ if .Rtn }}{{ .Rtn.CType }}{{ else }}void{{ end }} Call{{ .Name }}({{ .Name }} fn, void *this{{ range .Params }}, {{ .CType }}{{ end }});
+{{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void{{ end }} Call{{ .Name }}({{ .Name }} fn, void *this{{ range .Params }}, {{ if eq .Type $sdk.SpiName }}void *{{ .Name }}{{ else }}{{ CParamType . }}{{ end }}{{ end }});
 {{ end }}
 
 #ifdef __cplusplus

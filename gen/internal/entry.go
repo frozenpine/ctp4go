@@ -78,11 +78,19 @@ func WithApiName(n string, to ...string) sdkOpt {
 		}
 
 		e.apiName = n
-		if len(to) > 0 {
-			e.apiExtName = to[0]
-		} else {
+
+		switch len(to) {
+		case 0:
 			e.apiExtName = e.apiName + "Ext"
+		case 2:
+			e.apiExtName = to[1]
+			fallthrough
+		case 1:
+			e.createCallName = to[0]
+		default:
+			return errors.New("invalid to args")
 		}
+
 		return nil
 	}
 }
@@ -94,23 +102,32 @@ func WithSpiName(n string, to ...string) sdkOpt {
 		}
 
 		e.spiName = n
-		if len(to) > 0 {
-			e.spiExtName = to[0]
-		} else {
+
+		switch len(to) {
+		case 0:
 			e.spiExtName = e.spiName + "Ext"
+		case 1:
+			e.spiExtName = to[0]
+		default:
+			return errors.New("invalid to args")
 		}
 
 		return nil
 	}
 }
 
-func WithVersion(ver string) sdkOpt {
+func WithVersion(ver string, fn ...string) sdkOpt {
 	return func(pc *sdkInfo) error {
 		if ver == "" {
 			return errors.New("invalid version")
 		}
 
 		pc.ver = ver
+
+		if len(fn) > 0 {
+			pc.versionCallName = fn[0]
+		}
+
 		return nil
 	}
 }
@@ -193,8 +210,11 @@ var CTPEntry = entry{
 		hdrFileName: sdkHdrFileName[Trader],
 		apiName:     sdkApiName[Trader],
 		apiExtName:  sdkApiName[Trader] + "Ext",
-		spiName:     sdkSpiName[Trader],
-		spiExtName:  sdkSpiName[Trader] + "Ext",
+		createCallName: strings.Replace(
+			sdkApiName[Trader], "CThost", "Create", 1),
+		versionCallName: "GetApiVersion",
+		spiName:         sdkSpiName[Trader],
+		spiExtName:      sdkSpiName[Trader] + "Ext",
 	},
 	plat:         PlatFuture,
 	definePrefix: DefaultDefinePrefix,
@@ -206,13 +226,15 @@ var CTPEntry = entry{
 }
 
 type sdkInfo struct {
-	name        sdkName
-	ver         string
-	hdrFileName string
-	apiName     string
-	apiExtName  string
-	spiName     string
-	spiExtName  string
+	name            sdkName
+	ver             string
+	hdrFileName     string
+	apiName         string
+	apiExtName      string
+	createCallName  string
+	versionCallName string
+	spiName         string
+	spiExtName      string
 }
 
 func (i sdkInfo) validate() error {
@@ -247,6 +269,20 @@ func (i sdkInfo) validate() error {
 	return nil
 }
 
+func (i sdkInfo) Name() string { return string(i.name) }
+
+func (i sdkInfo) Version() string { return i.ver }
+
+func (i sdkInfo) HdrFileName() string { return i.hdrFileName }
+
+func (i sdkInfo) ApiName() string { return i.apiName }
+
+func (i sdkInfo) ApiExtName() string { return i.apiExtName }
+
+func (i sdkInfo) SpiName() string { return i.spiName }
+
+func (i sdkInfo) SpiExtName() string { return i.spiExtName }
+
 type entry struct {
 	baseDir   string
 	entryPath string
@@ -261,24 +297,24 @@ type entry struct {
 	defineType   map[string]string
 	defineCache  map[string]*MacroGroup
 
-	typeCache map[string]*TypedefDefine
-	enumCache map[string]*EnumDefine
-	dataCache map[string]*StructDefine
-	apiClass  *ClassDefine
-	spiClass  *ClassDefine
+	typeCache   map[string]*TypedefDefine
+	enumCache   map[string]*EnumDefine
+	dataCache   map[string]*StructDefine
+	apiClass    *ClassDefine
+	createCall  *ClsMethod
+	versionCall *ClsMethod
+	spiClass    *ClassDefine
 }
 
 func (e *entry) ApiClass() *ClassDefine { return e.apiClass }
 
 func (e *entry) SpiClass() *ClassDefine { return e.spiClass }
 
-func (e *entry) SdkVersion() string { return e.sdk.ver }
+func (e *entry) CreateCall() *ClsMethod { return e.createCall }
 
-func (e *entry) SdkVerName() string {
-	return strings.ToUpper(strings.ReplaceAll(e.sdk.ver, ".", ""))
-}
+func (e *entry) VersionCall() *ClsMethod { return e.versionCall }
 
-func (e *entry) SdkName() string { return string(e.sdk.name) }
+func (e *entry) Sdk() sdkInfo { return e.sdk }
 
 func (e *entry) EntryFile() string {
 	return e.entryPath

@@ -24,12 +24,12 @@ import (
 )
 
 var (
-	_ thost.MdApi = &ThostFtdcMduserApi{}
+	_ thost.MdApi = &ThostFtdcMdApi{}
 )
 
-func CreateThostFtdcMduserApi(
+func CreateThostFtdcMdApi(
 	libPath, flowPath string, isUdp, isMulti, isProduct bool,
-) (*ThostFtdcMduserApi, error) {
+) (*ThostFtdcMdApi, error) {
 	if libPath == "" || flowPath == "" {
 		return nil, fmt.Errorf(
 			"%w: invalid create args", thost.ErrInvalidArgs,
@@ -124,14 +124,14 @@ func CreateThostFtdcMduserApi(
 		)
 	}
 
-	return &ThostFtdcMduserApi{
+	return &ThostFtdcMdApi{
 		apiPtr:  (*C.CThostFtdcMduserApiExt)(instance),
 		version: apiVer,
 		lib:     lib,
 	}, nil
 }
 
-type ThostFtdcMduserApi struct {
+type ThostFtdcMdApi struct {
 	lib unsafe.Pointer
 
 	version     string
@@ -140,11 +140,11 @@ type ThostFtdcMduserApi struct {
 	releaseOnce sync.Once
 }
 
-func (api *ThostFtdcMduserApi) GetApiVersion() string {
+func (api *ThostFtdcMdApi) GetApiVersion() string {
 	return api.version
 }
 
-func (api *ThostFtdcMduserApi) Release() {
+func (api *ThostFtdcMdApi) Release() {
 	api.releaseOnce.Do(func() {
 		slog.Info("executing thost mduser api Release")
 
@@ -166,7 +166,7 @@ func (api *ThostFtdcMduserApi) Release() {
 	})
 }
 
-func (api *ThostFtdcMduserApi) Init() {
+func (api *ThostFtdcMdApi) Init() {
 	slog.Log(
 		context.Background(), slog.LevelDebug-2,
 		"executing thost mduser api Init",
@@ -183,7 +183,7 @@ func (api *ThostFtdcMduserApi) Init() {
 	)
 }
 
-func (api *ThostFtdcMduserApi) Join() int {
+func (api *ThostFtdcMdApi) Join() int {
 	slog.Log(
 		context.Background(), slog.LevelDebug-2,
 		"executing thost mduser api Join",
@@ -202,7 +202,7 @@ func (api *ThostFtdcMduserApi) Join() int {
 	return int(rtn)
 }
 
-func (api *ThostFtdcMduserApi) GetTradingDay() string {
+func (api *ThostFtdcMdApi) GetTradingDay() string {
 	slog.Log(
 		context.Background(), slog.LevelDebug-2,
 		"executing thost mdser api GetTradingDay",
@@ -221,7 +221,7 @@ func (api *ThostFtdcMduserApi) GetTradingDay() string {
 	return C.GoString(rtn)
 }
 
-func (api *ThostFtdcMduserApi) RegisterFront(pszFrontAddress string) {
+func (api *ThostFtdcMdApi) RegisterFront(pszFrontAddress string) {
 	slog.Log(
 		context.Background(), slog.LevelDebug-2,
 		"executing thost mduser api RegisterFront",
@@ -242,7 +242,7 @@ func (api *ThostFtdcMduserApi) RegisterFront(pszFrontAddress string) {
 	)
 }
 
-func (api *ThostFtdcMduserApi) RegisterNameServer(pszNsAddress string) {
+func (api *ThostFtdcMdApi) RegisterNameServer(pszNsAddress string) {
 	slog.Log(
 		context.Background(), slog.LevelDebug-2,
 		"executing thost mduser api RegisterNameServer",
@@ -263,7 +263,7 @@ func (api *ThostFtdcMduserApi) RegisterNameServer(pszNsAddress string) {
 	)
 }
 
-func (api *ThostFtdcMduserApi) RegisterFensUserInfo(
+func (api *ThostFtdcMdApi) RegisterFensUserInfo(
 	pFensUserInfo *thost.CThostFtdcFensUserInfoField,
 ) {
 	slog.Log(
@@ -283,7 +283,7 @@ func (api *ThostFtdcMduserApi) RegisterFensUserInfo(
 	)
 }
 
-func (api *ThostFtdcMduserApi) RegisterSpi(pSpi thost.MdSpi) {
+func (api *ThostFtdcMdApi) RegisterSpi(pSpi thost.MdSpi) {
 	if pSpi == nil {
 		slog.Error("register spi is nil")
 		return
@@ -321,7 +321,7 @@ func (api *ThostFtdcMduserApi) RegisterSpi(pSpi thost.MdSpi) {
 	)
 }
 
-func (api *ThostFtdcMduserApi) SubscribeMarketData(
+func (api *ThostFtdcMdApi) SubscribeMarketData(
 	ppInstrumentID ...string,
 ) int {
 	if len(ppInstrumentID) < 1 {
@@ -361,7 +361,7 @@ func (api *ThostFtdcMduserApi) SubscribeMarketData(
 	return int(rtn)
 }
 
-func (api *ThostFtdcMduserApi) UnSubscribeMarketData(
+func (api *ThostFtdcMdApi) UnSubscribeMarketData(
 	ppInstrumentID ...string,
 ) int {
 	if len(ppInstrumentID) < 1 {
@@ -401,7 +401,7 @@ func (api *ThostFtdcMduserApi) UnSubscribeMarketData(
 	return int(rtn)
 }
 
-func (api *ThostFtdcMduserApi) SubscribeForQuoteRsp(
+func (api *ThostFtdcMdApi) SubscribeForQuoteRsp(
 	ppInstrumentID ...string,
 ) int {
 	if len(ppInstrumentID) < 1 {
@@ -441,7 +441,7 @@ func (api *ThostFtdcMduserApi) SubscribeForQuoteRsp(
 	return int(rtn)
 }
 
-func (api *ThostFtdcMduserApi) UnSubscribeForQuoteRsp(
+func (api *ThostFtdcMdApi) UnSubscribeForQuoteRsp(
 	ppInstrumentID ...string,
 ) int {
 	if len(ppInstrumentID) < 1 {
@@ -481,7 +481,7 @@ func (api *ThostFtdcMduserApi) UnSubscribeForQuoteRsp(
 	return int(rtn)
 }
 
-func (api *ThostFtdcMduserApi) ReqUserLogin(
+func (api *ThostFtdcMdApi) ReqUserLogin(
 	pReqUserLoginField *thost.CThostFtdcReqUserLoginField, nRequestID int,
 ) int {
 	slog.Log(context.Background(), slog.LevelDebug-2,
@@ -504,7 +504,7 @@ func (api *ThostFtdcMduserApi) ReqUserLogin(
 	return int(rtn)
 }
 
-func (api *ThostFtdcMduserApi) ReqUserLogout(
+func (api *ThostFtdcMdApi) ReqUserLogout(
 	pUserLogout *thost.CThostFtdcUserLogoutField, nRequestID int,
 ) int {
 	slog.Log(context.Background(), slog.LevelDebug-2,
@@ -526,7 +526,7 @@ func (api *ThostFtdcMduserApi) ReqUserLogout(
 	return int(rtn)
 }
 
-func (api *ThostFtdcMduserApi) ReqQryMulticastInstrument(
+func (api *ThostFtdcMdApi) ReqQryMulticastInstrument(
 	pQryMulticastInstrument *thost.CThostFtdcQryMulticastInstrumentField,
 	nRequestID int,
 ) int {

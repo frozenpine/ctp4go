@@ -1,15 +1,16 @@
+{{- $sdk := .Sdk }}
+{{ $className := .ApiClass.Name -}}
 #include "api_helper.h"
-{{ $className := .ApiClass.Name }}
 {{ range .ApiClass.Statics }}
-{{ if .Rtn }}{{ if eq .Rtn.Type $className }}void*{{ else }}{{ .Rtn.CType }}{{ end }}{{ else }}void{{ end }} Call{{ .Name }}({{ .Name }} fn{{ range .Params }}, {{ .CType }}{{ end }})
+{{ if .Rtn }}{{ if eq .Rtn.Type $className }}void*{{ else }}{{ CParamType .Rtn }}{{ end }}{{ else }}void{{ end }} Call{{ .Name }}({{ .Name }} fn{{ range .Params }}, {{ if eq .Type $sdk.SpiName }}void *{{ .Name }}{{ else }}{{ CParamType . }}{{ end }}{{ end }})
 {
-    return fn({{ range $idx, $ele := .Params }}{{ if ne $idx 0 }}, {{ end }}{{ $ele.Name }}{{ end }});
+    return fn({{ range $idx, $ele := .Params }}{{ if ne $idx 0 }}, {{ end }}{{ CParamName $ele }}{{ end }});
 }
 {{ end }}
 
 {{- range .ApiClass.Methods }}
-{{ if .Rtn }}{{ .Rtn.CType }}{{ else }}void{{ end }} Call{{ .Name }}({{ .Name }} fn, void *this{{ range .Params }}, {{ .CType }}{{ end }})
+{{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void{{ end }} Call{{ .Name }}({{ .Name }} fn, void *this{{ range .Params }}, {{ if eq .Type $sdk.SpiName }}void *{{ .Name }}{{ else }}{{ CParamType . }}{{ end }}{{ end }})
 {
-    return fn(this{{ range .Params }}, {{ .Name }}{{ end }});
+    return fn(this{{ range .Params }}, {{ CParamName . }}{{ end }});
 }
 {{ end }}

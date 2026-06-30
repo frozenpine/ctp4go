@@ -1,0 +1,13 @@
+#include "spi_helper.h"
+{{ $className := .SpiClass.Name }}
+
+{{- range .SpiClass.Methods }}
+extern {{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void{{ end }} Cgo{{ .Name }}(void *this{{ range .Params }}, {{ CParamType . }}{{ end }});
+{{ end }}
+
+{{- range .SpiClass.Methods }}
+{{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void{{ end }} C{{ .Name }}(void *this{{ range .Params }}, {{ CParamType . }}{{ end }})
+{
+    return Cgo{{ .Name }}(this{{ range .Params }}, {{ CParamName . }}{{ end }});
+}
+{{ end }}
