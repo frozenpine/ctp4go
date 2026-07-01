@@ -36,10 +36,13 @@ var (
 			"api_helper.h.gotmpl",
 			"api_helper.c.gotmpl",
 			"api_impl.go.gotmpl",
+			"consts_linux.go.gotmpl",
+			"consts_windows.go.gotmpl",
 		},
 		"spi": {
 			"spi_helper.h.gotmpl",
 			"spi_helper.c.gotmpl",
+			"spi_impl.go.gotmpl",
 		},
 	}
 

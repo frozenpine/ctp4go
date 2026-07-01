@@ -299,9 +299,11 @@ func (api *ThostFtdcMdApi) RegisterSpi(pSpi thost.MdSpi) {
 		slog.Any("pinned", api.spiPtr),
 	)
 
-	cSpi := C.malloc(C.sizeof_CThostFtdcMduserSpiExt)
-	(*C.CThostFtdcMduserSpiExt)(cSpi).vtable = spiCVtablePtr
-	(*C.CThostFtdcMduserSpiExt)(cSpi).spi = unsafe.Pointer(api.spiPtr)
+	cSpi := (*C.CThostFtdcMduserSpiExt)(C.malloc(
+		C.sizeof_CThostFtdcMduserSpiExt,
+	))
+	cSpi.vtable = spiCVtablePtr
+	cSpi.spi = unsafe.Pointer(api.spiPtr)
 
 	slog.Info(
 		"registering thost mduser spi",
@@ -311,7 +313,7 @@ func (api *ThostFtdcMdApi) RegisterSpi(pSpi thost.MdSpi) {
 
 	C.CallRegisterSpi(
 		api.apiPtr.vtable.CThostFtdcMduserApiVTable_RegisterSpi,
-		unsafe.Pointer(api.apiPtr), cSpi,
+		unsafe.Pointer(api.apiPtr), unsafe.Pointer(cSpi),
 	)
 
 	slog.Info(

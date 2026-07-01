@@ -21,6 +21,8 @@ func CCaller(p *parser.Param) string {
 		buff.WriteString("bool")
 	case "Char_S":
 		buff.WriteString("char")
+	case "Enum":
+		buff.WriteString("int")
 	default:
 		if p.IsStruct {
 			buff.WriteString("struct ")

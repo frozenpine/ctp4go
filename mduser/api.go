@@ -95,7 +95,8 @@ func (md *MduserApi) createApi() error {
 	}
 
 	api, err := maker.MduserMaker(
-		md.cfg.libPath, md.cfg.flowPath,
+		md.cfg.libPath,
+		thost.Param{Key: thost.ParamFlowPath, Value: md.cfg.flowPath},
 		thost.Param{Key: thost.ParamUseUDP, Value: md.cfg.isUdp},
 		thost.Param{Key: thost.ParamUseMulticast, Value: md.cfg.isMulti},
 		thost.Param{Key: thost.ParamRunMode, Value: !md.cfg.isTest},

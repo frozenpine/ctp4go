@@ -7,9 +7,10 @@ import (
 )
 
 func thostCreator(
-	libPath, flowPath string, params ...thost.Param,
+	libPath string, params ...thost.Param,
 ) func() (thost.MdApi, error) {
 	var (
+		flowPath                  = "./flow/"
 		isUdp, isMulti, isProduct bool
 
 		ok bool
@@ -18,6 +19,10 @@ func thostCreator(
 NEXT:
 	for _, v := range params {
 		switch v.Key {
+		case thost.ParamFlowPath:
+			if flowPath, ok = v.Value.(string); ok {
+				continue NEXT
+			}
 		case thost.ParamRunMode:
 			if isProduct, ok = v.Value.(bool); ok {
 				continue NEXT

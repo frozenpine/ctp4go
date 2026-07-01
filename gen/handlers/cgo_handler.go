@@ -14,6 +14,10 @@ func CgoCaller(p *parser.Param) string {
 
 	buff := bytes.NewBufferString("")
 
+	if p.Name != "" {
+		fmt.Fprintf(buff, "%s ", p.Name)
+	}
+
 	switch p.Type {
 	case "Int":
 		buff.WriteString("C.int")
@@ -29,6 +33,12 @@ func CgoCaller(p *parser.Param) string {
 		}
 
 		buff.WriteString("C.char")
+	default:
+		if p.IsPointer {
+			buff.WriteString("*")
+		}
+
+		fmt.Fprintf(buff, "C.struct_%s", p.Type)
 	}
 
 	return buff.String()
@@ -42,7 +52,7 @@ func CgoCallee(p *parser.Param) string {
 	buff := bytes.NewBufferString("")
 
 	switch p.Type {
-	case "Int":
+	case "Int", "Enum":
 		fmt.Fprintf(buff, "C.int(%s)", GoParamName(p))
 	case "Bool":
 		fmt.Fprintf(buff, "C.bool(%s)", GoParamName(p))

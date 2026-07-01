@@ -19,9 +19,6 @@ import (
 )
 
 var (
-    // 确保Api封装完整实现了thost中的接口签名
-    _ thost.{{ $className | TrimPrefix "CThostFtdc" }} = &{{ $className | TrimPrefix "C" }}{}
-
 	// 全局回调函数虚表
 	spiCVtablePtr *C.{{ $className }}VTable
 )
@@ -32,7 +29,7 @@ func init() {
 		C.sizeof_{{ $className }}VTable))
 
 	{{ range .SpiClass.Methods }}
-	spiCVtablePtr.{{ $className }}_{{ .Name }} = (C.{{ .Name }})(
+	spiCVtablePtr.{{ $className }}VTable_{{ .Name }} = (C.{{ .Name }})(
 		unsafe.Pointer(C.C{{ .Name }}))
 	{{ end }}
 }
@@ -46,7 +43,7 @@ type {{ $className | TrimPrefix "C" }} struct {
 //export Cgo{{ .Name }}
 func Cgo{{ .Name }}(
 	this unsafe.Pointer, 
-	{{ range .Params -}}
+	{{- range .Params }}
 	{{ CgoCaller . }},
 	{{- end }}
 ) {
@@ -58,6 +55,9 @@ func Cgo{{ .Name }}(
 
 	(*{{ $className | TrimPrefix "C" }})(
 		(*C.{{ $sdk.SpiExtName }})(this).spi,
-	).callback.{{ .Name }}({{ range .Params }}{{ CgoCallee . }},{{ end }})
+	).callback.{{ .Name }}(
+		{{- range .Params }}
+		{{ GoCallee . }},{{ end }}
+	)
 }
 {{ end }}

@@ -16,6 +16,9 @@ const (
 type paramKey string
 
 var (
+	// ParamFlowPath thost flow dir
+	ParamFlowPath paramKey = "flowPath"
+
 	// ParamRunMode true for Product, false for Test
 	ParamRunMode paramKey = "runMode"
 
@@ -34,7 +37,7 @@ type Param struct {
 }
 
 type TraderMaker func(
-	libPath, flowPath string, params ...Param,
+	libPath string, params ...Param,
 ) func() (TraderApi, error)
 
 type traderMaker struct {
@@ -47,7 +50,7 @@ func (u *traderMaker) GetVersionTag() string {
 }
 
 type MduserMaker func(
-	libPath, flowPath string, params ...Param,
+	libPath string, params ...Param,
 ) func() (MdApi, error)
 
 type mduserMaker struct {

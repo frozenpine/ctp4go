@@ -41,7 +41,9 @@ func GoCallee(p *parser.Param) string {
 			buff.WriteString("C.GoString(rtn)")
 		}
 	default:
-
+		if p.IsPointer {
+			fmt.Fprintf(buff, "(*thost.%s)(unsafe.Pointer(%s))", p.Type, p.Name)
+		}
 	}
 
 	return buff.String()
@@ -76,6 +78,8 @@ func GoCaller(p *parser.Param) string {
 		} else {
 			buff.WriteString("byte")
 		}
+	case "Enum":
+		buff.WriteString("int")
 	default:
 		if p.IsPointer {
 			buff.WriteString("*")

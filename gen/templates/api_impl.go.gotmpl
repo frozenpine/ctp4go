@@ -117,7 +117,7 @@ func Create{{ $className | TrimPrefix "C" }}(
 
     if instance == nil {
 		return nil, fmt.Errorf(
-			"%w: thost {{ $sdk.Name }} api[%s] test mode[%t] create failed",
+			"%w: thost {{ $sdk.Name }} api[%s] create failed",
 			thost.ErrApiCreateFailed, libPath,
 		)
 	}
@@ -134,7 +134,7 @@ type {{ $className | TrimPrefix "C" }} struct {
 
     version     string
     apiPtr      *C.{{ $sdk.ApiExtName }}
-    // spiPtr      *{{ $sdk.SpiName | TrimPrefix "C" }}
+    spiPtr      *{{ $sdk.SpiName | TrimPrefix "C" }}
 }
 
 func (api *{{ $className | TrimPrefix "C" }}) GetApiVersion() string {
@@ -146,10 +146,10 @@ func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ 
 	slog.Info("executing thost {{ $sdk.Name }} api {{ .Name }}")
 
 	{{ if Contains .Name "Release" -}}defer func() {
-		// if api.spiPtr != nil {
-		// 	api.spiPtr.Pinner.Unpin()
-		// 	api.spiPtr = nil
-		// }
+		if api.spiPtr != nil {
+			api.spiPtr.Pinner.Unpin()
+			api.spiPtr = nil
+		}
 
 		C.dlclose(api.lib)
 	}(){{- end }}
@@ -167,12 +167,29 @@ func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ 
 	defer C.free(unsafe.Pointer({{ .Name }}))
 			{{ end }}
 		{{ end }}
+		{{ if eq .Type $sdk.SpiName }}
+	api.spiPtr = new({{ $sdk.SpiName | TrimPrefix "C" }})
+	api.spiPtr.callback = {{ GoParamName . }}
+
+	api.spiPtr.Pinner.Pin(unsafe.Pointer(api.spiPtr))
+	slog.Info(
+		"thost $sdk.Name spi created & pinned",
+		slog.Any("spi", {{ GoParamName . }}),
+		slog.Any("pinned", api.spiPtr),
+	)
+
+	{{ .Name }} := (*C.{{ $sdk.SpiExtName }})(C.malloc(
+		C.sizeof_{{ $sdk.SpiExtName }},
+	))
+	{{ .Name }}.vtable = spiCVtablePtr
+	{{ .Name }}.spi = unsafe.Pointer(api.spiPtr)
+		{{ end }}
 	{{ end }}
 
 	{{ if .Rtn }} rtn := {{ end }}C.Call{{ .Name }}(
 		api.apiPtr.vtable.{{ $className }}VTable_{{ .Name }},
 		unsafe.Pointer(api.apiPtr),
-		{{ range .Params }}{{ CgoCallee . }},{{ end }}
+		{{ range .Params }}{{ if eq .Type $sdk.SpiName }}unsafe.Pointer({{ .Name }}){{ else }}{{ CgoCallee . }}{{ end }},{{ end }}
 	)
 
 	slog.Info("thost {{ $sdk.Name }} api {{ .Name }} executed")
