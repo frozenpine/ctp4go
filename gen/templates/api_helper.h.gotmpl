@@ -1,8 +1,8 @@
 {{- $sdk := .Sdk -}}
 {{- $className := .ApiClass.Name -}}
 #pragma once
-#ifndef {{ $sdk.Name | ToUpper }}_API_HELPER_H
-#define {{ $sdk.Name | ToUpper }}_API_HELPER_H
+#ifndef {{ $sdk.Name | ToUpper }}_{{ $sdk.Version | ReplaceAll "." "" | ToUpper }}_API_HELPER_H
+#define {{ $sdk.Name | ToUpper }}_{{ $sdk.Version | ReplaceAll "." "" | ToUpper }}_API_HELPER_H
 
 #ifdef __cplusplus
 extern "C"

@@ -60,3 +60,45 @@
   - *其他版本* 待更新实现
 
 - **state** 状态管理模块
+
+## 代码生成
+
+1. 在SDK模块目录下创建需要生成的版本封装文件夹
+   
+   > 以SDK版本号命名，版本号中的 `.` 替换为下划线 `_`：v6.5.1 ---> v6_5_1
+
+2. 版本文件夹内新建 ***generate.go*** 代码生成文件，新增内容如下：
+   
+   ```go
+   package v6_5_1
+   
+   // 生成 mduser api 的 c 桥接代码及 api 封装实现
+   //go:generate go run ../../gen/main.go -dep ../../dependencies -plat future -sdk name=mduser,ver=v6.5.1 -output api
+   
+   // 生成 mduser spi 的 c 桥接代码及 spi 封装实现
+   //go:generate go run ../../gen/main.go -dep ../../dependencies -plat future -sdk name=mduser,ver=v6.5.1 -output spi
+   
+   // 格式化全部生成的 go 代码
+   //go:generate gofmt -w .
+   
+   // 编译检查生成代码的正确性
+   //go:generate go build .
+   ```
+
+3. 在版本封装目录下执行代码生成命令
+   
+   ```bash
+   # 执行当前目录下全部包含 go:generate 注释的内容以完成代码生成
+   go generate ./...
+   
+   # 生成过程将输出如下日志信息
+   # entry file parsed: ..\..\dependencies\future\v6.5.1\ThostFtdcMdApi.h
+   # converting api api_helper.h.gotmpl
+   # converting api api_helper.c.gotmpl
+   # converting api api_impl.go.gotmpl
+   # entry file parsed: ..\..\dependencies\future\v6.5.1\ThostFtdcMdApi.h
+   # converting spi spi_helper.h.gotmpl
+   # converting spi spi_helper.c.gotmpl
+   ```
+
+4. 

@@ -7,7 +7,38 @@ import (
 	"github.com/frozenpine/ctp4go/gen/parser"
 )
 
+func CgoParamType(p *parser.Param) string {
+	if p == nil {
+		return ""
+	}
+
+	buff := bytes.NewBufferString("")
+
+	switch p.Type {
+	case "Int":
+		buff.WriteString("C.int")
+	case "Bool":
+		buff.WriteString("C.bool")
+	case "Char_S":
+		if p.IsPointer {
+			buff.WriteString("*")
+		}
+
+		if p.IsArray {
+			buff.WriteString("*")
+		}
+
+		buff.WriteString("C.char")
+	}
+
+	return buff.String()
+}
+
 func CgoParamName(p *parser.Param) string {
+	if p == nil {
+		return ""
+	}
+
 	buff := bytes.NewBufferString("")
 
 	switch p.Type {

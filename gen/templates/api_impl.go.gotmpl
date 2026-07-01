@@ -1,6 +1,6 @@
 {{- $sdk := .Sdk -}}
 {{- $className := .ApiClass.Name -}}
-package {{ ReplaceAll $sdk.Version "." "_"}}
+package {{ $sdk.Version | ReplaceAll "." "_"}}
 
 /*
 #cgo CFLAGS: -I. -I${SRCDIR} -I${SRCDIR}/../../dependencies/{{ .Platform }}/{{ $sdk.Version }}/
@@ -23,12 +23,12 @@ import (
 
 var (
     // 确保Api封装完整实现了thost中的接口签名
-    _ thost.{{ ReplaceAll $className "CThostFtdc" "" }} = &{{ TrimPrefix $className "C" }}{}
+    _ thost.{{ $className | TrimPrefix "CThostFtdc" }} = &{{ $className | TrimPrefix "C" }}{}
 )
 
-func Create{{ TrimPrefix $className "C" }}(
+func Create{{ $className | TrimPrefix "C" }}(
     libPath string, {{ range .CreateCall.Params }}{{ GoParamType . }}, {{end}}
-) (*{{ TrimPrefix $className "C" }}, error) {
+) (*{{ $className | TrimPrefix "C" }}, error) {
     if libPath == "" {
 		return nil, fmt.Errorf(
 			"%w: invalid create args", thost.ErrInvalidArgs,
@@ -122,27 +122,27 @@ func Create{{ TrimPrefix $className "C" }}(
 		)
 	}
 
-    return &{{ TrimPrefix $className "C" }}{
+    return &{{ $className | TrimPrefix "C" }}{
         apiPtr:  (*C.{{ $sdk.ApiExtName }})(instance),
         version: apiVer,
         lib:     lib,
     }, nil
 }
 
-type {{ TrimPrefix $className "C" }} struct {
+type {{ $className | TrimPrefix "C" }} struct {
     lib unsafe.Pointer
 
     version     string
     apiPtr      *C.{{ $sdk.ApiExtName }}
-    // spiPtr      *{{ TrimPrefix $sdk.SpiName "C" }}
+    // spiPtr      *{{ $sdk.SpiName | TrimPrefix "C" }}
 }
 
-func (api *{{ TrimPrefix $className "C" }}) GetApiVersion() string {
+func (api *{{ $className | TrimPrefix "C" }}) GetApiVersion() string {
     return api.version
 }
 
 {{ range .ApiClass.Methods }}
-func (api *{{ TrimPrefix $className "C" }}) {{ .Name }}({{ range .Params }}{{ GoParamType . }},{{ end }}) {{ GoParamType .Rtn }} {
+func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ GoParamType . }},{{ end }}) {{ GoParamType .Rtn }} {
 	slog.Info("executing thost {{ $sdk.Name }} api {{ .Name }}")
 
 	{{ if Contains .Name "Release" -}}defer func() {

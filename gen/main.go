@@ -44,19 +44,34 @@ var (
 	}
 
 	tplFuncs = template.FuncMap{
-		"ToUpper":      strings.ToUpper,
-		"ToLower":      strings.ToLower,
-		"Title":        strings.ToTitle,
-		"Replace":      strings.Replace,
-		"ReplaceAll":   strings.ReplaceAll,
-		"TrimSpace":    strings.TrimSpace,
-		"TrimPrefix":   strings.TrimPrefix,
-		"TrimSuffix":   strings.TrimSuffix,
-		"Contains":     strings.Contains,
+		"ToUpper": strings.ToUpper,
+		"ToLower": strings.ToLower,
+		"Title":   strings.ToTitle,
+		"Replace": func(old, new string, n int, in string) string {
+			return strings.Replace(in, old, new, n)
+		},
+		"ReplaceAll": func(old, new, in string) string {
+			return strings.ReplaceAll(in, old, new)
+		},
+		"TrimSpace": strings.TrimSpace,
+		"TrimPrefix": func(prefix, in string) string {
+			return strings.TrimPrefix(in, prefix)
+		},
+		"TrimSuffix": func(suffix, in string) string {
+			return strings.TrimSuffix(in, suffix)
+		},
+		"Contains": func(substr, in string) bool {
+			return strings.Contains(in, substr)
+		},
+		"Index": func(substr, in string) int {
+			return strings.Index(in, substr)
+		},
+
 		"CParamType":   handlers.CParamType,
 		"CParamName":   handlers.CParamName,
 		"GoParamType":  handlers.GoParamType,
 		"GoParamName":  handlers.GoParamName,
+		"CgoParamType": handlers.CgoParamType,
 		"CgoParamName": handlers.CgoParamName,
 	}
 )

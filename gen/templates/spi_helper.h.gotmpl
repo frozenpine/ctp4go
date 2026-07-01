@@ -1,7 +1,7 @@
 {{- $sdk := .Sdk -}}
 #pragma once
-#ifndef {{ $sdk.Name | ToUpper }}_SPI_HELPER_H
-#define {{ $sdk.Name | ToUpper }}_SPI_HELPER_H
+#ifndef {{ $sdk.Name | ToUpper }}_{{ $sdk.Version | ReplaceAll "." "" | ToUpper }}_SPI_HELPER_H
+#define {{ $sdk.Name | ToUpper }}_{{ $sdk.Version | ReplaceAll "." "" | ToUpper }}_SPI_HELPER_H
 
 #ifdef __cplusplus
 extern "C"
@@ -25,7 +25,7 @@ typedef {{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void{{ end }} (*{{ .Name }})
 
 // helper function callback for cgo
 {{- range .SpiClass.Methods }}
-{{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void {{ end }}C{{ .Name }}(void *this{{ range .Params }}, {{ CParamType . }}{{ end }});
+{{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void {{ end }}C{{ .Name }}({{ .Name }} fn, void *this{{ range .Params }}, {{ CParamType . }}{{ end }});
 {{ end }}
 
 // spi callback vtable
