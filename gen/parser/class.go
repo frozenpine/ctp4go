@@ -46,7 +46,8 @@ func (p Param) GoType() string {
 type ClsMethod struct {
 	baseDefine
 
-	MangledName string
+	MangledName    string
+	WinMangledName string
 
 	Params []*Param
 	Rtn    *Param
@@ -200,9 +201,9 @@ func (c *ClassDefine) walkMethods(cursor, parent clang.Cursor) clang.ChildVisitR
 				Name:     methodName,
 				Comments: ParseComment(cursor.ParsedComment()),
 			},
-
-			IsVirtual: cursor.CXXMethod_IsVirtual(),
-			IsStatic:  cursor.CXXMethod_IsStatic(),
+			MangledName: cursor.Mangling(),
+			IsVirtual:   cursor.CXXMethod_IsVirtual(),
+			IsStatic:    cursor.CXXMethod_IsStatic(),
 		}
 
 		method.ParseParam(&cursor)

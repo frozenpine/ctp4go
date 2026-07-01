@@ -22,11 +22,15 @@
   > 
   > 封装目前仅支持 **动态加载模式**
   
-  - **internal** 基于 `go-clang` 的 `cpp` 头文件解析模块
+  - **parser** 基于 `go-clang` 的 `cpp` 头文件解析模块
     
     > 使用 `github.com/go-clang/clang-v15` 版本，需要代码生成环境具备 `llvm` , `clang` 的头文件及对应动态库（ `clang` 15.0.0版本及以上），同时模块采用 `pkg-config` 查找 `clang` 的头文件及链接路径，需具备 `llvm.pc` 配置文件，如不存在对应配置文件，可在 `pkg-config` 的配置路径内生成一个
     > 
     > ```bash
+    > # 安装 llvm clang，其他系统环境请自行查找安装命令
+    > apt update -y
+    > apt install -y llvm clang libclang-dev
+    > 
     > # 生成 pkg-config 配置文件
     > cat <<EOF > llvm.pc
     > Name: LLVM
@@ -40,6 +44,12 @@
     > pkg-config --libs --cflags llvm
     > # -I/usr/lib/llvm-18/include -L/usr/lib/llvm-18/lib
     > ```
+  
+  - **handlers** `clang` 解析后的AST对应的 `c` `go` `cgo` 的参数名及类型名处理
+    
+    > 目前的处理逻辑特化于 CTP 各个接口的参数类型，理论上可以扩展为 `cpp` 支持的所有参数类型
+  
+  - **templates** 基于 `text/template` 模块的代码生成模板文件
 
 - **thost** CTP的接口数据类型/结构体封装，Go API/SPI接口签名，公共回调实现及版本注册入口点
 
@@ -101,4 +111,4 @@
    # converting spi spi_helper.c.gotmpl
    ```
 
-4. 
+4. 目前工程内 `thost` 模块的数据类型及结构体定义基于 `6.7.13` 版本

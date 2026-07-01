@@ -402,6 +402,33 @@ func (e *entry) Parse(base string, options ...parseOpt) error {
 		return errors.New("ast walk breaked")
 	}
 
+	winIdx := clang.NewIndex(0, 0)
+	defer winIdx.Dispose()
+
+	winTu := winIdx.ParseTranslationUnit(
+		e.entryPath, []string{
+			"-x", "c++",
+			"-std=c++11",
+			"-fsyntax-only",
+			"-fparse-all-comments", "-CC",
+			"-fms-extensions",
+			"-fms-compatibility",
+			"-target", "x86_64-pc-windows-msvc",
+		}, nil,
+		clang.TranslationUnit_CXXChainedPCH|
+			clang.TranslationUnit_DetailedPreprocessingRecord|
+			clang.TranslationUnit_SkipFunctionBodies,
+	)
+	if !winTu.IsValid() {
+		return errors.New("parse windows entry file failed")
+	}
+	defer winTu.Dispose()
+
+	winCursor := winTu.TranslationUnitCursor()
+	if !winCursor.Visit(e.findWinStatic) {
+		return errors.New("windows static call ast walk breaked")
+	}
+
 	return nil
 }
 
@@ -441,6 +468,29 @@ func (e *entry) walk(cursor, parent clang.Cursor) clang.ChildVisitResult {
 		if macro, err := e.ParseMacro(&cursor, e.definePrefix); err != nil {
 			fmt.Fprintf(os.Stderr, "%+v: %+v", err, macro)
 			return clang.ChildVisit_Break
+		}
+	}
+
+	return clang.ChildVisit_Continue
+}
+
+func (e *entry) findWinStatic(cursor, parent clang.Cursor) clang.ChildVisitResult {
+	switch cursor.Kind() {
+	case clang.Cursor_ClassDecl:
+		cursor.Visit(e.findWinStatic)
+	case clang.Cursor_CXXMethod:
+		if !cursor.CXXMethod_IsStatic() {
+			return clang.ChildVisit_Continue
+		}
+
+		methodName := cursor.Spelling()
+
+		if e.createCall != nil && methodName == e.createCall.Name {
+			e.createCall.WinMangledName = cursor.Mangling()
+		}
+
+		if e.versionCall != nil && methodName == e.versionCall.Name {
+			e.versionCall.WinMangledName = cursor.Mangling()
 		}
 	}
 
