@@ -27,7 +27,7 @@ var (
 )
 
 func Create{{ $className | TrimPrefix "C" }}(
-    libPath string, {{ range .CreateCall.Params }}{{ GoParamType . }}, {{end}}
+    libPath string, {{ range .CreateCall.Params }}{{ GoCaller . }}, {{end}}
 ) (*{{ $className | TrimPrefix "C" }}, error) {
     if libPath == "" {
 		return nil, fmt.Errorf(
@@ -112,7 +112,7 @@ func Create{{ $className | TrimPrefix "C" }}(
 
     instance := C.Call{{ .CreateCall.Name }}(
 		C.{{ .CreateCall.Name }}(creator), 
-		{{ range .CreateCall.Params }}{{ CgoParamName . }},{{ end }}
+		{{ range .CreateCall.Params }}{{ CgoCallee . }},{{ end }}
 	)
 
     if instance == nil {
@@ -142,7 +142,7 @@ func (api *{{ $className | TrimPrefix "C" }}) GetApiVersion() string {
 }
 
 {{ range .ApiClass.Methods }}
-func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ GoParamType . }},{{ end }}) {{ GoParamType .Rtn }} {
+func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ if eq .Type $sdk.SpiName }}{{ GoParamName . }} thost.{{ $sdk.SpiName | TrimPrefix "CThostFtdc" }}{{ else }}{{ GoCaller . }}{{end}},{{ end }}) {{ GoCaller .Rtn }} {
 	slog.Info("executing thost {{ $sdk.Name }} api {{ .Name }}")
 
 	{{ if Contains .Name "Release" -}}defer func() {
@@ -154,27 +154,29 @@ func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ 
 		C.dlclose(api.lib)
 	}(){{- end }}
 
-	{{ range .Params -}}
+	{{- range .Params }}
 		{{ if and (eq .Type "Char_S") .IsPointer }}
 			{{ if .IsArray }}
-	cnt{{ GoParamName . }} := len({{ GoParamName . }})
-	{{ .Name }} := C.malloc(C.int(cnt{{ GoParamName .}}))
-	defer C.free(unsafe.Pointer({{ .Name }}))
+	{{ .Name }} := make([]*C.char, len({{ GoParamName . }}))
+	for idx, v := range {{ GoParamName . }} {
+		{{ .Name }}[idx] = C.CString(v)
+		defer C.free(unsafe.Pointer({{ .Name }}[idx]))
+	}
 			{{ else }}
 	{{ .Name }} := C.CString({{ GoParamName . }})
 	defer C.free(unsafe.Pointer({{ .Name }}))
 			{{ end }}
 		{{ end }}
-	{{- end }}
+	{{ end }}
 
 	{{ if .Rtn }} rtn := {{ end }}C.Call{{ .Name }}(
 		api.apiPtr.vtable.{{ $className }}VTable_{{ .Name }},
 		unsafe.Pointer(api.apiPtr),
-		{{ range .Params }}{{ CgoParamName . }},{{ end }}
+		{{ range .Params }}{{ CgoCallee . }},{{ end }}
 	)
 
 	slog.Info("thost {{ $sdk.Name }} api {{ .Name }} executed")
 
-	{{ if .Rtn }}return {{ end }}
+	{{ if .Rtn }}return {{ GoCallee .Rtn }}{{ end }}
 }
 {{ end }}

@@ -67,12 +67,13 @@ var (
 			return strings.Index(in, substr)
 		},
 
-		"CParamType":   handlers.CParamType,
-		"CParamName":   handlers.CParamName,
-		"GoParamType":  handlers.GoParamType,
-		"GoParamName":  handlers.GoParamName,
-		"CgoParamType": handlers.CgoParamType,
-		"CgoParamName": handlers.CgoParamName,
+		"CCaller":     handlers.CCaller,
+		"CCallee":     handlers.CCallee,
+		"GoCaller":    handlers.GoCaller,
+		"GoCallee":    handlers.GoCallee,
+		"GoParamName": handlers.GoParamName,
+		"CgoCaller":   handlers.CgoCaller,
+		"CgoCallee":   handlers.CgoCallee,
 	}
 )
 

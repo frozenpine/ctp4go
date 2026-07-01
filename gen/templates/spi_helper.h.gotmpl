@@ -20,12 +20,12 @@ extern "C"
 // converted from {{ .EntryFile }}
 // function call ptr
 {{- range .SpiClass.Methods }}
-typedef {{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void{{ end }} (*{{ .Name }})(void *this{{ range .Params }}, {{ CParamType . }}{{ end }});
+typedef {{ if .Rtn }}{{ CCaller .Rtn }}{{ else }}void{{ end }} (*{{ .Name }})(void *this{{ range .Params }}, {{ CCaller . }}{{ end }});
 {{ end }}
 
 // helper function callback for cgo
 {{- range .SpiClass.Methods }}
-{{ if .Rtn }}{{ CParamType .Rtn }}{{ else }}void {{ end }}C{{ .Name }}({{ .Name }} fn, void *this{{ range .Params }}, {{ CParamType . }}{{ end }});
+{{ if .Rtn }}{{ CCaller .Rtn }}{{ else }}void {{ end }}C{{ .Name }}(void *this{{ range .Params }}, {{ CCaller . }}{{ end }});
 {{ end }}
 
 // spi callback vtable

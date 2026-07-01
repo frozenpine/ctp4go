@@ -7,7 +7,7 @@ import (
 	"github.com/frozenpine/ctp4go/gen/parser"
 )
 
-func CParamType(p *parser.Param) string {
+func CCaller(p *parser.Param) string {
 	buff := bytes.NewBufferString("")
 
 	if p.IsConst {
@@ -32,6 +32,10 @@ func CParamType(p *parser.Param) string {
 		buff.WriteString("*")
 	}
 
+	if p.Name != "" {
+		fmt.Fprintf(buff, " %s", p.Name)
+	}
+
 	if p.IsArray {
 		fmt.Fprintf(buff, "[], int %s", p.ArrSizeName)
 	}
@@ -39,7 +43,7 @@ func CParamType(p *parser.Param) string {
 	return buff.String()
 }
 
-func CParamName(p *parser.Param) string {
+func CCallee(p *parser.Param) string {
 	if !p.IsArray {
 		return p.Name
 	}

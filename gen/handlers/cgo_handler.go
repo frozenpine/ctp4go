@@ -7,7 +7,7 @@ import (
 	"github.com/frozenpine/ctp4go/gen/parser"
 )
 
-func CgoParamType(p *parser.Param) string {
+func CgoCaller(p *parser.Param) string {
 	if p == nil {
 		return ""
 	}
@@ -34,7 +34,7 @@ func CgoParamType(p *parser.Param) string {
 	return buff.String()
 }
 
-func CgoParamName(p *parser.Param) string {
+func CgoCallee(p *parser.Param) string {
 	if p == nil {
 		return ""
 	}
@@ -51,7 +51,7 @@ func CgoParamName(p *parser.Param) string {
 			// 需要在模板中预处理
 			if p.IsArray {
 				fmt.Fprintf(
-					buff, "(**C.char)(%s), C.int(cnt%s)",
+					buff, "(**C.char)(unsafe.Pointer(&%s[0])), C.int(len(%s))",
 					p.Name, GoParamName(p),
 				)
 			} else {

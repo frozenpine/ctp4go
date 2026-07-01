@@ -47,7 +47,7 @@ type {{ $className | TrimPrefix "C" }} struct {
 func Cgo{{ .Name }}(
 	this unsafe.Pointer, 
 	{{ range .Params -}}
-	{{ CgoParamType . }},
+	{{ CgoCaller . }},
 	{{- end }}
 ) {
 	slog.Log(
@@ -58,6 +58,6 @@ func Cgo{{ .Name }}(
 
 	(*{{ $className | TrimPrefix "C" }})(
 		(*C.{{ $sdk.SpiExtName }})(this).spi,
-	).callback.{{ .Name }}({{ range .Params }}{{ CgoParamName . }},{{ end }})
+	).callback.{{ .Name }}({{ range .Params }}{{ CgoCallee . }},{{ end }})
 }
 {{ end }}

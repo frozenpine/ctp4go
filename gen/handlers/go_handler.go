@@ -18,7 +18,36 @@ func GoParamName(p *parser.Param) string {
 	return ""
 }
 
-func GoParamType(p *parser.Param) string {
+func GoCallee(p *parser.Param) string {
+	buff := bytes.NewBufferString("")
+
+	switch p.Type {
+	case "Int":
+		if p.Name != "" {
+			fmt.Fprintf(buff, "int(%s)", p.Name)
+		} else {
+			buff.WriteString("int(rtn)")
+		}
+	case "Bool":
+		if p.Name != "" {
+			fmt.Fprintf(buff, "bool(%s)", p.Name)
+		} else {
+			buff.WriteString("bool(rtn)")
+		}
+	case "Char_S":
+		if p.Name != "" {
+			fmt.Fprintf(buff, "C.GoString(%s)", p.Name)
+		} else {
+			buff.WriteString("C.GoString(rtn)")
+		}
+	default:
+
+	}
+
+	return buff.String()
+}
+
+func GoCaller(p *parser.Param) string {
 	if p == nil {
 		return ""
 	}
