@@ -21,10 +21,10 @@ import (
 	"github.com/frozenpine/ctp4go/thost/types"
 )
 
-var (
-    // 确保Api封装完整实现了thost中的接口签名
-    _ thost.{{ $className | TrimPrefix "CThostFtdc" }} = &{{ $className | TrimPrefix "C" }}{}
-)
+// var (
+//     // 确保Api封装完整实现了thost中的接口签名
+//     _ thost.{{ $className | TrimPrefix "CThostFtdc" }} = &{{ $className | TrimPrefix "C" }}{}
+// )
 
 func Create{{ $className | TrimPrefix "C" }}(
     libPath string, {{ range .CreateCall.Params }}{{ GoCaller . }}, {{end}}

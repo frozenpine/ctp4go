@@ -36,6 +36,7 @@ var (
 			"api_helper.h.gotmpl",
 			"api_helper.c.gotmpl",
 			"api_impl.go.gotmpl",
+			// "api_impl_test.go.gotmpl",
 			"consts_linux.go.gotmpl",
 			"consts_windows.go.gotmpl",
 		},
