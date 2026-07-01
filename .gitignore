@@ -6,3 +6,6 @@
 
 **/*.con
 *.json
+
+mduser/v*
+trader/v*
