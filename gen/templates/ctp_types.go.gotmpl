@@ -2,9 +2,9 @@ package types
 
 import "strconv"
 
-{{ range .Types }}
-    {{- range .Comments.Summary }}
-// .
+{{ range $_, $def := .Types }}
+    {{- range $def.Comments.Summary }}
+// {{ . }}
     {{- end }}
     {{- range .Comments.ParamComment }}
 //   @{{ .Cmd }} {{ .ArgName }} {{ .Description }}
@@ -13,13 +13,24 @@ import "strconv"
         {{- end }}
     {{- end }}
 type {{ .Name }} {{ GoType .Underlying }}
-
-    {{- if .MacroDefine }}
+    {{ if .MacroDefine }}
 //go:generate stringer -type {{ .Name }} -linecomment
 const(
         {{- range .MacroDefine.Defines }}
-    {{ .Name }} {{ $.Name }} = {{ .Token }} // {{ index .Comments.Summary 0 }}
+    {{ .Name }} {{ $def.Name }} = {{ .Token }} // {{ index .Comments.Summary 0 }}
         {{- end }}
 )
+    {{ end }}
+    {{- if eq .Underlying.Name "Double" }}
+func (t {{ .Name }}) String() string {
+    return strconv.FormatFloat(float64(t), 'f', 6, 64)
+}
+    {{ end }}
+    {{- if and (eq .Underlying.Name "Char_S") (gt .Underlying.Size 0) }}
+func (t {{ .Name }}) String() string { return DecodeGBK(t[:]) }
+
+func (t *{{ .Name }}) SetString(v string) int {
+    return SetCString(([]byte)((*t)[:]), v)
+}
     {{ end }}
 {{ end }}

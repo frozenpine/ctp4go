@@ -111,7 +111,11 @@ func GoType(p parser.UnderType) string {
 	case "Bool":
 		buff.WriteString("bool")
 	case "Char_S":
-		buff.WriteString("byte")
+		if p.Size > 0 {
+			buff.WriteString("byte")
+		} else {
+			buff.WriteString("uint8")
+		}
 	case "Double":
 		buff.WriteString("float64")
 	}

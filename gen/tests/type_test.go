@@ -58,7 +58,12 @@ func TestTypes(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	tpl, err := template.New("ctp_types").Funcs(tplFuncs).ParseFiles(typTpl)
+	content, err := os.ReadFile(typTpl)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	tpl, err := template.New("ctp_types").Funcs(tplFuncs).Parse(string(content))
 	if err != nil {
 		t.Fatal(err)
 	}
