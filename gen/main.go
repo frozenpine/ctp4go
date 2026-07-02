@@ -289,6 +289,14 @@ func main() {
 			if stdout {
 				wr = os.Stdout
 			} else {
+				if v.dir != "" {
+					if err := os.MkdirAll(v.dir, os.ModePerm); err != nil {
+						fmt.Fprintf(
+							os.Stderr, "mkdir package dir failed: %+v", err,
+						)
+						os.Exit(2)
+					}
+				}
 				outFilePath := filepath.Join(
 					v.dir, strings.ReplaceAll(
 						strings.TrimSuffix(v.tpl.Name(), ".gotmpl"),
@@ -311,6 +319,7 @@ func main() {
 
 			if err := v.tpl.Execute(wr, &parser.CTPEntry); err != nil {
 				fmt.Fprintf(os.Stderr, "convert failed: %+v", err)
+				os.Exit(3)
 			}
 		}
 	}
