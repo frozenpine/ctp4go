@@ -63,22 +63,23 @@ func _() {
 	_ = x[THOST_FTDC_BFC_QryPosiLimit-86]
 	_ = x[THOST_FTDC_BFC_FBSign-87]
 	_ = x[THOST_FTDC_BFC_FBAccount-88]
+	_ = x[THOST_FTDC_BFC_RcvSMSCode-89]
 }
 
 const (
 	_TThostFtdcBrokerFunctionCodeType_name_0 = "强制用户登出变更用户口令同步经纪公司数据批量同步经纪公司数据报单插入报单操作全部查询"
 	_TThostFtdcBrokerFunctionCodeType_name_1 = "风控指标设置行情预警业务通知查询业务通知模板设置同步动态令牌发送业务通知风险级别标准设置交易终端应急功能"
 	_TThostFtdcBrokerFunctionCodeType_name_2 = "删除未知单预埋报单插入预埋报单操作资金不够仍允许行权指定证券处置行权交收风险席位资金预警"
-	_TThostFtdcBrokerFunctionCodeType_name_3 = "备兑不足预警行权试算持仓限额预警持仓限额查询银期签到签退银期签约解约"
-	_TThostFtdcBrokerFunctionCodeType_name_4 = "系统功能：登入/登出/修改密码等基本查询：查询基础数据，如合约，交易所等常量交易查询：如查成交，委托交易功能：报单，撤单银期转账风险监控查询/管理：查询会话，踢人等风控通知控制风控通知发送察看经纪公司资金权限资金查询报单查询成交查询持仓查询行情查询用户事件查询风险通知查询出入金查询投资者信息查询交易编码查询强平压力测试权益反算净持仓保证金指标风险预算数据导出"
+	_TThostFtdcBrokerFunctionCodeType_name_3 = "备兑不足预警行权试算持仓限额预警持仓限额查询银期签到签退银期签约解约接收短信验证码"
+	_TThostFtdcBrokerFunctionCodeType_name_4 = "系统功能：登入登出修改密码等基本查询：查询基础数据，如合约，交易所等常量交易查询：如查成交，委托交易功能：报单，撤单银期转账风险监控查询管理：查询会话，踢人等风控通知控制风控通知发送察看经纪公司资金权限资金查询报单查询成交查询持仓查询行情查询用户事件查询风险通知查询出入金查询投资者信息查询交易编码查询强平压力测试权益反算净持仓保证金指标风险预算数据导出"
 )
 
 var (
 	_TThostFtdcBrokerFunctionCodeType_index_0 = [...]uint8{0, 18, 36, 60, 90, 102, 114, 126}
 	_TThostFtdcBrokerFunctionCodeType_index_1 = [...]uint8{0, 18, 30, 48, 72, 90, 108, 132, 156}
 	_TThostFtdcBrokerFunctionCodeType_index_2 = [...]uint8{0, 15, 33, 51, 78, 84, 96, 114, 132}
-	_TThostFtdcBrokerFunctionCodeType_index_3 = [...]uint8{0, 18, 30, 48, 66, 84, 102}
-	_TThostFtdcBrokerFunctionCodeType_index_4 = [...]uint16{0, 44, 110, 146, 176, 188, 200, 240, 258, 276, 306, 318, 330, 342, 354, 366, 384, 402, 417, 438, 456, 462, 474, 486, 510, 522, 534}
+	_TThostFtdcBrokerFunctionCodeType_index_3 = [...]uint8{0, 18, 30, 48, 66, 84, 102, 123}
+	_TThostFtdcBrokerFunctionCodeType_index_4 = [...]uint16{0, 42, 108, 144, 174, 186, 198, 237, 255, 273, 303, 315, 327, 339, 351, 363, 381, 399, 414, 435, 453, 459, 471, 483, 507, 519, 531}
 )
 
 func (i TThostFtdcBrokerFunctionCodeType) String() string {
@@ -92,7 +93,7 @@ func (i TThostFtdcBrokerFunctionCodeType) String() string {
 	case 74 <= i && i <= 81:
 		i -= 74
 		return _TThostFtdcBrokerFunctionCodeType_name_2[_TThostFtdcBrokerFunctionCodeType_index_2[i]:_TThostFtdcBrokerFunctionCodeType_index_2[i+1]]
-	case 83 <= i && i <= 88:
+	case 83 <= i && i <= 89:
 		i -= 83
 		return _TThostFtdcBrokerFunctionCodeType_name_3[_TThostFtdcBrokerFunctionCodeType_index_3[i]:_TThostFtdcBrokerFunctionCodeType_index_3[i+1]]
 	case 97 <= i && i <= 122:

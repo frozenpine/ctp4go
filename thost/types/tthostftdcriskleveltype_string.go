@@ -12,6 +12,10 @@ func _() {
 	_ = x[THOST_FTDC_FAS_Normal-50]
 	_ = x[THOST_FTDC_FAS_Focus-51]
 	_ = x[THOST_FTDC_FAS_Risk-52]
+	_ = x[THOST_FTDC_FAS_ByTrade-49]
+	_ = x[THOST_FTDC_FAS_ByDeliv-50]
+	_ = x[THOST_FTDC_FAS_None-51]
+	_ = x[THOST_FTDC_FAS_FixFee-52]
 }
 
 const _TThostFtdcRiskLevelType_name = "低风险客户普通客户关注客户风险客户"

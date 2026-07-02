@@ -10,16 +10,31 @@ func _() {
 	var x [1]struct{}
 	_ = x[THOST_FTDC_BT_Trade-48]
 	_ = x[THOST_FTDC_BT_TradeSettle-49]
+	_ = x[THOST_FTDC_BT_Request-49]
+	_ = x[THOST_FTDC_BT_Response-50]
+	_ = x[THOST_FTDC_BT_Notice-51]
+	_ = x[THOST_FTDC_BT_Profit-48]
+	_ = x[THOST_FTDC_BT_Loss-49]
+	_ = x[THOST_FTDC_BT_Other-90]
 }
 
-const _TThostFtdcBrokerTypeType_name = "交易会员交易结算会员"
+const (
+	_TThostFtdcBrokerTypeType_name_0 = "交易会员交易结算会员应答通知"
+	_TThostFtdcBrokerTypeType_name_1 = "其他"
+)
 
-var _TThostFtdcBrokerTypeType_index = [...]uint8{0, 12, 30}
+var (
+	_TThostFtdcBrokerTypeType_index_0 = [...]uint8{0, 12, 30, 36, 42}
+)
 
 func (i TThostFtdcBrokerTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcBrokerTypeType(len(_TThostFtdcBrokerTypeType_index)-1) {
-		return "TThostFtdcBrokerTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	switch {
+	case 48 <= i && i <= 51:
+		i -= 48
+		return _TThostFtdcBrokerTypeType_name_0[_TThostFtdcBrokerTypeType_index_0[i]:_TThostFtdcBrokerTypeType_index_0[i+1]]
+	case i == 90:
+		return _TThostFtdcBrokerTypeType_name_1
+	default:
+		return "TThostFtdcBrokerTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBrokerTypeType_name[_TThostFtdcBrokerTypeType_index[i]:_TThostFtdcBrokerTypeType_index[i+1]]
 }

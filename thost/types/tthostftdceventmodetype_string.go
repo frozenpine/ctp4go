@@ -15,6 +15,9 @@ func _() {
 	_ = x[THOST_FTDC_EvM_COPY-53]
 	_ = x[THOST_FTDC_EvM_CANCEL-54]
 	_ = x[THOST_FTDC_EvM_Reverse-55]
+	_ = x[THOST_FTDC_EvM_InvestorGroupFlow-49]
+	_ = x[THOST_FTDC_EvM_InvestorRate-50]
+	_ = x[THOST_FTDC_EvM_InvestorCommRateModel-51]
 }
 
 const _TThostFtdcEventModeType_name = "增加修改删除复核复制注销冲销"

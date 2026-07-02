@@ -13,9 +13,9 @@ func _() {
 	_ = x[THOST_FTDC_FIOTEN_SwapCurrency-51]
 }
 
-const _TThostFtdcFundIOTypeEnType_name = "Deposit/WithdrawalBank-Futures TransferBank-Futures FX Exchange"
+const _TThostFtdcFundIOTypeEnType_name = "DepositWithdrawalBank-Futures TransferBank-Futures FX Exchange"
 
-var _TThostFtdcFundIOTypeEnType_index = [...]uint8{0, 18, 39, 63}
+var _TThostFtdcFundIOTypeEnType_index = [...]uint8{0, 17, 38, 62}
 
 func (i TThostFtdcFundIOTypeEnType) String() string {
 	i -= 49

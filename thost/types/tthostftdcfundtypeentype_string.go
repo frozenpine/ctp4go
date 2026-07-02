@@ -14,9 +14,9 @@ func _() {
 	_ = x[THOST_FTDC_FTEN_InnerTransfer-52]
 }
 
-const _TThostFtdcFundTypeEnType_name = "Bank DepositPayment/FeeBrokerage AdjInternal Transfer"
+const _TThostFtdcFundTypeEnType_name = "Bank DepositPaymentFeeBrokerage AdjInternal Transfer"
 
-var _TThostFtdcFundTypeEnType_index = [...]uint8{0, 12, 23, 36, 53}
+var _TThostFtdcFundTypeEnType_index = [...]uint8{0, 12, 22, 35, 52}
 
 func (i TThostFtdcFundTypeEnType) String() string {
 	i -= 49

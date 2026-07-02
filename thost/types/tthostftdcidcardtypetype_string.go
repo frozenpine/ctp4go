@@ -37,14 +37,14 @@ func _() {
 
 const (
 	_TThostFtdcIdCardTypeType_name_0 = "组织机构代码中国公民身份证军官证警官证士兵证户口簿护照台胞证回乡证营业执照号"
-	_TThostFtdcIdCardTypeType_name_1 = "税务登记号/当地纳税ID港澳居民来往内地通行证台湾居民来往大陆通行证驾照"
+	_TThostFtdcIdCardTypeType_name_1 = "税务登记号当地纳税ID港澳居民来往内地通行证台湾居民来往大陆通行证驾照"
 	_TThostFtdcIdCardTypeType_name_2 = "当地社保ID当地身份证商业登记证港澳永久性居民身份证人行开户许可证外国人永久居留证资管产品备案函港澳台居民居住证统一社会信用代码机构成立证明文件"
 	_TThostFtdcIdCardTypeType_name_3 = "其他证件"
 )
 
 var (
 	_TThostFtdcIdCardTypeType_index_0 = [...]uint8{0, 18, 39, 48, 57, 66, 75, 81, 90, 99, 114}
-	_TThostFtdcIdCardTypeType_index_1 = [...]uint8{0, 30, 63, 96, 102}
+	_TThostFtdcIdCardTypeType_index_1 = [...]uint8{0, 29, 62, 95, 101}
 	_TThostFtdcIdCardTypeType_index_2 = [...]uint8{0, 14, 29, 44, 74, 95, 119, 140, 164, 188, 212}
 )
 

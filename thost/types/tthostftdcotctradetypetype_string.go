@@ -10,11 +10,13 @@ func _() {
 	var x [1]struct{}
 	_ = x[THOST_FTDC_OTC_TRDT_Block-48]
 	_ = x[THOST_FTDC_OTC_TRDT_EFP-49]
+	_ = x[THOST_FTDC_OTC_MT_DV01-49]
+	_ = x[THOST_FTDC_OTC_MT_ParValue-50]
 }
 
-const _TThostFtdcOTCTradeTypeType_name = "大宗交易期转现"
+const _TThostFtdcOTCTradeTypeType_name = "大宗交易期转现面值"
 
-var _TThostFtdcOTCTradeTypeType_index = [...]uint8{0, 12, 21}
+var _TThostFtdcOTCTradeTypeType_index = [...]uint8{0, 12, 21, 27}
 
 func (i TThostFtdcOTCTradeTypeType) String() string {
 	i -= 48

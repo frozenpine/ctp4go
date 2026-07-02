@@ -11,16 +11,29 @@ func _() {
 	_ = x[THOST_FTDC_SDS_Initialize-48]
 	_ = x[THOST_FTDC_SDS_Settlementing-49]
 	_ = x[THOST_FTDC_SDS_Settlemented-50]
+	_ = x[THOST_FTDC_SDS_Readable-49]
+	_ = x[THOST_FTDC_SDS_Reading-50]
+	_ = x[THOST_FTDC_SDS_Readend-51]
+	_ = x[THOST_FTDC_SDS_OptErr-101]
 }
 
-const _TThostFtdcSyncDataStatusType_name = "未同步同步中已同步"
+const (
+	_TThostFtdcSyncDataStatusType_name_0 = "未同步同步中已同步交易读取完成"
+	_TThostFtdcSyncDataStatusType_name_1 = "追平失败 交易本地状态结算不存在"
+)
 
-var _TThostFtdcSyncDataStatusType_index = [...]uint8{0, 9, 18, 27}
+var (
+	_TThostFtdcSyncDataStatusType_index_0 = [...]uint8{0, 9, 18, 27, 45}
+)
 
 func (i TThostFtdcSyncDataStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcSyncDataStatusType(len(_TThostFtdcSyncDataStatusType_index)-1) {
-		return "TThostFtdcSyncDataStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	switch {
+	case 48 <= i && i <= 51:
+		i -= 48
+		return _TThostFtdcSyncDataStatusType_name_0[_TThostFtdcSyncDataStatusType_index_0[i]:_TThostFtdcSyncDataStatusType_index_0[i+1]]
+	case i == 101:
+		return _TThostFtdcSyncDataStatusType_name_1
+	default:
+		return "TThostFtdcSyncDataStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSyncDataStatusType_name[_TThostFtdcSyncDataStatusType_index[i]:_TThostFtdcSyncDataStatusType_index[i+1]]
 }

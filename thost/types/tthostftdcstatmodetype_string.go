@@ -12,6 +12,9 @@ func _() {
 	_ = x[THOST_FTDC_SM_Instrument-49]
 	_ = x[THOST_FTDC_SM_Product-50]
 	_ = x[THOST_FTDC_SM_Investor-51]
+	_ = x[THOST_FTDC_SM_Normal-49]
+	_ = x[THOST_FTDC_SM_Emerge-50]
+	_ = x[THOST_FTDC_SM_Restore-51]
 }
 
 const _TThostFtdcStatModeType_name = "----按合约统计按产品统计按投资者统计"

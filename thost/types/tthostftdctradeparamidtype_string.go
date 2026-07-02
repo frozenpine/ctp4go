@@ -34,6 +34,8 @@ func _() {
 	_ = x[THOST_FTDC_TPID_TradeChkPhase-106]
 	_ = x[THOST_FTDC_TPID_TradeChkPriceVol-107]
 	_ = x[THOST_FTDC_TPID_NewBESMarginAlgo-108]
+	_ = x[THOST_FTDC_TPID_IsDceFutCloseFrozen-109]
+	_ = x[THOST_FTDC_TPID_UseSMSVerify-110]
 }
 
 const (
@@ -42,14 +44,14 @@ const (
 	_TThostFtdcTradeParamIDType_name_2 = "最小密码长度密码加密算法郑商所询价时间间隔系统风险算法用户最大会话数价格小数位数参数IP当日最大登陆失败次数密码有效期"
 	_TThostFtdcTradeParamIDType_name_3 = "历史密码重复限制次数"
 	_TThostFtdcTradeParamIDType_name_4 = "自有资金质押比"
-	_TThostFtdcTradeParamIDType_name_5 = "转账是否验证预留银行账户非交易时间异常报单校验参数其他异常报单校验参数（价格和手数）卖出垂直价差组合新算法"
+	_TThostFtdcTradeParamIDType_name_5 = "转账是否验证预留银行账户非交易时间异常报单校验参数其他异常报单校验参数（价格和手数）卖出垂直价差组合新算法大商所期货组合平仓冻结算法是否启用短信验证"
 )
 
 var (
 	_TThostFtdcTradeParamIDType_index_0 = [...]uint8{0, 18, 36, 66}
 	_TThostFtdcTradeParamIDType_index_1 = [...]uint16{0, 18, 42, 84, 114, 183, 210, 225, 252, 264}
 	_TThostFtdcTradeParamIDType_index_2 = [...]uint8{0, 18, 36, 63, 81, 102, 126, 158, 173}
-	_TThostFtdcTradeParamIDType_index_5 = [...]uint8{0, 36, 75, 126, 159}
+	_TThostFtdcTradeParamIDType_index_5 = [...]uint8{0, 36, 75, 126, 159, 198, 222}
 )
 
 func (i TThostFtdcTradeParamIDType) String() string {
@@ -67,7 +69,7 @@ func (i TThostFtdcTradeParamIDType) String() string {
 		return _TThostFtdcTradeParamIDType_name_3
 	case i == 97:
 		return _TThostFtdcTradeParamIDType_name_4
-	case 105 <= i && i <= 108:
+	case 105 <= i && i <= 110:
 		i -= 105
 		return _TThostFtdcTradeParamIDType_name_5[_TThostFtdcTradeParamIDType_index_5[i]:_TThostFtdcTradeParamIDType_index_5[i+1]]
 	default:

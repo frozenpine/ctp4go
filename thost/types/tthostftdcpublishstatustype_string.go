@@ -11,6 +11,8 @@ func _() {
 	_ = x[THOST_FTDC_PS_None-49]
 	_ = x[THOST_FTDC_PS_Publishing-50]
 	_ = x[THOST_FTDC_PS_Published-51]
+	_ = x[THOST_FTDC_PS_tradeable-49]
+	_ = x[THOST_FTDC_PS_untradeable-50]
 }
 
 const _TThostFtdcPublishStatusType_name = "未发布正在发布已发布"

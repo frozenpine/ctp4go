@@ -10,11 +10,14 @@ func _() {
 	var x [1]struct{}
 	_ = x[THOST_FTDC_TD_Out-48]
 	_ = x[THOST_FTDC_TD_In-49]
+	_ = x[THOST_FTDC_TD_ALL-48]
+	_ = x[THOST_FTDC_TD_TRADE-49]
+	_ = x[THOST_FTDC_TD_UNTRADE-50]
 }
 
-const _TThostFtdcTransferDirectionType_name = "移出移入"
+const _TThostFtdcTransferDirectionType_name = "移出移入非交易"
 
-var _TThostFtdcTransferDirectionType_index = [...]uint8{0, 6, 12}
+var _TThostFtdcTransferDirectionType_index = [...]uint8{0, 6, 12, 21}
 
 func (i TThostFtdcTransferDirectionType) String() string {
 	i -= 48

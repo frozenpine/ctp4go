@@ -15,9 +15,9 @@ func _() {
 	_ = x[THOST_TERT_RESUME_FROM_SEQ_NO-4]
 }
 
-const _THOST_TE_RESUME_TYPE_name = "重传续传快速不传输序号重传"
+const _THOST_TE_RESUME_TYPE_name = "RESTARTRESUMEQUICKNONERESUME_FROM_SEQ_NO"
 
-var _THOST_TE_RESUME_TYPE_index = [...]uint8{0, 6, 12, 18, 27, 39}
+var _THOST_TE_RESUME_TYPE_index = [...]uint8{0, 7, 13, 18, 22, 40}
 
 func (i THOST_TE_RESUME_TYPE) String() string {
 	if i < 0 || i >= THOST_TE_RESUME_TYPE(len(_THOST_TE_RESUME_TYPE_index)-1) {

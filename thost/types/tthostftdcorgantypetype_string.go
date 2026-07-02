@@ -11,21 +11,25 @@ func _() {
 	_ = x[THOST_FTDC_OT_Bank-49]
 	_ = x[THOST_FTDC_OT_Future-50]
 	_ = x[THOST_FTDC_OT_PlateForm-57]
+	_ = x[THOST_FTDC_OT_OPT_OFFSET-48]
+	_ = x[THOST_FTDC_OT_FUT_OFFSET-49]
+	_ = x[THOST_FTDC_OT_EXEC_OFFSET-50]
+	_ = x[THOST_FTDC_OT_PERFORM_OFFSET-51]
 }
 
 const (
-	_TThostFtdcOrganTypeType_name_0 = "银行代理交易前置"
+	_TThostFtdcOrganTypeType_name_0 = "期权对冲银行代理交易前置履约后期货对冲"
 	_TThostFtdcOrganTypeType_name_1 = "银期转帐平台管理"
 )
 
 var (
-	_TThostFtdcOrganTypeType_index_0 = [...]uint8{0, 12, 24}
+	_TThostFtdcOrganTypeType_index_0 = [...]uint8{0, 12, 24, 36, 57}
 )
 
 func (i TThostFtdcOrganTypeType) String() string {
 	switch {
-	case 49 <= i && i <= 50:
-		i -= 49
+	case 48 <= i && i <= 51:
+		i -= 48
 		return _TThostFtdcOrganTypeType_name_0[_TThostFtdcOrganTypeType_index_0[i]:_TThostFtdcOrganTypeType_index_0[i+1]]
 	case i == 57:
 		return _TThostFtdcOrganTypeType_name_1
