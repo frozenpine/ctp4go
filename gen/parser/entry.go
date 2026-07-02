@@ -6,8 +6,10 @@ import "C"
 import (
 	"errors"
 	"fmt"
+	"maps"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"sync"
 
@@ -319,6 +321,18 @@ func (e *entry) VersionCall() *ClsMethod { return e.versionCall }
 func (e *entry) Sdk() sdkInfo { return e.sdk }
 
 func (e *entry) Platform() string { return string(e.plat) }
+
+func (e *entry) Structures() []*StructDefine {
+	return slices.Collect(maps.Values(e.dataCache))
+}
+
+func (e *entry) Enums() []*EnumDefine {
+	return slices.Collect(maps.Values(e.enumCache))
+}
+
+func (e *entry) Types() []*TypedefDefine {
+	return slices.Collect(maps.Values(e.typeCache))
+}
 
 func (e *entry) EntryFile() string {
 	return e.entryPath

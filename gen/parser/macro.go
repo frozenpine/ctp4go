@@ -31,6 +31,7 @@ func (g *MacroGroup) Append(d *MacroDefine) {
 type MacroDefine struct {
 	baseDefine
 
+	// 宏定义值
 	Token   string
 	RefType *MacroGroup
 }

@@ -8,12 +8,19 @@ import (
 )
 
 type Param struct {
-	Name        string
-	Type        string
-	IsPointer   bool
-	IsConst     bool
-	IsStruct    bool
-	IsArray     bool
+	// 参数名
+	Name string
+	// 参数类型
+	Type string
+	// 是否指针
+	IsPointer bool
+	// 是否const修饰
+	IsConst bool
+	// 是否结构体
+	IsStruct bool
+	// 是否不定长数组
+	IsArray bool
+	// 不定长数组的长度参数名
 	ArrSizeName string
 
 	Fn *ClsMethod
@@ -39,21 +46,23 @@ func (p Param) String() string {
 	return buff.String()
 }
 
-func (p Param) GoType() string {
-	return ""
-}
-
 type ClsMethod struct {
 	baseDefine
 
-	MangledName    string
+	// Linux的编译装饰名
+	MangledName string
+	// Windows的编译装饰名
 	WinMangledName string
 
+	// 入参列表
 	Params []*Param
-	Rtn    *Param
+	// 返回参数
+	Rtn *Param
 
+	// 是否虚函数
 	IsVirtual bool
-	IsStatic  bool
+	// 是否静态函数
+	IsStatic bool
 
 	Cls *ClassDefine
 }
@@ -167,7 +176,9 @@ func (fn ClsMethod) String() string {
 type ClassDefine struct {
 	baseDefine
 
+	// 类静态函数列表
 	Statics []*ClsMethod
+	// 类成员方法列表
 	Methods []*ClsMethod
 }
 

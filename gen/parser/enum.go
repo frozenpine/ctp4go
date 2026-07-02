@@ -10,13 +10,16 @@ import (
 type EnumMember struct {
 	baseDefine
 
+	// 枚举值
 	Value int64
 }
 
 type EnumDefine struct {
 	baseDefine
 
-	Type    string
+	// 枚举类型
+	Type string
+	// 枚举成员
 	Members []EnumMember
 }
 

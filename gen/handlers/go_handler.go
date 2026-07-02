@@ -97,3 +97,24 @@ func GoCaller(p *parser.Param) string {
 
 	return buff.String()
 }
+
+func GoType(p parser.UnderType) string {
+	buff := bytes.NewBufferString("")
+
+	if p.Size > 0 {
+		fmt.Fprintf(buff, "[%d]", p.Size)
+	}
+
+	switch p.Name {
+	case "Int":
+		buff.WriteString("int32")
+	case "Bool":
+		buff.WriteString("bool")
+	case "Char_S":
+		buff.WriteString("byte")
+	case "Double":
+		buff.WriteString("float64")
+	}
+
+	return buff.String()
+}

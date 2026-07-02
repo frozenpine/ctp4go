@@ -9,14 +9,20 @@ import (
 )
 
 type ParamComment struct {
-	Cmd         string
-	ArgName     string
+	// 文档注释命令
+	Cmd string
+	// 注释参数名
+	ArgName string
+	// 注释参数说明
 	Description string
-	Values      []string
+	// 参数可能的值列举
+	Values []string
 }
 
 type CommentDefine struct {
-	Summary      []string
+	// 注释内容
+	Summary []string
+	// 参数注释列表
 	ParamComment []*ParamComment
 }
 

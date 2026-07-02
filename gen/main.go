@@ -36,14 +36,17 @@ var (
 			"api_helper.h.gotmpl",
 			"api_helper.c.gotmpl",
 			"api_impl.go.gotmpl",
-			// "api_impl_test.go.gotmpl",
 			"consts_linux.go.gotmpl",
 			"consts_windows.go.gotmpl",
+			"imp_$version.go.gotmpl:..",
 		},
 		"spi": {
 			"spi_helper.h.gotmpl",
 			"spi_helper.c.gotmpl",
 			"spi_impl.go.gotmpl",
+		},
+		"thost": {
+			"ctp_types.go.gotmpl:types",
 		},
 	}
 
@@ -76,6 +79,7 @@ var (
 		"GoCaller":    handlers.GoCaller,
 		"GoCallee":    handlers.GoCallee,
 		"GoParamName": handlers.GoParamName,
+		"GoType":      handlers.GoType,
 		"CgoCaller":   handlers.CgoCaller,
 		"CgoCallee":   handlers.CgoCallee,
 	}
@@ -221,7 +225,10 @@ func init() {
 func main() {
 	defer parser.CTPEntry.Release()
 
-	templates := map[string][]*template.Template{}
+	templates := map[string][]struct {
+		tpl *template.Template
+		dir string
+	}{}
 
 	tplBase, err := fs.Sub(tplFs, "templates")
 	if err != nil {
@@ -230,8 +237,12 @@ func main() {
 	}
 
 	for _, o := range output {
-		for _, f := range cTplMapper[o] {
-			tpl, err := template.New(f).Funcs(tplFuncs).ParseFS(tplBase, f)
+		for _, mapper := range cTplMapper[o] {
+			mapValues := strings.SplitN(mapper, ":", 2)
+
+			tpl, err := template.New(mapValues[0]).Funcs(tplFuncs).ParseFS(
+				tplBase, mapValues[0],
+			)
 			if err != nil {
 				fmt.Fprintf(
 					os.Stderr, "parse %s template failed: %+v",
@@ -240,7 +251,15 @@ func main() {
 				os.Exit(1)
 			}
 
-			templates[o] = append(templates[o], tpl)
+			data := struct {
+				tpl *template.Template
+				dir string
+			}{tpl: tpl}
+			if len(mapValues) > 1 {
+				data.dir = mapValues[1]
+			}
+
+			templates[o] = append(templates[o], data)
 		}
 	}
 
@@ -263,14 +282,19 @@ func main() {
 
 	for mod, tpls := range templates {
 		for _, v := range tpls {
-			fmt.Fprintf(os.Stdout, "converting %s %s\n", mod, v.Name())
+			fmt.Fprintf(os.Stdout, "converting %s %s\n", mod, v.tpl.Name())
 
 			var wr io.Writer
 
 			if stdout {
 				wr = os.Stdout
 			} else {
-				outFilePath := strings.TrimSuffix(v.Name(), ".gotmpl")
+				outFilePath := filepath.Join(
+					v.dir, strings.ReplaceAll(
+						strings.TrimSuffix(v.tpl.Name(), ".gotmpl"),
+						"$version", parser.CTPEntry.Sdk().Version(),
+					),
+				)
 
 				if outFile, err := os.OpenFile(
 					outFilePath,
@@ -285,7 +309,7 @@ func main() {
 				}
 			}
 
-			if err := v.Execute(wr, &parser.CTPEntry); err != nil {
+			if err := v.tpl.Execute(wr, &parser.CTPEntry); err != nil {
 				fmt.Fprintf(os.Stderr, "convert failed: %+v", err)
 			}
 		}

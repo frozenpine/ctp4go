@@ -1,0 +1,25 @@
+package types
+
+import "strconv"
+
+{{ range .Types }}
+    {{- range .Comments.Summary }}
+// .
+    {{- end }}
+    {{- range .Comments.ParamComment }}
+//   @{{ .Cmd }} {{ .ArgName }} {{ .Description }}
+        {{- range .Values }}
+//     {{ . }}
+        {{- end }}
+    {{- end }}
+type {{ .Name }} {{ GoType .Underlying }}
+
+    {{- if .MacroDefine }}
+//go:generate stringer -type {{ .Name }} -linecomment
+const(
+        {{- range .MacroDefine.Defines }}
+    {{ .Name }} {{ $.Name }} = {{ .Token }} // {{ index .Comments.Summary 0 }}
+        {{- end }}
+)
+    {{ end }}
+{{ end }}
