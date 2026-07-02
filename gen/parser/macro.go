@@ -75,6 +75,13 @@ PARSE:
 		if spelling != macroName {
 			define.Token = spelling
 		}
+		if len(define.Token) > 3 {
+			fmt.Fprintf(
+				os.Stderr, "invalid macro #define %s %s\n",
+				macroName, spelling,
+			)
+			return nil, nil
+		}
 	}
 
 	loc := cursor.Location()

@@ -118,6 +118,8 @@ func GoType(p parser.UnderType) string {
 		}
 	case "Double":
 		buff.WriteString("float64")
+	case "Short":
+		buff.WriteString("int16")
 	}
 
 	return buff.String()
