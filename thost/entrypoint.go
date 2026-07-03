@@ -19,14 +19,14 @@ var (
 	// ParamFlowPath thost flow dir
 	ParamFlowPath paramKey = "flowPath"
 
-	// ParamRunMode true for Product, false for Test
-	ParamRunMode paramKey = "runMode"
+	// ParamIsProductionMode true for Product, false for Test
+	ParamIsProductionMode paramKey = "runMode"
 
-	// ParamUseUDP true for transport in UDP
-	ParamUseUDP paramKey = "useUDP"
+	// ParamIsUsingUdp true for transport in UDP
+	ParamIsUsingUdp paramKey = "useUDP"
 
-	// ParamUseMulticast true for transport by Multicast
-	ParamUseMulticast paramKey = "useMulticast"
+	// ParamIsMulticast true for transport by Multicast
+	ParamIsMulticast paramKey = "useMulticast"
 
 	ErrInvalidCreator = errors.New("invalid creator")
 )

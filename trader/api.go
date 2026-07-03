@@ -98,7 +98,7 @@ func (td *TraderApi) createApi() error {
 	api, err := maker.TraderMaker(
 		td.cfg.libPath,
 		thost.Param{Key: thost.ParamFlowPath, Value: td.cfg.flowPath},
-		thost.Param{Key: thost.ParamRunMode, Value: !td.cfg.isTest},
+		thost.Param{Key: thost.ParamIsProductionMode, Value: !td.cfg.isTest},
 	)()
 	if err != nil {
 		return errors.Join(thost.ErrApiCreateFailed, err)

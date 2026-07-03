@@ -101,7 +101,7 @@
    
    - 接口封装代码：
      
-     > 封装代码生成在对应接口名模块文件夹下
+     > 封装代码生成在对应接口名模块文件夹下，可直接导入需要的版本实现使用
      > 
      > 以下以 `trader` 交易模块的 *v6.7.13* 版本为例
      
@@ -133,4 +133,156 @@
      
      - ***trader*** 下生成版本导入文件： *imp_6.7.13.go* 
 
-3. 
+3. 如需使用 `trader` 或 `mduser` 模块下更高抽象层级的接口，需在对应版本封装模块内实现 `init()` 初始化调用，完成 `thost` 的版本化模块注册。 
+   
+   > 目前由于 `TraderApi` 和 `MdApi` 的接口定义由于不同版本存在差异，接口的定义暂未做自动化生成，故而封装模块的初始化注册代码也未通过自动化生成
+   
+   ```go path=trader/v6.7.13/register.go
+   package v6_7_13
+   
+   import (
+   	"fmt"
+   
+   	"github.com/frozenpine/ctp4go/thost"
+   	"github.com/frozenpine/ctp4go/thost/types"
+   )
+   
+   type apiWrapper struct {
+   	*ThostFtdcTraderApi
+   }
+   
+   func (api apiWrapper) SubscribePrivateTopic(
+   	nResumeType types.THOST_TE_RESUME_TYPE, nSeqNo ...int,
+   ) {
+   	var seq int
+   	if len(nSeqNo) > 0 {
+   		seq = nSeqNo[0]
+   	}
+   	api.ThostFtdcTraderApi.SubscribePrivateTopic(
+   		int(nResumeType), seq,
+   	)
+   }
+   
+   func (api apiWrapper) SubscribePublicTopic(
+   	nResumeType types.THOST_TE_RESUME_TYPE,
+   ) {
+   	api.ThostFtdcTraderApi.SubscribePublicTopic(int(nResumeType))
+   }
+   
+   func sdkMaker(
+   	libPath string,
+   	params ...thost.Param,
+   ) func() (thost.TraderApi, error) {
+   	return func() (thost.TraderApi, error) {
+   		if libPath == "" {
+   			return nil, fmt.Errorf(
+   				"%w: lib path is empty", thost.ErrInvalidArgs,
+   			)
+   		}
+   
+   		var (
+   			FlowPath         string
+   			IsProductinoMode bool
+   
+   			ok bool
+   		)
+   
+   		for _, p := range params {
+   			switch p.Key {
+   			case thost.ParamFlowPath:
+   				if FlowPath, ok = p.Value.(string); !ok {
+   					return nil, fmt.Errorf(
+   						"%w: invalid %s value %+v",
+   						thost.ErrInvalidArgs, p.Key, p.Value,
+   					)
+   				}
+   			case thost.ParamIsProductionMode:
+   				if IsProductinoMode, ok = p.Value.(bool); !ok {
+   					return nil, fmt.Errorf(
+   						"%w: invalid %s value %+v",
+   						thost.ErrInvalidArgs, p.Key, p.Value,
+   					)
+   				}
+   			}
+   		}
+   
+   		api, err := CreateThostFtdcTraderApi(
+   			libPath, FlowPath, IsProductinoMode,
+   		)
+   		if err != nil {
+   			return nil, err
+   		}
+   
+   		return apiWrapper{api}, nil
+   	}
+   }
+   
+   func init() {
+   	if err := thost.SetTraderMaker("v6.7.13", sdkMaker); err != nil {
+   		panic(err)
+   	}
+   }
+   
+   ```
+   
+   ```go path=mduser/v6.7.13/register.go
+   package v6_7_13
+   
+   import (
+   	"fmt"
+   
+   	"github.com/frozenpine/ctp4go/thost"
+   )
+   
+   func sdkMaker(
+   	libPath string,
+   	params ...thost.Param,
+   ) func() (thost.MdApi, error) {
+   	return func() (thost.MdApi, error) {
+   		if libPath == "" {
+   			return nil, fmt.Errorf(
+   				"%w: lib path is empty", thost.ErrInvalidArgs,
+   			)
+   		}
+   
+   		var (
+   			FlowPath         string
+   			IsUsingUdp       bool
+   			IsMulticast      bool
+   			IsProductinoMode bool
+   
+   			ok bool
+   		)
+   
+   		for _, p := range params {
+   			switch p.Key {
+   			case thost.ParamFlowPath:
+   				if FlowPath, ok = p.Value.(string); !ok {
+   					return nil, fmt.Errorf(
+   						"%w: invalid %s value %+v",
+   						thost.ErrInvalidArgs, p.Key, p.Value,
+   					)
+   				}
+   			case thost.ParamIsProductionMode:
+   				if IsProductinoMode, ok = p.Value.(bool); !ok {
+   					return nil, fmt.Errorf(
+   						"%w: invalid %s value %+v",
+   						thost.ErrInvalidArgs, p.Key, p.Value,
+   					)
+   				}
+   			}
+   		}
+   
+   		return CreateThostFtdcMdApi(
+   			libPath, FlowPath, IsUsingUdp, IsMulticast, IsProductinoMode,
+   		)
+   	}
+   }
+   
+   func init() {
+   	if err := thost.SetMduserMaker("v6.7.13", sdkMaker); err != nil {
+   		panic(err)
+   	}
+   }
+   
+   ```
