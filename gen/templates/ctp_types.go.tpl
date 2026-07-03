@@ -75,7 +75,7 @@ func DecodeGBK(buff []byte) string {
 }
 
 {{ range $_, $enum := .Enums }}
-{{- range $enum.Comments.Summary }}
+	{{- range $enum.Comments.Summary }}
 // {{ . }}
     {{- end }}
     {{- range .Comments.ParamComment }}
