@@ -7,11 +7,11 @@ defines:
 mduser:
 	@go run ../gen/main.go -dep ../dependencies -plat $(PLATFORM) -sdk name=mduser,ver=$(VERSION) -output thost && \
 		gofmt -w . && \
-		go build . \
-		cd .. && cd mduser && cd $(VERSION) && go generate .
+		go build . && \
+		cd .. && cd mduser && cd $(VERSION) && go generate ./...
 
 trader:
 	@go run ../gen/main.go -dep ../dependencies -plat $(PLATFORM) -sdk name=trader,ver=$(VERSION) -output thost && \
 		gofmt -w . && \
 		go build . && \
-		cd .. && cd trader && cd $(VERSION) && go generate .
+		cd .. && cd trader && cd $(VERSION) && go generate ./...

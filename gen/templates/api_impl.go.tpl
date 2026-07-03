@@ -173,7 +173,7 @@ func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ 
 
 	api.spiPtr.Pinner.Pin(unsafe.Pointer(api.spiPtr))
 	slog.Info(
-		"thost $sdk.Name spi created & pinned",
+		"thost {{ $sdk.Name }} spi created & pinned",
 		slog.Any("spi", {{ GoParamName . }}),
 		slog.Any("pinned", api.spiPtr),
 	)
