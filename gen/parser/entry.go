@@ -130,6 +130,8 @@ func WithVersion(ver string, fn ...string) sdkOpt {
 
 		if len(fn) > 0 {
 			pc.versionCallName = fn[0]
+		} else {
+			pc.versionCallName = "GetApiVersion"
 		}
 
 		return nil
@@ -138,26 +140,32 @@ func WithVersion(ver string, fn ...string) sdkOpt {
 
 func WithSDK(d string, options ...sdkOpt) entryOpt {
 	return func(e *Entry) error {
-		v := sdkName(d)
-		switch v {
+		switch v := sdkName(d); v {
 		case Trader, Mduser:
-		default:
-			return errors.New("invalid sdk")
-		}
+			e.sdk.name = v
 
-		e.sdk.name = v
+			for _, opt := range append([]sdkOpt{
+				WithHdrFileName(sdkHdrFileName[v]),
+				WithApiName(sdkApiName[v]),
+				WithSpiName(sdkSpiName[v]),
+			}, options...) {
+				if opt == nil {
+					continue
+				}
 
-		for _, opt := range append([]sdkOpt{
-			WithHdrFileName(sdkHdrFileName[v]),
-			WithApiName(sdkApiName[v]),
-			WithSpiName(sdkSpiName[v]),
-		}, options...) {
-			if opt == nil {
-				continue
+				if err := opt(&e.sdk); err != nil {
+					return err
+				}
 			}
+		default:
+			for _, opt := range options {
+				if opt == nil {
+					continue
+				}
 
-			if err := opt(&e.sdk); err != nil {
-				return err
+				if err := opt(&e.sdk); err != nil {
+					return err
+				}
 			}
 		}
 
@@ -252,32 +260,30 @@ type sdkInfo struct {
 }
 
 func (i sdkInfo) validate() error {
-	if i.name == "" {
-		return errors.New("sdk name not specified")
-	}
-
 	if i.ver == "" {
 		return errors.New("sdk version not specified")
 	}
 
 	if i.hdrFileName == "" {
-		return errors.New("sdk hdr file missing")
+		return errors.New("hdr file not specified")
 	}
 
-	if i.apiName == "" {
-		return errors.New("sdk api name missing")
-	}
+	if i.name != "" {
+		if i.apiName == "" {
+			return errors.New("sdk api name missing")
+		}
 
-	if i.apiExtName == "" {
-		return errors.New("sdk api extend name missing")
-	}
+		if i.apiExtName == "" {
+			return errors.New("sdk api extend name missing")
+		}
 
-	if i.spiName == "" {
-		return errors.New("sdk spi name missing")
-	}
+		if i.spiName == "" {
+			return errors.New("sdk spi name missing")
+		}
 
-	if i.spiExtName == "" {
-		return errors.New("sdk spi extend name missing")
+		if i.spiExtName == "" {
+			return errors.New("sdk spi extend name missing")
+		}
 	}
 
 	return nil
@@ -375,6 +381,7 @@ func (e *Entry) Release() {
 
 func (e *Entry) Parse() error {
 	platVerBase := filepath.Join(e.baseDir, string(e.plat), e.sdk.ver)
+
 	e.entryPath = filepath.Join(platVerBase, e.sdk.hdrFileName)
 
 	if info, err := os.Stat(e.entryPath); err != nil {

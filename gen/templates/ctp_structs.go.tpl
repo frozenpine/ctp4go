@@ -22,8 +22,8 @@ type {{ .Name }} struct {
             {{- range .Values }}
     //     {{ . }}
             {{- end }}
-    {{ .Name }} types.{{ .Type }}
         {{- end}}
+    {{ .Name }} types.{{ .Type }}
     {{- end }}
 }
 {{ end }}

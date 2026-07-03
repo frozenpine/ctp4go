@@ -1,9 +1,9 @@
 {{- $sdk := .Sdk -}}
-package 
+package {{ $sdk.Version | ReplaceAll "." "_"}}
 
-//go:generate go run ../../gen/main.go -dep ../../dependencies -plat {{ .Platform }} -sdk name={{ $sdk.Name }},ver={{ $sdk.Version }} -out api
+//go:generate go run ../../gen/main.go -dep ../../dependencies -plat {{ .Platform }} -sdk name={{ $sdk.Name }},ver={{ $sdk.Version }} -output api
 
-//go:generate go run ../../gen/main.go -dep ../../dependencies -plat {{ .Platform }} -sdk name={{ $sdk.Name }},ver={{ $sdk.Version }} -out spi
+//go:generate go run ../../gen/main.go -dep ../../dependencies -plat {{ .Platform }} -sdk name={{ $sdk.Name }},ver={{ $sdk.Version }} -output spi
 
 //go:generate gofmt -w .
 

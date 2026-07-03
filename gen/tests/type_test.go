@@ -46,11 +46,14 @@ var tplFuncs = template.FuncMap{
 
 func TestTypes(t *testing.T) {
 	dep := "../../dependencies"
-	typTpl := "../templates/ctp_types.go.gotmpl"
+	typTpl := "../templates/ctp_types.go.tpl"
 
-	entry, err := parser.NewEntry("future", dep, parser.WithSDK(
-		"mduser", parser.WithVersion("v6.5.1"),
-	))
+	entry, err := parser.NewEntry(
+		"future", dep, parser.WithSDK("",
+			parser.WithVersion("v6.5.1"),
+			parser.WithHdrFileName("ThostFtdcUserApiStruct.h"),
+		),
+	)
 	if err != nil {
 		t.Fatal(err)
 	}
