@@ -83,9 +83,11 @@
    > 
    > `make` 支持的target：
    > 
-   > - `trader` 生成交易接口
+   > - **trader** 生成交易接口
    > 
-   > - `mduser` 生成行情接口
+   > - **mduser** 生成行情接口
+   > 
+   > - **defines** 生成类型枚举的 `String()` 函数
 
 2. 命令执行后，将生成三种类型代码文件：
    
@@ -94,6 +96,8 @@
      - ***thost*** 下生成结构体定义文件：*ctp_structs.go*
      
      - ***thost/types*** 下生成类型定义文件：*ctp_types.go*
+       
+       > 可手工执行类型定义的
    
    - 接口封装代码：
      

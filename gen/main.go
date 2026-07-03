@@ -28,6 +28,7 @@ var (
 	debug  bool
 	stdout bool
 	output outputOpt
+	clean  bool
 
 	cTplMapper = map[string][]string{
 		"api": {
@@ -43,7 +44,7 @@ var (
 			"spi_impl.go.tpl",
 		},
 		"thost": {
-			"ctp_types.go.tpl:types",
+			"ctp_types.go.tpl:types:true",
 			"ctp_structs.go.tpl",
 			"gen.go.tpl:../$sdkName/$version",
 			"imp_$version.go.tpl:../$sdkName",
@@ -226,6 +227,7 @@ func init() {
 
 	flag.BoolVar(&stdout, "stdout", false, "Print converted moduels to STDOUT")
 	flag.Var(&output, "output", "Convert output modules")
+	flag.BoolVar(&clean, "clean", false, "Clean old DIR files")
 
 	flag.Parse()
 
@@ -295,7 +297,7 @@ func (d tplDefine) execute(entry *parser.Entry) error {
 		if d.dir != "" {
 			d.dir = handleParam(d.dir, entry)
 
-			if d.dirClean {
+			if d.dirClean && clean {
 				if err := os.RemoveAll(d.dir); err != nil {
 					return fmt.Errorf("clean package dir failed: %+v", err)
 				}
