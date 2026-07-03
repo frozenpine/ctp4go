@@ -56,8 +56,8 @@ func (d baseDefine) HasComments() bool {
 	return len(d.Comments.Summary) > 0 || len(d.Comments.ParamComment) > 0
 }
 
-type parseOpt func(*entry) error
-type ParseOptions []parseOpt
+type entryOpt func(*Entry) error
+type EntryOptions []entryOpt
 
 type sdkOpt func(*sdkInfo) error
 type SdkOptions []sdkOpt
@@ -136,8 +136,8 @@ func WithVersion(ver string, fn ...string) sdkOpt {
 	}
 }
 
-func WithSDK(d string, options ...sdkOpt) parseOpt {
-	return func(e *entry) error {
+func WithSDK(d string, options ...sdkOpt) entryOpt {
+	return func(e *Entry) error {
 		v := sdkName(d)
 		switch v {
 		case Trader, Mduser:
@@ -165,8 +165,8 @@ func WithSDK(d string, options ...sdkOpt) parseOpt {
 	}
 }
 
-func withBase(b string) parseOpt {
-	return func(e *entry) error {
+func WithBase(b string) entryOpt {
+	return func(e *Entry) error {
 		if b == "" {
 			return errors.New("invalid entry base")
 		}
@@ -176,8 +176,8 @@ func withBase(b string) parseOpt {
 	}
 }
 
-func WithPlatform(plat string) parseOpt {
-	return func(pc *entry) error {
+func WithPlatform(plat string) entryOpt {
+	return func(pc *Entry) error {
 		v := platform(plat)
 		switch v {
 		case PlatFuture, PlatMini, PlatETF:
@@ -190,8 +190,8 @@ func WithPlatform(plat string) parseOpt {
 	}
 }
 
-func WithDefPrefix(pre string) parseOpt {
-	return func(e *entry) error {
+func WithDefPrefix(pre string) entryOpt {
+	return func(e *Entry) error {
 		if pre == "" {
 			return errors.New("invalid prefix for #DEFINE")
 		}
@@ -201,32 +201,42 @@ func WithDefPrefix(pre string) parseOpt {
 	}
 }
 
-func WithDebug() parseOpt {
-	return func(e *entry) error {
+func WithDebug() entryOpt {
+	return func(e *Entry) error {
 		e.debug = true
 		return nil
 	}
 }
 
-var CTPEntry = entry{
-	sdk: sdkInfo{
-		name:        Trader,
-		hdrFileName: sdkHdrFileName[Trader],
-		apiName:     sdkApiName[Trader],
-		apiExtName:  sdkApiName[Trader] + "Ext",
-		createCallName: strings.Replace(
-			sdkApiName[Trader], "CThost", "Create", 1),
-		versionCallName: "GetApiVersion",
-		spiName:         sdkSpiName[Trader],
-		spiExtName:      sdkSpiName[Trader] + "Ext",
-	},
-	plat:         PlatFuture,
-	definePrefix: DefaultDefinePrefix,
-	defineType:   make(map[string]string),
-	defineCache:  make(map[string]*MacroGroup),
-	enumCache:    make(map[string]*EnumDefine),
-	typeCache:    make(map[string]*TypedefDefine),
-	dataCache:    make(map[string]*StructDefine),
+func NewEntry(
+	plat, base string, options ...entryOpt,
+) (*Entry, error) {
+	entry := &Entry{
+		definePrefix: DefaultDefinePrefix,
+		defineType:   make(map[string]string),
+		defineCache:  make(map[string]*MacroGroup),
+		enumCache:    make(map[string]*EnumDefine),
+		typeCache:    make(map[string]*TypedefDefine),
+		dataCache:    make(map[string]*StructDefine),
+	}
+
+	for _, opt := range append(
+		[]entryOpt{WithPlatform(plat), WithBase(base)}, options...,
+	) {
+		if opt == nil {
+			continue
+		}
+
+		if err := opt(entry); err != nil {
+			return nil, err
+		}
+	}
+
+	if err := entry.validate(); err != nil {
+		return nil, err
+	}
+
+	return entry, nil
 }
 
 type sdkInfo struct {
@@ -287,7 +297,7 @@ func (i sdkInfo) SpiName() string { return i.spiName }
 
 func (i sdkInfo) SpiExtName() string { return i.spiExtName }
 
-type entry struct {
+type Entry struct {
 	baseDir   string
 	entryPath string
 	debug     bool
@@ -310,35 +320,35 @@ type entry struct {
 	spiClass    *ClassDefine
 }
 
-func (e *entry) ApiClass() *ClassDefine { return e.apiClass }
+func (e *Entry) ApiClass() *ClassDefine { return e.apiClass }
 
-func (e *entry) SpiClass() *ClassDefine { return e.spiClass }
+func (e *Entry) SpiClass() *ClassDefine { return e.spiClass }
 
-func (e *entry) CreateCall() *ClsMethod { return e.createCall }
+func (e *Entry) CreateCall() *ClsMethod { return e.createCall }
 
-func (e *entry) VersionCall() *ClsMethod { return e.versionCall }
+func (e *Entry) VersionCall() *ClsMethod { return e.versionCall }
 
-func (e *entry) Sdk() sdkInfo { return e.sdk }
+func (e *Entry) Sdk() sdkInfo { return e.sdk }
 
-func (e *entry) Platform() string { return string(e.plat) }
+func (e *Entry) Platform() string { return string(e.plat) }
 
-func (e *entry) Structures() []*StructDefine {
+func (e *Entry) Structures() []*StructDefine {
 	return slices.Collect(maps.Values(e.dataCache))
 }
 
-func (e *entry) Enums() []*EnumDefine {
+func (e *Entry) Enums() []*EnumDefine {
 	return slices.Collect(maps.Values(e.enumCache))
 }
 
-func (e *entry) Types() []*TypedefDefine {
+func (e *Entry) Types() []*TypedefDefine {
 	return slices.Collect(maps.Values(e.typeCache))
 }
 
-func (e *entry) EntryFile() string {
+func (e *Entry) EntryFile() string {
 	return e.entryPath
 }
 
-func (e *entry) validate() error {
+func (e *Entry) validate() error {
 	if e.baseDir == "" {
 		return errors.New("no entry base specified")
 	}
@@ -350,7 +360,7 @@ func (e *entry) validate() error {
 	return e.sdk.validate()
 }
 
-func (e *entry) Release() {
+func (e *Entry) Release() {
 	e.releaseOnce.Do(func() {
 		for k, v := range e.files {
 			if err := v.Close(); err != nil {
@@ -363,21 +373,7 @@ func (e *entry) Release() {
 	})
 }
 
-func (e *entry) Parse(base string, options ...parseOpt) error {
-	for _, opt := range append(options, withBase(base)) {
-		if opt == nil {
-			continue
-		}
-
-		if err := opt(e); err != nil {
-			return err
-		}
-	}
-
-	if err := e.validate(); err != nil {
-		return err
-	}
-
+func (e *Entry) Parse() error {
 	platVerBase := filepath.Join(e.baseDir, string(e.plat), e.sdk.ver)
 	e.entryPath = filepath.Join(platVerBase, e.sdk.hdrFileName)
 
@@ -446,7 +442,7 @@ func (e *entry) Parse(base string, options ...parseOpt) error {
 	return nil
 }
 
-func (e *entry) walk(cursor, parent clang.Cursor) clang.ChildVisitResult {
+func (e *Entry) walk(cursor, parent clang.Cursor) clang.ChildVisitResult {
 	kind := cursor.Kind()
 
 	switch kind {
@@ -488,7 +484,7 @@ func (e *entry) walk(cursor, parent clang.Cursor) clang.ChildVisitResult {
 	return clang.ChildVisit_Continue
 }
 
-func (e *entry) findWinStatic(cursor, parent clang.Cursor) clang.ChildVisitResult {
+func (e *Entry) findWinStatic(cursor, parent clang.Cursor) clang.ChildVisitResult {
 	switch cursor.Kind() {
 	case clang.Cursor_ClassDecl:
 		cursor.Visit(e.findWinStatic)

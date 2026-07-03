@@ -48,13 +48,15 @@ func TestTypes(t *testing.T) {
 	dep := "../../dependencies"
 	typTpl := "../templates/ctp_types.go.gotmpl"
 
-	defer parser.CTPEntry.Release()
+	entry, err := parser.NewEntry("future", dep, parser.WithSDK(
+		"mduser", parser.WithVersion("v6.5.1"),
+	))
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer entry.Release()
 
-	if err := parser.CTPEntry.Parse(
-		dep, parser.WithPlatform("future"), parser.WithSDK(
-			"mduser", parser.WithVersion("v6.5.1"),
-		),
-	); err != nil {
+	if err := entry.Parse(); err != nil {
 		t.Fatal(err)
 	}
 
@@ -68,7 +70,7 @@ func TestTypes(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if err := tpl.Execute(os.Stdout, &parser.CTPEntry); err != nil {
+	if err := tpl.Execute(os.Stdout, entry); err != nil {
 		t.Fatal(err)
 	}
 }

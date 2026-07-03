@@ -86,7 +86,7 @@ func ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
 	return &define, nil
 }
 
-func (e *entry) ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
+func (e *Entry) ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
 	define, err := ParseTypedef(cursor)
 	if err != nil {
 		return nil, err

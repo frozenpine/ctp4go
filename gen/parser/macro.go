@@ -53,7 +53,7 @@ func (m MacroDefine) String() string {
 	return buff.String()
 }
 
-func (e *entry) ParseMacro(cursor *clang.Cursor, prefix ...string) (*MacroDefine, error) {
+func (e *Entry) ParseMacro(cursor *clang.Cursor, prefix ...string) (*MacroDefine, error) {
 	macroName := cursor.Spelling()
 
 	for _, p := range prefix {

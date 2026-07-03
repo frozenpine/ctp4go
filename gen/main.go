@@ -38,7 +38,6 @@ var (
 			"api_impl.go.gotmpl",
 			"consts_linux.go.gotmpl",
 			"consts_windows.go.gotmpl",
-			"imp_$version.go.gotmpl:..",
 		},
 		"spi": {
 			"spi_helper.h.gotmpl",
@@ -47,6 +46,8 @@ var (
 		},
 		"thost": {
 			"ctp_types.go.gotmpl:types",
+			"gen.go.gotmpl:../{{ .Platform }}/{{ .Sdk.Version }}",
+			"import.go.gotmpl:../{{ .Platform }}",
 		},
 	}
 
@@ -162,12 +163,12 @@ func (sdk *sdkOpt) Set(v string) error {
 	return nil
 }
 
-func (sdk sdkOpt) options() parser.ParseOptions {
+func (sdk sdkOpt) options() parser.EntryOptions {
 	options := parser.SdkOptions{
 		parser.WithVersion(sdk.ver),
 	}
 
-	return parser.ParseOptions{parser.WithSDK(sdk.name, options...)}
+	return parser.EntryOptions{parser.WithSDK(sdk.name, options...)}
 }
 
 type outputOpt []string
@@ -222,13 +223,96 @@ func init() {
 	}
 }
 
-func main() {
-	defer parser.CTPEntry.Release()
+type tplDefine struct {
+	tpl    *template.Template
+	dirTpl *template.Template
+}
 
-	templates := map[string][]struct {
-		tpl *template.Template
-		dir string
-	}{}
+func (d *tplDefine) parseDefine(tplBase fs.FS, mapper string) error {
+	mapValues := strings.SplitN(mapper, ":", 2)
+
+	genTpl, err := template.New(
+		mapValues[0],
+	).Funcs(tplFuncs).ParseFS(
+		tplBase, mapValues[0],
+	)
+	if err != nil {
+		return fmt.Errorf(
+			"parse %s template failed: %+v", output, err,
+		)
+	}
+
+	d.tpl = genTpl
+
+	if len(mapValues) > 1 && mapValues[1] != "" {
+		dirTpl, err := template.New(
+			mapValues[1],
+		).Funcs(tplFuncs).Parse(mapValues[1])
+		if err != nil {
+			return fmt.Errorf(
+				"parse %s template dir failed: %+v", output, err,
+			)
+		}
+
+		d.dirTpl = dirTpl
+	}
+
+	return nil
+}
+
+func (d tplDefine) execute(entry *parser.Entry) error {
+	var (
+		wr       io.Writer
+		err      error
+		dir      string
+		fileName = strings.TrimSuffix(
+			strings.ReplaceAll(
+				d.tpl.Name(), "$version", entry.Sdk().Version(),
+			),
+			".gotmpl",
+		)
+	)
+
+	if stdout {
+		wr = os.Stdout
+	} else {
+		if d.dirTpl != nil {
+			buff := bytes.NewBufferString("")
+			if err = d.dirTpl.Execute(
+				buff, entry,
+			); err != nil {
+				return fmt.Errorf("execute dir template failed: %+v", err)
+			}
+
+			dir = buff.String()
+
+			if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+				return fmt.Errorf("mkdir package dir failed: %+v", err)
+			}
+		}
+		outFilePath := filepath.Join(dir, fileName)
+
+		if outFile, err := os.OpenFile(
+			outFilePath,
+			os.O_CREATE|os.O_TRUNC|os.O_WRONLY,
+			os.ModePerm,
+		); err != nil {
+			return fmt.Errorf("open output file failed: %+v", err)
+		} else {
+			wr = outFile
+			defer outFile.Close()
+		}
+	}
+
+	if err := d.tpl.Execute(wr, entry); err != nil {
+		return fmt.Errorf("convert failed: %+v", err)
+	}
+
+	return nil
+}
+
+func main() {
+	templates := map[string][]tplDefine{}
 
 	tplBase, err := fs.Sub(tplFs, "templates")
 	if err != nil {
@@ -238,45 +322,36 @@ func main() {
 
 	for _, o := range output {
 		for _, mapper := range cTplMapper[o] {
-			mapValues := strings.SplitN(mapper, ":", 2)
+			var d tplDefine
 
-			tpl, err := template.New(mapValues[0]).Funcs(tplFuncs).ParseFS(
-				tplBase, mapValues[0],
-			)
-			if err != nil {
-				fmt.Fprintf(
-					os.Stderr, "parse %s template failed: %+v",
-					output, err,
-				)
+			if err := d.parseDefine(tplBase, mapper); err != nil {
+				fmt.Fprintf(os.Stderr, "%+v", err)
 				os.Exit(1)
 			}
 
-			data := struct {
-				tpl *template.Template
-				dir string
-			}{tpl: tpl}
-			if len(mapValues) > 1 {
-				data.dir = mapValues[1]
-			}
-
-			templates[o] = append(templates[o], data)
+			templates[o] = append(templates[o], d)
 		}
 	}
 
-	options := parser.ParseOptions{parser.WithPlatform(plat)}
+	options := sdk.options()
 	if debug {
 		options = append(options, parser.WithDebug())
 	}
 
-	if err := parser.CTPEntry.Parse(
-		dep, append(options, sdk.options()...)...,
-	); err != nil {
+	entry, err := parser.NewEntry(plat, dep, options...)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "create parse entry failed: %+v", err)
+		os.Exit(255)
+	}
+	defer entry.Release()
+
+	if err := entry.Parse(); err != nil {
 		fmt.Fprintf(os.Stderr, "parse failed: %+v\n", err)
 		os.Exit(255)
 	} else {
 		fmt.Fprintf(
 			os.Stdout, "entry file parsed: %s\n",
-			parser.CTPEntry.EntryFile(),
+			entry.EntryFile(),
 		)
 	}
 
@@ -284,42 +359,10 @@ func main() {
 		for _, v := range tpls {
 			fmt.Fprintf(os.Stdout, "converting %s %s\n", mod, v.tpl.Name())
 
-			var wr io.Writer
+			if err := v.execute(entry); err != nil {
+				fmt.Fprintf(os.Stderr, "execute template failed: %+v", err)
 
-			if stdout {
-				wr = os.Stdout
-			} else {
-				if v.dir != "" {
-					if err := os.MkdirAll(v.dir, os.ModePerm); err != nil {
-						fmt.Fprintf(
-							os.Stderr, "mkdir package dir failed: %+v", err,
-						)
-						os.Exit(2)
-					}
-				}
-				outFilePath := filepath.Join(
-					v.dir, strings.ReplaceAll(
-						strings.TrimSuffix(v.tpl.Name(), ".gotmpl"),
-						"$version", parser.CTPEntry.Sdk().Version(),
-					),
-				)
-
-				if outFile, err := os.OpenFile(
-					outFilePath,
-					os.O_CREATE|os.O_TRUNC|os.O_WRONLY,
-					os.ModePerm,
-				); err != nil {
-					fmt.Fprintf(os.Stderr, "open output file failed: %+v", err)
-					os.Exit(2)
-				} else {
-					wr = outFile
-					defer outFile.Close()
-				}
-			}
-
-			if err := v.tpl.Execute(wr, &parser.CTPEntry); err != nil {
-				fmt.Fprintf(os.Stderr, "convert failed: %+v", err)
-				os.Exit(3)
+				os.Exit(2)
 			}
 		}
 	}

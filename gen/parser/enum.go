@@ -72,7 +72,7 @@ func ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
 	return &define, nil
 }
 
-func (e *entry) ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
+func (e *Entry) ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
 	define, err := ParseEnum(cursor)
 	if err != nil {
 		return nil, err

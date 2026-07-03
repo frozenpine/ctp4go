@@ -243,7 +243,7 @@ func ParseClass(cursor *clang.Cursor) (*ClassDefine, error) {
 	return &define, nil
 }
 
-func (e *entry) ParseClass(cursor *clang.Cursor) (*ClassDefine, error) {
+func (e *Entry) ParseClass(cursor *clang.Cursor) (*ClassDefine, error) {
 	define, err := ParseClass(cursor)
 	if err != nil {
 		return nil, err

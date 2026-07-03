@@ -67,7 +67,7 @@ func ParseStruct(cursor *clang.Cursor) (*StructDefine, error) {
 	return &define, nil
 }
 
-func (e *entry) ParseStruct(cursor *clang.Cursor) (*StructDefine, error) {
+func (e *Entry) ParseStruct(cursor *clang.Cursor) (*StructDefine, error) {
 	define, err := ParseStruct(cursor)
 	if err != nil {
 		return nil, err
