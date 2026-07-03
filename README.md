@@ -57,7 +57,7 @@
   
   > ***imp_xxx.go*** 以tag条件编译方式导入具体的版本包，通过包内的 `init` 函数向 `thost` 注册具体版本的API创建实例，如使用 `trader` 模块的抽象，则编译时需使用 `-tag ${具体版本号}` 指定导入的实现版本
   
-  - *v6_7_13* v6.7.13的具体封装实现，可脱离上层抽象，直接导入使用
+  - *v6.7.13* v6.7.13的具体封装实现，可脱离上层抽象，直接导入使用
   
   - *其他版本* 待更新实现
 
@@ -65,7 +65,7 @@
   
   > ***imp_xxx.go*** 以tag条件编译方式导入具体的版本包，通过包内的 `init` 函数向 `thost` 注册具体版本的API创建实例，如使用 `mduser` 模块的抽象，则编译时需使用 `-tag ${具体版本号}` 指定导入的实现版本
   
-  - *v6_7_13* v6.7.13的具体封装实现，可脱离上层抽象，直接导入使用
+  - *v6.7.13* v6.7.13的具体封装实现，可脱离上层抽象，直接导入使用
   
   - *其他版本* 待更新实现
 
@@ -73,42 +73,60 @@
 
 ## 代码生成
 
-1. 在SDK模块目录下创建需要生成的版本封装文件夹
+1. 进入 `thost` 模块目录，使用 `make` 命令生成 **SDK** 相关版本的代码文件
    
-   > 以SDK版本号命名，版本号中的 `.` 替换为下划线 `_`：v6.5.1 ---> v6_5_1
+   > `make` 支持的参数：
+   > 
+   > - VERSION=版本号（默认：v6.7.13）
+   > 
+   > - PLATFORM=平台名称（默认：future）
+   > 
+   > `make` 支持的target：
+   > 
+   > - `trader` 生成交易接口
+   > 
+   > - `mduser` 生成行情接口
 
-2. 版本文件夹内新建 ***generate.go*** 代码生成文件，新增内容如下：
+2. 命令执行后，将生成三种类型代码文件：
    
-   ```go
-   package v6_5_1
+   - 数据定义代码：
+     
+     - ***thost*** 下生成结构体定义文件：*ctp_structs.go*
+     
+     - ***thost/types*** 下生成类型定义文件：*ctp_types.go*
    
-   // 生成 mduser api 的 c 桥接代码及 api 封装实现
-   //go:generate go run ../../gen/main.go -dep ../../dependencies -plat future -sdk name=mduser,ver=v6.5.1 -output api
-   
-   // 生成 mduser spi 的 c 桥接代码及 spi 封装实现
-   //go:generate go run ../../gen/main.go -dep ../../dependencies -plat future -sdk name=mduser,ver=v6.5.1 -output spi
-   
-   // 格式化全部生成的 go 代码
-   //go:generate gofmt -w .
-   
-   // 编译检查生成代码的正确性
-   //go:generate go build .
-   ```
+   - 接口封装代码：
+     
+     > 封装代码生成在对应接口名模块文件夹下
+     > 
+     > 以下以 `trader` 交易模块的 *v6.7.13* 版本为例
+     
+     - ***trader/v6.7.13*** 下生成对应版本接口封装代码：
+       
+       - *gen.go* 全部封装代码的 go generate 定义
+         
+         > 该定义文件存在的情况下，可重复手工执行生成代码：
+         > 
+         > ```bash
+         > go generate .
+         > ```
+       
+       - *api_helper.h* api 接口的 c 桥接代码定义
+       
+       - *api_helper.c* api 接口的 c 桥接代码实现
+       
+       - *api_impl.go* api 接口的 go 封装实现
+       
+       - *spi_helper.h* spi 接口的 c 桥接代码定义
+       
+       - *spi_helper.c* spi 接口的 c 桥接代码实现
+       
+       - *spi_impl.go* spi 接口的 go 封装实现
+       
+       - *consts_linux.go* linux系统特定的静态函数名
+       
+       - *consts_windows.go* windows系统特定的静态函数名
+     
+     - ***trader*** 下生成版本导入文件： *imp_6.7.13.go* 
 
-3. 在版本封装目录下执行代码生成命令
-   
-   ```bash
-   # 执行当前目录下全部包含 go:generate 注释的内容以完成代码生成
-   go generate ./...
-   
-   # 生成过程将输出如下日志信息
-   # entry file parsed: ..\..\dependencies\future\v6.5.1\ThostFtdcMdApi.h
-   # converting api api_helper.h.gotmpl
-   # converting api api_helper.c.gotmpl
-   # converting api api_impl.go.gotmpl
-   # entry file parsed: ..\..\dependencies\future\v6.5.1\ThostFtdcMdApi.h
-   # converting spi spi_helper.h.gotmpl
-   # converting spi spi_helper.c.gotmpl
-   ```
-
-4. 目前工程内 `thost` 模块的数据类型及结构体定义基于 `6.7.13` 版本
+3. 

@@ -43,7 +43,7 @@ var (
 			"spi_impl.go.tpl",
 		},
 		"thost": {
-			"ctp_types.go.tpl:types:true",
+			"ctp_types.go.tpl:types",
 			"ctp_structs.go.tpl",
 			"gen.go.tpl:../$sdkName/$version",
 			"imp_$version.go.tpl:../$sdkName",
