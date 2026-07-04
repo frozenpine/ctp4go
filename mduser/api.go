@@ -23,7 +23,7 @@ type MduserApi struct {
 	cfg       mduserCfg
 
 	initOnce  sync.Once
-	initOpts  []traderOpt
+	initOpts  []mduserOpt
 	finalOnce sync.Once
 
 	state *state.FlagResponsor[mduserState]
@@ -113,7 +113,7 @@ func (md *MduserApi) createApi() error {
 	return md.state.SetFlag(Created)
 }
 
-func (md *MduserApi) Initialize(options ...traderOpt) (err error) {
+func (md *MduserApi) Initialize(options ...mduserOpt) (err error) {
 	md.initOnce.Do(func() {
 		md.Info("initializing trader api")
 
@@ -182,7 +182,7 @@ func (md *MduserApi) Finalize() (err error) {
 	return
 }
 
-func (md *MduserApi) Reset(options ...traderOpt) error {
+func (md *MduserApi) Reset(options ...mduserOpt) error {
 	md.Finalize()
 
 	md.Info("reseting trader api")
@@ -207,6 +207,12 @@ func (md *MduserApi) Login() error {
 	login.Password.SetString(md.cfg.userPass)
 
 	rtn := md.api.ReqUserLogin(&login, int(md.requestID.Add(1)))
+
+	return thost.Rtn{Code: rtn}.Error()
+}
+
+func (md *MduserApi) Subscribe(instruments ...string) error {
+	rtn := md.api.SubscribeMarketData(instruments...)
 
 	return thost.Rtn{Code: rtn}.Error()
 }

@@ -37,7 +37,6 @@ var (
 			"api_impl.go.tpl:$version",
 			"consts_linux.go.tpl:$version",
 			"consts_windows.go.tpl:$version",
-			"gen.go.tpl:$version",
 			"imp_$version.go.tpl",
 		},
 		"spi": {

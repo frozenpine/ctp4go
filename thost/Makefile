@@ -1,6 +1,11 @@
 VERSION ?= v6.7.13
 PLATFORM ?= future
 
-default:
+mduser:
 	go run ../gen/main.go -dep ../dependencies -plat $(PLATFORM) -sdk hdr=ThostFtdcUserApiStruct.h,ver=$(VERSION) -output thost
-	cd types && $(RM) thost*.go && gofmt -w . && go generate .
+	gofmt -w .
+	cd types && gofmt -w . && go generate .
+
+clean:
+	$(RM) -r types
+	$(RM) ctp_structs.go

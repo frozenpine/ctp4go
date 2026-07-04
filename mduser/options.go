@@ -222,9 +222,9 @@ func WithFrontAddr(v string) cfgOpt {
 	}
 }
 
-type traderOpt func(*MduserApi) error
+type mduserOpt func(*MduserApi) error
 
-func WithTraderState(stateOpts ...stateOpt) traderOpt {
+func WithMduserState(stateOpts ...stateOpt) mduserOpt {
 	return func(tc *MduserApi) error {
 		if len(stateOpts) < 1 {
 			return errors.New("no state opt specified")
