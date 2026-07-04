@@ -12,6 +12,8 @@ type Param struct {
 	Name string
 	// 参数类型
 	Type string
+	// 参数类型名
+	TypeName string
 	// 是否指针
 	IsPointer bool
 	// 是否const修饰
@@ -73,8 +75,10 @@ func (fn *ClsMethod) ParseParam(cursor *clang.Cursor) {
 
 	if rtnType.Spelling() != "void" {
 		fn.Rtn = &Param{
-			IsConst: rtnType.IsConstQualifiedType(),
+			IsConst:  rtnType.IsConstQualifiedType(),
+			TypeName: rtnType.DefName(),
 		}
+
 		switch rtnType.Kind() {
 		case clang.Type_Pointer:
 			fn.Rtn.IsPointer = true
@@ -102,8 +106,9 @@ func (fn *ClsMethod) ParseParam(cursor *clang.Cursor) {
 
 		if param == nil {
 			param = &Param{
-				Name:    arg.Spelling(),
-				IsConst: argType.IsConstQualifiedType(),
+				Name:     arg.Spelling(),
+				IsConst:  argType.IsConstQualifiedType(),
+				TypeName: argType.DefName(),
 			}
 		}
 

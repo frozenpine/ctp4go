@@ -27,7 +27,7 @@ import (
 // )
 
 func Create{{ $className | TrimPrefix "C" }}(
-    libPath string, {{ range .CreateCall.Params }}{{ GoCaller . }}, {{end}}
+    libPath string, {{ range .CreateCall.Params }}{{ "thost" | GoCaller . }}, {{end}}
 ) (*{{ $className | TrimPrefix "C" }}, error) {
     if libPath == "" {
 		return nil, fmt.Errorf(
@@ -142,7 +142,7 @@ func (api *{{ $className | TrimPrefix "C" }}) GetApiVersion() string {
 }
 
 {{ range .ApiClass.Methods }}
-func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ if eq .Type $sdk.SpiName }}{{ GoParamName . }} thost.{{ $sdk.SpiName | TrimPrefix "CThostFtdc" }}{{ else }}{{ GoCaller . }}{{end}},{{ end }}) {{ GoCaller .Rtn }} {
+func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ if eq .Type $sdk.SpiName }}{{ GoParamName . }} thost.{{ $sdk.SpiName | TrimPrefix "CThostFtdc" }}{{ else }}{{ "thost" | GoCaller . }}{{end}},{{ end }}) {{ "thost" | GoCaller .Rtn }} {
 	slog.Info("executing thost {{ $sdk.Name }} api {{ .Name }}")
 
 	{{ if Contains .Name "Release" -}}defer func() {

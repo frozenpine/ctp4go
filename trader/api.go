@@ -138,8 +138,8 @@ func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 			slog.Any("name_svrs", td.cfg.nameSvrs),
 		)
 
-		td.api.SubscribePrivateTopic(td.cfg.flowMode, td.cfg.flowSeq)
-		td.api.SubscribePublicTopic(td.cfg.flowMode)
+		td.api.SubscribePrivateTopic(int(td.cfg.flowMode), td.cfg.flowSeq)
+		td.api.SubscribePublicTopic(int(td.cfg.flowMode))
 
 		if len(td.cfg.nameSvrs) > 0 {
 			fens := thost.CThostFtdcFensUserInfoField{

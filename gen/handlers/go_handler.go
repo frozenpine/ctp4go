@@ -18,45 +18,8 @@ func GoParamName(p *parser.Param) string {
 	return ""
 }
 
-func GoCallee(p *parser.Param) string {
+func GoParamType(p *parser.Param, prefix ...string) string {
 	buff := bytes.NewBufferString("")
-
-	switch p.Type {
-	case "Int":
-		if p.Name != "" {
-			fmt.Fprintf(buff, "int(%s)", p.Name)
-		} else {
-			buff.WriteString("int(rtn)")
-		}
-	case "Bool":
-		if p.Name != "" {
-			fmt.Fprintf(buff, "bool(%s)", p.Name)
-		} else {
-			buff.WriteString("bool(rtn)")
-		}
-	case "Char_S":
-		if p.Name != "" {
-			fmt.Fprintf(buff, "C.GoString(%s)", p.Name)
-		} else {
-			buff.WriteString("C.GoString(rtn)")
-		}
-	default:
-		if p.IsPointer {
-			fmt.Fprintf(buff, "(*thost.%s)(unsafe.Pointer(%s))", p.Type, p.Name)
-		}
-	}
-
-	return buff.String()
-}
-
-func GoCaller(p *parser.Param) string {
-	if p == nil {
-		return ""
-	}
-
-	buff := bytes.NewBufferString("")
-
-	fmt.Fprintf(buff, "%s ", GoParamName(p))
 
 	switch p.Type {
 	case "Int":
@@ -90,12 +53,52 @@ func GoCaller(p *parser.Param) string {
 		}
 
 		if p.IsStruct {
-			buff.WriteString("thost.")
+			buff.WriteString(strings.Join(
+				append(prefix, p.Type), ".",
+			))
 		}
-		buff.WriteString(p.Type)
 	}
 
 	return buff.String()
+}
+
+func GoCallee(p *parser.Param) string {
+	buff := bytes.NewBufferString("")
+
+	switch p.Type {
+	case "Int":
+		if p.Name != "" {
+			fmt.Fprintf(buff, "int(%s)", p.Name)
+		} else {
+			buff.WriteString("int(rtn)")
+		}
+	case "Bool":
+		if p.Name != "" {
+			fmt.Fprintf(buff, "bool(%s)", p.Name)
+		} else {
+			buff.WriteString("bool(rtn)")
+		}
+	case "Char_S":
+		if p.Name != "" {
+			fmt.Fprintf(buff, "C.GoString(%s)", p.Name)
+		} else {
+			buff.WriteString("C.GoString(rtn)")
+		}
+	default:
+		if p.IsPointer {
+			fmt.Fprintf(buff, "(*thost.%s)(unsafe.Pointer(%s))", p.Type, p.Name)
+		}
+	}
+
+	return buff.String()
+}
+
+func GoCaller(p *parser.Param, prefix ...string) string {
+	if p == nil {
+		return ""
+	}
+
+	return fmt.Sprintf("%s %s", GoParamName(p), GoParamType(p, prefix...))
 }
 
 func GoType(p parser.UnderType) string {

@@ -37,12 +37,15 @@ var (
 			"api_impl.go.tpl:$version",
 			"consts_linux.go.tpl:$version",
 			"consts_windows.go.tpl:$version",
+			"register.go.tpl:$version",
 			"imp_$version.go.tpl",
+			"$sdkName_api.go.tpl:../thost",
 		},
 		"spi": {
 			"spi_helper.h.tpl:$version",
 			"spi_helper.c.tpl:$version",
 			"spi_impl.go.tpl:$version",
+			"$sdkName_spi.go.tpl:../thost",
 		},
 		"thost": {
 			"ctp_types.go.tpl:types:true",
@@ -59,7 +62,13 @@ var (
 	tplFuncs = template.FuncMap{
 		"ToUpper": strings.ToUpper,
 		"ToLower": strings.ToLower,
-		"Title":   strings.ToTitle,
+		"Title": func(in string) string {
+			if in == "" {
+				return ""
+			}
+
+			return strings.ToTitle(string(in[0])) + in[1:]
+		},
 		"Replace": func(old, new string, n int, in string) string {
 			return strings.Replace(in, old, new, n)
 		},
@@ -85,6 +94,7 @@ var (
 		"GoCaller":    handlers.GoCaller,
 		"GoCallee":    handlers.GoCallee,
 		"GoParamName": handlers.GoParamName,
+		"GoParamType": handlers.GoParamType,
 		"GoType":      handlers.GoType,
 		"CgoCaller":   handlers.CgoCaller,
 		"CgoCallee":   handlers.CgoCallee,

@@ -21,8 +21,8 @@ func sdkMaker(
 
 		var (
 			{{- range .CreateCall.Params }}
-			{{ GoCaller . }}
-			{{ end }}
+			{{ "thost" | GoCaller . }}
+			{{- end }}
 
 			ok bool
 		)
@@ -31,18 +31,18 @@ func sdkMaker(
 			switch p.Key {
 			{{- range .CreateCall.Params }}
 			case thost.Param{{ GoParamName . }}:
-				if {{ GoParamName }}, ok = p.Value.({{ GoParamType . }}); !ok {
+				if {{ GoParamName . }}, ok = p.Value.({{ GoParamType . }}); !ok {
 					return nil, fmt.Errorf(
 						"%w: invalid %s value %+v",
 						thost.ErrInvalidArgs, p.Key, p.Value,
 					)
 				}
-			{{ end }}
+			{{- end }}
 			}
 		}
 
 		return Create{{ $className | TrimPrefix "C" }}(
-			libPath, {{ range .CreateCall.Params }}{{ GoCaller . }}, {{end}}
+			libPath, {{ range .CreateCall.Params }}{{ GoParamName . }}, {{end}}
 		)
 	}
 }
