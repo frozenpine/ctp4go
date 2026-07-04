@@ -1,7 +1,7 @@
 {{- $sdk := .Sdk -}}
 //go:build {{ $sdk.Version }}
-package {{ $sdk.Name }}
+package {{ .Platform }}
 
 import (
-    _ "github.com/frozenpine/ctp4go/{{ $sdk.Name }}/{{ $sdk.Version }}"
+    _ "github.com/frozenpine/ctp4go/{{ $sdk.Name }}/{{ .Platform }}/{{ $sdk.Version }}"
 )

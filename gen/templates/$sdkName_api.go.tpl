@@ -1,5 +1,5 @@
 {{- $sdk := .Sdk -}}
-package thost
+package {{ .Platform }}
 
 type {{ .ApiClass.Name | TrimPrefix "CThostFtdc" }} interface {
 {{- range .ApiClass.Methods }}

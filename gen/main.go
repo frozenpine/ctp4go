@@ -32,24 +32,24 @@ var (
 
 	cTplMapper = map[string][]string{
 		"api": {
-			"api_helper.h.tpl:$version",
-			"api_helper.c.tpl:$version",
-			"api_impl.go.tpl:$version",
-			"consts_linux.go.tpl:$version",
-			"consts_windows.go.tpl:$version",
-			"register.go.tpl:$version",
-			"imp_$version.go.tpl",
-			"$sdkName_api.go.tpl:../thost",
+			"api_helper.h.tpl:$platform/$version",
+			"api_helper.c.tpl:$platform/$version",
+			"api_impl.go.tpl:$platform/$version",
+			"consts_linux.go.tpl:$platform/$version",
+			"consts_windows.go.tpl:$platform/$version",
+			"register.go.tpl:$platform/$version",
+			"imp_$version.go.tpl:$platform",
+			"$sdkName_api.go.tpl:../thost/$platform",
 		},
 		"spi": {
-			"spi_helper.h.tpl:$version",
-			"spi_helper.c.tpl:$version",
-			"spi_impl.go.tpl:$version",
-			"$sdkName_spi.go.tpl:../thost",
+			"spi_helper.h.tpl:$platform/$version",
+			"spi_helper.c.tpl:$platform/$version",
+			"spi_impl.go.tpl:$platform/$version",
+			"$sdkName_spi.go.tpl:../thost/$platform",
 		},
 		"thost": {
-			"ctp_types.go.tpl:types:true",
-			"ctp_structs.go.tpl",
+			"ctp_types.go.tpl:$platform/types:true",
+			"ctp_structs.go.tpl:$platform",
 		},
 	}
 

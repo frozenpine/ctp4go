@@ -3,7 +3,7 @@
 package {{ $sdk.Version | ReplaceAll "." "_"}}
 
 /*
-#cgo CFLAGS: -I. -I${SRCDIR} -I${SRCDIR}/../../dependencies/{{ .Platform }}/{{ $sdk.Version }}/
+#cgo CFLAGS: -I. -I${SRCDIR} -I${SRCDIR}/../../../dependencies/{{ .Platform }}/{{ $sdk.Version }}/
 #cgo LDFLAGS: -ldl
 
 #include "api_helper.h"
@@ -18,16 +18,17 @@ import (
 	"unsafe"
 
 	"github.com/frozenpine/ctp4go/thost"
-	"github.com/frozenpine/ctp4go/thost/types"
+	"github.com/frozenpine/ctp4go/thost/{{ .Platform }}"
+	"github.com/frozenpine/ctp4go/thost/{{ .Platform }}/types"
 )
 
 // var (
 //     // 确保Api封装完整实现了thost中的接口签名
-//     _ thost.{{ $className | TrimPrefix "CThostFtdc" }} = &{{ $className | TrimPrefix "C" }}{}
+//     _ {{ .Platform }}.{{ $className | TrimPrefix "CThostFtdc" }} = &{{ $className | TrimPrefix "C" }}{}
 // )
 
 func Create{{ $className | TrimPrefix "C" }}(
-    libPath string, {{ range .CreateCall.Params }}{{ "thost" | GoCaller . }}, {{end}}
+    libPath string, {{ range .CreateCall.Params }}{{ $.Platform | GoCaller . }}, {{end}}
 ) (*{{ $className | TrimPrefix "C" }}, error) {
     if libPath == "" {
 		return nil, fmt.Errorf(
@@ -142,7 +143,7 @@ func (api *{{ $className | TrimPrefix "C" }}) GetApiVersion() string {
 }
 
 {{ range .ApiClass.Methods }}
-func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ if eq .Type $sdk.SpiName }}{{ GoParamName . }} thost.{{ $sdk.SpiName | TrimPrefix "CThostFtdc" }}{{ else }}{{ "thost" | GoCaller . }}{{end}},{{ end }}) {{ "thost" | GoCaller .Rtn }} {
+func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ if eq .Type $sdk.SpiName }}{{ GoParamName . }} {{ $.Platform }}.{{ $sdk.SpiName | TrimPrefix "CThostFtdc" }}{{ else }}{{ $.Platform | GoCaller . }}{{end}},{{ end }}) {{ $.Platform | GoCaller .Rtn }} {
 	slog.Info("executing thost {{ $sdk.Name }} api {{ .Name }}")
 
 	{{ if Contains .Name "Release" -}}defer func() {

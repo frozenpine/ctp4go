@@ -1,6 +1,6 @@
-package thost
+package {{ .Platform }}
 
-import "github.com/frozenpine/ctp4go/thost/types"
+import "github.com/frozenpine/ctp4go/thost/{{ .Platform }}/types"
 
 {{ range .Structures }}
     {{- range .Comments.Summary }}

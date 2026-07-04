@@ -3,9 +3,9 @@ PLATFORM ?= future
 
 mduser:
 	go run ../gen/main.go -dep ../dependencies -plat $(PLATFORM) -sdk hdr=ThostFtdcUserApiStruct.h,ver=$(VERSION) -output thost
-	gofmt -w .
-	cd types && gofmt -w . && go generate .
+	cd $(PLATFORM) && gofmt -w .
+	cd $(PLATFORM)/types && gofmt -w . && go generate .
 
 clean:
-	$(RM) -r types
-	$(RM) ctp_structs.go
+	$(RM) -r $(PLATFORM)/types
+	$(RM) $(PLATFORM)/ctp_structs.go

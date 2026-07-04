@@ -3,7 +3,7 @@
 package {{ $sdk.Version | ReplaceAll "." "_"}}
 
 /*
-#cgo CFLAGS: -I. -I${SRCDIR} -I${SRCDIR}/../../dependencies/{{ .Platform }}/{{ $sdk.Version }}/
+#cgo CFLAGS: -I. -I${SRCDIR} -I${SRCDIR}/../../../dependencies/{{ .Platform }}/{{ $sdk.Version }}/
 #cgo LDFLAGS: -ldl
 
 #include "spi_helper.h"
@@ -15,7 +15,7 @@ import (
 	"runtime"
 	"unsafe"
 
-	"github.com/frozenpine/ctp4go/thost"
+	"github.com/frozenpine/ctp4go/thost/{{ .Platform }}"
 )
 
 var (
@@ -36,7 +36,7 @@ func init() {
 
 type {{ $className | TrimPrefix "C" }} struct {
     runtime.Pinner
-	callback thost.{{ $className | TrimPrefix "CThostFtdc" }}
+	callback {{ .Platform }}.{{ $className | TrimPrefix "CThostFtdc" }}
 }
 
 {{ range .SpiClass.Methods }}
@@ -57,7 +57,7 @@ func Cgo{{ .Name }}(
 		(*C.{{ $sdk.SpiExtName }})(this).spi,
 	).callback.{{ .Name }}(
 		{{- range .Params }}
-		{{ GoCallee . }},{{ end }}
+		{{ $.Platform | GoCallee . }},{{ end }}
 	)
 }
 {{ end }}

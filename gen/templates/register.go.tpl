@@ -6,13 +6,14 @@ import (
 	"fmt"
 
 	"github.com/frozenpine/ctp4go/thost"
+	"github.com/frozenpine/ctp4go/thost/{{ .Platform }}"
 )
 
 func sdkMaker(
 	libPath string,
-	params ...thost.Param,
-) func() (thost.{{ $className | TrimPrefix "CThostFtdc" }}, error) {
-	return func() (thost.{{ $className | TrimPrefix "CThostFtdc" }}, error) {
+	params ...{{ .Platform }}.Param,
+) func() ({{ .Platform }}.{{ $className | TrimPrefix "CThostFtdc" }}, error) {
+	return func() ({{ .Platform }}.{{ $className | TrimPrefix "CThostFtdc" }}, error) {
 		if libPath == "" {
 			return nil, fmt.Errorf(
 				"%w: lib path is empty", thost.ErrInvalidArgs,
@@ -21,7 +22,7 @@ func sdkMaker(
 
 		var (
 			{{- range .CreateCall.Params }}
-			{{ "thost" | GoCaller . }}
+			{{ $.Platform | GoCaller . }}
 			{{- end }}
 
 			ok bool
@@ -30,7 +31,7 @@ func sdkMaker(
 		for _, p := range params {
 			switch p.Key {
 			{{- range .CreateCall.Params }}
-			case thost.Param{{ GoParamName . }}:
+			case {{ $.Platform }}.Param{{ GoParamName . }}:
 				if {{ GoParamName . }}, ok = p.Value.({{ GoParamType . }}); !ok {
 					return nil, fmt.Errorf(
 						"%w: invalid %s value %+v",
@@ -48,7 +49,7 @@ func sdkMaker(
 }
 
 func init() {
-	if err := thost.Set{{ $sdk.Name | Title }}Maker("{{ $sdk.Version }}", sdkMaker); err != nil {
+	if err := {{ .Platform }}.Set{{ $sdk.Name | Title }}Maker("{{ $sdk.Version }}", sdkMaker); err != nil {
 		panic(err)
 	}
 }

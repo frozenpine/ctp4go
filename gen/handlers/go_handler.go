@@ -62,7 +62,7 @@ func GoParamType(p *parser.Param, prefix ...string) string {
 	return buff.String()
 }
 
-func GoCallee(p *parser.Param) string {
+func GoCallee(p *parser.Param, prefix ...string) string {
 	buff := bytes.NewBufferString("")
 
 	switch p.Type {
@@ -86,7 +86,8 @@ func GoCallee(p *parser.Param) string {
 		}
 	default:
 		if p.IsPointer {
-			fmt.Fprintf(buff, "(*thost.%s)(unsafe.Pointer(%s))", p.Type, p.Name)
+			fmt.Fprintf(buff, "(%s)(unsafe.Pointer(%s))",
+				GoParamType(p, prefix...), p.Name)
 		}
 	}
 
