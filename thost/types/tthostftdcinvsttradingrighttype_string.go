@@ -17,9 +17,9 @@ const _TThostFtdcInvstTradingRightType_name = "只能平仓不能交易"
 var _TThostFtdcInvstTradingRightType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcInvstTradingRightType) String() string {
-	i -= 49
-	if i >= TThostFtdcInvstTradingRightType(len(_TThostFtdcInvstTradingRightType_index)-1) {
-		return "TThostFtdcInvstTradingRightType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcInvstTradingRightType_index)-1 {
+		return "TThostFtdcInvstTradingRightType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcInvstTradingRightType_name[_TThostFtdcInvstTradingRightType_index[i]:_TThostFtdcInvstTradingRightType_index[i+1]]
+	return _TThostFtdcInvstTradingRightType_name[_TThostFtdcInvstTradingRightType_index[idx]:_TThostFtdcInvstTradingRightType_index[idx+1]]
 }

@@ -25,9 +25,9 @@ const _TThostFtdcEventModeType_name = "增加修改删除复核复制注销冲�
 var _TThostFtdcEventModeType_index = [...]uint8{0, 6, 12, 18, 24, 30, 36, 42}
 
 func (i TThostFtdcEventModeType) String() string {
-	i -= 49
-	if i >= TThostFtdcEventModeType(len(_TThostFtdcEventModeType_index)-1) {
-		return "TThostFtdcEventModeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcEventModeType_index)-1 {
+		return "TThostFtdcEventModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcEventModeType_name[_TThostFtdcEventModeType_index[i]:_TThostFtdcEventModeType_index[i+1]]
+	return _TThostFtdcEventModeType_name[_TThostFtdcEventModeType_index[idx]:_TThostFtdcEventModeType_index[idx+1]]
 }

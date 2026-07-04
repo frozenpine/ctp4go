@@ -19,9 +19,9 @@ const _TThostFtdcFundTypeEnType_name = "Bank DepositPaymentFeeBrokerage AdjInter
 var _TThostFtdcFundTypeEnType_index = [...]uint8{0, 12, 22, 35, 52}
 
 func (i TThostFtdcFundTypeEnType) String() string {
-	i -= 49
-	if i >= TThostFtdcFundTypeEnType(len(_TThostFtdcFundTypeEnType_index)-1) {
-		return "TThostFtdcFundTypeEnType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFundTypeEnType_index)-1 {
+		return "TThostFtdcFundTypeEnType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFundTypeEnType_name[_TThostFtdcFundTypeEnType_index[i]:_TThostFtdcFundTypeEnType_index[i+1]]
+	return _TThostFtdcFundTypeEnType_name[_TThostFtdcFundTypeEnType_index[idx]:_TThostFtdcFundTypeEnType_index[idx+1]]
 }

@@ -17,9 +17,9 @@ const _TThostFtdcExStatusType_name = "修改前修改后"
 var _TThostFtdcExStatusType_index = [...]uint8{0, 9, 18}
 
 func (i TThostFtdcExStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcExStatusType(len(_TThostFtdcExStatusType_index)-1) {
-		return "TThostFtdcExStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcExStatusType_index)-1 {
+		return "TThostFtdcExStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcExStatusType_name[_TThostFtdcExStatusType_index[i]:_TThostFtdcExStatusType_index[i+1]]
+	return _TThostFtdcExStatusType_name[_TThostFtdcExStatusType_index[idx]:_TThostFtdcExStatusType_index[idx+1]]
 }

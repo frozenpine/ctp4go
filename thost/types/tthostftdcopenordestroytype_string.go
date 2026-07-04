@@ -17,9 +17,9 @@ const _TThostFtdcOpenOrDestroyType_name = "销户开户"
 var _TThostFtdcOpenOrDestroyType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcOpenOrDestroyType) String() string {
-	i -= 48
-	if i >= TThostFtdcOpenOrDestroyType(len(_TThostFtdcOpenOrDestroyType_index)-1) {
-		return "TThostFtdcOpenOrDestroyType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcOpenOrDestroyType_index)-1 {
+		return "TThostFtdcOpenOrDestroyType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOpenOrDestroyType_name[_TThostFtdcOpenOrDestroyType_index[i]:_TThostFtdcOpenOrDestroyType_index[i+1]]
+	return _TThostFtdcOpenOrDestroyType_name[_TThostFtdcOpenOrDestroyType_index[idx]:_TThostFtdcOpenOrDestroyType_index[idx+1]]
 }

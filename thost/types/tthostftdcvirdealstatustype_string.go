@@ -17,9 +17,9 @@ const _TThostFtdcVirDealStatusType_name = "正在处理处理成功"
 var _TThostFtdcVirDealStatusType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcVirDealStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcVirDealStatusType(len(_TThostFtdcVirDealStatusType_index)-1) {
-		return "TThostFtdcVirDealStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcVirDealStatusType_index)-1 {
+		return "TThostFtdcVirDealStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcVirDealStatusType_name[_TThostFtdcVirDealStatusType_index[i]:_TThostFtdcVirDealStatusType_index[i+1]]
+	return _TThostFtdcVirDealStatusType_name[_TThostFtdcVirDealStatusType_index[idx]:_TThostFtdcVirDealStatusType_index[idx+1]]
 }

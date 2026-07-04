@@ -18,9 +18,9 @@ const _TThostFtdcVirementAvailAbilityType_name = "未确认有效冲正"
 var _TThostFtdcVirementAvailAbilityType_index = [...]uint8{0, 9, 15, 21}
 
 func (i TThostFtdcVirementAvailAbilityType) String() string {
-	i -= 48
-	if i >= TThostFtdcVirementAvailAbilityType(len(_TThostFtdcVirementAvailAbilityType_index)-1) {
-		return "TThostFtdcVirementAvailAbilityType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcVirementAvailAbilityType_index)-1 {
+		return "TThostFtdcVirementAvailAbilityType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcVirementAvailAbilityType_name[_TThostFtdcVirementAvailAbilityType_index[i]:_TThostFtdcVirementAvailAbilityType_index[i+1]]
+	return _TThostFtdcVirementAvailAbilityType_name[_TThostFtdcVirementAvailAbilityType_index[idx]:_TThostFtdcVirementAvailAbilityType_index[idx+1]]
 }

@@ -17,9 +17,9 @@ const _TThostFtdcBizTypeType_name = "期货证券"
 var _TThostFtdcBizTypeType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcBizTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcBizTypeType(len(_TThostFtdcBizTypeType_index)-1) {
-		return "TThostFtdcBizTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcBizTypeType_index)-1 {
+		return "TThostFtdcBizTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBizTypeType_name[_TThostFtdcBizTypeType_index[i]:_TThostFtdcBizTypeType_index[i+1]]
+	return _TThostFtdcBizTypeType_name[_TThostFtdcBizTypeType_index[idx]:_TThostFtdcBizTypeType_index[idx+1]]
 }

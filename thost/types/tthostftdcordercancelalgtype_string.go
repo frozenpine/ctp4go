@@ -17,9 +17,9 @@ const _TThostFtdcOrderCancelAlgType_name = "轮询席位撤单优先原报单席
 var _TThostFtdcOrderCancelAlgType_index = [...]uint8{0, 18, 45}
 
 func (i TThostFtdcOrderCancelAlgType) String() string {
-	i -= 49
-	if i >= TThostFtdcOrderCancelAlgType(len(_TThostFtdcOrderCancelAlgType_index)-1) {
-		return "TThostFtdcOrderCancelAlgType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcOrderCancelAlgType_index)-1 {
+		return "TThostFtdcOrderCancelAlgType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOrderCancelAlgType_name[_TThostFtdcOrderCancelAlgType_index[i]:_TThostFtdcOrderCancelAlgType_index[i+1]]
+	return _TThostFtdcOrderCancelAlgType_name[_TThostFtdcOrderCancelAlgType_index[idx]:_TThostFtdcOrderCancelAlgType_index[idx+1]]
 }

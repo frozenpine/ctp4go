@@ -18,9 +18,9 @@ const _TThostFtdcReasonType_name = "错单资金在途其它"
 var _TThostFtdcReasonType_index = [...]uint8{0, 6, 18, 24}
 
 func (i TThostFtdcReasonType) String() string {
-	i -= 48
-	if i >= TThostFtdcReasonType(len(_TThostFtdcReasonType_index)-1) {
-		return "TThostFtdcReasonType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcReasonType_index)-1 {
+		return "TThostFtdcReasonType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcReasonType_name[_TThostFtdcReasonType_index[i]:_TThostFtdcReasonType_index[i+1]]
+	return _TThostFtdcReasonType_name[_TThostFtdcReasonType_index[idx]:_TThostFtdcReasonType_index[idx+1]]
 }

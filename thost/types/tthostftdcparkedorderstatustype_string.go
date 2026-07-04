@@ -18,9 +18,9 @@ const _TThostFtdcParkedOrderStatusType_name = "未发送已发送已删除"
 var _TThostFtdcParkedOrderStatusType_index = [...]uint8{0, 9, 18, 27}
 
 func (i TThostFtdcParkedOrderStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcParkedOrderStatusType(len(_TThostFtdcParkedOrderStatusType_index)-1) {
-		return "TThostFtdcParkedOrderStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcParkedOrderStatusType_index)-1 {
+		return "TThostFtdcParkedOrderStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcParkedOrderStatusType_name[_TThostFtdcParkedOrderStatusType_index[i]:_TThostFtdcParkedOrderStatusType_index[i+1]]
+	return _TThostFtdcParkedOrderStatusType_name[_TThostFtdcParkedOrderStatusType_index[idx]:_TThostFtdcParkedOrderStatusType_index[idx+1]]
 }

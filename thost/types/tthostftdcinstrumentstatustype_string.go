@@ -23,9 +23,9 @@ const _TThostFtdcInstrumentStatusType_name = "开盘前非交易连续交易集�
 var _TThostFtdcInstrumentStatusType_index = [...]uint8{0, 9, 18, 30, 48, 72, 90, 96, 114}
 
 func (i TThostFtdcInstrumentStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcInstrumentStatusType(len(_TThostFtdcInstrumentStatusType_index)-1) {
-		return "TThostFtdcInstrumentStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcInstrumentStatusType_index)-1 {
+		return "TThostFtdcInstrumentStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcInstrumentStatusType_name[_TThostFtdcInstrumentStatusType_index[i]:_TThostFtdcInstrumentStatusType_index[i+1]]
+	return _TThostFtdcInstrumentStatusType_name[_TThostFtdcInstrumentStatusType_index[idx]:_TThostFtdcInstrumentStatusType_index[idx+1]]
 }

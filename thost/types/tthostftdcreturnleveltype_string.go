@@ -24,9 +24,9 @@ const _TThostFtdcReturnLevelType_name = "级别1级别2级别3级别4级别5级�
 var _TThostFtdcReturnLevelType_index = [...]uint8{0, 7, 14, 21, 28, 35, 42, 49, 56, 63}
 
 func (i TThostFtdcReturnLevelType) String() string {
-	i -= 49
-	if i >= TThostFtdcReturnLevelType(len(_TThostFtdcReturnLevelType_index)-1) {
-		return "TThostFtdcReturnLevelType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcReturnLevelType_index)-1 {
+		return "TThostFtdcReturnLevelType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcReturnLevelType_name[_TThostFtdcReturnLevelType_index[i]:_TThostFtdcReturnLevelType_index[i+1]]
+	return _TThostFtdcReturnLevelType_name[_TThostFtdcReturnLevelType_index[idx]:_TThostFtdcReturnLevelType_index[idx+1]]
 }

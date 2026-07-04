@@ -16,9 +16,9 @@ const _TThostFtdcWithDrawParamIDType_name = "权利金收支是否可提 1 代�
 var _TThostFtdcWithDrawParamIDType_index = [...]uint8{0, 54}
 
 func (i TThostFtdcWithDrawParamIDType) String() string {
-	i -= 67
-	if i >= TThostFtdcWithDrawParamIDType(len(_TThostFtdcWithDrawParamIDType_index)-1) {
-		return "TThostFtdcWithDrawParamIDType(" + strconv.FormatInt(int64(i+67), 10) + ")"
+	idx := int(i) - 67
+	if i < 67 || idx >= len(_TThostFtdcWithDrawParamIDType_index)-1 {
+		return "TThostFtdcWithDrawParamIDType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcWithDrawParamIDType_name[_TThostFtdcWithDrawParamIDType_index[i]:_TThostFtdcWithDrawParamIDType_index[i+1]]
+	return _TThostFtdcWithDrawParamIDType_name[_TThostFtdcWithDrawParamIDType_index[idx]:_TThostFtdcWithDrawParamIDType_index[idx+1]]
 }

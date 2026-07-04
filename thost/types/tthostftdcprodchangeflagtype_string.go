@@ -18,9 +18,9 @@ const _TThostFtdcProdChangeFlagType_name = "持仓量和冻结量均无变化持
 var _TThostFtdcProdChangeFlagType_index = [...]uint8{0, 33, 72, 90}
 
 func (i TThostFtdcProdChangeFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcProdChangeFlagType(len(_TThostFtdcProdChangeFlagType_index)-1) {
-		return "TThostFtdcProdChangeFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcProdChangeFlagType_index)-1 {
+		return "TThostFtdcProdChangeFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcProdChangeFlagType_name[_TThostFtdcProdChangeFlagType_index[i]:_TThostFtdcProdChangeFlagType_index[i+1]]
+	return _TThostFtdcProdChangeFlagType_name[_TThostFtdcProdChangeFlagType_index[idx]:_TThostFtdcProdChangeFlagType_index[idx+1]]
 }

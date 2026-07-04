@@ -17,9 +17,9 @@ const _TThostFtdcFileTypeType_name = "结算核对"
 var _TThostFtdcFileTypeType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcFileTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcFileTypeType(len(_TThostFtdcFileTypeType_index)-1) {
-		return "TThostFtdcFileTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFileTypeType_index)-1 {
+		return "TThostFtdcFileTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFileTypeType_name[_TThostFtdcFileTypeType_index[i]:_TThostFtdcFileTypeType_index[i+1]]
+	return _TThostFtdcFileTypeType_name[_TThostFtdcFileTypeType_index[idx]:_TThostFtdcFileTypeType_index[idx+1]]
 }

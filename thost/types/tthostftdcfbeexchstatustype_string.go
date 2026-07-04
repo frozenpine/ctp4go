@@ -17,9 +17,9 @@ const _TThostFtdcFBEExchStatusType_name = "正常交易重发"
 var _TThostFtdcFBEExchStatusType_index = [...]uint8{0, 6, 18}
 
 func (i TThostFtdcFBEExchStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcFBEExchStatusType(len(_TThostFtdcFBEExchStatusType_index)-1) {
-		return "TThostFtdcFBEExchStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFBEExchStatusType_index)-1 {
+		return "TThostFtdcFBEExchStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFBEExchStatusType_name[_TThostFtdcFBEExchStatusType_index[i]:_TThostFtdcFBEExchStatusType_index[i+1]]
+	return _TThostFtdcFBEExchStatusType_name[_TThostFtdcFBEExchStatusType_index[idx]:_TThostFtdcFBEExchStatusType_index[idx+1]]
 }

@@ -19,9 +19,9 @@ const _TThostFtdcRiskNotifyMethodType_name = "系统通知短信通知邮件通�
 var _TThostFtdcRiskNotifyMethodType_index = [...]uint8{0, 12, 24, 36, 48}
 
 func (i TThostFtdcRiskNotifyMethodType) String() string {
-	i -= 48
-	if i >= TThostFtdcRiskNotifyMethodType(len(_TThostFtdcRiskNotifyMethodType_index)-1) {
-		return "TThostFtdcRiskNotifyMethodType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcRiskNotifyMethodType_index)-1 {
+		return "TThostFtdcRiskNotifyMethodType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcRiskNotifyMethodType_name[_TThostFtdcRiskNotifyMethodType_index[i]:_TThostFtdcRiskNotifyMethodType_index[i+1]]
+	return _TThostFtdcRiskNotifyMethodType_name[_TThostFtdcRiskNotifyMethodType_index[idx]:_TThostFtdcRiskNotifyMethodType_index[idx+1]]
 }

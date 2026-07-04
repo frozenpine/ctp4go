@@ -19,9 +19,9 @@ const _TThostFtdcClassTypeType_name = "所有合约期货、即期、期转现�
 var _TThostFtdcClassTypeType_index = [...]uint8{0, 12, 66, 93, 105}
 
 func (i TThostFtdcClassTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcClassTypeType(len(_TThostFtdcClassTypeType_index)-1) {
-		return "TThostFtdcClassTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcClassTypeType_index)-1 {
+		return "TThostFtdcClassTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcClassTypeType_name[_TThostFtdcClassTypeType_index[i]:_TThostFtdcClassTypeType_index[i+1]]
+	return _TThostFtdcClassTypeType_name[_TThostFtdcClassTypeType_index[idx]:_TThostFtdcClassTypeType_index[idx+1]]
 }

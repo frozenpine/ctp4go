@@ -18,9 +18,9 @@ const _TThostFtdcFundIOTypeEnType_name = "DepositWithdrawalBank-Futures Transfer
 var _TThostFtdcFundIOTypeEnType_index = [...]uint8{0, 17, 38, 62}
 
 func (i TThostFtdcFundIOTypeEnType) String() string {
-	i -= 49
-	if i >= TThostFtdcFundIOTypeEnType(len(_TThostFtdcFundIOTypeEnType_index)-1) {
-		return "TThostFtdcFundIOTypeEnType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFundIOTypeEnType_index)-1 {
+		return "TThostFtdcFundIOTypeEnType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFundIOTypeEnType_name[_TThostFtdcFundIOTypeEnType_index[i]:_TThostFtdcFundIOTypeEnType_index[i+1]]
+	return _TThostFtdcFundIOTypeEnType_name[_TThostFtdcFundIOTypeEnType_index[idx]:_TThostFtdcFundIOTypeEnType_index[idx+1]]
 }

@@ -19,9 +19,9 @@ const _TThostFtdcTraderConnectStatusType_name = "没有任何连接已经连接�
 var _TThostFtdcTraderConnectStatusType_index = [...]uint8{0, 18, 30, 60, 75}
 
 func (i TThostFtdcTraderConnectStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcTraderConnectStatusType(len(_TThostFtdcTraderConnectStatusType_index)-1) {
-		return "TThostFtdcTraderConnectStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcTraderConnectStatusType_index)-1 {
+		return "TThostFtdcTraderConnectStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTraderConnectStatusType_name[_TThostFtdcTraderConnectStatusType_index[i]:_TThostFtdcTraderConnectStatusType_index[i+1]]
+	return _TThostFtdcTraderConnectStatusType_name[_TThostFtdcTraderConnectStatusType_index[idx]:_TThostFtdcTraderConnectStatusType_index[idx+1]]
 }

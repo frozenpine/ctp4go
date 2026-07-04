@@ -17,9 +17,9 @@ const _TThostFtdcFBTTransferDirectionType_name = "入金，银行转期货出金
 var _TThostFtdcFBTTransferDirectionType_index = [...]uint8{0, 24, 48}
 
 func (i TThostFtdcFBTTransferDirectionType) String() string {
-	i -= 49
-	if i >= TThostFtdcFBTTransferDirectionType(len(_TThostFtdcFBTTransferDirectionType_index)-1) {
-		return "TThostFtdcFBTTransferDirectionType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFBTTransferDirectionType_index)-1 {
+		return "TThostFtdcFBTTransferDirectionType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFBTTransferDirectionType_name[_TThostFtdcFBTTransferDirectionType_index[i]:_TThostFtdcFBTTransferDirectionType_index[i+1]]
+	return _TThostFtdcFBTTransferDirectionType_name[_TThostFtdcFBTTransferDirectionType_index[idx]:_TThostFtdcFBTTransferDirectionType_index[idx+1]]
 }

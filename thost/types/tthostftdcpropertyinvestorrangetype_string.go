@@ -18,9 +18,9 @@ const _TThostFtdcPropertyInvestorRangeType_name = "所有投资者属性单一�
 var _TThostFtdcPropertyInvestorRangeType_index = [...]uint8{0, 6, 21, 36}
 
 func (i TThostFtdcPropertyInvestorRangeType) String() string {
-	i -= 49
-	if i >= TThostFtdcPropertyInvestorRangeType(len(_TThostFtdcPropertyInvestorRangeType_index)-1) {
-		return "TThostFtdcPropertyInvestorRangeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcPropertyInvestorRangeType_index)-1 {
+		return "TThostFtdcPropertyInvestorRangeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcPropertyInvestorRangeType_name[_TThostFtdcPropertyInvestorRangeType_index[i]:_TThostFtdcPropertyInvestorRangeType_index[i+1]]
+	return _TThostFtdcPropertyInvestorRangeType_name[_TThostFtdcPropertyInvestorRangeType_index[idx]:_TThostFtdcPropertyInvestorRangeType_index[idx+1]]
 }

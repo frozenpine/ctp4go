@@ -17,9 +17,9 @@ const _TThostFtdcMoneyAccountStatusType_name = "正常销户"
 var _TThostFtdcMoneyAccountStatusType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcMoneyAccountStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcMoneyAccountStatusType(len(_TThostFtdcMoneyAccountStatusType_index)-1) {
-		return "TThostFtdcMoneyAccountStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcMoneyAccountStatusType_index)-1 {
+		return "TThostFtdcMoneyAccountStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcMoneyAccountStatusType_name[_TThostFtdcMoneyAccountStatusType_index[i]:_TThostFtdcMoneyAccountStatusType_index[i+1]]
+	return _TThostFtdcMoneyAccountStatusType_name[_TThostFtdcMoneyAccountStatusType_index[idx]:_TThostFtdcMoneyAccountStatusType_index[idx+1]]
 }

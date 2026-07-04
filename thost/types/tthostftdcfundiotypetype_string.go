@@ -18,9 +18,9 @@ const _TThostFtdcFundIOTypeType_name = "出入金银期转帐银期换汇"
 var _TThostFtdcFundIOTypeType_index = [...]uint8{0, 9, 21, 33}
 
 func (i TThostFtdcFundIOTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcFundIOTypeType(len(_TThostFtdcFundIOTypeType_index)-1) {
-		return "TThostFtdcFundIOTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFundIOTypeType_index)-1 {
+		return "TThostFtdcFundIOTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFundIOTypeType_name[_TThostFtdcFundIOTypeType_index[i]:_TThostFtdcFundIOTypeType_index[i+1]]
+	return _TThostFtdcFundIOTypeType_name[_TThostFtdcFundIOTypeType_index[idx]:_TThostFtdcFundIOTypeType_index[idx+1]]
 }

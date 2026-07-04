@@ -20,9 +20,9 @@ const _TThostFtdcTransferDirectionType_name = "移出移入非交易"
 var _TThostFtdcTransferDirectionType_index = [...]uint8{0, 6, 12, 21}
 
 func (i TThostFtdcTransferDirectionType) String() string {
-	i -= 48
-	if i >= TThostFtdcTransferDirectionType(len(_TThostFtdcTransferDirectionType_index)-1) {
-		return "TThostFtdcTransferDirectionType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcTransferDirectionType_index)-1 {
+		return "TThostFtdcTransferDirectionType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTransferDirectionType_name[_TThostFtdcTransferDirectionType_index[i]:_TThostFtdcTransferDirectionType_index[i+1]]
+	return _TThostFtdcTransferDirectionType_name[_TThostFtdcTransferDirectionType_index[idx]:_TThostFtdcTransferDirectionType_index[idx+1]]
 }

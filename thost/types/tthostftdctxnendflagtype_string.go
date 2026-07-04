@@ -22,9 +22,9 @@ const _TThostFtdcTxnEndFlagType_name = "正常处理中成功结束失败结束�
 var _TThostFtdcTxnEndFlagType_index = [...]uint8{0, 15, 27, 39, 48, 69, 100, 130}
 
 func (i TThostFtdcTxnEndFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcTxnEndFlagType(len(_TThostFtdcTxnEndFlagType_index)-1) {
-		return "TThostFtdcTxnEndFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcTxnEndFlagType_index)-1 {
+		return "TThostFtdcTxnEndFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTxnEndFlagType_name[_TThostFtdcTxnEndFlagType_index[i]:_TThostFtdcTxnEndFlagType_index[i+1]]
+	return _TThostFtdcTxnEndFlagType_name[_TThostFtdcTxnEndFlagType_index[idx]:_TThostFtdcTxnEndFlagType_index[idx+1]]
 }

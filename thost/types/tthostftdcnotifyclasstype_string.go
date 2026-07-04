@@ -21,9 +21,9 @@ const _TThostFtdcNotifyClassType_name = "正常警示追保强平穿仓异常"
 var _TThostFtdcNotifyClassType_index = [...]uint8{0, 6, 12, 18, 24, 30, 36}
 
 func (i TThostFtdcNotifyClassType) String() string {
-	i -= 48
-	if i >= TThostFtdcNotifyClassType(len(_TThostFtdcNotifyClassType_index)-1) {
-		return "TThostFtdcNotifyClassType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcNotifyClassType_index)-1 {
+		return "TThostFtdcNotifyClassType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcNotifyClassType_name[_TThostFtdcNotifyClassType_index[i]:_TThostFtdcNotifyClassType_index[i+1]]
+	return _TThostFtdcNotifyClassType_name[_TThostFtdcNotifyClassType_index[idx]:_TThostFtdcNotifyClassType_index[idx+1]]
 }

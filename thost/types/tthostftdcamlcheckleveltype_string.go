@@ -19,9 +19,9 @@ const _TThostFtdcAmlCheckLevelType_name = "零级审核一级审核二级审核�
 var _TThostFtdcAmlCheckLevelType_index = [...]uint8{0, 12, 24, 36, 48}
 
 func (i TThostFtdcAmlCheckLevelType) String() string {
-	i -= 48
-	if i >= TThostFtdcAmlCheckLevelType(len(_TThostFtdcAmlCheckLevelType_index)-1) {
-		return "TThostFtdcAmlCheckLevelType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcAmlCheckLevelType_index)-1 {
+		return "TThostFtdcAmlCheckLevelType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAmlCheckLevelType_name[_TThostFtdcAmlCheckLevelType_index[i]:_TThostFtdcAmlCheckLevelType_index[i+1]]
+	return _TThostFtdcAmlCheckLevelType_name[_TThostFtdcAmlCheckLevelType_index[idx]:_TThostFtdcAmlCheckLevelType_index[idx+1]]
 }

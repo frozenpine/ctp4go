@@ -20,9 +20,9 @@ const _TThostFtdcPortfolioType_name = "不使用新型组保算法SPBM算法RULE
 var _TThostFtdcPortfolioType_index = [...]uint8{0, 27, 37, 47, 57, 68}
 
 func (i TThostFtdcPortfolioType) String() string {
-	i -= 48
-	if i >= TThostFtdcPortfolioType(len(_TThostFtdcPortfolioType_index)-1) {
-		return "TThostFtdcPortfolioType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcPortfolioType_index)-1 {
+		return "TThostFtdcPortfolioType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcPortfolioType_name[_TThostFtdcPortfolioType_index[i]:_TThostFtdcPortfolioType_index[i+1]]
+	return _TThostFtdcPortfolioType_name[_TThostFtdcPortfolioType_index[idx]:_TThostFtdcPortfolioType_index[idx+1]]
 }

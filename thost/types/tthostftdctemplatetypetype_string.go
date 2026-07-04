@@ -18,9 +18,9 @@ const _TThostFtdcTemplateTypeType_name = "全量增量备份"
 var _TThostFtdcTemplateTypeType_index = [...]uint8{0, 6, 12, 18}
 
 func (i TThostFtdcTemplateTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcTemplateTypeType(len(_TThostFtdcTemplateTypeType_index)-1) {
-		return "TThostFtdcTemplateTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcTemplateTypeType_index)-1 {
+		return "TThostFtdcTemplateTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTemplateTypeType_name[_TThostFtdcTemplateTypeType_index[i]:_TThostFtdcTemplateTypeType_index[i+1]]
+	return _TThostFtdcTemplateTypeType_name[_TThostFtdcTemplateTypeType_index[idx]:_TThostFtdcTemplateTypeType_index[idx+1]]
 }

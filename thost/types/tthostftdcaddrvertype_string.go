@@ -17,9 +17,9 @@ const _TThostFtdcAddrVerType_name = "IPV4IPV6"
 var _TThostFtdcAddrVerType_index = [...]uint8{0, 4, 8}
 
 func (i TThostFtdcAddrVerType) String() string {
-	i -= 48
-	if i >= TThostFtdcAddrVerType(len(_TThostFtdcAddrVerType_index)-1) {
-		return "TThostFtdcAddrVerType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcAddrVerType_index)-1 {
+		return "TThostFtdcAddrVerType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAddrVerType_name[_TThostFtdcAddrVerType_index[i]:_TThostFtdcAddrVerType_index[i+1]]
+	return _TThostFtdcAddrVerType_name[_TThostFtdcAddrVerType_index[idx]:_TThostFtdcAddrVerType_index[idx+1]]
 }

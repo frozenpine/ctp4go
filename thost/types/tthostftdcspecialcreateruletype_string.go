@@ -17,9 +17,9 @@ const _TThostFtdcSpecialCreateRuleType_name = "没有特殊创建规则不包含
 var _TThostFtdcSpecialCreateRuleType_index = [...]uint8{0, 24, 39}
 
 func (i TThostFtdcSpecialCreateRuleType) String() string {
-	i -= 48
-	if i >= TThostFtdcSpecialCreateRuleType(len(_TThostFtdcSpecialCreateRuleType_index)-1) {
-		return "TThostFtdcSpecialCreateRuleType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSpecialCreateRuleType_index)-1 {
+		return "TThostFtdcSpecialCreateRuleType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSpecialCreateRuleType_name[_TThostFtdcSpecialCreateRuleType_index[i]:_TThostFtdcSpecialCreateRuleType_index[i+1]]
+	return _TThostFtdcSpecialCreateRuleType_name[_TThostFtdcSpecialCreateRuleType_index[idx]:_TThostFtdcSpecialCreateRuleType_index[idx+1]]
 }

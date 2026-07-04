@@ -18,9 +18,9 @@ const _TThostFtdcAvailabilityFlagType_name = "未确认有效冲正"
 var _TThostFtdcAvailabilityFlagType_index = [...]uint8{0, 9, 15, 21}
 
 func (i TThostFtdcAvailabilityFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcAvailabilityFlagType(len(_TThostFtdcAvailabilityFlagType_index)-1) {
-		return "TThostFtdcAvailabilityFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcAvailabilityFlagType_index)-1 {
+		return "TThostFtdcAvailabilityFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAvailabilityFlagType_name[_TThostFtdcAvailabilityFlagType_index[i]:_TThostFtdcAvailabilityFlagType_index[i+1]]
+	return _TThostFtdcAvailabilityFlagType_name[_TThostFtdcAvailabilityFlagType_index[idx]:_TThostFtdcAvailabilityFlagType_index[idx+1]]
 }

@@ -18,9 +18,9 @@ const _TThostFtdcSexType_name = "未知男女"
 var _TThostFtdcSexType_index = [...]uint8{0, 6, 9, 12}
 
 func (i TThostFtdcSexType) String() string {
-	i -= 48
-	if i >= TThostFtdcSexType(len(_TThostFtdcSexType_index)-1) {
-		return "TThostFtdcSexType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSexType_index)-1 {
+		return "TThostFtdcSexType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSexType_name[_TThostFtdcSexType_index[i]:_TThostFtdcSexType_index[i+1]]
+	return _TThostFtdcSexType_name[_TThostFtdcSexType_index[idx]:_TThostFtdcSexType_index[idx+1]]
 }

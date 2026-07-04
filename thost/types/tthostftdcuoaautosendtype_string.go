@@ -19,9 +19,9 @@ const _TThostFtdcUOAAutoSendType_name = "自动发送并接收自动发送，不
 var _TThostFtdcUOAAutoSendType_index = [...]uint8{0, 21, 51, 81, 117}
 
 func (i TThostFtdcUOAAutoSendType) String() string {
-	i -= 49
-	if i >= TThostFtdcUOAAutoSendType(len(_TThostFtdcUOAAutoSendType_index)-1) {
-		return "TThostFtdcUOAAutoSendType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcUOAAutoSendType_index)-1 {
+		return "TThostFtdcUOAAutoSendType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcUOAAutoSendType_name[_TThostFtdcUOAAutoSendType_index[i]:_TThostFtdcUOAAutoSendType_index[i+1]]
+	return _TThostFtdcUOAAutoSendType_name[_TThostFtdcUOAAutoSendType_index[idx]:_TThostFtdcUOAAutoSendType_index[idx+1]]
 }

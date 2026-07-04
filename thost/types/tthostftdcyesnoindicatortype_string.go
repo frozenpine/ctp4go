@@ -17,9 +17,9 @@ const _TThostFtdcYesNoIndicatorType_name = "是否"
 var _TThostFtdcYesNoIndicatorType_index = [...]uint8{0, 3, 6}
 
 func (i TThostFtdcYesNoIndicatorType) String() string {
-	i -= 48
-	if i >= TThostFtdcYesNoIndicatorType(len(_TThostFtdcYesNoIndicatorType_index)-1) {
-		return "TThostFtdcYesNoIndicatorType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcYesNoIndicatorType_index)-1 {
+		return "TThostFtdcYesNoIndicatorType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcYesNoIndicatorType_name[_TThostFtdcYesNoIndicatorType_index[i]:_TThostFtdcYesNoIndicatorType_index[i+1]]
+	return _TThostFtdcYesNoIndicatorType_name[_TThostFtdcYesNoIndicatorType_index[idx]:_TThostFtdcYesNoIndicatorType_index[idx+1]]
 }

@@ -17,9 +17,9 @@ const _TThostFtdcBasisPriceTypeType_name = "上一合约结算价上一合约收
 var _TThostFtdcBasisPriceTypeType_index = [...]uint8{0, 21, 42}
 
 func (i TThostFtdcBasisPriceTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcBasisPriceTypeType(len(_TThostFtdcBasisPriceTypeType_index)-1) {
-		return "TThostFtdcBasisPriceTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcBasisPriceTypeType_index)-1 {
+		return "TThostFtdcBasisPriceTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBasisPriceTypeType_name[_TThostFtdcBasisPriceTypeType_index[i]:_TThostFtdcBasisPriceTypeType_index[i+1]]
+	return _TThostFtdcBasisPriceTypeType_name[_TThostFtdcBasisPriceTypeType_index[idx]:_TThostFtdcBasisPriceTypeType_index[idx+1]]
 }

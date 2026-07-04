@@ -17,9 +17,9 @@ const _TThostFtdcExecOrderPositionFlagType_name = "保留不保留"
 var _TThostFtdcExecOrderPositionFlagType_index = [...]uint8{0, 6, 15}
 
 func (i TThostFtdcExecOrderPositionFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcExecOrderPositionFlagType(len(_TThostFtdcExecOrderPositionFlagType_index)-1) {
-		return "TThostFtdcExecOrderPositionFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcExecOrderPositionFlagType_index)-1 {
+		return "TThostFtdcExecOrderPositionFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcExecOrderPositionFlagType_name[_TThostFtdcExecOrderPositionFlagType_index[i]:_TThostFtdcExecOrderPositionFlagType_index[i+1]]
+	return _TThostFtdcExecOrderPositionFlagType_name[_TThostFtdcExecOrderPositionFlagType_index[idx]:_TThostFtdcExecOrderPositionFlagType_index[idx+1]]
 }

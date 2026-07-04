@@ -17,9 +17,9 @@ const _TThostFtdcWeakPasswordSourceType_name = "弱密码库手工录入"
 var _TThostFtdcWeakPasswordSourceType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcWeakPasswordSourceType) String() string {
-	i -= 49
-	if i >= TThostFtdcWeakPasswordSourceType(len(_TThostFtdcWeakPasswordSourceType_index)-1) {
-		return "TThostFtdcWeakPasswordSourceType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcWeakPasswordSourceType_index)-1 {
+		return "TThostFtdcWeakPasswordSourceType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcWeakPasswordSourceType_name[_TThostFtdcWeakPasswordSourceType_index[i]:_TThostFtdcWeakPasswordSourceType_index[i+1]]
+	return _TThostFtdcWeakPasswordSourceType_name[_TThostFtdcWeakPasswordSourceType_index[idx]:_TThostFtdcWeakPasswordSourceType_index[idx+1]]
 }

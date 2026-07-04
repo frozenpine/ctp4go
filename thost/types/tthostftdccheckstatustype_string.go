@@ -20,9 +20,9 @@ const _TThostFtdcCheckStatusType_name = "未复核复核中已复核拒绝作废
 var _TThostFtdcCheckStatusType_index = [...]uint8{0, 9, 18, 27, 33, 39}
 
 func (i TThostFtdcCheckStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcCheckStatusType(len(_TThostFtdcCheckStatusType_index)-1) {
-		return "TThostFtdcCheckStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcCheckStatusType_index)-1 {
+		return "TThostFtdcCheckStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCheckStatusType_name[_TThostFtdcCheckStatusType_index[i]:_TThostFtdcCheckStatusType_index[i+1]]
+	return _TThostFtdcCheckStatusType_name[_TThostFtdcCheckStatusType_index[idx]:_TThostFtdcCheckStatusType_index[idx+1]]
 }

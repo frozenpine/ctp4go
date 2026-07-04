@@ -19,9 +19,9 @@ const _TThostFtdcReqFlagType_name = "未发送发送成功发送失败等待重�
 var _TThostFtdcReqFlagType_index = [...]uint8{0, 9, 21, 33, 45}
 
 func (i TThostFtdcReqFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcReqFlagType(len(_TThostFtdcReqFlagType_index)-1) {
-		return "TThostFtdcReqFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcReqFlagType_index)-1 {
+		return "TThostFtdcReqFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcReqFlagType_name[_TThostFtdcReqFlagType_index[i]:_TThostFtdcReqFlagType_index[i+1]]
+	return _TThostFtdcReqFlagType_name[_TThostFtdcReqFlagType_index[idx]:_TThostFtdcReqFlagType_index[idx+1]]
 }

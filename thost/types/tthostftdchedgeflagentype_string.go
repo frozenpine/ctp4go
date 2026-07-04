@@ -18,9 +18,9 @@ const _TThostFtdcHedgeFlagEnType_name = "SpeculationArbitrageHedge"
 var _TThostFtdcHedgeFlagEnType_index = [...]uint8{0, 11, 20, 25}
 
 func (i TThostFtdcHedgeFlagEnType) String() string {
-	i -= 49
-	if i >= TThostFtdcHedgeFlagEnType(len(_TThostFtdcHedgeFlagEnType_index)-1) {
-		return "TThostFtdcHedgeFlagEnType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcHedgeFlagEnType_index)-1 {
+		return "TThostFtdcHedgeFlagEnType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcHedgeFlagEnType_name[_TThostFtdcHedgeFlagEnType_index[i]:_TThostFtdcHedgeFlagEnType_index[i+1]]
+	return _TThostFtdcHedgeFlagEnType_name[_TThostFtdcHedgeFlagEnType_index[idx]:_TThostFtdcHedgeFlagEnType_index[idx+1]]
 }

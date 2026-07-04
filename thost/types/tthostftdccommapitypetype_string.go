@@ -18,9 +18,9 @@ const _TThostFtdcCommApiTypeType_name = "客户端服务端交易系统的UserAp
 var _TThostFtdcCommApiTypeType_index = [...]uint8{0, 9, 18, 40}
 
 func (i TThostFtdcCommApiTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcCommApiTypeType(len(_TThostFtdcCommApiTypeType_index)-1) {
-		return "TThostFtdcCommApiTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcCommApiTypeType_index)-1 {
+		return "TThostFtdcCommApiTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCommApiTypeType_name[_TThostFtdcCommApiTypeType_index[i]:_TThostFtdcCommApiTypeType_index[i+1]]
+	return _TThostFtdcCommApiTypeType_name[_TThostFtdcCommApiTypeType_index[idx]:_TThostFtdcCommApiTypeType_index[idx+1]]
 }

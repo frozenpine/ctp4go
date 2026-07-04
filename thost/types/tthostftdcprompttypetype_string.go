@@ -17,9 +17,9 @@ const _TThostFtdcPromptTypeType_name = "合约上下市保证金分段生效"
 var _TThostFtdcPromptTypeType_index = [...]uint8{0, 15, 36}
 
 func (i TThostFtdcPromptTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcPromptTypeType(len(_TThostFtdcPromptTypeType_index)-1) {
-		return "TThostFtdcPromptTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcPromptTypeType_index)-1 {
+		return "TThostFtdcPromptTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcPromptTypeType_name[_TThostFtdcPromptTypeType_index[i]:_TThostFtdcPromptTypeType_index[i+1]]
+	return _TThostFtdcPromptTypeType_name[_TThostFtdcPromptTypeType_index[idx]:_TThostFtdcPromptTypeType_index[idx+1]]
 }

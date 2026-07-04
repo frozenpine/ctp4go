@@ -19,9 +19,9 @@ const _TThostFtdcReserveOpenAccStasType_name = "等待处理中已撤销已开�
 var _TThostFtdcReserveOpenAccStasType_index = [...]uint8{0, 15, 24, 33, 45}
 
 func (i TThostFtdcReserveOpenAccStasType) String() string {
-	i -= 48
-	if i >= TThostFtdcReserveOpenAccStasType(len(_TThostFtdcReserveOpenAccStasType_index)-1) {
-		return "TThostFtdcReserveOpenAccStasType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcReserveOpenAccStasType_index)-1 {
+		return "TThostFtdcReserveOpenAccStasType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcReserveOpenAccStasType_name[_TThostFtdcReserveOpenAccStasType_index[i]:_TThostFtdcReserveOpenAccStasType_index[i+1]]
+	return _TThostFtdcReserveOpenAccStasType_name[_TThostFtdcReserveOpenAccStasType_index[idx]:_TThostFtdcReserveOpenAccStasType_index[idx+1]]
 }

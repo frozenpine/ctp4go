@@ -20,8 +20,9 @@ const _THOST_TE_RESUME_TYPE_name = "RESTARTRESUMEQUICKNONERESUME_FROM_SEQ_NO"
 var _THOST_TE_RESUME_TYPE_index = [...]uint8{0, 7, 13, 18, 22, 40}
 
 func (i THOST_TE_RESUME_TYPE) String() string {
-	if i < 0 || i >= THOST_TE_RESUME_TYPE(len(_THOST_TE_RESUME_TYPE_index)-1) {
+	idx := int(i) - 0
+	if i < 0 || idx >= len(_THOST_TE_RESUME_TYPE_index)-1 {
 		return "THOST_TE_RESUME_TYPE(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _THOST_TE_RESUME_TYPE_name[_THOST_TE_RESUME_TYPE_index[i]:_THOST_TE_RESUME_TYPE_index[i+1]]
+	return _THOST_TE_RESUME_TYPE_name[_THOST_TE_RESUME_TYPE_index[idx]:_THOST_TE_RESUME_TYPE_index[idx+1]]
 }

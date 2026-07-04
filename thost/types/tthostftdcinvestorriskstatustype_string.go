@@ -20,9 +20,9 @@ const _TThostFtdcInvestorRiskStatusType_name = "正常警告追保强平异常"
 var _TThostFtdcInvestorRiskStatusType_index = [...]uint8{0, 6, 12, 18, 24, 30}
 
 func (i TThostFtdcInvestorRiskStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcInvestorRiskStatusType(len(_TThostFtdcInvestorRiskStatusType_index)-1) {
-		return "TThostFtdcInvestorRiskStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcInvestorRiskStatusType_index)-1 {
+		return "TThostFtdcInvestorRiskStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcInvestorRiskStatusType_name[_TThostFtdcInvestorRiskStatusType_index[i]:_TThostFtdcInvestorRiskStatusType_index[i+1]]
+	return _TThostFtdcInvestorRiskStatusType_name[_TThostFtdcInvestorRiskStatusType_index[idx]:_TThostFtdcInvestorRiskStatusType_index[idx+1]]
 }

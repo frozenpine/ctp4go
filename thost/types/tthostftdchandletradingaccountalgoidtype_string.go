@@ -18,9 +18,9 @@ const _TThostFtdcHandleTradingAccountAlgoIDType_name = "基本大连商品交易
 var _TThostFtdcHandleTradingAccountAlgoIDType_index = [...]uint8{0, 6, 27, 48}
 
 func (i TThostFtdcHandleTradingAccountAlgoIDType) String() string {
-	i -= 49
-	if i >= TThostFtdcHandleTradingAccountAlgoIDType(len(_TThostFtdcHandleTradingAccountAlgoIDType_index)-1) {
-		return "TThostFtdcHandleTradingAccountAlgoIDType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcHandleTradingAccountAlgoIDType_index)-1 {
+		return "TThostFtdcHandleTradingAccountAlgoIDType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcHandleTradingAccountAlgoIDType_name[_TThostFtdcHandleTradingAccountAlgoIDType_index[i]:_TThostFtdcHandleTradingAccountAlgoIDType_index[i+1]]
+	return _TThostFtdcHandleTradingAccountAlgoIDType_name[_TThostFtdcHandleTradingAccountAlgoIDType_index[idx]:_TThostFtdcHandleTradingAccountAlgoIDType_index[idx+1]]
 }

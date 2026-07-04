@@ -17,9 +17,9 @@ const _TThostFtdcFreezeStatusType_name = "休眠活跃"
 var _TThostFtdcFreezeStatusType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcFreezeStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcFreezeStatusType(len(_TThostFtdcFreezeStatusType_index)-1) {
-		return "TThostFtdcFreezeStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFreezeStatusType_index)-1 {
+		return "TThostFtdcFreezeStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFreezeStatusType_name[_TThostFtdcFreezeStatusType_index[i]:_TThostFtdcFreezeStatusType_index[i+1]]
+	return _TThostFtdcFreezeStatusType_name[_TThostFtdcFreezeStatusType_index[idx]:_TThostFtdcFreezeStatusType_index[idx+1]]
 }

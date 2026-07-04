@@ -23,9 +23,9 @@ const _TThostFtdcAPIProductClassType_name = "期货单一合约期权单一合�
 var _TThostFtdcAPIProductClassType_index = [...]uint16{0, 18, 36, 89, 142, 163, 242, 266, 315}
 
 func (i TThostFtdcAPIProductClassType) String() string {
-	i -= 49
-	if i >= TThostFtdcAPIProductClassType(len(_TThostFtdcAPIProductClassType_index)-1) {
-		return "TThostFtdcAPIProductClassType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcAPIProductClassType_index)-1 {
+		return "TThostFtdcAPIProductClassType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAPIProductClassType_name[_TThostFtdcAPIProductClassType_index[i]:_TThostFtdcAPIProductClassType_index[i+1]]
+	return _TThostFtdcAPIProductClassType_name[_TThostFtdcAPIProductClassType_index[idx]:_TThostFtdcAPIProductClassType_index[idx+1]]
 }

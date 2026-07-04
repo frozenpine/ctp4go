@@ -17,9 +17,9 @@ const _TThostFtdcFBEAlreadyTradeType_name = "未交易已交易"
 var _TThostFtdcFBEAlreadyTradeType_index = [...]uint8{0, 9, 18}
 
 func (i TThostFtdcFBEAlreadyTradeType) String() string {
-	i -= 48
-	if i >= TThostFtdcFBEAlreadyTradeType(len(_TThostFtdcFBEAlreadyTradeType_index)-1) {
-		return "TThostFtdcFBEAlreadyTradeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFBEAlreadyTradeType_index)-1 {
+		return "TThostFtdcFBEAlreadyTradeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFBEAlreadyTradeType_name[_TThostFtdcFBEAlreadyTradeType_index[i]:_TThostFtdcFBEAlreadyTradeType_index[i+1]]
+	return _TThostFtdcFBEAlreadyTradeType_name[_TThostFtdcFBEAlreadyTradeType_index[idx]:_TThostFtdcFBEAlreadyTradeType_index[idx+1]]
 }

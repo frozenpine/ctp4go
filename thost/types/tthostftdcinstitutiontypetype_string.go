@@ -18,9 +18,9 @@ const _TThostFtdcInstitutionTypeType_name = "银行期商券商"
 var _TThostFtdcInstitutionTypeType_index = [...]uint8{0, 6, 12, 18}
 
 func (i TThostFtdcInstitutionTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcInstitutionTypeType(len(_TThostFtdcInstitutionTypeType_index)-1) {
-		return "TThostFtdcInstitutionTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcInstitutionTypeType_index)-1 {
+		return "TThostFtdcInstitutionTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcInstitutionTypeType_name[_TThostFtdcInstitutionTypeType_index[i]:_TThostFtdcInstitutionTypeType_index[i+1]]
+	return _TThostFtdcInstitutionTypeType_name[_TThostFtdcInstitutionTypeType_index[idx]:_TThostFtdcInstitutionTypeType_index[idx+1]]
 }

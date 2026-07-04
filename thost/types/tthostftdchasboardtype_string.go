@@ -17,9 +17,9 @@ const _TThostFtdcHasBoardType_name = "没有有"
 var _TThostFtdcHasBoardType_index = [...]uint8{0, 6, 9}
 
 func (i TThostFtdcHasBoardType) String() string {
-	i -= 48
-	if i >= TThostFtdcHasBoardType(len(_TThostFtdcHasBoardType_index)-1) {
-		return "TThostFtdcHasBoardType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcHasBoardType_index)-1 {
+		return "TThostFtdcHasBoardType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcHasBoardType_name[_TThostFtdcHasBoardType_index[i]:_TThostFtdcHasBoardType_index[i+1]]
+	return _TThostFtdcHasBoardType_name[_TThostFtdcHasBoardType_index[idx]:_TThostFtdcHasBoardType_index[idx+1]]
 }

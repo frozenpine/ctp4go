@@ -17,9 +17,9 @@ const _TThostFtdcBrokerUserTypeType_name = "投资者操作员"
 var _TThostFtdcBrokerUserTypeType_index = [...]uint8{0, 9, 18}
 
 func (i TThostFtdcBrokerUserTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcBrokerUserTypeType(len(_TThostFtdcBrokerUserTypeType_index)-1) {
-		return "TThostFtdcBrokerUserTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcBrokerUserTypeType_index)-1 {
+		return "TThostFtdcBrokerUserTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBrokerUserTypeType_name[_TThostFtdcBrokerUserTypeType_index[i]:_TThostFtdcBrokerUserTypeType_index[i+1]]
+	return _TThostFtdcBrokerUserTypeType_name[_TThostFtdcBrokerUserTypeType_index[idx]:_TThostFtdcBrokerUserTypeType_index[idx+1]]
 }

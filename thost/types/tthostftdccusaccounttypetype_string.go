@@ -19,9 +19,9 @@ const _TThostFtdcCusAccountTypeType_name = "期货结算账户纯期货资管业
 var _TThostFtdcCusAccountTypeType_index = [...]uint8{0, 18, 63, 114, 159}
 
 func (i TThostFtdcCusAccountTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcCusAccountTypeType(len(_TThostFtdcCusAccountTypeType_index)-1) {
-		return "TThostFtdcCusAccountTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcCusAccountTypeType_index)-1 {
+		return "TThostFtdcCusAccountTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCusAccountTypeType_name[_TThostFtdcCusAccountTypeType_index[i]:_TThostFtdcCusAccountTypeType_index[i+1]]
+	return _TThostFtdcCusAccountTypeType_name[_TThostFtdcCusAccountTypeType_index[idx]:_TThostFtdcCusAccountTypeType_index[idx+1]]
 }

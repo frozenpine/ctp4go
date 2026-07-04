@@ -19,9 +19,9 @@ const _TThostFtdcStrikeOffsetTypeType_name = "实值额盈利额实值比例盈�
 var _TThostFtdcStrikeOffsetTypeType_index = [...]uint8{0, 9, 18, 30, 42}
 
 func (i TThostFtdcStrikeOffsetTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcStrikeOffsetTypeType(len(_TThostFtdcStrikeOffsetTypeType_index)-1) {
-		return "TThostFtdcStrikeOffsetTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcStrikeOffsetTypeType_index)-1 {
+		return "TThostFtdcStrikeOffsetTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcStrikeOffsetTypeType_name[_TThostFtdcStrikeOffsetTypeType_index[i]:_TThostFtdcStrikeOffsetTypeType_index[i+1]]
+	return _TThostFtdcStrikeOffsetTypeType_name[_TThostFtdcStrikeOffsetTypeType_index[idx]:_TThostFtdcStrikeOffsetTypeType_index[idx+1]]
 }

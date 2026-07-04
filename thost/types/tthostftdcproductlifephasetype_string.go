@@ -18,9 +18,9 @@ const _TThostFtdcProductLifePhaseType_name = "活跃不活跃注销"
 var _TThostFtdcProductLifePhaseType_index = [...]uint8{0, 6, 15, 21}
 
 func (i TThostFtdcProductLifePhaseType) String() string {
-	i -= 49
-	if i >= TThostFtdcProductLifePhaseType(len(_TThostFtdcProductLifePhaseType_index)-1) {
-		return "TThostFtdcProductLifePhaseType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcProductLifePhaseType_index)-1 {
+		return "TThostFtdcProductLifePhaseType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcProductLifePhaseType_name[_TThostFtdcProductLifePhaseType_index[i]:_TThostFtdcProductLifePhaseType_index[i+1]]
+	return _TThostFtdcProductLifePhaseType_name[_TThostFtdcProductLifePhaseType_index[idx]:_TThostFtdcProductLifePhaseType_index[idx+1]]
 }

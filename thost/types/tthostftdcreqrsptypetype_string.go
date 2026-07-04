@@ -17,9 +17,9 @@ const _TThostFtdcReqRspTypeType_name = "请求响应"
 var _TThostFtdcReqRspTypeType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcReqRspTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcReqRspTypeType(len(_TThostFtdcReqRspTypeType_index)-1) {
-		return "TThostFtdcReqRspTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcReqRspTypeType_index)-1 {
+		return "TThostFtdcReqRspTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcReqRspTypeType_name[_TThostFtdcReqRspTypeType_index[i]:_TThostFtdcReqRspTypeType_index[i+1]]
+	return _TThostFtdcReqRspTypeType_name[_TThostFtdcReqRspTypeType_index[idx]:_TThostFtdcReqRspTypeType_index[idx+1]]
 }

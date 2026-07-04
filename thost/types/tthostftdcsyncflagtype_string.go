@@ -17,9 +17,9 @@ const _TThostFtdcSyncFlagType_name = "已同步未同步"
 var _TThostFtdcSyncFlagType_index = [...]uint8{0, 9, 18}
 
 func (i TThostFtdcSyncFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcSyncFlagType(len(_TThostFtdcSyncFlagType_index)-1) {
-		return "TThostFtdcSyncFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSyncFlagType_index)-1 {
+		return "TThostFtdcSyncFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSyncFlagType_name[_TThostFtdcSyncFlagType_index[i]:_TThostFtdcSyncFlagType_index[i+1]]
+	return _TThostFtdcSyncFlagType_name[_TThostFtdcSyncFlagType_index[idx]:_TThostFtdcSyncFlagType_index[idx+1]]
 }

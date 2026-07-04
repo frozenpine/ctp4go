@@ -17,9 +17,9 @@ const _TThostFtdcSendMethodType_name = "文件发送电子发送"
 var _TThostFtdcSendMethodType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcSendMethodType) String() string {
-	i -= 49
-	if i >= TThostFtdcSendMethodType(len(_TThostFtdcSendMethodType_index)-1) {
-		return "TThostFtdcSendMethodType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcSendMethodType_index)-1 {
+		return "TThostFtdcSendMethodType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSendMethodType_name[_TThostFtdcSendMethodType_index[i]:_TThostFtdcSendMethodType_index[i+1]]
+	return _TThostFtdcSendMethodType_name[_TThostFtdcSendMethodType_index[idx]:_TThostFtdcSendMethodType_index[idx+1]]
 }

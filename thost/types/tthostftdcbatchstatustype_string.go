@@ -18,9 +18,9 @@ const _TThostFtdcBatchStatusType_name = "未上传已上传审核失败"
 var _TThostFtdcBatchStatusType_index = [...]uint8{0, 9, 18, 30}
 
 func (i TThostFtdcBatchStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcBatchStatusType(len(_TThostFtdcBatchStatusType_index)-1) {
-		return "TThostFtdcBatchStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcBatchStatusType_index)-1 {
+		return "TThostFtdcBatchStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBatchStatusType_name[_TThostFtdcBatchStatusType_index[i]:_TThostFtdcBatchStatusType_index[i+1]]
+	return _TThostFtdcBatchStatusType_name[_TThostFtdcBatchStatusType_index[idx]:_TThostFtdcBatchStatusType_index[idx+1]]
 }

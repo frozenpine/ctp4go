@@ -17,9 +17,9 @@ const _TThostFtdcProductTypeType_name = "期货期权"
 var _TThostFtdcProductTypeType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcProductTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcProductTypeType(len(_TThostFtdcProductTypeType_index)-1) {
-		return "TThostFtdcProductTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcProductTypeType_index)-1 {
+		return "TThostFtdcProductTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcProductTypeType_name[_TThostFtdcProductTypeType_index[i]:_TThostFtdcProductTypeType_index[i+1]]
+	return _TThostFtdcProductTypeType_name[_TThostFtdcProductTypeType_index[idx]:_TThostFtdcProductTypeType_index[idx+1]]
 }

@@ -17,9 +17,9 @@ const _TThostFtdcFundMortDirectionType_name = "货币质入货币质出"
 var _TThostFtdcFundMortDirectionType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcFundMortDirectionType) String() string {
-	i -= 49
-	if i >= TThostFtdcFundMortDirectionType(len(_TThostFtdcFundMortDirectionType_index)-1) {
-		return "TThostFtdcFundMortDirectionType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFundMortDirectionType_index)-1 {
+		return "TThostFtdcFundMortDirectionType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFundMortDirectionType_name[_TThostFtdcFundMortDirectionType_index[i]:_TThostFtdcFundMortDirectionType_index[i+1]]
+	return _TThostFtdcFundMortDirectionType_name[_TThostFtdcFundMortDirectionType_index[idx]:_TThostFtdcFundMortDirectionType_index[idx+1]]
 }

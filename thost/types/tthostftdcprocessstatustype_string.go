@@ -18,9 +18,9 @@ const _TThostFtdcProcessStatusType_name = "未处理开始处理处理完成"
 var _TThostFtdcProcessStatusType_index = [...]uint8{0, 9, 21, 33}
 
 func (i TThostFtdcProcessStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcProcessStatusType(len(_TThostFtdcProcessStatusType_index)-1) {
-		return "TThostFtdcProcessStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcProcessStatusType_index)-1 {
+		return "TThostFtdcProcessStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcProcessStatusType_name[_TThostFtdcProcessStatusType_index[i]:_TThostFtdcProcessStatusType_index[i+1]]
+	return _TThostFtdcProcessStatusType_name[_TThostFtdcProcessStatusType_index[idx]:_TThostFtdcProcessStatusType_index[idx+1]]
 }

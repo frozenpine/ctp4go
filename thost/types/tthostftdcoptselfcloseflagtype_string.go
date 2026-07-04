@@ -19,9 +19,9 @@ const _TThostFtdcOptSelfCloseFlagType_name = "自对冲期权仓位保留期权�
 var _TThostFtdcOptSelfCloseFlagType_index = [...]uint8{0, 21, 39, 78, 114}
 
 func (i TThostFtdcOptSelfCloseFlagType) String() string {
-	i -= 49
-	if i >= TThostFtdcOptSelfCloseFlagType(len(_TThostFtdcOptSelfCloseFlagType_index)-1) {
-		return "TThostFtdcOptSelfCloseFlagType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcOptSelfCloseFlagType_index)-1 {
+		return "TThostFtdcOptSelfCloseFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOptSelfCloseFlagType_name[_TThostFtdcOptSelfCloseFlagType_index[i]:_TThostFtdcOptSelfCloseFlagType_index[i+1]]
+	return _TThostFtdcOptSelfCloseFlagType_name[_TThostFtdcOptSelfCloseFlagType_index[idx]:_TThostFtdcOptSelfCloseFlagType_index[idx+1]]
 }

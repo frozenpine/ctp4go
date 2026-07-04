@@ -17,9 +17,9 @@ const _TThostFtdcCodeSourceTypeType_name = "统一开户(已规范)手工录入(
 var _TThostFtdcCodeSourceTypeType_index = [...]uint8{0, 23, 46}
 
 func (i TThostFtdcCodeSourceTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcCodeSourceTypeType(len(_TThostFtdcCodeSourceTypeType_index)-1) {
-		return "TThostFtdcCodeSourceTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcCodeSourceTypeType_index)-1 {
+		return "TThostFtdcCodeSourceTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCodeSourceTypeType_name[_TThostFtdcCodeSourceTypeType_index[i]:_TThostFtdcCodeSourceTypeType_index[i+1]]
+	return _TThostFtdcCodeSourceTypeType_name[_TThostFtdcCodeSourceTypeType_index[idx]:_TThostFtdcCodeSourceTypeType_index[idx+1]]
 }

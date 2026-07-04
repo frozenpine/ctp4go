@@ -17,9 +17,9 @@ const _TThostFtdcExecOrderCloseFlagType_name = "自动平仓免于自动平仓"
 var _TThostFtdcExecOrderCloseFlagType_index = [...]uint8{0, 12, 30}
 
 func (i TThostFtdcExecOrderCloseFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcExecOrderCloseFlagType(len(_TThostFtdcExecOrderCloseFlagType_index)-1) {
-		return "TThostFtdcExecOrderCloseFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcExecOrderCloseFlagType_index)-1 {
+		return "TThostFtdcExecOrderCloseFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcExecOrderCloseFlagType_name[_TThostFtdcExecOrderCloseFlagType_index[i]:_TThostFtdcExecOrderCloseFlagType_index[i+1]]
+	return _TThostFtdcExecOrderCloseFlagType_name[_TThostFtdcExecOrderCloseFlagType_index[idx]:_TThostFtdcExecOrderCloseFlagType_index[idx+1]]
 }

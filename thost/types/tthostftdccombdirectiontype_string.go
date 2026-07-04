@@ -18,9 +18,9 @@ const _TThostFtdcCombDirectionType_name = "申请组合申请拆分操作员删�
 var _TThostFtdcCombDirectionType_index = [...]uint8{0, 12, 24, 45}
 
 func (i TThostFtdcCombDirectionType) String() string {
-	i -= 48
-	if i >= TThostFtdcCombDirectionType(len(_TThostFtdcCombDirectionType_index)-1) {
-		return "TThostFtdcCombDirectionType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcCombDirectionType_index)-1 {
+		return "TThostFtdcCombDirectionType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCombDirectionType_name[_TThostFtdcCombDirectionType_index[i]:_TThostFtdcCombDirectionType_index[i+1]]
+	return _TThostFtdcCombDirectionType_name[_TThostFtdcCombDirectionType_index[idx]:_TThostFtdcCombDirectionType_index[idx+1]]
 }

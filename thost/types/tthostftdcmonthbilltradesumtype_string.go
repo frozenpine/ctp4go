@@ -18,9 +18,9 @@ const _TThostFtdcMonthBillTradeSumType_name = "同日同合约同日同合约同
 var _TThostFtdcMonthBillTradeSumType_index = [...]uint8{0, 15, 39, 48}
 
 func (i TThostFtdcMonthBillTradeSumType) String() string {
-	i -= 48
-	if i >= TThostFtdcMonthBillTradeSumType(len(_TThostFtdcMonthBillTradeSumType_index)-1) {
-		return "TThostFtdcMonthBillTradeSumType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcMonthBillTradeSumType_index)-1 {
+		return "TThostFtdcMonthBillTradeSumType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcMonthBillTradeSumType_name[_TThostFtdcMonthBillTradeSumType_index[i]:_TThostFtdcMonthBillTradeSumType_index[i+1]]
+	return _TThostFtdcMonthBillTradeSumType_name[_TThostFtdcMonthBillTradeSumType_index[idx]:_TThostFtdcMonthBillTradeSumType_index[idx+1]]
 }

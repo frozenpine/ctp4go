@@ -19,9 +19,9 @@ const _TThostFtdcFundTypeType_name = "银行存款分项资金公司调整资金
 var _TThostFtdcFundTypeType_index = [...]uint8{0, 12, 24, 36, 48}
 
 func (i TThostFtdcFundTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcFundTypeType(len(_TThostFtdcFundTypeType_index)-1) {
-		return "TThostFtdcFundTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFundTypeType_index)-1 {
+		return "TThostFtdcFundTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFundTypeType_name[_TThostFtdcFundTypeType_index[i]:_TThostFtdcFundTypeType_index[i+1]]
+	return _TThostFtdcFundTypeType_name[_TThostFtdcFundTypeType_index[idx]:_TThostFtdcFundTypeType_index[idx+1]]
 }

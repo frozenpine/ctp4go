@@ -18,9 +18,9 @@ const _TThostFtdcOTPStatusType_name = "未使用已使用注销"
 var _TThostFtdcOTPStatusType_index = [...]uint8{0, 9, 18, 24}
 
 func (i TThostFtdcOTPStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcOTPStatusType(len(_TThostFtdcOTPStatusType_index)-1) {
-		return "TThostFtdcOTPStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcOTPStatusType_index)-1 {
+		return "TThostFtdcOTPStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOTPStatusType_name[_TThostFtdcOTPStatusType_index[i]:_TThostFtdcOTPStatusType_index[i+1]]
+	return _TThostFtdcOTPStatusType_name[_TThostFtdcOTPStatusType_index[idx]:_TThostFtdcOTPStatusType_index[idx+1]]
 }

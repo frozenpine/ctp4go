@@ -18,9 +18,9 @@ const _TThostFtdcDepartmentRangeType_name = "所有组织架构单一投资者"
 var _TThostFtdcDepartmentRangeType_index = [...]uint8{0, 6, 18, 33}
 
 func (i TThostFtdcDepartmentRangeType) String() string {
-	i -= 49
-	if i >= TThostFtdcDepartmentRangeType(len(_TThostFtdcDepartmentRangeType_index)-1) {
-		return "TThostFtdcDepartmentRangeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcDepartmentRangeType_index)-1 {
+		return "TThostFtdcDepartmentRangeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcDepartmentRangeType_name[_TThostFtdcDepartmentRangeType_index[i]:_TThostFtdcDepartmentRangeType_index[i+1]]
+	return _TThostFtdcDepartmentRangeType_name[_TThostFtdcDepartmentRangeType_index[idx]:_TThostFtdcDepartmentRangeType_index[idx+1]]
 }

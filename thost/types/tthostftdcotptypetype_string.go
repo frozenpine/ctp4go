@@ -17,9 +17,9 @@ const _TThostFtdcOTPTypeType_name = "无动态令牌时间令牌"
 var _TThostFtdcOTPTypeType_index = [...]uint8{0, 15, 27}
 
 func (i TThostFtdcOTPTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcOTPTypeType(len(_TThostFtdcOTPTypeType_index)-1) {
-		return "TThostFtdcOTPTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcOTPTypeType_index)-1 {
+		return "TThostFtdcOTPTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOTPTypeType_name[_TThostFtdcOTPTypeType_index[i]:_TThostFtdcOTPTypeType_index[i+1]]
+	return _TThostFtdcOTPTypeType_name[_TThostFtdcOTPTypeType_index[idx]:_TThostFtdcOTPTypeType_index[idx+1]]
 }

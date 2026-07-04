@@ -17,9 +17,9 @@ const _TThostFtdcExprSetModeType_name = "相对已有规则设置典型设置"
 var _TThostFtdcExprSetModeType_index = [...]uint8{0, 24, 36}
 
 func (i TThostFtdcExprSetModeType) String() string {
-	i -= 49
-	if i >= TThostFtdcExprSetModeType(len(_TThostFtdcExprSetModeType_index)-1) {
-		return "TThostFtdcExprSetModeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcExprSetModeType_index)-1 {
+		return "TThostFtdcExprSetModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcExprSetModeType_name[_TThostFtdcExprSetModeType_index[i]:_TThostFtdcExprSetModeType_index[i+1]]
+	return _TThostFtdcExprSetModeType_name[_TThostFtdcExprSetModeType_index[idx]:_TThostFtdcExprSetModeType_index[idx+1]]
 }

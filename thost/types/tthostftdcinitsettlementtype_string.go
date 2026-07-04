@@ -18,9 +18,9 @@ const _TThostFtdcInitSettlementType_name = "结算初始化未开始结算初始
 var _TThostFtdcInitSettlementType_index = [...]uint8{0, 24, 42, 63}
 
 func (i TThostFtdcInitSettlementType) String() string {
-	i -= 48
-	if i >= TThostFtdcInitSettlementType(len(_TThostFtdcInitSettlementType_index)-1) {
-		return "TThostFtdcInitSettlementType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcInitSettlementType_index)-1 {
+		return "TThostFtdcInitSettlementType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcInitSettlementType_name[_TThostFtdcInitSettlementType_index[i]:_TThostFtdcInitSettlementType_index[i+1]]
+	return _TThostFtdcInitSettlementType_name[_TThostFtdcInitSettlementType_index[idx]:_TThostFtdcInitSettlementType_index[idx+1]]
 }

@@ -18,9 +18,9 @@ const _TThostFtdcFindMarginRateAlgoIDType_name = "基本大连商品交易所郑
 var _TThostFtdcFindMarginRateAlgoIDType_index = [...]uint8{0, 6, 27, 48}
 
 func (i TThostFtdcFindMarginRateAlgoIDType) String() string {
-	i -= 49
-	if i >= TThostFtdcFindMarginRateAlgoIDType(len(_TThostFtdcFindMarginRateAlgoIDType_index)-1) {
-		return "TThostFtdcFindMarginRateAlgoIDType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFindMarginRateAlgoIDType_index)-1 {
+		return "TThostFtdcFindMarginRateAlgoIDType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFindMarginRateAlgoIDType_name[_TThostFtdcFindMarginRateAlgoIDType_index[i]:_TThostFtdcFindMarginRateAlgoIDType_index[i+1]]
+	return _TThostFtdcFindMarginRateAlgoIDType_name[_TThostFtdcFindMarginRateAlgoIDType_index[idx]:_TThostFtdcFindMarginRateAlgoIDType_index[idx+1]]
 }

@@ -18,9 +18,9 @@ const _TThostFtdcOrderFreqControlLevelType_name = "不控制产品级别合约�
 var _TThostFtdcOrderFreqControlLevelType_index = [...]uint8{0, 9, 21, 33}
 
 func (i TThostFtdcOrderFreqControlLevelType) String() string {
-	i -= 48
-	if i >= TThostFtdcOrderFreqControlLevelType(len(_TThostFtdcOrderFreqControlLevelType_index)-1) {
-		return "TThostFtdcOrderFreqControlLevelType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcOrderFreqControlLevelType_index)-1 {
+		return "TThostFtdcOrderFreqControlLevelType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOrderFreqControlLevelType_name[_TThostFtdcOrderFreqControlLevelType_index[i]:_TThostFtdcOrderFreqControlLevelType_index[i+1]]
+	return _TThostFtdcOrderFreqControlLevelType_name[_TThostFtdcOrderFreqControlLevelType_index[idx]:_TThostFtdcOrderFreqControlLevelType_index[idx+1]]
 }

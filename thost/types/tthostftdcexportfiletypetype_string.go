@@ -18,9 +18,9 @@ const _TThostFtdcExportFileTypeType_name = "CSVExcelDBF"
 var _TThostFtdcExportFileTypeType_index = [...]uint8{0, 3, 8, 11}
 
 func (i TThostFtdcExportFileTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcExportFileTypeType(len(_TThostFtdcExportFileTypeType_index)-1) {
-		return "TThostFtdcExportFileTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcExportFileTypeType_index)-1 {
+		return "TThostFtdcExportFileTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcExportFileTypeType_name[_TThostFtdcExportFileTypeType_index[i]:_TThostFtdcExportFileTypeType_index[i+1]]
+	return _TThostFtdcExportFileTypeType_name[_TThostFtdcExportFileTypeType_index[idx]:_TThostFtdcExportFileTypeType_index[idx+1]]
 }

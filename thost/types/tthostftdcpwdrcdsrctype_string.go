@@ -20,9 +20,9 @@ const _TThostFtdcPwdRcdSrcType_name = "来源于Sync初始化数据来源于实�
 var _TThostFtdcPwdRcdSrcType_index = [...]uint8{0, 28, 55, 76, 133, 163}
 
 func (i TThostFtdcPwdRcdSrcType) String() string {
-	i -= 48
-	if i >= TThostFtdcPwdRcdSrcType(len(_TThostFtdcPwdRcdSrcType_index)-1) {
-		return "TThostFtdcPwdRcdSrcType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcPwdRcdSrcType_index)-1 {
+		return "TThostFtdcPwdRcdSrcType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcPwdRcdSrcType_name[_TThostFtdcPwdRcdSrcType_index[i]:_TThostFtdcPwdRcdSrcType_index[i+1]]
+	return _TThostFtdcPwdRcdSrcType_name[_TThostFtdcPwdRcdSrcType_index[idx]:_TThostFtdcPwdRcdSrcType_index[idx+1]]
 }

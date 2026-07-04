@@ -24,9 +24,9 @@ const _TThostFtdcFundEventTypeType_name = "转账限额当日转账限额期商�
 var _TThostFtdcFundEventTypeType_index = [...]uint8{0, 12, 30, 42, 54, 81, 111, 129, 147, 165}
 
 func (i TThostFtdcFundEventTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcFundEventTypeType(len(_TThostFtdcFundEventTypeType_index)-1) {
-		return "TThostFtdcFundEventTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFundEventTypeType_index)-1 {
+		return "TThostFtdcFundEventTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFundEventTypeType_name[_TThostFtdcFundEventTypeType_index[i]:_TThostFtdcFundEventTypeType_index[i+1]]
+	return _TThostFtdcFundEventTypeType_name[_TThostFtdcFundEventTypeType_index[idx]:_TThostFtdcFundEventTypeType_index[idx+1]]
 }

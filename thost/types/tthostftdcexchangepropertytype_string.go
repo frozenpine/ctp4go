@@ -17,9 +17,9 @@ const _TThostFtdcExchangePropertyType_name = "正常根据成交生成报单"
 var _TThostFtdcExchangePropertyType_index = [...]uint8{0, 6, 30}
 
 func (i TThostFtdcExchangePropertyType) String() string {
-	i -= 48
-	if i >= TThostFtdcExchangePropertyType(len(_TThostFtdcExchangePropertyType_index)-1) {
-		return "TThostFtdcExchangePropertyType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcExchangePropertyType_index)-1 {
+		return "TThostFtdcExchangePropertyType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcExchangePropertyType_name[_TThostFtdcExchangePropertyType_index[i]:_TThostFtdcExchangePropertyType_index[i+1]]
+	return _TThostFtdcExchangePropertyType_name[_TThostFtdcExchangePropertyType_index[idx]:_TThostFtdcExchangePropertyType_index[idx+1]]
 }

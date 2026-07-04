@@ -18,9 +18,9 @@ const _TThostFtdcBankAccStatusType_name = "正常冻结挂失"
 var _TThostFtdcBankAccStatusType_index = [...]uint8{0, 6, 12, 18}
 
 func (i TThostFtdcBankAccStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcBankAccStatusType(len(_TThostFtdcBankAccStatusType_index)-1) {
-		return "TThostFtdcBankAccStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcBankAccStatusType_index)-1 {
+		return "TThostFtdcBankAccStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBankAccStatusType_name[_TThostFtdcBankAccStatusType_index[i]:_TThostFtdcBankAccStatusType_index[i+1]]
+	return _TThostFtdcBankAccStatusType_name[_TThostFtdcBankAccStatusType_index[idx]:_TThostFtdcBankAccStatusType_index[idx+1]]
 }

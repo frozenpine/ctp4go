@@ -18,9 +18,9 @@ const _TThostFtdcDBOperationType_name = "插入更新删除"
 var _TThostFtdcDBOperationType_index = [...]uint8{0, 6, 12, 18}
 
 func (i TThostFtdcDBOperationType) String() string {
-	i -= 48
-	if i >= TThostFtdcDBOperationType(len(_TThostFtdcDBOperationType_index)-1) {
-		return "TThostFtdcDBOperationType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcDBOperationType_index)-1 {
+		return "TThostFtdcDBOperationType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcDBOperationType_name[_TThostFtdcDBOperationType_index[i]:_TThostFtdcDBOperationType_index[i+1]]
+	return _TThostFtdcDBOperationType_name[_TThostFtdcDBOperationType_index[idx]:_TThostFtdcDBOperationType_index[idx+1]]
 }

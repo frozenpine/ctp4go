@@ -18,9 +18,9 @@ const _TThostFtdcUserTypeType_name = "投资者操作员管理员"
 var _TThostFtdcUserTypeType_index = [...]uint8{0, 9, 18, 27}
 
 func (i TThostFtdcUserTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcUserTypeType(len(_TThostFtdcUserTypeType_index)-1) {
-		return "TThostFtdcUserTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcUserTypeType_index)-1 {
+		return "TThostFtdcUserTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcUserTypeType_name[_TThostFtdcUserTypeType_index[i]:_TThostFtdcUserTypeType_index[i+1]]
+	return _TThostFtdcUserTypeType_name[_TThostFtdcUserTypeType_index[idx]:_TThostFtdcUserTypeType_index[idx+1]]
 }

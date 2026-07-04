@@ -18,9 +18,9 @@ const _TThostFtdcMarginTypeType_name = "交易所保证金率投资者保证金�
 var _TThostFtdcMarginTypeType_index = [...]uint8{0, 21, 42, 69}
 
 func (i TThostFtdcMarginTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcMarginTypeType(len(_TThostFtdcMarginTypeType_index)-1) {
-		return "TThostFtdcMarginTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcMarginTypeType_index)-1 {
+		return "TThostFtdcMarginTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcMarginTypeType_name[_TThostFtdcMarginTypeType_index[i]:_TThostFtdcMarginTypeType_index[i+1]]
+	return _TThostFtdcMarginTypeType_name[_TThostFtdcMarginTypeType_index[idx]:_TThostFtdcMarginTypeType_index[idx+1]]
 }

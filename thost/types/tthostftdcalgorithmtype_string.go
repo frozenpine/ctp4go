@@ -19,9 +19,9 @@ const _TThostFtdcAlgorithmType_name = "浮盈浮亏都计算浮盈不计，浮�
 var _TThostFtdcAlgorithmType_index = [...]uint8{0, 21, 45, 69, 93}
 
 func (i TThostFtdcAlgorithmType) String() string {
-	i -= 49
-	if i >= TThostFtdcAlgorithmType(len(_TThostFtdcAlgorithmType_index)-1) {
-		return "TThostFtdcAlgorithmType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcAlgorithmType_index)-1 {
+		return "TThostFtdcAlgorithmType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAlgorithmType_name[_TThostFtdcAlgorithmType_index[i]:_TThostFtdcAlgorithmType_index[i+1]]
+	return _TThostFtdcAlgorithmType_name[_TThostFtdcAlgorithmType_index[idx]:_TThostFtdcAlgorithmType_index[idx+1]]
 }

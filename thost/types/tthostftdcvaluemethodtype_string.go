@@ -17,9 +17,9 @@ const _TThostFtdcValueMethodType_name = "按绝对值按比率"
 var _TThostFtdcValueMethodType_index = [...]uint8{0, 12, 21}
 
 func (i TThostFtdcValueMethodType) String() string {
-	i -= 48
-	if i >= TThostFtdcValueMethodType(len(_TThostFtdcValueMethodType_index)-1) {
-		return "TThostFtdcValueMethodType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcValueMethodType_index)-1 {
+		return "TThostFtdcValueMethodType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcValueMethodType_name[_TThostFtdcValueMethodType_index[i]:_TThostFtdcValueMethodType_index[i+1]]
+	return _TThostFtdcValueMethodType_name[_TThostFtdcValueMethodType_index[idx]:_TThostFtdcValueMethodType_index[idx+1]]
 }

@@ -16,9 +16,9 @@ const _TThostFtdcRiskUserEventType_name = "导出数据"
 var _TThostFtdcRiskUserEventType_index = [...]uint8{0, 12}
 
 func (i TThostFtdcRiskUserEventType) String() string {
-	i -= 48
-	if i >= TThostFtdcRiskUserEventType(len(_TThostFtdcRiskUserEventType_index)-1) {
-		return "TThostFtdcRiskUserEventType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcRiskUserEventType_index)-1 {
+		return "TThostFtdcRiskUserEventType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcRiskUserEventType_name[_TThostFtdcRiskUserEventType_index[i]:_TThostFtdcRiskUserEventType_index[i+1]]
+	return _TThostFtdcRiskUserEventType_name[_TThostFtdcRiskUserEventType_index[idx]:_TThostFtdcRiskUserEventType_index[idx+1]]
 }

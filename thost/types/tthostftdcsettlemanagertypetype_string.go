@@ -19,9 +19,9 @@ const _TThostFtdcSettleManagerTypeType_name = "结算前准备结算结算后核
 var _TThostFtdcSettleManagerTypeType_index = [...]uint8{0, 15, 21, 36, 51}
 
 func (i TThostFtdcSettleManagerTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcSettleManagerTypeType(len(_TThostFtdcSettleManagerTypeType_index)-1) {
-		return "TThostFtdcSettleManagerTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcSettleManagerTypeType_index)-1 {
+		return "TThostFtdcSettleManagerTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSettleManagerTypeType_name[_TThostFtdcSettleManagerTypeType_index[i]:_TThostFtdcSettleManagerTypeType_index[i+1]]
+	return _TThostFtdcSettleManagerTypeType_name[_TThostFtdcSettleManagerTypeType_index[idx]:_TThostFtdcSettleManagerTypeType_index[idx+1]]
 }

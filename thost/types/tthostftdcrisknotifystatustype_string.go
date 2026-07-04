@@ -21,9 +21,9 @@ const _TThostFtdcRiskNotifyStatusType_name = "未生成已生成未发送发送�
 var _TThostFtdcRiskNotifyStatusType_index = [...]uint8{0, 9, 27, 39, 57, 75, 84}
 
 func (i TThostFtdcRiskNotifyStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcRiskNotifyStatusType(len(_TThostFtdcRiskNotifyStatusType_index)-1) {
-		return "TThostFtdcRiskNotifyStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcRiskNotifyStatusType_index)-1 {
+		return "TThostFtdcRiskNotifyStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcRiskNotifyStatusType_name[_TThostFtdcRiskNotifyStatusType_index[i]:_TThostFtdcRiskNotifyStatusType_index[i+1]]
+	return _TThostFtdcRiskNotifyStatusType_name[_TThostFtdcRiskNotifyStatusType_index[idx]:_TThostFtdcRiskNotifyStatusType_index[idx+1]]
 }

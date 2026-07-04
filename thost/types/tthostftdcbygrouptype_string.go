@@ -17,9 +17,9 @@ const _TThostFtdcByGroupType_name = "按类统计按投资者统计"
 var _TThostFtdcByGroupType_index = [...]uint8{0, 12, 30}
 
 func (i TThostFtdcByGroupType) String() string {
-	i -= 49
-	if i >= TThostFtdcByGroupType(len(_TThostFtdcByGroupType_index)-1) {
-		return "TThostFtdcByGroupType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcByGroupType_index)-1 {
+		return "TThostFtdcByGroupType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcByGroupType_name[_TThostFtdcByGroupType_index[i]:_TThostFtdcByGroupType_index[i+1]]
+	return _TThostFtdcByGroupType_name[_TThostFtdcByGroupType_index[idx]:_TThostFtdcByGroupType_index[idx+1]]
 }

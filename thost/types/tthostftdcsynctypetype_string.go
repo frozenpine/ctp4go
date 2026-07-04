@@ -18,9 +18,9 @@ const _TThostFtdcSyncTypeType_name = "一次同步定时同步定时完全同步
 var _TThostFtdcSyncTypeType_index = [...]uint8{0, 12, 24, 42}
 
 func (i TThostFtdcSyncTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcSyncTypeType(len(_TThostFtdcSyncTypeType_index)-1) {
-		return "TThostFtdcSyncTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSyncTypeType_index)-1 {
+		return "TThostFtdcSyncTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSyncTypeType_name[_TThostFtdcSyncTypeType_index[i]:_TThostFtdcSyncTypeType_index[i+1]]
+	return _TThostFtdcSyncTypeType_name[_TThostFtdcSyncTypeType_index[idx]:_TThostFtdcSyncTypeType_index[idx+1]]
 }

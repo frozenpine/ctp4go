@@ -17,9 +17,9 @@ const _TThostFtdcTransferStatusType_name = "正常被冲正"
 var _TThostFtdcTransferStatusType_index = [...]uint8{0, 6, 15}
 
 func (i TThostFtdcTransferStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcTransferStatusType(len(_TThostFtdcTransferStatusType_index)-1) {
-		return "TThostFtdcTransferStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcTransferStatusType_index)-1 {
+		return "TThostFtdcTransferStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTransferStatusType_name[_TThostFtdcTransferStatusType_index[i]:_TThostFtdcTransferStatusType_index[i+1]]
+	return _TThostFtdcTransferStatusType_name[_TThostFtdcTransferStatusType_index[idx]:_TThostFtdcTransferStatusType_index[idx+1]]
 }

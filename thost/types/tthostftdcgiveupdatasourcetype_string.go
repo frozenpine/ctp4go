@@ -17,9 +17,9 @@ const _TThostFtdcGiveUpDataSourceType_name = "系统生成手工添加"
 var _TThostFtdcGiveUpDataSourceType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcGiveUpDataSourceType) String() string {
-	i -= 48
-	if i >= TThostFtdcGiveUpDataSourceType(len(_TThostFtdcGiveUpDataSourceType_index)-1) {
-		return "TThostFtdcGiveUpDataSourceType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcGiveUpDataSourceType_index)-1 {
+		return "TThostFtdcGiveUpDataSourceType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcGiveUpDataSourceType_name[_TThostFtdcGiveUpDataSourceType_index[i]:_TThostFtdcGiveUpDataSourceType_index[i+1]]
+	return _TThostFtdcGiveUpDataSourceType_name[_TThostFtdcGiveUpDataSourceType_index[idx]:_TThostFtdcGiveUpDataSourceType_index[idx+1]]
 }

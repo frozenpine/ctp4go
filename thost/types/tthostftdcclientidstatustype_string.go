@@ -21,9 +21,9 @@ const _TThostFtdcClientIDStatusType_name = "未申请已提交申请已发送申
 var _TThostFtdcClientIDStatusType_index = [...]uint8{0, 9, 24, 39, 45, 51, 66}
 
 func (i TThostFtdcClientIDStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcClientIDStatusType(len(_TThostFtdcClientIDStatusType_index)-1) {
-		return "TThostFtdcClientIDStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcClientIDStatusType_index)-1 {
+		return "TThostFtdcClientIDStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcClientIDStatusType_name[_TThostFtdcClientIDStatusType_index[i]:_TThostFtdcClientIDStatusType_index[i+1]]
+	return _TThostFtdcClientIDStatusType_name[_TThostFtdcClientIDStatusType_index[idx]:_TThostFtdcClientIDStatusType_index[idx+1]]
 }

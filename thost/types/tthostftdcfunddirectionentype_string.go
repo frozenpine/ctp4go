@@ -17,9 +17,9 @@ const _TThostFtdcFundDirectionEnType_name = "DepositWithdrawal"
 var _TThostFtdcFundDirectionEnType_index = [...]uint8{0, 7, 17}
 
 func (i TThostFtdcFundDirectionEnType) String() string {
-	i -= 49
-	if i >= TThostFtdcFundDirectionEnType(len(_TThostFtdcFundDirectionEnType_index)-1) {
-		return "TThostFtdcFundDirectionEnType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFundDirectionEnType_index)-1 {
+		return "TThostFtdcFundDirectionEnType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFundDirectionEnType_name[_TThostFtdcFundDirectionEnType_index[i]:_TThostFtdcFundDirectionEnType_index[i+1]]
+	return _TThostFtdcFundDirectionEnType_name[_TThostFtdcFundDirectionEnType_index[idx]:_TThostFtdcFundDirectionEnType_index[idx+1]]
 }

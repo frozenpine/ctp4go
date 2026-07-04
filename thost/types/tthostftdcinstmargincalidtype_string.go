@@ -18,9 +18,9 @@ const _TThostFtdcInstMarginCalIDType_name = "标准算法收取双边单向大�
 var _TThostFtdcInstMarginCalIDType_index = [...]uint8{0, 24, 36, 49}
 
 func (i TThostFtdcInstMarginCalIDType) String() string {
-	i -= 49
-	if i >= TThostFtdcInstMarginCalIDType(len(_TThostFtdcInstMarginCalIDType_index)-1) {
-		return "TThostFtdcInstMarginCalIDType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcInstMarginCalIDType_index)-1 {
+		return "TThostFtdcInstMarginCalIDType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcInstMarginCalIDType_name[_TThostFtdcInstMarginCalIDType_index[i]:_TThostFtdcInstMarginCalIDType_index[i+1]]
+	return _TThostFtdcInstMarginCalIDType_name[_TThostFtdcInstMarginCalIDType_index[idx]:_TThostFtdcInstMarginCalIDType_index[idx+1]]
 }

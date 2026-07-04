@@ -18,9 +18,9 @@ const _TThostFtdcBrokerRepealFlagType_name = "期商无需自动冲正期商待�
 var _TThostFtdcBrokerRepealFlagType_index = [...]uint8{0, 24, 45, 66}
 
 func (i TThostFtdcBrokerRepealFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcBrokerRepealFlagType(len(_TThostFtdcBrokerRepealFlagType_index)-1) {
-		return "TThostFtdcBrokerRepealFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcBrokerRepealFlagType_index)-1 {
+		return "TThostFtdcBrokerRepealFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBrokerRepealFlagType_name[_TThostFtdcBrokerRepealFlagType_index[i]:_TThostFtdcBrokerRepealFlagType_index[i+1]]
+	return _TThostFtdcBrokerRepealFlagType_name[_TThostFtdcBrokerRepealFlagType_index[idx]:_TThostFtdcBrokerRepealFlagType_index[idx+1]]
 }

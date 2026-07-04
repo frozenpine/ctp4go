@@ -18,9 +18,9 @@ const _TThostFtdcFundStatusType_name = "已录入已复核已冲销"
 var _TThostFtdcFundStatusType_index = [...]uint8{0, 9, 18, 27}
 
 func (i TThostFtdcFundStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcFundStatusType(len(_TThostFtdcFundStatusType_index)-1) {
-		return "TThostFtdcFundStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFundStatusType_index)-1 {
+		return "TThostFtdcFundStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFundStatusType_name[_TThostFtdcFundStatusType_index[i]:_TThostFtdcFundStatusType_index[i+1]]
+	return _TThostFtdcFundStatusType_name[_TThostFtdcFundStatusType_index[idx]:_TThostFtdcFundStatusType_index[idx+1]]
 }

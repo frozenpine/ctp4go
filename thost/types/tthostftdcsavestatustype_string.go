@@ -17,9 +17,9 @@ const _TThostFtdcSaveStatusType_name = "归档未完成归档完成"
 var _TThostFtdcSaveStatusType_index = [...]uint8{0, 15, 27}
 
 func (i TThostFtdcSaveStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcSaveStatusType(len(_TThostFtdcSaveStatusType_index)-1) {
-		return "TThostFtdcSaveStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSaveStatusType_index)-1 {
+		return "TThostFtdcSaveStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSaveStatusType_name[_TThostFtdcSaveStatusType_index[i]:_TThostFtdcSaveStatusType_index[i+1]]
+	return _TThostFtdcSaveStatusType_name[_TThostFtdcSaveStatusType_index[idx]:_TThostFtdcSaveStatusType_index[idx+1]]
 }

@@ -17,9 +17,9 @@ const _TThostFtdcCashExchangeCodeType_name = "汇钞"
 var _TThostFtdcCashExchangeCodeType_index = [...]uint8{0, 3, 6}
 
 func (i TThostFtdcCashExchangeCodeType) String() string {
-	i -= 49
-	if i >= TThostFtdcCashExchangeCodeType(len(_TThostFtdcCashExchangeCodeType_index)-1) {
-		return "TThostFtdcCashExchangeCodeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcCashExchangeCodeType_index)-1 {
+		return "TThostFtdcCashExchangeCodeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCashExchangeCodeType_name[_TThostFtdcCashExchangeCodeType_index[i]:_TThostFtdcCashExchangeCodeType_index[i+1]]
+	return _TThostFtdcCashExchangeCodeType_name[_TThostFtdcCashExchangeCodeType_index[idx]:_TThostFtdcCashExchangeCodeType_index[idx+1]]
 }

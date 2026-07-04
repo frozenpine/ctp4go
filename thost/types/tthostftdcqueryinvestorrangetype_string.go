@@ -18,9 +18,9 @@ const _TThostFtdcQueryInvestorRangeType_name = "所有查询分类单一投资�
 var _TThostFtdcQueryInvestorRangeType_index = [...]uint8{0, 6, 18, 33}
 
 func (i TThostFtdcQueryInvestorRangeType) String() string {
-	i -= 49
-	if i >= TThostFtdcQueryInvestorRangeType(len(_TThostFtdcQueryInvestorRangeType_index)-1) {
-		return "TThostFtdcQueryInvestorRangeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcQueryInvestorRangeType_index)-1 {
+		return "TThostFtdcQueryInvestorRangeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcQueryInvestorRangeType_name[_TThostFtdcQueryInvestorRangeType_index[i]:_TThostFtdcQueryInvestorRangeType_index[i+1]]
+	return _TThostFtdcQueryInvestorRangeType_name[_TThostFtdcQueryInvestorRangeType_index[idx]:_TThostFtdcQueryInvestorRangeType_index[idx+1]]
 }

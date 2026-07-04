@@ -19,9 +19,9 @@ const _TThostFtdcPriceSourceType_name = "前成交价买委托价卖委托价场
 var _TThostFtdcPriceSourceType_index = [...]uint8{0, 12, 24, 36, 51}
 
 func (i TThostFtdcPriceSourceType) String() string {
-	i -= 48
-	if i >= TThostFtdcPriceSourceType(len(_TThostFtdcPriceSourceType_index)-1) {
-		return "TThostFtdcPriceSourceType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcPriceSourceType_index)-1 {
+		return "TThostFtdcPriceSourceType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcPriceSourceType_name[_TThostFtdcPriceSourceType_index[i]:_TThostFtdcPriceSourceType_index[i+1]]
+	return _TThostFtdcPriceSourceType_name[_TThostFtdcPriceSourceType_index[idx]:_TThostFtdcPriceSourceType_index[idx+1]]
 }

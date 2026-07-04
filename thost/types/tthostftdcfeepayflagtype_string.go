@@ -18,9 +18,9 @@ const _TThostFtdcFeePayFlagType_name = "由受益方支付费用由发送方支�
 var _TThostFtdcFeePayFlagType_index = [...]uint8{0, 24, 48, 114}
 
 func (i TThostFtdcFeePayFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcFeePayFlagType(len(_TThostFtdcFeePayFlagType_index)-1) {
-		return "TThostFtdcFeePayFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFeePayFlagType_index)-1 {
+		return "TThostFtdcFeePayFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFeePayFlagType_name[_TThostFtdcFeePayFlagType_index[i]:_TThostFtdcFeePayFlagType_index[i+1]]
+	return _TThostFtdcFeePayFlagType_name[_TThostFtdcFeePayFlagType_index[idx]:_TThostFtdcFeePayFlagType_index[idx+1]]
 }

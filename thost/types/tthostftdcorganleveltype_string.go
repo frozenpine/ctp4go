@@ -17,9 +17,9 @@ const _TThostFtdcOrganLevelType_name = "银行总行或期商总部银行分中�
 var _TThostFtdcOrganLevelType_index = [...]uint8{0, 27, 66}
 
 func (i TThostFtdcOrganLevelType) String() string {
-	i -= 49
-	if i >= TThostFtdcOrganLevelType(len(_TThostFtdcOrganLevelType_index)-1) {
-		return "TThostFtdcOrganLevelType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcOrganLevelType_index)-1 {
+		return "TThostFtdcOrganLevelType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOrganLevelType_name[_TThostFtdcOrganLevelType_index[i]:_TThostFtdcOrganLevelType_index[i+1]]
+	return _TThostFtdcOrganLevelType_name[_TThostFtdcOrganLevelType_index[idx]:_TThostFtdcOrganLevelType_index[idx+1]]
 }

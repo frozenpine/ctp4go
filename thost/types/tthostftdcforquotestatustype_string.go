@@ -18,9 +18,9 @@ const _TThostFtdcForQuoteStatusType_name = "已经提交已经接受已经被拒
 var _TThostFtdcForQuoteStatusType_index = [...]uint8{0, 12, 24, 39}
 
 func (i TThostFtdcForQuoteStatusType) String() string {
-	i -= 97
-	if i >= TThostFtdcForQuoteStatusType(len(_TThostFtdcForQuoteStatusType_index)-1) {
-		return "TThostFtdcForQuoteStatusType(" + strconv.FormatInt(int64(i+97), 10) + ")"
+	idx := int(i) - 97
+	if i < 97 || idx >= len(_TThostFtdcForQuoteStatusType_index)-1 {
+		return "TThostFtdcForQuoteStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcForQuoteStatusType_name[_TThostFtdcForQuoteStatusType_index[i]:_TThostFtdcForQuoteStatusType_index[i+1]]
+	return _TThostFtdcForQuoteStatusType_name[_TThostFtdcForQuoteStatusType_index[idx]:_TThostFtdcForQuoteStatusType_index[idx+1]]
 }

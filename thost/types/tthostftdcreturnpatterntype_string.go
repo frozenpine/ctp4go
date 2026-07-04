@@ -17,9 +17,9 @@ const _TThostFtdcReturnPatternType_name = "按成交手数按留存手续费"
 var _TThostFtdcReturnPatternType_index = [...]uint8{0, 15, 33}
 
 func (i TThostFtdcReturnPatternType) String() string {
-	i -= 49
-	if i >= TThostFtdcReturnPatternType(len(_TThostFtdcReturnPatternType_index)-1) {
-		return "TThostFtdcReturnPatternType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcReturnPatternType_index)-1 {
+		return "TThostFtdcReturnPatternType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcReturnPatternType_name[_TThostFtdcReturnPatternType_index[i]:_TThostFtdcReturnPatternType_index[i+1]]
+	return _TThostFtdcReturnPatternType_name[_TThostFtdcReturnPatternType_index[idx]:_TThostFtdcReturnPatternType_index[idx+1]]
 }

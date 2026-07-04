@@ -17,9 +17,9 @@ const _TThostFtdcAccountSettlementParamIDType_name = "基础保证金最低权�
 var _TThostFtdcAccountSettlementParamIDType_index = [...]uint8{0, 15, 33}
 
 func (i TThostFtdcAccountSettlementParamIDType) String() string {
-	i -= 49
-	if i >= TThostFtdcAccountSettlementParamIDType(len(_TThostFtdcAccountSettlementParamIDType_index)-1) {
-		return "TThostFtdcAccountSettlementParamIDType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcAccountSettlementParamIDType_index)-1 {
+		return "TThostFtdcAccountSettlementParamIDType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAccountSettlementParamIDType_name[_TThostFtdcAccountSettlementParamIDType_index[i]:_TThostFtdcAccountSettlementParamIDType_index[i+1]]
+	return _TThostFtdcAccountSettlementParamIDType_name[_TThostFtdcAccountSettlementParamIDType_index[idx]:_TThostFtdcAccountSettlementParamIDType_index[idx+1]]
 }

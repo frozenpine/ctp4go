@@ -73,7 +73,7 @@
 
 ## 代码生成
 
-1. 进入 `thost` 模块目录，使用 `make` 命令生成 **SDK** 相关版本的代码文件
+1. 进入模块目录，使用 `make` 命令生成 **SDK** 相关版本的代码文件
    
    > `make` 支持的参数：
    > 
@@ -81,13 +81,7 @@
    > 
    > - PLATFORM=平台名称（默认：future）
    > 
-   > `make` 支持的target：
    > 
-   > - **trader** 生成交易接口
-   > 
-   > - **mduser** 生成行情接口
-   > 
-   > - **defines** 生成类型枚举的 `String()` 函数
 
 2. 命令执行后，将生成三种类型代码文件：
    
@@ -137,152 +131,150 @@
    
    > 目前由于 `TraderApi` 和 `MdApi` 的接口定义由于不同版本存在差异，接口的定义暂未做自动化生成，故而封装模块的初始化注册代码也未通过自动化生成
    
-   ```go path=trader/v6.7.13/register.go
+   ```go
    package v6_7_13
    
    import (
-   	"fmt"
+       "fmt"
    
-   	"github.com/frozenpine/ctp4go/thost"
-   	"github.com/frozenpine/ctp4go/thost/types"
+       "github.com/frozenpine/ctp4go/thost"
+       "github.com/frozenpine/ctp4go/thost/types"
    )
    
    type apiWrapper struct {
-   	*ThostFtdcTraderApi
+       *ThostFtdcTraderApi
    }
    
    func (api apiWrapper) SubscribePrivateTopic(
-   	nResumeType types.THOST_TE_RESUME_TYPE, nSeqNo ...int,
+       nResumeType types.THOST_TE_RESUME_TYPE, nSeqNo ...int,
    ) {
-   	var seq int
-   	if len(nSeqNo) > 0 {
-   		seq = nSeqNo[0]
-   	}
-   	api.ThostFtdcTraderApi.SubscribePrivateTopic(
-   		int(nResumeType), seq,
-   	)
+       var seq int
+       if len(nSeqNo) > 0 {
+           seq = nSeqNo[0]
+       }
+       api.ThostFtdcTraderApi.SubscribePrivateTopic(
+           int(nResumeType), seq,
+       )
    }
    
    func (api apiWrapper) SubscribePublicTopic(
-   	nResumeType types.THOST_TE_RESUME_TYPE,
+       nResumeType types.THOST_TE_RESUME_TYPE,
    ) {
-   	api.ThostFtdcTraderApi.SubscribePublicTopic(int(nResumeType))
+       api.ThostFtdcTraderApi.SubscribePublicTopic(int(nResumeType))
    }
    
    func sdkMaker(
-   	libPath string,
-   	params ...thost.Param,
+       libPath string,
+       params ...thost.Param,
    ) func() (thost.TraderApi, error) {
-   	return func() (thost.TraderApi, error) {
-   		if libPath == "" {
-   			return nil, fmt.Errorf(
-   				"%w: lib path is empty", thost.ErrInvalidArgs,
-   			)
-   		}
+       return func() (thost.TraderApi, error) {
+           if libPath == "" {
+               return nil, fmt.Errorf(
+                   "%w: lib path is empty", thost.ErrInvalidArgs,
+               )
+           }
    
-   		var (
-   			FlowPath         string
-   			IsProductinoMode bool
+           var (
+               FlowPath         string
+               IsProductinoMode bool
    
-   			ok bool
-   		)
+               ok bool
+           )
    
-   		for _, p := range params {
-   			switch p.Key {
-   			case thost.ParamFlowPath:
-   				if FlowPath, ok = p.Value.(string); !ok {
-   					return nil, fmt.Errorf(
-   						"%w: invalid %s value %+v",
-   						thost.ErrInvalidArgs, p.Key, p.Value,
-   					)
-   				}
-   			case thost.ParamIsProductionMode:
-   				if IsProductinoMode, ok = p.Value.(bool); !ok {
-   					return nil, fmt.Errorf(
-   						"%w: invalid %s value %+v",
-   						thost.ErrInvalidArgs, p.Key, p.Value,
-   					)
-   				}
-   			}
-   		}
+           for _, p := range params {
+               switch p.Key {
+               case thost.ParamFlowPath:
+                   if FlowPath, ok = p.Value.(string); !ok {
+                       return nil, fmt.Errorf(
+                           "%w: invalid %s value %+v",
+                           thost.ErrInvalidArgs, p.Key, p.Value,
+                       )
+                   }
+               case thost.ParamIsProductionMode:
+                   if IsProductinoMode, ok = p.Value.(bool); !ok {
+                       return nil, fmt.Errorf(
+                           "%w: invalid %s value %+v",
+                           thost.ErrInvalidArgs, p.Key, p.Value,
+                       )
+                   }
+               }
+           }
    
-   		api, err := CreateThostFtdcTraderApi(
-   			libPath, FlowPath, IsProductinoMode,
-   		)
-   		if err != nil {
-   			return nil, err
-   		}
+           api, err := CreateThostFtdcTraderApi(
+               libPath, FlowPath, IsProductinoMode,
+           )
+           if err != nil {
+               return nil, err
+           }
    
-   		return apiWrapper{api}, nil
-   	}
+           return apiWrapper{api}, nil
+       }
    }
    
    func init() {
-   	if err := thost.SetTraderMaker("v6.7.13", sdkMaker); err != nil {
-   		panic(err)
-   	}
+       if err := thost.SetTraderMaker("v6.7.13", sdkMaker); err != nil {
+           panic(err)
+       }
    }
-   
    ```
    
-   ```go path=mduser/v6.7.13/register.go
+   ```go
    package v6_7_13
    
    import (
-   	"fmt"
+       "fmt"
    
-   	"github.com/frozenpine/ctp4go/thost"
+       "github.com/frozenpine/ctp4go/thost"
    )
    
    func sdkMaker(
-   	libPath string,
-   	params ...thost.Param,
+       libPath string,
+       params ...thost.Param,
    ) func() (thost.MdApi, error) {
-   	return func() (thost.MdApi, error) {
-   		if libPath == "" {
-   			return nil, fmt.Errorf(
-   				"%w: lib path is empty", thost.ErrInvalidArgs,
-   			)
-   		}
+       return func() (thost.MdApi, error) {
+           if libPath == "" {
+               return nil, fmt.Errorf(
+                   "%w: lib path is empty", thost.ErrInvalidArgs,
+               )
+           }
    
-   		var (
-   			FlowPath         string
-   			IsUsingUdp       bool
-   			IsMulticast      bool
-   			IsProductinoMode bool
+           var (
+               FlowPath         string
+               IsUsingUdp       bool
+               IsMulticast      bool
+               IsProductinoMode bool
    
-   			ok bool
-   		)
+               ok bool
+           )
    
-   		for _, p := range params {
-   			switch p.Key {
-   			case thost.ParamFlowPath:
-   				if FlowPath, ok = p.Value.(string); !ok {
-   					return nil, fmt.Errorf(
-   						"%w: invalid %s value %+v",
-   						thost.ErrInvalidArgs, p.Key, p.Value,
-   					)
-   				}
-   			case thost.ParamIsProductionMode:
-   				if IsProductinoMode, ok = p.Value.(bool); !ok {
-   					return nil, fmt.Errorf(
-   						"%w: invalid %s value %+v",
-   						thost.ErrInvalidArgs, p.Key, p.Value,
-   					)
-   				}
-   			}
-   		}
+           for _, p := range params {
+               switch p.Key {
+               case thost.ParamFlowPath:
+                   if FlowPath, ok = p.Value.(string); !ok {
+                       return nil, fmt.Errorf(
+                           "%w: invalid %s value %+v",
+                           thost.ErrInvalidArgs, p.Key, p.Value,
+                       )
+                   }
+               case thost.ParamIsProductionMode:
+                   if IsProductinoMode, ok = p.Value.(bool); !ok {
+                       return nil, fmt.Errorf(
+                           "%w: invalid %s value %+v",
+                           thost.ErrInvalidArgs, p.Key, p.Value,
+                       )
+                   }
+               }
+           }
    
-   		return CreateThostFtdcMdApi(
-   			libPath, FlowPath, IsUsingUdp, IsMulticast, IsProductinoMode,
-   		)
-   	}
+           return CreateThostFtdcMdApi(
+               libPath, FlowPath, IsUsingUdp, IsMulticast, IsProductinoMode,
+           )
+       }
    }
    
    func init() {
-   	if err := thost.SetMduserMaker("v6.7.13", sdkMaker); err != nil {
-   		panic(err)
-   	}
+       if err := thost.SetMduserMaker("v6.7.13", sdkMaker); err != nil {
+           panic(err)
+       }
    }
-   
    ```

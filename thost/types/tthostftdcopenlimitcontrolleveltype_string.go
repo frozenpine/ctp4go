@@ -18,9 +18,9 @@ const _TThostFtdcOpenLimitControlLevelType_name = "不控制产品级别合约�
 var _TThostFtdcOpenLimitControlLevelType_index = [...]uint8{0, 9, 21, 33}
 
 func (i TThostFtdcOpenLimitControlLevelType) String() string {
-	i -= 48
-	if i >= TThostFtdcOpenLimitControlLevelType(len(_TThostFtdcOpenLimitControlLevelType_index)-1) {
-		return "TThostFtdcOpenLimitControlLevelType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcOpenLimitControlLevelType_index)-1 {
+		return "TThostFtdcOpenLimitControlLevelType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOpenLimitControlLevelType_name[_TThostFtdcOpenLimitControlLevelType_index[i]:_TThostFtdcOpenLimitControlLevelType_index[i+1]]
+	return _TThostFtdcOpenLimitControlLevelType_name[_TThostFtdcOpenLimitControlLevelType_index[idx]:_TThostFtdcOpenLimitControlLevelType_index[idx+1]]
 }

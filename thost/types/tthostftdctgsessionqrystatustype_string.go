@@ -17,9 +17,9 @@ const _TThostFtdcTGSessionQryStatusType_name = "查询状态空闲查询状态�
 var _TThostFtdcTGSessionQryStatusType_index = [...]uint8{0, 18, 36}
 
 func (i TThostFtdcTGSessionQryStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcTGSessionQryStatusType(len(_TThostFtdcTGSessionQryStatusType_index)-1) {
-		return "TThostFtdcTGSessionQryStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcTGSessionQryStatusType_index)-1 {
+		return "TThostFtdcTGSessionQryStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTGSessionQryStatusType_name[_TThostFtdcTGSessionQryStatusType_index[i]:_TThostFtdcTGSessionQryStatusType_index[i+1]]
+	return _TThostFtdcTGSessionQryStatusType_name[_TThostFtdcTGSessionQryStatusType_index[idx]:_TThostFtdcTGSessionQryStatusType_index[idx+1]]
 }

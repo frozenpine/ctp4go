@@ -17,9 +17,9 @@ const _TThostFtdcFutureTypeType_name = "商品期货金融期货"
 var _TThostFtdcFutureTypeType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcFutureTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcFutureTypeType(len(_TThostFtdcFutureTypeType_index)-1) {
-		return "TThostFtdcFutureTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFutureTypeType_index)-1 {
+		return "TThostFtdcFutureTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFutureTypeType_name[_TThostFtdcFutureTypeType_index[i]:_TThostFtdcFutureTypeType_index[i+1]]
+	return _TThostFtdcFutureTypeType_name[_TThostFtdcFutureTypeType_index[idx]:_TThostFtdcFutureTypeType_index[idx+1]]
 }

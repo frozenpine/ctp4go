@@ -17,9 +17,9 @@ const _TThostFtdcAMLGenStatusType_name = "程序生成人工生成"
 var _TThostFtdcAMLGenStatusType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcAMLGenStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcAMLGenStatusType(len(_TThostFtdcAMLGenStatusType_index)-1) {
-		return "TThostFtdcAMLGenStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcAMLGenStatusType_index)-1 {
+		return "TThostFtdcAMLGenStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAMLGenStatusType_name[_TThostFtdcAMLGenStatusType_index[i]:_TThostFtdcAMLGenStatusType_index[i+1]]
+	return _TThostFtdcAMLGenStatusType_name[_TThostFtdcAMLGenStatusType_index[idx]:_TThostFtdcAMLGenStatusType_index[idx+1]]
 }

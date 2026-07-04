@@ -19,9 +19,9 @@ const _TThostFtdcBanlanceTypeType_name = "当前余额可用余额可取余额�
 var _TThostFtdcBanlanceTypeType_index = [...]uint8{0, 12, 24, 36, 48}
 
 func (i TThostFtdcBanlanceTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcBanlanceTypeType(len(_TThostFtdcBanlanceTypeType_index)-1) {
-		return "TThostFtdcBanlanceTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcBanlanceTypeType_index)-1 {
+		return "TThostFtdcBanlanceTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBanlanceTypeType_name[_TThostFtdcBanlanceTypeType_index[i]:_TThostFtdcBanlanceTypeType_index[i+1]]
+	return _TThostFtdcBanlanceTypeType_name[_TThostFtdcBanlanceTypeType_index[idx]:_TThostFtdcBanlanceTypeType_index[idx+1]]
 }

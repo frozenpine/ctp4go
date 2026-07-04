@@ -19,9 +19,9 @@ const _TThostFtdcSettArchiveStatusType_name = "未归档数据数据归档中已
 var _TThostFtdcSettArchiveStatusType_index = [...]uint8{0, 15, 30, 45, 63}
 
 func (i TThostFtdcSettArchiveStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcSettArchiveStatusType(len(_TThostFtdcSettArchiveStatusType_index)-1) {
-		return "TThostFtdcSettArchiveStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSettArchiveStatusType_index)-1 {
+		return "TThostFtdcSettArchiveStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSettArchiveStatusType_name[_TThostFtdcSettArchiveStatusType_index[i]:_TThostFtdcSettArchiveStatusType_index[i+1]]
+	return _TThostFtdcSettArchiveStatusType_name[_TThostFtdcSettArchiveStatusType_index[idx]:_TThostFtdcSettArchiveStatusType_index[idx+1]]
 }

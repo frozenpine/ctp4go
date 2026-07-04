@@ -17,9 +17,9 @@ const _TThostFtdcOrderSourceType_name = "来自参与者来自管理员"
 var _TThostFtdcOrderSourceType_index = [...]uint8{0, 15, 30}
 
 func (i TThostFtdcOrderSourceType) String() string {
-	i -= 48
-	if i >= TThostFtdcOrderSourceType(len(_TThostFtdcOrderSourceType_index)-1) {
-		return "TThostFtdcOrderSourceType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcOrderSourceType_index)-1 {
+		return "TThostFtdcOrderSourceType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOrderSourceType_name[_TThostFtdcOrderSourceType_index[i]:_TThostFtdcOrderSourceType_index[i+1]]
+	return _TThostFtdcOrderSourceType_name[_TThostFtdcOrderSourceType_index[idx]:_TThostFtdcOrderSourceType_index[idx+1]]
 }

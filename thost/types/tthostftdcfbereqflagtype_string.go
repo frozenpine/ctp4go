@@ -20,9 +20,9 @@ const _TThostFtdcFBEReqFlagType_name = "未处理等待发送发送成功发送�
 var _TThostFtdcFBEReqFlagType_index = [...]uint8{0, 9, 21, 33, 45, 57}
 
 func (i TThostFtdcFBEReqFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcFBEReqFlagType(len(_TThostFtdcFBEReqFlagType_index)-1) {
-		return "TThostFtdcFBEReqFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFBEReqFlagType_index)-1 {
+		return "TThostFtdcFBEReqFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFBEReqFlagType_name[_TThostFtdcFBEReqFlagType_index[i]:_TThostFtdcFBEReqFlagType_index[i+1]]
+	return _TThostFtdcFBEReqFlagType_name[_TThostFtdcFBEReqFlagType_index[idx]:_TThostFtdcFBEReqFlagType_index[idx+1]]
 }

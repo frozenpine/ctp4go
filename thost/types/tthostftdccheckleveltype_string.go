@@ -18,9 +18,9 @@ const _TThostFtdcCheckLevelType_name = "零级复核一级复核二级复核"
 var _TThostFtdcCheckLevelType_index = [...]uint8{0, 12, 24, 36}
 
 func (i TThostFtdcCheckLevelType) String() string {
-	i -= 48
-	if i >= TThostFtdcCheckLevelType(len(_TThostFtdcCheckLevelType_index)-1) {
-		return "TThostFtdcCheckLevelType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcCheckLevelType_index)-1 {
+		return "TThostFtdcCheckLevelType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCheckLevelType_name[_TThostFtdcCheckLevelType_index[i]:_TThostFtdcCheckLevelType_index[i+1]]
+	return _TThostFtdcCheckLevelType_name[_TThostFtdcCheckLevelType_index[idx]:_TThostFtdcCheckLevelType_index[idx+1]]
 }

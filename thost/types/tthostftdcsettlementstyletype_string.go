@@ -17,9 +17,9 @@ const _TThostFtdcSettlementStyleType_name = "逐日盯市逐笔对冲"
 var _TThostFtdcSettlementStyleType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcSettlementStyleType) String() string {
-	i -= 49
-	if i >= TThostFtdcSettlementStyleType(len(_TThostFtdcSettlementStyleType_index)-1) {
-		return "TThostFtdcSettlementStyleType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcSettlementStyleType_index)-1 {
+		return "TThostFtdcSettlementStyleType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSettlementStyleType_name[_TThostFtdcSettlementStyleType_index[i]:_TThostFtdcSettlementStyleType_index[i+1]]
+	return _TThostFtdcSettlementStyleType_name[_TThostFtdcSettlementStyleType_index[idx]:_TThostFtdcSettlementStyleType_index[idx+1]]
 }

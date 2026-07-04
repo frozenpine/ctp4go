@@ -18,9 +18,9 @@ const _TThostFtdcTradingRoleType_name = "代理自营做市商"
 var _TThostFtdcTradingRoleType_index = [...]uint8{0, 6, 12, 21}
 
 func (i TThostFtdcTradingRoleType) String() string {
-	i -= 49
-	if i >= TThostFtdcTradingRoleType(len(_TThostFtdcTradingRoleType_index)-1) {
-		return "TThostFtdcTradingRoleType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcTradingRoleType_index)-1 {
+		return "TThostFtdcTradingRoleType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTradingRoleType_name[_TThostFtdcTradingRoleType_index[i]:_TThostFtdcTradingRoleType_index[i+1]]
+	return _TThostFtdcTradingRoleType_name[_TThostFtdcTradingRoleType_index[idx]:_TThostFtdcTradingRoleType_index[idx+1]]
 }

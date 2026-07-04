@@ -17,9 +17,9 @@ const _TThostFtdcByInvestorRangeType_name = "属性统计统计所有"
 var _TThostFtdcByInvestorRangeType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcByInvestorRangeType) String() string {
-	i -= 49
-	if i >= TThostFtdcByInvestorRangeType(len(_TThostFtdcByInvestorRangeType_index)-1) {
-		return "TThostFtdcByInvestorRangeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcByInvestorRangeType_index)-1 {
+		return "TThostFtdcByInvestorRangeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcByInvestorRangeType_name[_TThostFtdcByInvestorRangeType_index[i]:_TThostFtdcByInvestorRangeType_index[i+1]]
+	return _TThostFtdcByInvestorRangeType_name[_TThostFtdcByInvestorRangeType_index[idx]:_TThostFtdcByInvestorRangeType_index[idx+1]]
 }

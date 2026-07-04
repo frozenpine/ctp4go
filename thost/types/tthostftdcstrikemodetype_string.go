@@ -18,9 +18,9 @@ const _TThostFtdcStrikeModeType_name = "欧式美式百慕大"
 var _TThostFtdcStrikeModeType_index = [...]uint8{0, 6, 12, 21}
 
 func (i TThostFtdcStrikeModeType) String() string {
-	i -= 48
-	if i >= TThostFtdcStrikeModeType(len(_TThostFtdcStrikeModeType_index)-1) {
-		return "TThostFtdcStrikeModeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcStrikeModeType_index)-1 {
+		return "TThostFtdcStrikeModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcStrikeModeType_name[_TThostFtdcStrikeModeType_index[i]:_TThostFtdcStrikeModeType_index[i+1]]
+	return _TThostFtdcStrikeModeType_name[_TThostFtdcStrikeModeType_index[idx]:_TThostFtdcStrikeModeType_index[idx+1]]
 }
