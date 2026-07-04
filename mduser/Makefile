@@ -7,4 +7,4 @@ default:
 
 clean:
 	$(RM) -r $(VERSION)
-	$(RM) imp_*.go
+	$(RM) imp_$(VERSION).go

@@ -73,61 +73,75 @@
 
 ## 代码生成
 
-1. 进入模块目录，使用 `make` 命令生成 **SDK** 相关版本的代码文件
+1. 工程根目录可执行 `make` 命令生成对应模块
    
    > `make` 支持的参数：
    > 
    > - VERSION=版本号（默认：v6.7.13）
    > 
    > - PLATFORM=平台名称（默认：future）
+   >   
+   >   - future： 期货期权交易系统
+   >   
+   >   - mini： CTPMini交易系统（待支持）
+   >   
+   >   - etf：CTP ETF交易系统（待支持）
    > 
-   > 
-
-2. 命令执行后，将生成三种类型代码文件：
+   > 也可进入对应模块目录，使用 `make` 命令生成模块对应的代码文件
    
-   - 数据定义代码：
-     
-     - ***thost*** 下生成结构体定义文件：*ctp_structs.go*
-     
-     - ***thost/types*** 下生成类型定义文件：*ctp_types.go*
-       
-       > 可手工执行类型定义的
+   1. `thost` 数据定义代码：
+      
+      > ```bash
+      > # 生成数据定义代码
+      > make thost
+      > 
+      > # 清除数据定义代码
+      > make clean-thost
+      > 
+      > # 生成v6.5.1版的模块代码，trader & mduser 同理
+      > # 需在 dependencies 对应的平台目录下存在对应版本的头文件定义
+      > make VERSION=v6.5.1 thost
+      > ```
+      
+      - ***thost*** 下生成结构体定义文件：*ctp_structs.go*
+      
+      - ***thost/types*** 下生成类型定义文件：*ctp_types.go
    
-   - 接口封装代码：
-     
-     > 封装代码生成在对应接口名模块文件夹下，可直接导入需要的版本实现使用
-     > 
-     > 以下以 `trader` 交易模块的 *v6.7.13* 版本为例
-     
-     - ***trader/v6.7.13*** 下生成对应版本接口封装代码：
-       
-       - *gen.go* 全部封装代码的 go generate 定义
-         
-         > 该定义文件存在的情况下，可重复手工执行生成代码：
-         > 
-         > ```bash
-         > go generate .
-         > ```
-       
-       - *api_helper.h* api 接口的 c 桥接代码定义
-       
-       - *api_helper.c* api 接口的 c 桥接代码实现
-       
-       - *api_impl.go* api 接口的 go 封装实现
-       
-       - *spi_helper.h* spi 接口的 c 桥接代码定义
-       
-       - *spi_helper.c* spi 接口的 c 桥接代码实现
-       
-       - *spi_impl.go* spi 接口的 go 封装实现
-       
-       - *consts_linux.go* linux系统特定的静态函数名
-       
-       - *consts_windows.go* windows系统特定的静态函数名
-     
-     - ***trader*** 下生成版本导入文件： *imp_6.7.13.go* 
+   2. `trader` | `mduser` 接口封装代码 `make trader` | `make mduser` ：
+      
+      > ```bash
+      > make trader
+      > # make clean-trader
+      > 
+      > make mduser
+      > # make clean-mduser
+      > ```
+      > 
+      > 封装代码生成在对应版本号文件夹下，可直接导入需要的版本实现使用
+      
+      - ***trader|mduser/v6.7.13*** 包含对应版本接口封装代码
+        
+        - *api_helper.h* api 接口的 c 桥接代码定义
+        
+        - *api_helper.c* api 接口的 c 桥接代码实现
+        
+        - *api_impl.go* api 接口的 go 封装实现
+        
+        - *spi_helper.h* spi 接口的 c 桥接代码定义
+        
+        - *spi_helper.c* spi 接口的 c 桥接代码实现
+        
+        - *spi_impl.go* spi 接口的 go 封装实现
+        
+        - *consts_linux.go* linux系统特定的静态函数名
+        
+        - *consts_windows.go* windows系统特定的静态函数名
+      
+      - ***trader|mduser/imp_v6.7.13.go*** `trader` | `mduser` 模块版本特化的导入代码，编译时需指定 `-tags v6.7.13` 参数
+   
+   3. `clean` 清除
 
-3. 如需使用 `trader` 或 `mduser` 模块下更高抽象层级的接口，需在对应版本封装模块内实现 `init()` 初始化调用，完成 `thost` 的版本化模块注册。 
+2. 如需使用 `trader` 或 `mduser` 模块下更高抽象层级的接口，需在对应版本封装模块内实现 `init()` 初始化调用，完成 `thost` 的版本化模块注册。 
    
    > 目前由于 `TraderApi` 和 `MdApi` 的接口定义由于不同版本存在差异，接口的定义暂未做自动化生成，故而封装模块的初始化注册代码也未通过自动化生成
    
