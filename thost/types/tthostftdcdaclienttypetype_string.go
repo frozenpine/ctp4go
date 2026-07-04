@@ -18,9 +18,9 @@ const _TThostFtdcDAClientTypeType_name = "自然人法人其他"
 var _TThostFtdcDAClientTypeType_index = [...]uint8{0, 9, 15, 21}
 
 func (i TThostFtdcDAClientTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcDAClientTypeType(len(_TThostFtdcDAClientTypeType_index)-1) {
-		return "TThostFtdcDAClientTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcDAClientTypeType_index)-1 {
+		return "TThostFtdcDAClientTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcDAClientTypeType_name[_TThostFtdcDAClientTypeType_index[i]:_TThostFtdcDAClientTypeType_index[i+1]]
+	return _TThostFtdcDAClientTypeType_name[_TThostFtdcDAClientTypeType_index[idx]:_TThostFtdcDAClientTypeType_index[idx+1]]
 }

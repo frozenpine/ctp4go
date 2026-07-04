@@ -17,9 +17,9 @@ const _TThostFtdcUserRangeType_name = "所有单一操作员"
 var _TThostFtdcUserRangeType_index = [...]uint8{0, 6, 21}
 
 func (i TThostFtdcUserRangeType) String() string {
-	i -= 48
-	if i >= TThostFtdcUserRangeType(len(_TThostFtdcUserRangeType_index)-1) {
-		return "TThostFtdcUserRangeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcUserRangeType_index)-1 {
+		return "TThostFtdcUserRangeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcUserRangeType_name[_TThostFtdcUserRangeType_index[i]:_TThostFtdcUserRangeType_index[i+1]]
+	return _TThostFtdcUserRangeType_name[_TThostFtdcUserRangeType_index[idx]:_TThostFtdcUserRangeType_index[idx+1]]
 }

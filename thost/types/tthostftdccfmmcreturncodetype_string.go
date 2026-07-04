@@ -20,9 +20,9 @@ const _TThostFtdcCfmmcReturnCodeType_name = "成功该客户已经有流程在�
 var _TThostFtdcCfmmcReturnCodeType_index = [...]uint8{0, 6, 42, 75, 105, 117}
 
 func (i TThostFtdcCfmmcReturnCodeType) String() string {
-	i -= 48
-	if i >= TThostFtdcCfmmcReturnCodeType(len(_TThostFtdcCfmmcReturnCodeType_index)-1) {
-		return "TThostFtdcCfmmcReturnCodeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcCfmmcReturnCodeType_index)-1 {
+		return "TThostFtdcCfmmcReturnCodeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCfmmcReturnCodeType_name[_TThostFtdcCfmmcReturnCodeType_index[i]:_TThostFtdcCfmmcReturnCodeType_index[i+1]]
+	return _TThostFtdcCfmmcReturnCodeType_name[_TThostFtdcCfmmcReturnCodeType_index[idx]:_TThostFtdcCfmmcReturnCodeType_index[idx+1]]
 }

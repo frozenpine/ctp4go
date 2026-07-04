@@ -18,9 +18,9 @@ const _TThostFtdcFlexStatModeType_name = "产品统计交易所统计统计所�
 var _TThostFtdcFlexStatModeType_index = [...]uint8{0, 12, 27, 39}
 
 func (i TThostFtdcFlexStatModeType) String() string {
-	i -= 49
-	if i >= TThostFtdcFlexStatModeType(len(_TThostFtdcFlexStatModeType_index)-1) {
-		return "TThostFtdcFlexStatModeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFlexStatModeType_index)-1 {
+		return "TThostFtdcFlexStatModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFlexStatModeType_name[_TThostFtdcFlexStatModeType_index[i]:_TThostFtdcFlexStatModeType_index[i+1]]
+	return _TThostFtdcFlexStatModeType_name[_TThostFtdcFlexStatModeType_index[idx]:_TThostFtdcFlexStatModeType_index[idx+1]]
 }

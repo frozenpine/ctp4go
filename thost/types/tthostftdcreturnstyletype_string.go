@@ -17,9 +17,9 @@ const _TThostFtdcReturnStyleType_name = "按所有品种按品种"
 var _TThostFtdcReturnStyleType_index = [...]uint8{0, 15, 24}
 
 func (i TThostFtdcReturnStyleType) String() string {
-	i -= 49
-	if i >= TThostFtdcReturnStyleType(len(_TThostFtdcReturnStyleType_index)-1) {
-		return "TThostFtdcReturnStyleType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcReturnStyleType_index)-1 {
+		return "TThostFtdcReturnStyleType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcReturnStyleType_name[_TThostFtdcReturnStyleType_index[i]:_TThostFtdcReturnStyleType_index[i+1]]
+	return _TThostFtdcReturnStyleType_name[_TThostFtdcReturnStyleType_index[idx]:_TThostFtdcReturnStyleType_index[idx+1]]
 }

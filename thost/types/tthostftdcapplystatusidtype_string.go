@@ -20,9 +20,9 @@ const _TThostFtdcApplyStatusIDType_name = "未补全已提交已审核已拒绝�
 var _TThostFtdcApplyStatusIDType_index = [...]uint8{0, 9, 18, 27, 36, 45}
 
 func (i TThostFtdcApplyStatusIDType) String() string {
-	i -= 49
-	if i >= TThostFtdcApplyStatusIDType(len(_TThostFtdcApplyStatusIDType_index)-1) {
-		return "TThostFtdcApplyStatusIDType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcApplyStatusIDType_index)-1 {
+		return "TThostFtdcApplyStatusIDType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcApplyStatusIDType_name[_TThostFtdcApplyStatusIDType_index[i]:_TThostFtdcApplyStatusIDType_index[i+1]]
+	return _TThostFtdcApplyStatusIDType_name[_TThostFtdcApplyStatusIDType_index[idx]:_TThostFtdcApplyStatusIDType_index[idx+1]]
 }

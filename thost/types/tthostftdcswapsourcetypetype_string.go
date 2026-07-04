@@ -17,9 +17,9 @@ const _TThostFtdcSwapSourceTypeType_name = "手工自动生成"
 var _TThostFtdcSwapSourceTypeType_index = [...]uint8{0, 6, 18}
 
 func (i TThostFtdcSwapSourceTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcSwapSourceTypeType(len(_TThostFtdcSwapSourceTypeType_index)-1) {
-		return "TThostFtdcSwapSourceTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSwapSourceTypeType_index)-1 {
+		return "TThostFtdcSwapSourceTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSwapSourceTypeType_name[_TThostFtdcSwapSourceTypeType_index[i]:_TThostFtdcSwapSourceTypeType_index[i+1]]
+	return _TThostFtdcSwapSourceTypeType_name[_TThostFtdcSwapSourceTypeType_index[idx]:_TThostFtdcSwapSourceTypeType_index[idx+1]]
 }

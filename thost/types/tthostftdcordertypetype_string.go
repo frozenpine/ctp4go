@@ -23,9 +23,9 @@ const _TThostFtdcOrderTypeType_name = "正常报价衍生组合衍生组合报�
 var _TThostFtdcOrderTypeType_index = [...]uint8{0, 6, 18, 30, 42, 51, 60, 84, 105}
 
 func (i TThostFtdcOrderTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcOrderTypeType(len(_TThostFtdcOrderTypeType_index)-1) {
-		return "TThostFtdcOrderTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcOrderTypeType_index)-1 {
+		return "TThostFtdcOrderTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOrderTypeType_name[_TThostFtdcOrderTypeType_index[i]:_TThostFtdcOrderTypeType_index[i+1]]
+	return _TThostFtdcOrderTypeType_name[_TThostFtdcOrderTypeType_index[idx]:_TThostFtdcOrderTypeType_index[idx+1]]
 }

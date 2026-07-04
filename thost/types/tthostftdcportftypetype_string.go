@@ -17,9 +17,9 @@ const _TThostFtdcPortfTypeType_name = "使用初版交易所算法SPBM算法V1.1
 var _TThostFtdcPortfTypeType_index = [...]uint8{0, 27, 65}
 
 func (i TThostFtdcPortfTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcPortfTypeType(len(_TThostFtdcPortfTypeType_index)-1) {
-		return "TThostFtdcPortfTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcPortfTypeType_index)-1 {
+		return "TThostFtdcPortfTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcPortfTypeType_name[_TThostFtdcPortfTypeType_index[i]:_TThostFtdcPortfTypeType_index[i+1]]
+	return _TThostFtdcPortfTypeType_name[_TThostFtdcPortfTypeType_index[idx]:_TThostFtdcPortfTypeType_index[idx+1]]
 }

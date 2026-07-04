@@ -19,9 +19,9 @@ const _TThostFtdcAppTypeType_name = "直连的投资者为每个投资者都创�
 var _TThostFtdcAppTypeType_index = [...]uint8{0, 18, 60, 111, 117}
 
 func (i TThostFtdcAppTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcAppTypeType(len(_TThostFtdcAppTypeType_index)-1) {
-		return "TThostFtdcAppTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcAppTypeType_index)-1 {
+		return "TThostFtdcAppTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAppTypeType_name[_TThostFtdcAppTypeType_index[i]:_TThostFtdcAppTypeType_index[i+1]]
+	return _TThostFtdcAppTypeType_name[_TThostFtdcAppTypeType_index[idx]:_TThostFtdcAppTypeType_index[idx+1]]
 }

@@ -17,9 +17,9 @@ const _TThostFtdcFuturePwdFlagType_name = "不核对核对"
 var _TThostFtdcFuturePwdFlagType_index = [...]uint8{0, 9, 15}
 
 func (i TThostFtdcFuturePwdFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcFuturePwdFlagType(len(_TThostFtdcFuturePwdFlagType_index)-1) {
-		return "TThostFtdcFuturePwdFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFuturePwdFlagType_index)-1 {
+		return "TThostFtdcFuturePwdFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFuturePwdFlagType_name[_TThostFtdcFuturePwdFlagType_index[i]:_TThostFtdcFuturePwdFlagType_index[i+1]]
+	return _TThostFtdcFuturePwdFlagType_name[_TThostFtdcFuturePwdFlagType_index[idx]:_TThostFtdcFuturePwdFlagType_index[idx+1]]
 }

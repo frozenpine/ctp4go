@@ -18,9 +18,9 @@ const _TThostFtdcClientRegionType_name = "国内客户港澳台客户国外客�
 var _TThostFtdcClientRegionType_index = [...]uint8{0, 12, 27, 39}
 
 func (i TThostFtdcClientRegionType) String() string {
-	i -= 49
-	if i >= TThostFtdcClientRegionType(len(_TThostFtdcClientRegionType_index)-1) {
-		return "TThostFtdcClientRegionType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcClientRegionType_index)-1 {
+		return "TThostFtdcClientRegionType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcClientRegionType_name[_TThostFtdcClientRegionType_index[i]:_TThostFtdcClientRegionType_index[i+1]]
+	return _TThostFtdcClientRegionType_name[_TThostFtdcClientRegionType_index[idx]:_TThostFtdcClientRegionType_index[idx+1]]
 }

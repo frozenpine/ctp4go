@@ -17,9 +17,9 @@ const _TThostFtdcCustTypeType_name = "自然人机构户"
 var _TThostFtdcCustTypeType_index = [...]uint8{0, 9, 18}
 
 func (i TThostFtdcCustTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcCustTypeType(len(_TThostFtdcCustTypeType_index)-1) {
-		return "TThostFtdcCustTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcCustTypeType_index)-1 {
+		return "TThostFtdcCustTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCustTypeType_name[_TThostFtdcCustTypeType_index[i]:_TThostFtdcCustTypeType_index[i+1]]
+	return _TThostFtdcCustTypeType_name[_TThostFtdcCustTypeType_index[idx]:_TThostFtdcCustTypeType_index[idx+1]]
 }

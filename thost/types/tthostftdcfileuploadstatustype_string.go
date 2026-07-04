@@ -20,9 +20,9 @@ const _TThostFtdcFileUploadStatusType_name = "上传成功上传失败导入成�
 var _TThostFtdcFileUploadStatusType_index = [...]uint8{0, 12, 24, 36, 54, 66}
 
 func (i TThostFtdcFileUploadStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcFileUploadStatusType(len(_TThostFtdcFileUploadStatusType_index)-1) {
-		return "TThostFtdcFileUploadStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFileUploadStatusType_index)-1 {
+		return "TThostFtdcFileUploadStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFileUploadStatusType_name[_TThostFtdcFileUploadStatusType_index[i]:_TThostFtdcFileUploadStatusType_index[i+1]]
+	return _TThostFtdcFileUploadStatusType_name[_TThostFtdcFileUploadStatusType_index[idx]:_TThostFtdcFileUploadStatusType_index[idx+1]]
 }

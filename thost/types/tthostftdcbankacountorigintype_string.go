@@ -17,9 +17,9 @@ const _TThostFtdcBankAcountOriginType_name = "手工录入银期转账"
 var _TThostFtdcBankAcountOriginType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcBankAcountOriginType) String() string {
-	i -= 48
-	if i >= TThostFtdcBankAcountOriginType(len(_TThostFtdcBankAcountOriginType_index)-1) {
-		return "TThostFtdcBankAcountOriginType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcBankAcountOriginType_index)-1 {
+		return "TThostFtdcBankAcountOriginType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBankAcountOriginType_name[_TThostFtdcBankAcountOriginType_index[i]:_TThostFtdcBankAcountOriginType_index[i+1]]
+	return _TThostFtdcBankAcountOriginType_name[_TThostFtdcBankAcountOriginType_index[idx]:_TThostFtdcBankAcountOriginType_index[idx+1]]
 }

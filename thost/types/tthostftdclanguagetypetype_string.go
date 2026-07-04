@@ -17,9 +17,9 @@ const _TThostFtdcLanguageTypeType_name = "中文英文"
 var _TThostFtdcLanguageTypeType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcLanguageTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcLanguageTypeType(len(_TThostFtdcLanguageTypeType_index)-1) {
-		return "TThostFtdcLanguageTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcLanguageTypeType_index)-1 {
+		return "TThostFtdcLanguageTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcLanguageTypeType_name[_TThostFtdcLanguageTypeType_index[i]:_TThostFtdcLanguageTypeType_index[i+1]]
+	return _TThostFtdcLanguageTypeType_name[_TThostFtdcLanguageTypeType_index[idx]:_TThostFtdcLanguageTypeType_index[idx+1]]
 }

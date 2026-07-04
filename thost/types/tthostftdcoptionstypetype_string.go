@@ -17,9 +17,9 @@ const _TThostFtdcOptionsTypeType_name = "看涨看跌"
 var _TThostFtdcOptionsTypeType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcOptionsTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcOptionsTypeType(len(_TThostFtdcOptionsTypeType_index)-1) {
-		return "TThostFtdcOptionsTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcOptionsTypeType_index)-1 {
+		return "TThostFtdcOptionsTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOptionsTypeType_name[_TThostFtdcOptionsTypeType_index[i]:_TThostFtdcOptionsTypeType_index[i+1]]
+	return _TThostFtdcOptionsTypeType_name[_TThostFtdcOptionsTypeType_index[idx]:_TThostFtdcOptionsTypeType_index[idx+1]]
 }

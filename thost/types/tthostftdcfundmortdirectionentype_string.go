@@ -17,9 +17,9 @@ const _TThostFtdcFundMortDirectionEnType_name = "PledgeRedemption"
 var _TThostFtdcFundMortDirectionEnType_index = [...]uint8{0, 6, 16}
 
 func (i TThostFtdcFundMortDirectionEnType) String() string {
-	i -= 49
-	if i >= TThostFtdcFundMortDirectionEnType(len(_TThostFtdcFundMortDirectionEnType_index)-1) {
-		return "TThostFtdcFundMortDirectionEnType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFundMortDirectionEnType_index)-1 {
+		return "TThostFtdcFundMortDirectionEnType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFundMortDirectionEnType_name[_TThostFtdcFundMortDirectionEnType_index[i]:_TThostFtdcFundMortDirectionEnType_index[i+1]]
+	return _TThostFtdcFundMortDirectionEnType_name[_TThostFtdcFundMortDirectionEnType_index[idx]:_TThostFtdcFundMortDirectionEnType_index[idx+1]]
 }

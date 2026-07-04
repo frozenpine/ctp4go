@@ -17,9 +17,9 @@ const _TThostFtdcEnumBoolType_name = "falsetrue"
 var _TThostFtdcEnumBoolType_index = [...]uint8{0, 5, 9}
 
 func (i TThostFtdcEnumBoolType) String() string {
-	i -= 48
-	if i >= TThostFtdcEnumBoolType(len(_TThostFtdcEnumBoolType_index)-1) {
-		return "TThostFtdcEnumBoolType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcEnumBoolType_index)-1 {
+		return "TThostFtdcEnumBoolType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcEnumBoolType_name[_TThostFtdcEnumBoolType_index[i]:_TThostFtdcEnumBoolType_index[i+1]]
+	return _TThostFtdcEnumBoolType_name[_TThostFtdcEnumBoolType_index[idx]:_TThostFtdcEnumBoolType_index[idx+1]]
 }

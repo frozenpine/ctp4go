@@ -22,9 +22,9 @@ const _TThostFtdcSendTypeType_name = "未发送已发送已生成报送失败接
 var _TThostFtdcSendTypeType_index = [...]uint8{0, 9, 18, 27, 39, 51, 63, 75}
 
 func (i TThostFtdcSendTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcSendTypeType(len(_TThostFtdcSendTypeType_index)-1) {
-		return "TThostFtdcSendTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSendTypeType_index)-1 {
+		return "TThostFtdcSendTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSendTypeType_name[_TThostFtdcSendTypeType_index[i]:_TThostFtdcSendTypeType_index[i+1]]
+	return _TThostFtdcSendTypeType_name[_TThostFtdcSendTypeType_index[idx]:_TThostFtdcSendTypeType_index[idx+1]]
 }

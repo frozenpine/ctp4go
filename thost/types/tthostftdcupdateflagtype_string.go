@@ -21,9 +21,9 @@ const _TThostFtdcUpdateFlagType_name = "未更新更新全部信息成功更新�
 var _TThostFtdcUpdateFlagType_index = [...]uint8{0, 9, 33, 57, 81, 105, 114}
 
 func (i TThostFtdcUpdateFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcUpdateFlagType(len(_TThostFtdcUpdateFlagType_index)-1) {
-		return "TThostFtdcUpdateFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcUpdateFlagType_index)-1 {
+		return "TThostFtdcUpdateFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcUpdateFlagType_name[_TThostFtdcUpdateFlagType_index[i]:_TThostFtdcUpdateFlagType_index[i+1]]
+	return _TThostFtdcUpdateFlagType_name[_TThostFtdcUpdateFlagType_index[idx]:_TThostFtdcUpdateFlagType_index[idx+1]]
 }

@@ -19,9 +19,9 @@ const _TThostFtdcOTCTradeTypeType_name = "大宗交易期转现面值"
 var _TThostFtdcOTCTradeTypeType_index = [...]uint8{0, 12, 21, 27}
 
 func (i TThostFtdcOTCTradeTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcOTCTradeTypeType(len(_TThostFtdcOTCTradeTypeType_index)-1) {
-		return "TThostFtdcOTCTradeTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcOTCTradeTypeType_index)-1 {
+		return "TThostFtdcOTCTradeTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOTCTradeTypeType_name[_TThostFtdcOTCTradeTypeType_index[i]:_TThostFtdcOTCTradeTypeType_index[i+1]]
+	return _TThostFtdcOTCTradeTypeType_name[_TThostFtdcOTCTradeTypeType_index[idx]:_TThostFtdcOTCTradeTypeType_index[idx+1]]
 }

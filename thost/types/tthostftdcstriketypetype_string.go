@@ -17,9 +17,9 @@ const _TThostFtdcStrikeTypeType_name = "自身对冲匹配执行"
 var _TThostFtdcStrikeTypeType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcStrikeTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcStrikeTypeType(len(_TThostFtdcStrikeTypeType_index)-1) {
-		return "TThostFtdcStrikeTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcStrikeTypeType_index)-1 {
+		return "TThostFtdcStrikeTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcStrikeTypeType_name[_TThostFtdcStrikeTypeType_index[i]:_TThostFtdcStrikeTypeType_index[i+1]]
+	return _TThostFtdcStrikeTypeType_name[_TThostFtdcStrikeTypeType_index[idx]:_TThostFtdcStrikeTypeType_index[idx+1]]
 }

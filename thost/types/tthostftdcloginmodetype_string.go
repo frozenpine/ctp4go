@@ -17,9 +17,9 @@ const _TThostFtdcLoginModeType_name = "交易转账"
 var _TThostFtdcLoginModeType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcLoginModeType) String() string {
-	i -= 48
-	if i >= TThostFtdcLoginModeType(len(_TThostFtdcLoginModeType_index)-1) {
-		return "TThostFtdcLoginModeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcLoginModeType_index)-1 {
+		return "TThostFtdcLoginModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcLoginModeType_name[_TThostFtdcLoginModeType_index[i]:_TThostFtdcLoginModeType_index[i+1]]
+	return _TThostFtdcLoginModeType_name[_TThostFtdcLoginModeType_index[idx]:_TThostFtdcLoginModeType_index[idx+1]]
 }

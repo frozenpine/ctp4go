@@ -17,9 +17,9 @@ const _TThostFtdcPositionDateType_name = "今日持仓历史持仓"
 var _TThostFtdcPositionDateType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcPositionDateType) String() string {
-	i -= 49
-	if i >= TThostFtdcPositionDateType(len(_TThostFtdcPositionDateType_index)-1) {
-		return "TThostFtdcPositionDateType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcPositionDateType_index)-1 {
+		return "TThostFtdcPositionDateType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcPositionDateType_name[_TThostFtdcPositionDateType_index[i]:_TThostFtdcPositionDateType_index[i+1]]
+	return _TThostFtdcPositionDateType_name[_TThostFtdcPositionDateType_index[idx]:_TThostFtdcPositionDateType_index[idx+1]]
 }

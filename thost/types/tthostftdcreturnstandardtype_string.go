@@ -17,9 +17,9 @@ const _TThostFtdcReturnStandardType_name = "分阶段返还按某一标准"
 var _TThostFtdcReturnStandardType_index = [...]uint8{0, 15, 30}
 
 func (i TThostFtdcReturnStandardType) String() string {
-	i -= 49
-	if i >= TThostFtdcReturnStandardType(len(_TThostFtdcReturnStandardType_index)-1) {
-		return "TThostFtdcReturnStandardType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcReturnStandardType_index)-1 {
+		return "TThostFtdcReturnStandardType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcReturnStandardType_name[_TThostFtdcReturnStandardType_index[i]:_TThostFtdcReturnStandardType_index[i+1]]
+	return _TThostFtdcReturnStandardType_name[_TThostFtdcReturnStandardType_index[idx]:_TThostFtdcReturnStandardType_index[idx+1]]
 }

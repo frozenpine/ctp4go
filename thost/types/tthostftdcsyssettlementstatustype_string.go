@@ -20,9 +20,9 @@ const _TThostFtdcSysSettlementStatusType_name = "不活跃启动操作结算结�
 var _TThostFtdcSysSettlementStatusType_index = [...]uint8{0, 9, 15, 21, 27, 39}
 
 func (i TThostFtdcSysSettlementStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcSysSettlementStatusType(len(_TThostFtdcSysSettlementStatusType_index)-1) {
-		return "TThostFtdcSysSettlementStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcSysSettlementStatusType_index)-1 {
+		return "TThostFtdcSysSettlementStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSysSettlementStatusType_name[_TThostFtdcSysSettlementStatusType_index[i]:_TThostFtdcSysSettlementStatusType_index[i+1]]
+	return _TThostFtdcSysSettlementStatusType_name[_TThostFtdcSysSettlementStatusType_index[idx]:_TThostFtdcSysSettlementStatusType_index[idx+1]]
 }

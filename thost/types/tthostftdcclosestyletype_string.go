@@ -17,9 +17,9 @@ const _TThostFtdcCloseStyleType_name = "先开先平先平今再平昨"
 var _TThostFtdcCloseStyleType_index = [...]uint8{0, 12, 30}
 
 func (i TThostFtdcCloseStyleType) String() string {
-	i -= 48
-	if i >= TThostFtdcCloseStyleType(len(_TThostFtdcCloseStyleType_index)-1) {
-		return "TThostFtdcCloseStyleType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcCloseStyleType_index)-1 {
+		return "TThostFtdcCloseStyleType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCloseStyleType_name[_TThostFtdcCloseStyleType_index[i]:_TThostFtdcCloseStyleType_index[i+1]]
+	return _TThostFtdcCloseStyleType_name[_TThostFtdcCloseStyleType_index[idx]:_TThostFtdcCloseStyleType_index[idx+1]]
 }

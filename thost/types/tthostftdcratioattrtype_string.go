@@ -17,9 +17,9 @@ const _TThostFtdcRatioAttrType_name = "交易费率结算费率"
 var _TThostFtdcRatioAttrType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcRatioAttrType) String() string {
-	i -= 48
-	if i >= TThostFtdcRatioAttrType(len(_TThostFtdcRatioAttrType_index)-1) {
-		return "TThostFtdcRatioAttrType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcRatioAttrType_index)-1 {
+		return "TThostFtdcRatioAttrType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcRatioAttrType_name[_TThostFtdcRatioAttrType_index[i]:_TThostFtdcRatioAttrType_index[i+1]]
+	return _TThostFtdcRatioAttrType_name[_TThostFtdcRatioAttrType_index[idx]:_TThostFtdcRatioAttrType_index[idx+1]]
 }

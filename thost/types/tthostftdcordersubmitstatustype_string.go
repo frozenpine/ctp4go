@@ -22,9 +22,9 @@ const _TThostFtdcOrderSubmitStatusType_name = "已经提交撤单已经提交修
 var _TThostFtdcOrderSubmitStatusType_index = [...]uint8{0, 12, 30, 48, 60, 81, 102, 123}
 
 func (i TThostFtdcOrderSubmitStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcOrderSubmitStatusType(len(_TThostFtdcOrderSubmitStatusType_index)-1) {
-		return "TThostFtdcOrderSubmitStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcOrderSubmitStatusType_index)-1 {
+		return "TThostFtdcOrderSubmitStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOrderSubmitStatusType_name[_TThostFtdcOrderSubmitStatusType_index[i]:_TThostFtdcOrderSubmitStatusType_index[i+1]]
+	return _TThostFtdcOrderSubmitStatusType_name[_TThostFtdcOrderSubmitStatusType_index[idx]:_TThostFtdcOrderSubmitStatusType_index[idx+1]]
 }

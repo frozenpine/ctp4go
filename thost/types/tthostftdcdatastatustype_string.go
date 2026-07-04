@@ -17,9 +17,9 @@ const _TThostFtdcDataStatusType_name = "正常已删除"
 var _TThostFtdcDataStatusType_index = [...]uint8{0, 6, 15}
 
 func (i TThostFtdcDataStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcDataStatusType(len(_TThostFtdcDataStatusType_index)-1) {
-		return "TThostFtdcDataStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcDataStatusType_index)-1 {
+		return "TThostFtdcDataStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcDataStatusType_name[_TThostFtdcDataStatusType_index[i]:_TThostFtdcDataStatusType_index[i+1]]
+	return _TThostFtdcDataStatusType_name[_TThostFtdcDataStatusType_index[idx]:_TThostFtdcDataStatusType_index[idx+1]]
 }

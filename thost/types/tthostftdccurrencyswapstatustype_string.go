@@ -22,9 +22,9 @@ const _TThostFtdcCurrencySwapStatusType_name = "已录入已审核已拒绝已�
 var _TThostFtdcCurrencySwapStatusType_index = [...]uint8{0, 9, 18, 27, 36, 45, 57, 69}
 
 func (i TThostFtdcCurrencySwapStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcCurrencySwapStatusType(len(_TThostFtdcCurrencySwapStatusType_index)-1) {
-		return "TThostFtdcCurrencySwapStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcCurrencySwapStatusType_index)-1 {
+		return "TThostFtdcCurrencySwapStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCurrencySwapStatusType_name[_TThostFtdcCurrencySwapStatusType_index[i]:_TThostFtdcCurrencySwapStatusType_index[i+1]]
+	return _TThostFtdcCurrencySwapStatusType_name[_TThostFtdcCurrencySwapStatusType_index[idx]:_TThostFtdcCurrencySwapStatusType_index[idx+1]]
 }

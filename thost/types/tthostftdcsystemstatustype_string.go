@@ -22,9 +22,9 @@ const _TThostFtdcSystemStatusType_name = "不活跃启动交易开始初始化�
 var _TThostFtdcSystemStatusType_index = [...]uint8{0, 9, 15, 36, 57, 69, 81, 87}
 
 func (i TThostFtdcSystemStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcSystemStatusType(len(_TThostFtdcSystemStatusType_index)-1) {
-		return "TThostFtdcSystemStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcSystemStatusType_index)-1 {
+		return "TThostFtdcSystemStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSystemStatusType_name[_TThostFtdcSystemStatusType_index[i]:_TThostFtdcSystemStatusType_index[i+1]]
+	return _TThostFtdcSystemStatusType_name[_TThostFtdcSystemStatusType_index[idx]:_TThostFtdcSystemStatusType_index[idx+1]]
 }

@@ -17,9 +17,9 @@ const _TThostFtdcLinkStatusType_name = "已经连接没有连接"
 var _TThostFtdcLinkStatusType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcLinkStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcLinkStatusType(len(_TThostFtdcLinkStatusType_index)-1) {
-		return "TThostFtdcLinkStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcLinkStatusType_index)-1 {
+		return "TThostFtdcLinkStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcLinkStatusType_name[_TThostFtdcLinkStatusType_index[i]:_TThostFtdcLinkStatusType_index[i+1]]
+	return _TThostFtdcLinkStatusType_name[_TThostFtdcLinkStatusType_index[idx]:_TThostFtdcLinkStatusType_index[idx+1]]
 }

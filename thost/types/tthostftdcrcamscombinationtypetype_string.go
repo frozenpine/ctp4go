@@ -20,9 +20,9 @@ const _TThostFtdcRCAMSCombinationTypeType_name = "牛市看涨价差组合熊市
 var _TThostFtdcRCAMSCombinationTypeType_index = [...]uint8{0, 24, 48, 72, 96, 114}
 
 func (i TThostFtdcRCAMSCombinationTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcRCAMSCombinationTypeType(len(_TThostFtdcRCAMSCombinationTypeType_index)-1) {
-		return "TThostFtdcRCAMSCombinationTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcRCAMSCombinationTypeType_index)-1 {
+		return "TThostFtdcRCAMSCombinationTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcRCAMSCombinationTypeType_name[_TThostFtdcRCAMSCombinationTypeType_index[i]:_TThostFtdcRCAMSCombinationTypeType_index[i+1]]
+	return _TThostFtdcRCAMSCombinationTypeType_name[_TThostFtdcRCAMSCombinationTypeType_index[idx]:_TThostFtdcRCAMSCombinationTypeType_index[idx+1]]
 }

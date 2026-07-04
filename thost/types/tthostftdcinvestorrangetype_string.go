@@ -18,9 +18,9 @@ const _TThostFtdcInvestorRangeType_name = "所有投资者组单一投资者"
 var _TThostFtdcInvestorRangeType_index = [...]uint8{0, 6, 18, 33}
 
 func (i TThostFtdcInvestorRangeType) String() string {
-	i -= 49
-	if i >= TThostFtdcInvestorRangeType(len(_TThostFtdcInvestorRangeType_index)-1) {
-		return "TThostFtdcInvestorRangeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcInvestorRangeType_index)-1 {
+		return "TThostFtdcInvestorRangeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcInvestorRangeType_name[_TThostFtdcInvestorRangeType_index[i]:_TThostFtdcInvestorRangeType_index[i+1]]
+	return _TThostFtdcInvestorRangeType_name[_TThostFtdcInvestorRangeType_index[idx]:_TThostFtdcInvestorRangeType_index[idx+1]]
 }

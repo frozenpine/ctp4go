@@ -19,9 +19,9 @@ const _TThostFtdcInstLifePhaseType_name = "未上市上市停牌到期"
 var _TThostFtdcInstLifePhaseType_index = [...]uint8{0, 9, 15, 21, 27}
 
 func (i TThostFtdcInstLifePhaseType) String() string {
-	i -= 48
-	if i >= TThostFtdcInstLifePhaseType(len(_TThostFtdcInstLifePhaseType_index)-1) {
-		return "TThostFtdcInstLifePhaseType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcInstLifePhaseType_index)-1 {
+		return "TThostFtdcInstLifePhaseType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcInstLifePhaseType_name[_TThostFtdcInstLifePhaseType_index[i]:_TThostFtdcInstLifePhaseType_index[i+1]]
+	return _TThostFtdcInstLifePhaseType_name[_TThostFtdcInstLifePhaseType_index[idx]:_TThostFtdcInstLifePhaseType_index[idx+1]]
 }

@@ -18,9 +18,9 @@ const _TThostFtdcFileFormatType_name = "文本文件(.txt)压缩文件(.zip)DBF�
 var _TThostFtdcFileFormatType_index = [...]uint8{0, 18, 36, 51}
 
 func (i TThostFtdcFileFormatType) String() string {
-	i -= 48
-	if i >= TThostFtdcFileFormatType(len(_TThostFtdcFileFormatType_index)-1) {
-		return "TThostFtdcFileFormatType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFileFormatType_index)-1 {
+		return "TThostFtdcFileFormatType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFileFormatType_name[_TThostFtdcFileFormatType_index[i]:_TThostFtdcFileFormatType_index[i+1]]
+	return _TThostFtdcFileFormatType_name[_TThostFtdcFileFormatType_index[idx]:_TThostFtdcFileFormatType_index[idx+1]]
 }

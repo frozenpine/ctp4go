@@ -18,9 +18,9 @@ const _TThostFtdcTransferValidFlagType_name = "无效或失败有效冲正"
 var _TThostFtdcTransferValidFlagType_index = [...]uint8{0, 15, 21, 27}
 
 func (i TThostFtdcTransferValidFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcTransferValidFlagType(len(_TThostFtdcTransferValidFlagType_index)-1) {
-		return "TThostFtdcTransferValidFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcTransferValidFlagType_index)-1 {
+		return "TThostFtdcTransferValidFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTransferValidFlagType_name[_TThostFtdcTransferValidFlagType_index[i]:_TThostFtdcTransferValidFlagType_index[i+1]]
+	return _TThostFtdcTransferValidFlagType_name[_TThostFtdcTransferValidFlagType_index[idx]:_TThostFtdcTransferValidFlagType_index[idx+1]]
 }

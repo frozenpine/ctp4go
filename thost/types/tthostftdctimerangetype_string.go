@@ -19,9 +19,9 @@ const _TThostFtdcTimeRangeType_name = "一般月份交割月前一个月上半�
 var _TThostFtdcTimeRangeType_index = [...]uint8{0, 12, 42, 72, 84}
 
 func (i TThostFtdcTimeRangeType) String() string {
-	i -= 49
-	if i >= TThostFtdcTimeRangeType(len(_TThostFtdcTimeRangeType_index)-1) {
-		return "TThostFtdcTimeRangeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcTimeRangeType_index)-1 {
+		return "TThostFtdcTimeRangeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTimeRangeType_name[_TThostFtdcTimeRangeType_index[i]:_TThostFtdcTimeRangeType_index[i+1]]
+	return _TThostFtdcTimeRangeType_name[_TThostFtdcTimeRangeType_index[idx]:_TThostFtdcTimeRangeType_index[idx+1]]
 }

@@ -19,9 +19,9 @@ const _TThostFtdcSecuAccTypeType_name = "资金帐号资金卡号上海股东帐
 var _TThostFtdcSecuAccTypeType_index = [...]uint8{0, 12, 24, 42, 60}
 
 func (i TThostFtdcSecuAccTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcSecuAccTypeType(len(_TThostFtdcSecuAccTypeType_index)-1) {
-		return "TThostFtdcSecuAccTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcSecuAccTypeType_index)-1 {
+		return "TThostFtdcSecuAccTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSecuAccTypeType_name[_TThostFtdcSecuAccTypeType_index[i]:_TThostFtdcSecuAccTypeType_index[i+1]]
+	return _TThostFtdcSecuAccTypeType_name[_TThostFtdcSecuAccTypeType_index[idx]:_TThostFtdcSecuAccTypeType_index[idx+1]]
 }

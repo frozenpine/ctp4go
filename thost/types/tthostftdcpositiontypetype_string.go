@@ -17,9 +17,9 @@ const _TThostFtdcPositionTypeType_name = "净持仓综合持仓"
 var _TThostFtdcPositionTypeType_index = [...]uint8{0, 9, 21}
 
 func (i TThostFtdcPositionTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcPositionTypeType(len(_TThostFtdcPositionTypeType_index)-1) {
-		return "TThostFtdcPositionTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcPositionTypeType_index)-1 {
+		return "TThostFtdcPositionTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcPositionTypeType_name[_TThostFtdcPositionTypeType_index[i]:_TThostFtdcPositionTypeType_index[i+1]]
+	return _TThostFtdcPositionTypeType_name[_TThostFtdcPositionTypeType_index[idx]:_TThostFtdcPositionTypeType_index[idx+1]]
 }

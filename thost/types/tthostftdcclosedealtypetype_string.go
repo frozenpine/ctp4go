@@ -17,9 +17,9 @@ const _TThostFtdcCloseDealTypeType_name = "正常投机平仓优先"
 var _TThostFtdcCloseDealTypeType_index = [...]uint8{0, 6, 24}
 
 func (i TThostFtdcCloseDealTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcCloseDealTypeType(len(_TThostFtdcCloseDealTypeType_index)-1) {
-		return "TThostFtdcCloseDealTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcCloseDealTypeType_index)-1 {
+		return "TThostFtdcCloseDealTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCloseDealTypeType_name[_TThostFtdcCloseDealTypeType_index[i]:_TThostFtdcCloseDealTypeType_index[i+1]]
+	return _TThostFtdcCloseDealTypeType_name[_TThostFtdcCloseDealTypeType_index[idx]:_TThostFtdcCloseDealTypeType_index[idx+1]]
 }

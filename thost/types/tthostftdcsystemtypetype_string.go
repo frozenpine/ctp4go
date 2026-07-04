@@ -18,9 +18,9 @@ const _TThostFtdcSystemTypeType_name = "银期转帐银证转帐第三方存管"
 var _TThostFtdcSystemTypeType_index = [...]uint8{0, 12, 24, 39}
 
 func (i TThostFtdcSystemTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcSystemTypeType(len(_TThostFtdcSystemTypeType_index)-1) {
-		return "TThostFtdcSystemTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSystemTypeType_index)-1 {
+		return "TThostFtdcSystemTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSystemTypeType_name[_TThostFtdcSystemTypeType_index[i]:_TThostFtdcSystemTypeType_index[i+1]]
+	return _TThostFtdcSystemTypeType_name[_TThostFtdcSystemTypeType_index[idx]:_TThostFtdcSystemTypeType_index[idx+1]]
 }

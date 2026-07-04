@@ -18,9 +18,9 @@ const _TThostFtdcVolumeConditionType_name = "任何数量最小数量全部数�
 var _TThostFtdcVolumeConditionType_index = [...]uint8{0, 12, 24, 36}
 
 func (i TThostFtdcVolumeConditionType) String() string {
-	i -= 49
-	if i >= TThostFtdcVolumeConditionType(len(_TThostFtdcVolumeConditionType_index)-1) {
-		return "TThostFtdcVolumeConditionType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcVolumeConditionType_index)-1 {
+		return "TThostFtdcVolumeConditionType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcVolumeConditionType_name[_TThostFtdcVolumeConditionType_index[i]:_TThostFtdcVolumeConditionType_index[i+1]]
+	return _TThostFtdcVolumeConditionType_name[_TThostFtdcVolumeConditionType_index[idx]:_TThostFtdcVolumeConditionType_index[idx+1]]
 }

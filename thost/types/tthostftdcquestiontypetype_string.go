@@ -18,9 +18,9 @@ const _TThostFtdcQuestionTypeType_name = "单选多选填空"
 var _TThostFtdcQuestionTypeType_index = [...]uint8{0, 6, 12, 18}
 
 func (i TThostFtdcQuestionTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcQuestionTypeType(len(_TThostFtdcQuestionTypeType_index)-1) {
-		return "TThostFtdcQuestionTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcQuestionTypeType_index)-1 {
+		return "TThostFtdcQuestionTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcQuestionTypeType_name[_TThostFtdcQuestionTypeType_index[i]:_TThostFtdcQuestionTypeType_index[i+1]]
+	return _TThostFtdcQuestionTypeType_name[_TThostFtdcQuestionTypeType_index[idx]:_TThostFtdcQuestionTypeType_index[idx+1]]
 }

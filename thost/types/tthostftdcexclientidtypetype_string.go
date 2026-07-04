@@ -18,9 +18,9 @@ const _TThostFtdcExClientIDTypeType_name = "套保套利投机"
 var _TThostFtdcExClientIDTypeType_index = [...]uint8{0, 6, 12, 18}
 
 func (i TThostFtdcExClientIDTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcExClientIDTypeType(len(_TThostFtdcExClientIDTypeType_index)-1) {
-		return "TThostFtdcExClientIDTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcExClientIDTypeType_index)-1 {
+		return "TThostFtdcExClientIDTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcExClientIDTypeType_name[_TThostFtdcExClientIDTypeType_index[i]:_TThostFtdcExClientIDTypeType_index[i+1]]
+	return _TThostFtdcExClientIDTypeType_name[_TThostFtdcExClientIDTypeType_index[idx]:_TThostFtdcExClientIDTypeType_index[idx+1]]
 }

@@ -20,9 +20,9 @@ const _TThostFtdcPublishStatusType_name = "未发布正在发布已发布"
 var _TThostFtdcPublishStatusType_index = [...]uint8{0, 9, 21, 30}
 
 func (i TThostFtdcPublishStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcPublishStatusType(len(_TThostFtdcPublishStatusType_index)-1) {
-		return "TThostFtdcPublishStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcPublishStatusType_index)-1 {
+		return "TThostFtdcPublishStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcPublishStatusType_name[_TThostFtdcPublishStatusType_index[i]:_TThostFtdcPublishStatusType_index[i+1]]
+	return _TThostFtdcPublishStatusType_name[_TThostFtdcPublishStatusType_index[idx]:_TThostFtdcPublishStatusType_index[idx+1]]
 }

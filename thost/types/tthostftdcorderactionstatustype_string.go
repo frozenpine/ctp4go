@@ -18,9 +18,9 @@ const _TThostFtdcOrderActionStatusType_name = "已经提交已经接受已经被
 var _TThostFtdcOrderActionStatusType_index = [...]uint8{0, 12, 24, 39}
 
 func (i TThostFtdcOrderActionStatusType) String() string {
-	i -= 97
-	if i >= TThostFtdcOrderActionStatusType(len(_TThostFtdcOrderActionStatusType_index)-1) {
-		return "TThostFtdcOrderActionStatusType(" + strconv.FormatInt(int64(i+97), 10) + ")"
+	idx := int(i) - 97
+	if i < 97 || idx >= len(_TThostFtdcOrderActionStatusType_index)-1 {
+		return "TThostFtdcOrderActionStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOrderActionStatusType_name[_TThostFtdcOrderActionStatusType_index[i]:_TThostFtdcOrderActionStatusType_index[i+1]]
+	return _TThostFtdcOrderActionStatusType_name[_TThostFtdcOrderActionStatusType_index[idx]:_TThostFtdcOrderActionStatusType_index[idx+1]]
 }

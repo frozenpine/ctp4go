@@ -22,9 +22,9 @@ const _TThostFtdcOffsetFlagEnType_name = "Position OpeningPosition CloseForced L
 var _TThostFtdcOffsetFlagEnType_index = [...]uint8{0, 16, 30, 48, 59, 70, 86, 110}
 
 func (i TThostFtdcOffsetFlagEnType) String() string {
-	i -= 48
-	if i >= TThostFtdcOffsetFlagEnType(len(_TThostFtdcOffsetFlagEnType_index)-1) {
-		return "TThostFtdcOffsetFlagEnType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcOffsetFlagEnType_index)-1 {
+		return "TThostFtdcOffsetFlagEnType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOffsetFlagEnType_name[_TThostFtdcOffsetFlagEnType_index[i]:_TThostFtdcOffsetFlagEnType_index[i+1]]
+	return _TThostFtdcOffsetFlagEnType_name[_TThostFtdcOffsetFlagEnType_index[idx]:_TThostFtdcOffsetFlagEnType_index[idx+1]]
 }

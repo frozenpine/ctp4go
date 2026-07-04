@@ -17,9 +17,9 @@ const _TThostFtdcDirectionEnType_name = "BuySell"
 var _TThostFtdcDirectionEnType_index = [...]uint8{0, 3, 7}
 
 func (i TThostFtdcDirectionEnType) String() string {
-	i -= 48
-	if i >= TThostFtdcDirectionEnType(len(_TThostFtdcDirectionEnType_index)-1) {
-		return "TThostFtdcDirectionEnType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcDirectionEnType_index)-1 {
+		return "TThostFtdcDirectionEnType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcDirectionEnType_name[_TThostFtdcDirectionEnType_index[i]:_TThostFtdcDirectionEnType_index[i+1]]
+	return _TThostFtdcDirectionEnType_name[_TThostFtdcDirectionEnType_index[idx]:_TThostFtdcDirectionEnType_index[idx+1]]
 }

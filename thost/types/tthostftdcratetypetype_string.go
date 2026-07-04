@@ -16,9 +16,9 @@ const _TThostFtdcRateTypeType_name = "保证金率"
 var _TThostFtdcRateTypeType_index = [...]uint8{0, 12}
 
 func (i TThostFtdcRateTypeType) String() string {
-	i -= 50
-	if i >= TThostFtdcRateTypeType(len(_TThostFtdcRateTypeType_index)-1) {
-		return "TThostFtdcRateTypeType(" + strconv.FormatInt(int64(i+50), 10) + ")"
+	idx := int(i) - 50
+	if i < 50 || idx >= len(_TThostFtdcRateTypeType_index)-1 {
+		return "TThostFtdcRateTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcRateTypeType_name[_TThostFtdcRateTypeType_index[i]:_TThostFtdcRateTypeType_index[i+1]]
+	return _TThostFtdcRateTypeType_name[_TThostFtdcRateTypeType_index[idx]:_TThostFtdcRateTypeType_index[idx+1]]
 }

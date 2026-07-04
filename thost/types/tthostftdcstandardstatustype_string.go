@@ -17,9 +17,9 @@ const _TThostFtdcStandardStatusType_name = "已规范未规范"
 var _TThostFtdcStandardStatusType_index = [...]uint8{0, 9, 18}
 
 func (i TThostFtdcStandardStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcStandardStatusType(len(_TThostFtdcStandardStatusType_index)-1) {
-		return "TThostFtdcStandardStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcStandardStatusType_index)-1 {
+		return "TThostFtdcStandardStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcStandardStatusType_name[_TThostFtdcStandardStatusType_index[i]:_TThostFtdcStandardStatusType_index[i+1]]
+	return _TThostFtdcStandardStatusType_name[_TThostFtdcStandardStatusType_index[idx]:_TThostFtdcStandardStatusType_index[idx+1]]
 }

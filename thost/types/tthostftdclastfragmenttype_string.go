@@ -17,9 +17,9 @@ const _TThostFtdcLastFragmentType_name = "是最后分片不是最后分片"
 var _TThostFtdcLastFragmentType_index = [...]uint8{0, 15, 33}
 
 func (i TThostFtdcLastFragmentType) String() string {
-	i -= 48
-	if i >= TThostFtdcLastFragmentType(len(_TThostFtdcLastFragmentType_index)-1) {
-		return "TThostFtdcLastFragmentType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcLastFragmentType_index)-1 {
+		return "TThostFtdcLastFragmentType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcLastFragmentType_name[_TThostFtdcLastFragmentType_index[i]:_TThostFtdcLastFragmentType_index[i+1]]
+	return _TThostFtdcLastFragmentType_name[_TThostFtdcLastFragmentType_index[idx]:_TThostFtdcLastFragmentType_index[idx+1]]
 }

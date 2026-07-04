@@ -25,9 +25,9 @@ const _TThostFtdcCmbTypeType_name = "SPZSPDIPSBULBERBLTBRTSTDSTGPRT"
 var _TThostFtdcCmbTypeType_index = [...]uint8{0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30}
 
 func (i TThostFtdcCmbTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcCmbTypeType(len(_TThostFtdcCmbTypeType_index)-1) {
-		return "TThostFtdcCmbTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcCmbTypeType_index)-1 {
+		return "TThostFtdcCmbTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCmbTypeType_name[_TThostFtdcCmbTypeType_index[i]:_TThostFtdcCmbTypeType_index[i+1]]
+	return _TThostFtdcCmbTypeType_name[_TThostFtdcCmbTypeType_index[idx]:_TThostFtdcCmbTypeType_index[idx+1]]
 }

@@ -19,9 +19,9 @@ const _TThostFtdcSettleManagerLevelType_name = "必要警告提示不检查"
 var _TThostFtdcSettleManagerLevelType_index = [...]uint8{0, 6, 12, 18, 27}
 
 func (i TThostFtdcSettleManagerLevelType) String() string {
-	i -= 49
-	if i >= TThostFtdcSettleManagerLevelType(len(_TThostFtdcSettleManagerLevelType_index)-1) {
-		return "TThostFtdcSettleManagerLevelType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcSettleManagerLevelType_index)-1 {
+		return "TThostFtdcSettleManagerLevelType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSettleManagerLevelType_name[_TThostFtdcSettleManagerLevelType_index[i]:_TThostFtdcSettleManagerLevelType_index[i+1]]
+	return _TThostFtdcSettleManagerLevelType_name[_TThostFtdcSettleManagerLevelType_index[idx]:_TThostFtdcSettleManagerLevelType_index[idx+1]]
 }

@@ -18,9 +18,9 @@ const _TThostFtdcDataSyncStatusType_name = "未同步同步中已同步"
 var _TThostFtdcDataSyncStatusType_index = [...]uint8{0, 9, 18, 27}
 
 func (i TThostFtdcDataSyncStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcDataSyncStatusType(len(_TThostFtdcDataSyncStatusType_index)-1) {
-		return "TThostFtdcDataSyncStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcDataSyncStatusType_index)-1 {
+		return "TThostFtdcDataSyncStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcDataSyncStatusType_name[_TThostFtdcDataSyncStatusType_index[i]:_TThostFtdcDataSyncStatusType_index[i+1]]
+	return _TThostFtdcDataSyncStatusType_name[_TThostFtdcDataSyncStatusType_index[idx]:_TThostFtdcDataSyncStatusType_index[idx+1]]
 }

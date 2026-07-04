@@ -17,9 +17,9 @@ const _TThostFtdcResponseValueType_name = "检查成功检查失败"
 var _TThostFtdcResponseValueType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcResponseValueType) String() string {
-	i -= 48
-	if i >= TThostFtdcResponseValueType(len(_TThostFtdcResponseValueType_index)-1) {
-		return "TThostFtdcResponseValueType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcResponseValueType_index)-1 {
+		return "TThostFtdcResponseValueType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcResponseValueType_name[_TThostFtdcResponseValueType_index[i]:_TThostFtdcResponseValueType_index[i+1]]
+	return _TThostFtdcResponseValueType_name[_TThostFtdcResponseValueType_index[idx]:_TThostFtdcResponseValueType_index[idx+1]]
 }

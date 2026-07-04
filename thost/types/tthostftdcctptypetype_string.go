@@ -18,9 +18,9 @@ const _TThostFtdcCTPTypeType_name = "未知类型主中心备中心"
 var _TThostFtdcCTPTypeType_index = [...]uint8{0, 12, 21, 30}
 
 func (i TThostFtdcCTPTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcCTPTypeType(len(_TThostFtdcCTPTypeType_index)-1) {
-		return "TThostFtdcCTPTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcCTPTypeType_index)-1 {
+		return "TThostFtdcCTPTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCTPTypeType_name[_TThostFtdcCTPTypeType_index[i]:_TThostFtdcCTPTypeType_index[i+1]]
+	return _TThostFtdcCTPTypeType_name[_TThostFtdcCTPTypeType_index[idx]:_TThostFtdcCTPTypeType_index[idx+1]]
 }

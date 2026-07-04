@@ -17,9 +17,9 @@ const _TThostFtdcHasTrusteeType_name = "没有有"
 var _TThostFtdcHasTrusteeType_index = [...]uint8{0, 6, 9}
 
 func (i TThostFtdcHasTrusteeType) String() string {
-	i -= 48
-	if i >= TThostFtdcHasTrusteeType(len(_TThostFtdcHasTrusteeType_index)-1) {
-		return "TThostFtdcHasTrusteeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcHasTrusteeType_index)-1 {
+		return "TThostFtdcHasTrusteeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcHasTrusteeType_name[_TThostFtdcHasTrusteeType_index[i]:_TThostFtdcHasTrusteeType_index[i+1]]
+	return _TThostFtdcHasTrusteeType_name[_TThostFtdcHasTrusteeType_index[idx]:_TThostFtdcHasTrusteeType_index[idx+1]]
 }

@@ -17,9 +17,9 @@ const _TThostFtdcSyncModeType_name = "异步同步"
 var _TThostFtdcSyncModeType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcSyncModeType) String() string {
-	i -= 48
-	if i >= TThostFtdcSyncModeType(len(_TThostFtdcSyncModeType_index)-1) {
-		return "TThostFtdcSyncModeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSyncModeType_index)-1 {
+		return "TThostFtdcSyncModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSyncModeType_name[_TThostFtdcSyncModeType_index[i]:_TThostFtdcSyncModeType_index[i+1]]
+	return _TThostFtdcSyncModeType_name[_TThostFtdcSyncModeType_index[idx]:_TThostFtdcSyncModeType_index[idx+1]]
 }

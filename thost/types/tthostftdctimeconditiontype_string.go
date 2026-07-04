@@ -21,9 +21,9 @@ const _TThostFtdcTimeConditionType_name = "立即完成，否则撤销本节有�
 var _TThostFtdcTimeConditionType_index = [...]uint8{0, 27, 39, 51, 72, 87, 105}
 
 func (i TThostFtdcTimeConditionType) String() string {
-	i -= 49
-	if i >= TThostFtdcTimeConditionType(len(_TThostFtdcTimeConditionType_index)-1) {
-		return "TThostFtdcTimeConditionType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcTimeConditionType_index)-1 {
+		return "TThostFtdcTimeConditionType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTimeConditionType_name[_TThostFtdcTimeConditionType_index[i]:_TThostFtdcTimeConditionType_index[i+1]]
+	return _TThostFtdcTimeConditionType_name[_TThostFtdcTimeConditionType_index[idx]:_TThostFtdcTimeConditionType_index[idx+1]]
 }

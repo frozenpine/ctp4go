@@ -17,9 +17,9 @@ const _TThostFtdcFileGenStyleType_name = "下发生成"
 var _TThostFtdcFileGenStyleType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcFileGenStyleType) String() string {
-	i -= 48
-	if i >= TThostFtdcFileGenStyleType(len(_TThostFtdcFileGenStyleType_index)-1) {
-		return "TThostFtdcFileGenStyleType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFileGenStyleType_index)-1 {
+		return "TThostFtdcFileGenStyleType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFileGenStyleType_name[_TThostFtdcFileGenStyleType_index[i]:_TThostFtdcFileGenStyleType_index[i+1]]
+	return _TThostFtdcFileGenStyleType_name[_TThostFtdcFileGenStyleType_index[idx]:_TThostFtdcFileGenStyleType_index[idx+1]]
 }

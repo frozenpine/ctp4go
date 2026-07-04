@@ -17,9 +17,9 @@ const _TThostFtdcExDirectionType_name = "结汇售汇"
 var _TThostFtdcExDirectionType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcExDirectionType) String() string {
-	i -= 48
-	if i >= TThostFtdcExDirectionType(len(_TThostFtdcExDirectionType_index)-1) {
-		return "TThostFtdcExDirectionType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcExDirectionType_index)-1 {
+		return "TThostFtdcExDirectionType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcExDirectionType_name[_TThostFtdcExDirectionType_index[i]:_TThostFtdcExDirectionType_index[i+1]]
+	return _TThostFtdcExDirectionType_name[_TThostFtdcExDirectionType_index[idx]:_TThostFtdcExDirectionType_index[idx+1]]
 }

@@ -19,9 +19,9 @@ const _TThostFtdcFBTPassWordTypeType_name = "查询取款转帐交易"
 var _TThostFtdcFBTPassWordTypeType_index = [...]uint8{0, 6, 12, 18, 24}
 
 func (i TThostFtdcFBTPassWordTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcFBTPassWordTypeType(len(_TThostFtdcFBTPassWordTypeType_index)-1) {
-		return "TThostFtdcFBTPassWordTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFBTPassWordTypeType_index)-1 {
+		return "TThostFtdcFBTPassWordTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFBTPassWordTypeType_name[_TThostFtdcFBTPassWordTypeType_index[i]:_TThostFtdcFBTPassWordTypeType_index[i+1]]
+	return _TThostFtdcFBTPassWordTypeType_name[_TThostFtdcFBTPassWordTypeType_index[idx]:_TThostFtdcFBTPassWordTypeType_index[idx+1]]
 }

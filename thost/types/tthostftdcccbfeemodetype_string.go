@@ -17,9 +17,9 @@ const _TThostFtdcCCBFeeModeType_name = "按金额扣收按月扣收"
 var _TThostFtdcCCBFeeModeType_index = [...]uint8{0, 15, 27}
 
 func (i TThostFtdcCCBFeeModeType) String() string {
-	i -= 49
-	if i >= TThostFtdcCCBFeeModeType(len(_TThostFtdcCCBFeeModeType_index)-1) {
-		return "TThostFtdcCCBFeeModeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcCCBFeeModeType_index)-1 {
+		return "TThostFtdcCCBFeeModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCCBFeeModeType_name[_TThostFtdcCCBFeeModeType_index[i]:_TThostFtdcCCBFeeModeType_index[i+1]]
+	return _TThostFtdcCCBFeeModeType_name[_TThostFtdcCCBFeeModeType_index[idx]:_TThostFtdcCCBFeeModeType_index[idx+1]]
 }

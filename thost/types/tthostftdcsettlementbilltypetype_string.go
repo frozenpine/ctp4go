@@ -17,9 +17,9 @@ const _TThostFtdcSettlementBillTypeType_name = "日报月报"
 var _TThostFtdcSettlementBillTypeType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcSettlementBillTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcSettlementBillTypeType(len(_TThostFtdcSettlementBillTypeType_index)-1) {
-		return "TThostFtdcSettlementBillTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSettlementBillTypeType_index)-1 {
+		return "TThostFtdcSettlementBillTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSettlementBillTypeType_name[_TThostFtdcSettlementBillTypeType_index[i]:_TThostFtdcSettlementBillTypeType_index[i+1]]
+	return _TThostFtdcSettlementBillTypeType_name[_TThostFtdcSettlementBillTypeType_index[idx]:_TThostFtdcSettlementBillTypeType_index[idx+1]]
 }

@@ -18,9 +18,9 @@ const _TThostFtdcActionDirectionType_name = "增加删除更新"
 var _TThostFtdcActionDirectionType_index = [...]uint8{0, 6, 12, 18}
 
 func (i TThostFtdcActionDirectionType) String() string {
-	i -= 49
-	if i >= TThostFtdcActionDirectionType(len(_TThostFtdcActionDirectionType_index)-1) {
-		return "TThostFtdcActionDirectionType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcActionDirectionType_index)-1 {
+		return "TThostFtdcActionDirectionType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcActionDirectionType_name[_TThostFtdcActionDirectionType_index[i]:_TThostFtdcActionDirectionType_index[i+1]]
+	return _TThostFtdcActionDirectionType_name[_TThostFtdcActionDirectionType_index[idx]:_TThostFtdcActionDirectionType_index[idx+1]]
 }

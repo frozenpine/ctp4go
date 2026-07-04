@@ -18,9 +18,9 @@ const _TThostFtdcBillGenStatusType_name = "未生成生成中已生成"
 var _TThostFtdcBillGenStatusType_index = [...]uint8{0, 9, 18, 27}
 
 func (i TThostFtdcBillGenStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcBillGenStatusType(len(_TThostFtdcBillGenStatusType_index)-1) {
-		return "TThostFtdcBillGenStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcBillGenStatusType_index)-1 {
+		return "TThostFtdcBillGenStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBillGenStatusType_name[_TThostFtdcBillGenStatusType_index[i]:_TThostFtdcBillGenStatusType_index[i+1]]
+	return _TThostFtdcBillGenStatusType_name[_TThostFtdcBillGenStatusType_index[idx]:_TThostFtdcBillGenStatusType_index[idx+1]]
 }

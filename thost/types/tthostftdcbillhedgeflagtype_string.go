@@ -18,9 +18,9 @@ const _TThostFtdcBillHedgeFlagType_name = "投机套利套保"
 var _TThostFtdcBillHedgeFlagType_index = [...]uint8{0, 6, 12, 18}
 
 func (i TThostFtdcBillHedgeFlagType) String() string {
-	i -= 49
-	if i >= TThostFtdcBillHedgeFlagType(len(_TThostFtdcBillHedgeFlagType_index)-1) {
-		return "TThostFtdcBillHedgeFlagType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcBillHedgeFlagType_index)-1 {
+		return "TThostFtdcBillHedgeFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBillHedgeFlagType_name[_TThostFtdcBillHedgeFlagType_index[i]:_TThostFtdcBillHedgeFlagType_index[i+1]]
+	return _TThostFtdcBillHedgeFlagType_name[_TThostFtdcBillHedgeFlagType_index[idx]:_TThostFtdcBillHedgeFlagType_index[idx+1]]
 }

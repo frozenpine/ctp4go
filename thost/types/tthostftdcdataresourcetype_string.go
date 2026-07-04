@@ -18,9 +18,9 @@ const _TThostFtdcDataResourceType_name = "本系统交易所报送数据"
 var _TThostFtdcDataResourceType_index = [...]uint8{0, 9, 18, 30}
 
 func (i TThostFtdcDataResourceType) String() string {
-	i -= 49
-	if i >= TThostFtdcDataResourceType(len(_TThostFtdcDataResourceType_index)-1) {
-		return "TThostFtdcDataResourceType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcDataResourceType_index)-1 {
+		return "TThostFtdcDataResourceType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcDataResourceType_name[_TThostFtdcDataResourceType_index[i]:_TThostFtdcDataResourceType_index[i+1]]
+	return _TThostFtdcDataResourceType_name[_TThostFtdcDataResourceType_index[idx]:_TThostFtdcDataResourceType_index[idx+1]]
 }

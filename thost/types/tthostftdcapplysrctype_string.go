@@ -17,9 +17,9 @@ const _TThostFtdcApplySrcType_name = "交易会服"
 var _TThostFtdcApplySrcType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcApplySrcType) String() string {
-	i -= 48
-	if i >= TThostFtdcApplySrcType(len(_TThostFtdcApplySrcType_index)-1) {
-		return "TThostFtdcApplySrcType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcApplySrcType_index)-1 {
+		return "TThostFtdcApplySrcType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcApplySrcType_name[_TThostFtdcApplySrcType_index[i]:_TThostFtdcApplySrcType_index[i+1]]
+	return _TThostFtdcApplySrcType_name[_TThostFtdcApplySrcType_index[idx]:_TThostFtdcApplySrcType_index[idx+1]]
 }

@@ -18,9 +18,9 @@ const _TThostFtdcCheckInstrTypeType_name = "合约交易所不存在合约本系
 var _TThostFtdcCheckInstrTypeType_index = [...]uint8{0, 24, 48, 69}
 
 func (i TThostFtdcCheckInstrTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcCheckInstrTypeType(len(_TThostFtdcCheckInstrTypeType_index)-1) {
-		return "TThostFtdcCheckInstrTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcCheckInstrTypeType_index)-1 {
+		return "TThostFtdcCheckInstrTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCheckInstrTypeType_name[_TThostFtdcCheckInstrTypeType_index[i]:_TThostFtdcCheckInstrTypeType_index[i+1]]
+	return _TThostFtdcCheckInstrTypeType_name[_TThostFtdcCheckInstrTypeType_index[idx]:_TThostFtdcCheckInstrTypeType_index[idx+1]]
 }

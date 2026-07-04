@@ -19,9 +19,9 @@ const _TThostFtdcAMLCheckStatusType_name = "未复核复核中已复核拒绝上
 var _TThostFtdcAMLCheckStatusType_index = [...]uint8{0, 9, 18, 27, 39}
 
 func (i TThostFtdcAMLCheckStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcAMLCheckStatusType(len(_TThostFtdcAMLCheckStatusType_index)-1) {
-		return "TThostFtdcAMLCheckStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcAMLCheckStatusType_index)-1 {
+		return "TThostFtdcAMLCheckStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAMLCheckStatusType_name[_TThostFtdcAMLCheckStatusType_index[i]:_TThostFtdcAMLCheckStatusType_index[i+1]]
+	return _TThostFtdcAMLCheckStatusType_name[_TThostFtdcAMLCheckStatusType_index[idx]:_TThostFtdcAMLCheckStatusType_index[idx+1]]
 }

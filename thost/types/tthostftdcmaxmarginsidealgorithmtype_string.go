@@ -17,9 +17,9 @@ const _TThostFtdcMaxMarginSideAlgorithmType_name = "不使用大额单边保证�
 var _TThostFtdcMaxMarginSideAlgorithmType_index = [...]uint8{0, 36, 69}
 
 func (i TThostFtdcMaxMarginSideAlgorithmType) String() string {
-	i -= 48
-	if i >= TThostFtdcMaxMarginSideAlgorithmType(len(_TThostFtdcMaxMarginSideAlgorithmType_index)-1) {
-		return "TThostFtdcMaxMarginSideAlgorithmType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcMaxMarginSideAlgorithmType_index)-1 {
+		return "TThostFtdcMaxMarginSideAlgorithmType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcMaxMarginSideAlgorithmType_name[_TThostFtdcMaxMarginSideAlgorithmType_index[i]:_TThostFtdcMaxMarginSideAlgorithmType_index[i+1]]
+	return _TThostFtdcMaxMarginSideAlgorithmType_name[_TThostFtdcMaxMarginSideAlgorithmType_index[idx]:_TThostFtdcMaxMarginSideAlgorithmType_index[idx+1]]
 }

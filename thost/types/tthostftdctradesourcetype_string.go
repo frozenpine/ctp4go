@@ -17,9 +17,9 @@ const _TThostFtdcTradeSourceType_name = "来自交易所普通回报来自查询
 var _TThostFtdcTradeSourceType_index = [...]uint8{0, 27, 39}
 
 func (i TThostFtdcTradeSourceType) String() string {
-	i -= 48
-	if i >= TThostFtdcTradeSourceType(len(_TThostFtdcTradeSourceType_index)-1) {
-		return "TThostFtdcTradeSourceType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcTradeSourceType_index)-1 {
+		return "TThostFtdcTradeSourceType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTradeSourceType_name[_TThostFtdcTradeSourceType_index[i]:_TThostFtdcTradeSourceType_index[i+1]]
+	return _TThostFtdcTradeSourceType_name[_TThostFtdcTradeSourceType_index[idx]:_TThostFtdcTradeSourceType_index[idx+1]]
 }

@@ -17,9 +17,9 @@ const _TThostFtdcDeliveryTypeType_name = "手工交割到期交割"
 var _TThostFtdcDeliveryTypeType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcDeliveryTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcDeliveryTypeType(len(_TThostFtdcDeliveryTypeType_index)-1) {
-		return "TThostFtdcDeliveryTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcDeliveryTypeType_index)-1 {
+		return "TThostFtdcDeliveryTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcDeliveryTypeType_name[_TThostFtdcDeliveryTypeType_index[i]:_TThostFtdcDeliveryTypeType_index[i+1]]
+	return _TThostFtdcDeliveryTypeType_name[_TThostFtdcDeliveryTypeType_index[idx]:_TThostFtdcDeliveryTypeType_index[idx+1]]
 }

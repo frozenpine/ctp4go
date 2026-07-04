@@ -18,9 +18,9 @@ const _TThostFtdcBankAccTypeType_name = "银行存折储蓄卡信用卡"
 var _TThostFtdcBankAccTypeType_index = [...]uint8{0, 12, 21, 30}
 
 func (i TThostFtdcBankAccTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcBankAccTypeType(len(_TThostFtdcBankAccTypeType_index)-1) {
-		return "TThostFtdcBankAccTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcBankAccTypeType_index)-1 {
+		return "TThostFtdcBankAccTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBankAccTypeType_name[_TThostFtdcBankAccTypeType_index[i]:_TThostFtdcBankAccTypeType_index[i+1]]
+	return _TThostFtdcBankAccTypeType_name[_TThostFtdcBankAccTypeType_index[idx]:_TThostFtdcBankAccTypeType_index[idx+1]]
 }

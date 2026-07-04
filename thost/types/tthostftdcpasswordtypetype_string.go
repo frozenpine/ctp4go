@@ -17,9 +17,9 @@ const _TThostFtdcPasswordTypeType_name = "交易密码资金密码"
 var _TThostFtdcPasswordTypeType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcPasswordTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcPasswordTypeType(len(_TThostFtdcPasswordTypeType_index)-1) {
-		return "TThostFtdcPasswordTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcPasswordTypeType_index)-1 {
+		return "TThostFtdcPasswordTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcPasswordTypeType_name[_TThostFtdcPasswordTypeType_index[i]:_TThostFtdcPasswordTypeType_index[i+1]]
+	return _TThostFtdcPasswordTypeType_name[_TThostFtdcPasswordTypeType_index[idx]:_TThostFtdcPasswordTypeType_index[idx+1]]
 }

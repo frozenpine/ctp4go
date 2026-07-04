@@ -17,9 +17,9 @@ const _TThostFtdcLimitUseTypeType_name = "可重复使用不可重复使用"
 var _TThostFtdcLimitUseTypeType_index = [...]uint8{0, 15, 33}
 
 func (i TThostFtdcLimitUseTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcLimitUseTypeType(len(_TThostFtdcLimitUseTypeType_index)-1) {
-		return "TThostFtdcLimitUseTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcLimitUseTypeType_index)-1 {
+		return "TThostFtdcLimitUseTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcLimitUseTypeType_name[_TThostFtdcLimitUseTypeType_index[i]:_TThostFtdcLimitUseTypeType_index[i+1]]
+	return _TThostFtdcLimitUseTypeType_name[_TThostFtdcLimitUseTypeType_index[idx]:_TThostFtdcLimitUseTypeType_index[idx+1]]
 }

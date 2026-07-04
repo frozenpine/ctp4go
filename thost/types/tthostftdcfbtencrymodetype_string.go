@@ -18,9 +18,9 @@ const _TThostFtdcFBTEncryModeType_name = "不加密DES3DES"
 var _TThostFtdcFBTEncryModeType_index = [...]uint8{0, 9, 12, 16}
 
 func (i TThostFtdcFBTEncryModeType) String() string {
-	i -= 48
-	if i >= TThostFtdcFBTEncryModeType(len(_TThostFtdcFBTEncryModeType_index)-1) {
-		return "TThostFtdcFBTEncryModeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFBTEncryModeType_index)-1 {
+		return "TThostFtdcFBTEncryModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFBTEncryModeType_name[_TThostFtdcFBTEncryModeType_index[i]:_TThostFtdcFBTEncryModeType_index[i+1]]
+	return _TThostFtdcFBTEncryModeType_name[_TThostFtdcFBTEncryModeType_index[idx]:_TThostFtdcFBTEncryModeType_index[idx+1]]
 }

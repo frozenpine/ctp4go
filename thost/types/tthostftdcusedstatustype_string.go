@@ -18,9 +18,9 @@ const _TThostFtdcUsedStatusType_name = "未生效已生效生效失败"
 var _TThostFtdcUsedStatusType_index = [...]uint8{0, 9, 18, 30}
 
 func (i TThostFtdcUsedStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcUsedStatusType(len(_TThostFtdcUsedStatusType_index)-1) {
-		return "TThostFtdcUsedStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcUsedStatusType_index)-1 {
+		return "TThostFtdcUsedStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcUsedStatusType_name[_TThostFtdcUsedStatusType_index[i]:_TThostFtdcUsedStatusType_index[i+1]]
+	return _TThostFtdcUsedStatusType_name[_TThostFtdcUsedStatusType_index[idx]:_TThostFtdcUsedStatusType_index[idx+1]]
 }

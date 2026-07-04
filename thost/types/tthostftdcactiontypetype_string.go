@@ -17,9 +17,9 @@ const _TThostFtdcActionTypeType_name = "执行放弃"
 var _TThostFtdcActionTypeType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcActionTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcActionTypeType(len(_TThostFtdcActionTypeType_index)-1) {
-		return "TThostFtdcActionTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcActionTypeType_index)-1 {
+		return "TThostFtdcActionTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcActionTypeType_name[_TThostFtdcActionTypeType_index[i]:_TThostFtdcActionTypeType_index[i+1]]
+	return _TThostFtdcActionTypeType_name[_TThostFtdcActionTypeType_index[idx]:_TThostFtdcActionTypeType_index[idx+1]]
 }

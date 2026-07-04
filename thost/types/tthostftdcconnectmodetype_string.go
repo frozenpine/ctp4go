@@ -17,9 +17,9 @@ const _TThostFtdcConnectModeType_name = "短连接长连接"
 var _TThostFtdcConnectModeType_index = [...]uint8{0, 9, 18}
 
 func (i TThostFtdcConnectModeType) String() string {
-	i -= 48
-	if i >= TThostFtdcConnectModeType(len(_TThostFtdcConnectModeType_index)-1) {
-		return "TThostFtdcConnectModeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcConnectModeType_index)-1 {
+		return "TThostFtdcConnectModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcConnectModeType_name[_TThostFtdcConnectModeType_index[i]:_TThostFtdcConnectModeType_index[i+1]]
+	return _TThostFtdcConnectModeType_name[_TThostFtdcConnectModeType_index[idx]:_TThostFtdcConnectModeType_index[idx+1]]
 }

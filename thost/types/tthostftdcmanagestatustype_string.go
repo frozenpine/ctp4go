@@ -18,9 +18,9 @@ const _TThostFtdcManageStatusType_name = "指定存管预指定撤销指定"
 var _TThostFtdcManageStatusType_index = [...]uint8{0, 12, 21, 33}
 
 func (i TThostFtdcManageStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcManageStatusType(len(_TThostFtdcManageStatusType_index)-1) {
-		return "TThostFtdcManageStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcManageStatusType_index)-1 {
+		return "TThostFtdcManageStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcManageStatusType_name[_TThostFtdcManageStatusType_index[i]:_TThostFtdcManageStatusType_index[i+1]]
+	return _TThostFtdcManageStatusType_name[_TThostFtdcManageStatusType_index[idx]:_TThostFtdcManageStatusType_index[idx+1]]
 }

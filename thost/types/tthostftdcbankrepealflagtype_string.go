@@ -18,9 +18,9 @@ const _TThostFtdcBankRepealFlagType_name = "银行无需自动冲正银行待自
 var _TThostFtdcBankRepealFlagType_index = [...]uint8{0, 24, 45, 66}
 
 func (i TThostFtdcBankRepealFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcBankRepealFlagType(len(_TThostFtdcBankRepealFlagType_index)-1) {
-		return "TThostFtdcBankRepealFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcBankRepealFlagType_index)-1 {
+		return "TThostFtdcBankRepealFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBankRepealFlagType_name[_TThostFtdcBankRepealFlagType_index[i]:_TThostFtdcBankRepealFlagType_index[i+1]]
+	return _TThostFtdcBankRepealFlagType_name[_TThostFtdcBankRepealFlagType_index[idx]:_TThostFtdcBankRepealFlagType_index[idx+1]]
 }

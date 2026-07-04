@@ -21,9 +21,9 @@ const _TThostFtdcConditionalOrderSortTypeType_name = "使用最新价升序使�
 var _TThostFtdcConditionalOrderSortTypeType_index = [...]uint8{0, 21, 42, 60, 78, 96, 114}
 
 func (i TThostFtdcConditionalOrderSortTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcConditionalOrderSortTypeType(len(_TThostFtdcConditionalOrderSortTypeType_index)-1) {
-		return "TThostFtdcConditionalOrderSortTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcConditionalOrderSortTypeType_index)-1 {
+		return "TThostFtdcConditionalOrderSortTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcConditionalOrderSortTypeType_name[_TThostFtdcConditionalOrderSortTypeType_index[i]:_TThostFtdcConditionalOrderSortTypeType_index[i+1]]
+	return _TThostFtdcConditionalOrderSortTypeType_name[_TThostFtdcConditionalOrderSortTypeType_index[idx]:_TThostFtdcConditionalOrderSortTypeType_index[idx+1]]
 }

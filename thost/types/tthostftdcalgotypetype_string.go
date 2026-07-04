@@ -17,9 +17,9 @@ const _TThostFtdcAlgoTypeType_name = "持仓处理算法寻找保证金率算法
 var _TThostFtdcAlgoTypeType_index = [...]uint8{0, 18, 42}
 
 func (i TThostFtdcAlgoTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcAlgoTypeType(len(_TThostFtdcAlgoTypeType_index)-1) {
-		return "TThostFtdcAlgoTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcAlgoTypeType_index)-1 {
+		return "TThostFtdcAlgoTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAlgoTypeType_name[_TThostFtdcAlgoTypeType_index[i]:_TThostFtdcAlgoTypeType_index[i+1]]
+	return _TThostFtdcAlgoTypeType_name[_TThostFtdcAlgoTypeType_index[idx]:_TThostFtdcAlgoTypeType_index[idx+1]]
 }

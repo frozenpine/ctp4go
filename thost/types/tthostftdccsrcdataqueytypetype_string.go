@@ -17,9 +17,9 @@ const _TThostFtdcCSRCDataQueyTypeType_name = "查询当前交易日报送的数�
 var _TThostFtdcCSRCDataQueyTypeType_index = [...]uint8{0, 36, 84}
 
 func (i TThostFtdcCSRCDataQueyTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcCSRCDataQueyTypeType(len(_TThostFtdcCSRCDataQueyTypeType_index)-1) {
-		return "TThostFtdcCSRCDataQueyTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcCSRCDataQueyTypeType_index)-1 {
+		return "TThostFtdcCSRCDataQueyTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcCSRCDataQueyTypeType_name[_TThostFtdcCSRCDataQueyTypeType_index[i]:_TThostFtdcCSRCDataQueyTypeType_index[i+1]]
+	return _TThostFtdcCSRCDataQueyTypeType_name[_TThostFtdcCSRCDataQueyTypeType_index[idx]:_TThostFtdcCSRCDataQueyTypeType_index[idx+1]]
 }

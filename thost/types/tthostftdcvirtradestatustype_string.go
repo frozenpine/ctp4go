@@ -22,9 +22,9 @@ const _TThostFtdcVirTradeStatusType_name = "正常处理中成功结束失败结
 var _TThostFtdcVirTradeStatusType_index = [...]uint8{0, 15, 27, 39, 48, 69, 100, 130}
 
 func (i TThostFtdcVirTradeStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcVirTradeStatusType(len(_TThostFtdcVirTradeStatusType_index)-1) {
-		return "TThostFtdcVirTradeStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcVirTradeStatusType_index)-1 {
+		return "TThostFtdcVirTradeStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcVirTradeStatusType_name[_TThostFtdcVirTradeStatusType_index[i]:_TThostFtdcVirTradeStatusType_index[i+1]]
+	return _TThostFtdcVirTradeStatusType_name[_TThostFtdcVirTradeStatusType_index[idx]:_TThostFtdcVirTradeStatusType_index[idx+1]]
 }

@@ -22,9 +22,9 @@ const _TThostFtdcOffsetFlagType_name = "开仓平仓强平平今平昨强减本�
 var _TThostFtdcOffsetFlagType_index = [...]uint8{0, 6, 12, 18, 24, 30, 36, 48}
 
 func (i TThostFtdcOffsetFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcOffsetFlagType(len(_TThostFtdcOffsetFlagType_index)-1) {
-		return "TThostFtdcOffsetFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcOffsetFlagType_index)-1 {
+		return "TThostFtdcOffsetFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOffsetFlagType_name[_TThostFtdcOffsetFlagType_index[i]:_TThostFtdcOffsetFlagType_index[i+1]]
+	return _TThostFtdcOffsetFlagType_name[_TThostFtdcOffsetFlagType_index[idx]:_TThostFtdcOffsetFlagType_index[idx+1]]
 }

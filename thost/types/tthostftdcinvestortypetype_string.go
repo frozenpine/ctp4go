@@ -20,9 +20,9 @@ const _TThostFtdcInvestorTypeType_name = "自然人法人投资基金特殊法�
 var _TThostFtdcInvestorTypeType_index = [...]uint8{0, 9, 15, 27, 39, 48}
 
 func (i TThostFtdcInvestorTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcInvestorTypeType(len(_TThostFtdcInvestorTypeType_index)-1) {
-		return "TThostFtdcInvestorTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcInvestorTypeType_index)-1 {
+		return "TThostFtdcInvestorTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcInvestorTypeType_name[_TThostFtdcInvestorTypeType_index[i]:_TThostFtdcInvestorTypeType_index[i+1]]
+	return _TThostFtdcInvestorTypeType_name[_TThostFtdcInvestorTypeType_index[idx]:_TThostFtdcInvestorTypeType_index[idx+1]]
 }

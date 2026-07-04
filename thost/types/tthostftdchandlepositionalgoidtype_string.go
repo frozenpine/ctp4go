@@ -18,9 +18,9 @@ const _TThostFtdcHandlePositionAlgoIDType_name = "基本大连商品交易所郑
 var _TThostFtdcHandlePositionAlgoIDType_index = [...]uint8{0, 6, 27, 48}
 
 func (i TThostFtdcHandlePositionAlgoIDType) String() string {
-	i -= 49
-	if i >= TThostFtdcHandlePositionAlgoIDType(len(_TThostFtdcHandlePositionAlgoIDType_index)-1) {
-		return "TThostFtdcHandlePositionAlgoIDType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcHandlePositionAlgoIDType_index)-1 {
+		return "TThostFtdcHandlePositionAlgoIDType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcHandlePositionAlgoIDType_name[_TThostFtdcHandlePositionAlgoIDType_index[i]:_TThostFtdcHandlePositionAlgoIDType_index[i+1]]
+	return _TThostFtdcHandlePositionAlgoIDType_name[_TThostFtdcHandlePositionAlgoIDType_index[idx]:_TThostFtdcHandlePositionAlgoIDType_index[idx+1]]
 }

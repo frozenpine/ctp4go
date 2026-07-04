@@ -17,9 +17,9 @@ const _TThostFtdcBrokerDataSyncStatusType_name = "已同步同步中"
 var _TThostFtdcBrokerDataSyncStatusType_index = [...]uint8{0, 9, 18}
 
 func (i TThostFtdcBrokerDataSyncStatusType) String() string {
-	i -= 49
-	if i >= TThostFtdcBrokerDataSyncStatusType(len(_TThostFtdcBrokerDataSyncStatusType_index)-1) {
-		return "TThostFtdcBrokerDataSyncStatusType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcBrokerDataSyncStatusType_index)-1 {
+		return "TThostFtdcBrokerDataSyncStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBrokerDataSyncStatusType_name[_TThostFtdcBrokerDataSyncStatusType_index[i]:_TThostFtdcBrokerDataSyncStatusType_index[i+1]]
+	return _TThostFtdcBrokerDataSyncStatusType_name[_TThostFtdcBrokerDataSyncStatusType_index[idx]:_TThostFtdcBrokerDataSyncStatusType_index[idx+1]]
 }

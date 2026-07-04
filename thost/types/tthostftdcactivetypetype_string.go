@@ -17,9 +17,9 @@ const _TThostFtdcActiveTypeType_name = "仅当日生效长期生效"
 var _TThostFtdcActiveTypeType_index = [...]uint8{0, 15, 27}
 
 func (i TThostFtdcActiveTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcActiveTypeType(len(_TThostFtdcActiveTypeType_index)-1) {
-		return "TThostFtdcActiveTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcActiveTypeType_index)-1 {
+		return "TThostFtdcActiveTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcActiveTypeType_name[_TThostFtdcActiveTypeType_index[i]:_TThostFtdcActiveTypeType_index[i+1]]
+	return _TThostFtdcActiveTypeType_name[_TThostFtdcActiveTypeType_index[idx]:_TThostFtdcActiveTypeType_index[idx+1]]
 }

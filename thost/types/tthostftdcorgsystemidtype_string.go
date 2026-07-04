@@ -18,9 +18,9 @@ const _TThostFtdcOrgSystemIDType_name = "综合交易平台易盛系统金仕达
 var _TThostFtdcOrgSystemIDType_index = [...]uint8{0, 18, 30, 47}
 
 func (i TThostFtdcOrgSystemIDType) String() string {
-	i -= 48
-	if i >= TThostFtdcOrgSystemIDType(len(_TThostFtdcOrgSystemIDType_index)-1) {
-		return "TThostFtdcOrgSystemIDType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcOrgSystemIDType_index)-1 {
+		return "TThostFtdcOrgSystemIDType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcOrgSystemIDType_name[_TThostFtdcOrgSystemIDType_index[i]:_TThostFtdcOrgSystemIDType_index[i+1]]
+	return _TThostFtdcOrgSystemIDType_name[_TThostFtdcOrgSystemIDType_index[idx]:_TThostFtdcOrgSystemIDType_index[idx+1]]
 }

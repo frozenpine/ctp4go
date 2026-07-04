@@ -18,9 +18,9 @@ const _TThostFtdcInstrumentClassType_name = "一般月份合约临近交割合�
 var _TThostFtdcInstrumentClassType_index = [...]uint8{0, 18, 36, 51}
 
 func (i TThostFtdcInstrumentClassType) String() string {
-	i -= 49
-	if i >= TThostFtdcInstrumentClassType(len(_TThostFtdcInstrumentClassType_index)-1) {
-		return "TThostFtdcInstrumentClassType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcInstrumentClassType_index)-1 {
+		return "TThostFtdcInstrumentClassType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcInstrumentClassType_name[_TThostFtdcInstrumentClassType_index[i]:_TThostFtdcInstrumentClassType_index[i+1]]
+	return _TThostFtdcInstrumentClassType_name[_TThostFtdcInstrumentClassType_index[idx]:_TThostFtdcInstrumentClassType_index[idx+1]]
 }

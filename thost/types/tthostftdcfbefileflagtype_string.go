@@ -17,9 +17,9 @@ const _TThostFtdcFBEFileFlagType_name = "数据包文件"
 var _TThostFtdcFBEFileFlagType_index = [...]uint8{0, 9, 15}
 
 func (i TThostFtdcFBEFileFlagType) String() string {
-	i -= 48
-	if i >= TThostFtdcFBEFileFlagType(len(_TThostFtdcFBEFileFlagType_index)-1) {
-		return "TThostFtdcFBEFileFlagType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFBEFileFlagType_index)-1 {
+		return "TThostFtdcFBEFileFlagType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFBEFileFlagType_name[_TThostFtdcFBEFileFlagType_index[i]:_TThostFtdcFBEFileFlagType_index[i+1]]
+	return _TThostFtdcFBEFileFlagType_name[_TThostFtdcFBEFileFlagType_index[idx]:_TThostFtdcFBEFileFlagType_index[idx+1]]
 }

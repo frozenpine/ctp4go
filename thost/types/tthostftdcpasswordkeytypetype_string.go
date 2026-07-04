@@ -19,9 +19,9 @@ const _TThostFtdcPassWordKeyTypeType_name = "交换密钥密码密钥MAC密钥�
 var _TThostFtdcPassWordKeyTypeType_index = [...]uint8{0, 12, 24, 33, 45}
 
 func (i TThostFtdcPassWordKeyTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcPassWordKeyTypeType(len(_TThostFtdcPassWordKeyTypeType_index)-1) {
-		return "TThostFtdcPassWordKeyTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcPassWordKeyTypeType_index)-1 {
+		return "TThostFtdcPassWordKeyTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcPassWordKeyTypeType_name[_TThostFtdcPassWordKeyTypeType_index[i]:_TThostFtdcPassWordKeyTypeType_index[i+1]]
+	return _TThostFtdcPassWordKeyTypeType_name[_TThostFtdcPassWordKeyTypeType_index[idx]:_TThostFtdcPassWordKeyTypeType_index[idx+1]]
 }

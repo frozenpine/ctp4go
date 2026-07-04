@@ -19,9 +19,9 @@ const _TThostFtdcBackUpStatusType_name = "未生成备份数据备份数据生�
 var _TThostFtdcBackUpStatusType_index = [...]uint8{0, 21, 42, 63, 81}
 
 func (i TThostFtdcBackUpStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcBackUpStatusType(len(_TThostFtdcBackUpStatusType_index)-1) {
-		return "TThostFtdcBackUpStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcBackUpStatusType_index)-1 {
+		return "TThostFtdcBackUpStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBackUpStatusType_name[_TThostFtdcBackUpStatusType_index[i]:_TThostFtdcBackUpStatusType_index[i+1]]
+	return _TThostFtdcBackUpStatusType_name[_TThostFtdcBackUpStatusType_index[idx]:_TThostFtdcBackUpStatusType_index[idx+1]]
 }

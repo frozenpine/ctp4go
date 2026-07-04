@@ -22,9 +22,9 @@ const _TThostFtdcSysOperModeType_name = "增加修改删除复制激活注销重
 var _TThostFtdcSysOperModeType_index = [...]uint8{0, 6, 12, 18, 24, 30, 36, 42}
 
 func (i TThostFtdcSysOperModeType) String() string {
-	i -= 49
-	if i >= TThostFtdcSysOperModeType(len(_TThostFtdcSysOperModeType_index)-1) {
-		return "TThostFtdcSysOperModeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcSysOperModeType_index)-1 {
+		return "TThostFtdcSysOperModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSysOperModeType_name[_TThostFtdcSysOperModeType_index[i]:_TThostFtdcSysOperModeType_index[i+1]]
+	return _TThostFtdcSysOperModeType_name[_TThostFtdcSysOperModeType_index[idx]:_TThostFtdcSysOperModeType_index[idx+1]]
 }

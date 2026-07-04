@@ -17,9 +17,9 @@ const _TThostFtdcAccountSourceTypeType_name = "银期同步手工录入"
 var _TThostFtdcAccountSourceTypeType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcAccountSourceTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcAccountSourceTypeType(len(_TThostFtdcAccountSourceTypeType_index)-1) {
-		return "TThostFtdcAccountSourceTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcAccountSourceTypeType_index)-1 {
+		return "TThostFtdcAccountSourceTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAccountSourceTypeType_name[_TThostFtdcAccountSourceTypeType_index[i]:_TThostFtdcAccountSourceTypeType_index[i+1]]
+	return _TThostFtdcAccountSourceTypeType_name[_TThostFtdcAccountSourceTypeType_index[idx]:_TThostFtdcAccountSourceTypeType_index[idx+1]]
 }

@@ -17,9 +17,9 @@ const _TThostFtdcSponsorTypeType_name = "期商银行"
 var _TThostFtdcSponsorTypeType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcSponsorTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcSponsorTypeType(len(_TThostFtdcSponsorTypeType_index)-1) {
-		return "TThostFtdcSponsorTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSponsorTypeType_index)-1 {
+		return "TThostFtdcSponsorTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSponsorTypeType_name[_TThostFtdcSponsorTypeType_index[i]:_TThostFtdcSponsorTypeType_index[i+1]]
+	return _TThostFtdcSponsorTypeType_name[_TThostFtdcSponsorTypeType_index[idx]:_TThostFtdcSponsorTypeType_index[idx+1]]
 }

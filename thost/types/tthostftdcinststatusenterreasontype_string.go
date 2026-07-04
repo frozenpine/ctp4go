@@ -18,9 +18,9 @@ const _TThostFtdcInstStatusEnterReasonType_name = "自动切换手动切换熔�
 var _TThostFtdcInstStatusEnterReasonType_index = [...]uint8{0, 12, 24, 30}
 
 func (i TThostFtdcInstStatusEnterReasonType) String() string {
-	i -= 49
-	if i >= TThostFtdcInstStatusEnterReasonType(len(_TThostFtdcInstStatusEnterReasonType_index)-1) {
-		return "TThostFtdcInstStatusEnterReasonType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcInstStatusEnterReasonType_index)-1 {
+		return "TThostFtdcInstStatusEnterReasonType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcInstStatusEnterReasonType_name[_TThostFtdcInstStatusEnterReasonType_index[i]:_TThostFtdcInstStatusEnterReasonType_index[i+1]]
+	return _TThostFtdcInstStatusEnterReasonType_name[_TThostFtdcInstStatusEnterReasonType_index[idx]:_TThostFtdcInstStatusEnterReasonType_index[idx+1]]
 }

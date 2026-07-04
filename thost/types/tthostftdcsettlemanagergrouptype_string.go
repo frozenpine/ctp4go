@@ -18,9 +18,9 @@ const _TThostFtdcSettleManagerGroupType_name = "交易所核对内部核对上�
 var _TThostFtdcSettleManagerGroupType_index = [...]uint8{0, 15, 27, 45}
 
 func (i TThostFtdcSettleManagerGroupType) String() string {
-	i -= 49
-	if i >= TThostFtdcSettleManagerGroupType(len(_TThostFtdcSettleManagerGroupType_index)-1) {
-		return "TThostFtdcSettleManagerGroupType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcSettleManagerGroupType_index)-1 {
+		return "TThostFtdcSettleManagerGroupType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSettleManagerGroupType_name[_TThostFtdcSettleManagerGroupType_index[i]:_TThostFtdcSettleManagerGroupType_index[i+1]]
+	return _TThostFtdcSettleManagerGroupType_name[_TThostFtdcSettleManagerGroupType_index[idx]:_TThostFtdcSettleManagerGroupType_index[idx+1]]
 }

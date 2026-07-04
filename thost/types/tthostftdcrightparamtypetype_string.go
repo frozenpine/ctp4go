@@ -19,9 +19,9 @@ const _TThostFtdcRightParamTypeType_name = "休眠户激活休眠户开仓权限
 var _TThostFtdcRightParamTypeType_index = [...]uint8{0, 9, 24, 42, 66}
 
 func (i TThostFtdcRightParamTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcRightParamTypeType(len(_TThostFtdcRightParamTypeType_index)-1) {
-		return "TThostFtdcRightParamTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcRightParamTypeType_index)-1 {
+		return "TThostFtdcRightParamTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcRightParamTypeType_name[_TThostFtdcRightParamTypeType_index[i]:_TThostFtdcRightParamTypeType_index[i+1]]
+	return _TThostFtdcRightParamTypeType_name[_TThostFtdcRightParamTypeType_index[idx]:_TThostFtdcRightParamTypeType_index[idx+1]]
 }

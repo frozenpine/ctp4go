@@ -17,9 +17,9 @@ const _TThostFtdcAuthTypeType_name = "白名单校验黑名单校验"
 var _TThostFtdcAuthTypeType_index = [...]uint8{0, 15, 30}
 
 func (i TThostFtdcAuthTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcAuthTypeType(len(_TThostFtdcAuthTypeType_index)-1) {
-		return "TThostFtdcAuthTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcAuthTypeType_index)-1 {
+		return "TThostFtdcAuthTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAuthTypeType_name[_TThostFtdcAuthTypeType_index[i]:_TThostFtdcAuthTypeType_index[i+1]]
+	return _TThostFtdcAuthTypeType_name[_TThostFtdcAuthTypeType_index[idx]:_TThostFtdcAuthTypeType_index[idx+1]]
 }

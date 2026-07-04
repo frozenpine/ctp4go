@@ -17,9 +17,9 @@ const _TThostFtdcTransferTypeType_name = "银行转期货期货转银行"
 var _TThostFtdcTransferTypeType_index = [...]uint8{0, 15, 30}
 
 func (i TThostFtdcTransferTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcTransferTypeType(len(_TThostFtdcTransferTypeType_index)-1) {
-		return "TThostFtdcTransferTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcTransferTypeType_index)-1 {
+		return "TThostFtdcTransferTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTransferTypeType_name[_TThostFtdcTransferTypeType_index[i]:_TThostFtdcTransferTypeType_index[i+1]]
+	return _TThostFtdcTransferTypeType_name[_TThostFtdcTransferTypeType_index[idx]:_TThostFtdcTransferTypeType_index[idx+1]]
 }

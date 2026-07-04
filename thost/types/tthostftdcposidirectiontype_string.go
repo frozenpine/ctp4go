@@ -18,9 +18,9 @@ const _TThostFtdcPosiDirectionType_name = "净多头空头"
 var _TThostFtdcPosiDirectionType_index = [...]uint8{0, 3, 9, 15}
 
 func (i TThostFtdcPosiDirectionType) String() string {
-	i -= 49
-	if i >= TThostFtdcPosiDirectionType(len(_TThostFtdcPosiDirectionType_index)-1) {
-		return "TThostFtdcPosiDirectionType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcPosiDirectionType_index)-1 {
+		return "TThostFtdcPosiDirectionType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcPosiDirectionType_name[_TThostFtdcPosiDirectionType_index[i]:_TThostFtdcPosiDirectionType_index[i+1]]
+	return _TThostFtdcPosiDirectionType_name[_TThostFtdcPosiDirectionType_index[idx]:_TThostFtdcPosiDirectionType_index[idx+1]]
 }

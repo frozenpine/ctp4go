@@ -17,9 +17,9 @@ const _TThostFtdcBalanceAlgorithmType_name = "不计算期权市值盈亏计算�
 var _TThostFtdcBalanceAlgorithmType_index = [...]uint8{0, 27, 51}
 
 func (i TThostFtdcBalanceAlgorithmType) String() string {
-	i -= 49
-	if i >= TThostFtdcBalanceAlgorithmType(len(_TThostFtdcBalanceAlgorithmType_index)-1) {
-		return "TThostFtdcBalanceAlgorithmType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcBalanceAlgorithmType_index)-1 {
+		return "TThostFtdcBalanceAlgorithmType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcBalanceAlgorithmType_name[_TThostFtdcBalanceAlgorithmType_index[i]:_TThostFtdcBalanceAlgorithmType_index[i+1]]
+	return _TThostFtdcBalanceAlgorithmType_name[_TThostFtdcBalanceAlgorithmType_index[idx]:_TThostFtdcBalanceAlgorithmType_index[idx+1]]
 }

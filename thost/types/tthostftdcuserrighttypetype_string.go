@@ -20,9 +20,9 @@ const _TThostFtdcUserRightTypeType_name = "登录银期转帐邮寄结算单传�
 var _TThostFtdcUserRightTypeType_index = [...]uint8{0, 6, 18, 33, 48, 57}
 
 func (i TThostFtdcUserRightTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcUserRightTypeType(len(_TThostFtdcUserRightTypeType_index)-1) {
-		return "TThostFtdcUserRightTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcUserRightTypeType_index)-1 {
+		return "TThostFtdcUserRightTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcUserRightTypeType_name[_TThostFtdcUserRightTypeType_index[i]:_TThostFtdcUserRightTypeType_index[i+1]]
+	return _TThostFtdcUserRightTypeType_name[_TThostFtdcUserRightTypeType_index[idx]:_TThostFtdcUserRightTypeType_index[idx+1]]
 }

@@ -18,9 +18,9 @@ const _TThostFtdcFileStatusType_name = "未生成已生成生成失败"
 var _TThostFtdcFileStatusType_index = [...]uint8{0, 9, 18, 30}
 
 func (i TThostFtdcFileStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcFileStatusType(len(_TThostFtdcFileStatusType_index)-1) {
-		return "TThostFtdcFileStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcFileStatusType_index)-1 {
+		return "TThostFtdcFileStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFileStatusType_name[_TThostFtdcFileStatusType_index[i]:_TThostFtdcFileStatusType_index[i+1]]
+	return _TThostFtdcFileStatusType_name[_TThostFtdcFileStatusType_index[idx]:_TThostFtdcFileStatusType_index[idx+1]]
 }

@@ -17,9 +17,9 @@ const _TThostFtdcAmlDateTypeType_name = "检查日期发生日期"
 var _TThostFtdcAmlDateTypeType_index = [...]uint8{0, 12, 24}
 
 func (i TThostFtdcAmlDateTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcAmlDateTypeType(len(_TThostFtdcAmlDateTypeType_index)-1) {
-		return "TThostFtdcAmlDateTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcAmlDateTypeType_index)-1 {
+		return "TThostFtdcAmlDateTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAmlDateTypeType_name[_TThostFtdcAmlDateTypeType_index[i]:_TThostFtdcAmlDateTypeType_index[i+1]]
+	return _TThostFtdcAmlDateTypeType_name[_TThostFtdcAmlDateTypeType_index[idx]:_TThostFtdcAmlDateTypeType_index[idx+1]]
 }

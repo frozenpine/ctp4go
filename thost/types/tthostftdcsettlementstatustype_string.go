@@ -19,9 +19,9 @@ const _TThostFtdcSettlementStatusType_name = "初始结算中已结算结算完�
 var _TThostFtdcSettlementStatusType_index = [...]uint8{0, 6, 15, 24, 36}
 
 func (i TThostFtdcSettlementStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcSettlementStatusType(len(_TThostFtdcSettlementStatusType_index)-1) {
-		return "TThostFtdcSettlementStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcSettlementStatusType_index)-1 {
+		return "TThostFtdcSettlementStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSettlementStatusType_name[_TThostFtdcSettlementStatusType_index[i]:_TThostFtdcSettlementStatusType_index[i+1]]
+	return _TThostFtdcSettlementStatusType_name[_TThostFtdcSettlementStatusType_index[idx]:_TThostFtdcSettlementStatusType_index[idx+1]]
 }

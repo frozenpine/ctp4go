@@ -18,9 +18,9 @@ const _TThostFtdcAddrSrvModeType_name = "交易地址行情地址其他"
 var _TThostFtdcAddrSrvModeType_index = [...]uint8{0, 12, 24, 30}
 
 func (i TThostFtdcAddrSrvModeType) String() string {
-	i -= 48
-	if i >= TThostFtdcAddrSrvModeType(len(_TThostFtdcAddrSrvModeType_index)-1) {
-		return "TThostFtdcAddrSrvModeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcAddrSrvModeType_index)-1 {
+		return "TThostFtdcAddrSrvModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcAddrSrvModeType_name[_TThostFtdcAddrSrvModeType_index[i]:_TThostFtdcAddrSrvModeType_index[i+1]]
+	return _TThostFtdcAddrSrvModeType_name[_TThostFtdcAddrSrvModeType_index[idx]:_TThostFtdcAddrSrvModeType_index[idx+1]]
 }

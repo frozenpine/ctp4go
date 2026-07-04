@@ -16,9 +16,9 @@ const _TThostFtdcApplyTypeType_name = "不执行数量"
 var _TThostFtdcApplyTypeType_index = [...]uint8{0, 15}
 
 func (i TThostFtdcApplyTypeType) String() string {
-	i -= 52
-	if i >= TThostFtdcApplyTypeType(len(_TThostFtdcApplyTypeType_index)-1) {
-		return "TThostFtdcApplyTypeType(" + strconv.FormatInt(int64(i+52), 10) + ")"
+	idx := int(i) - 52
+	if i < 52 || idx >= len(_TThostFtdcApplyTypeType_index)-1 {
+		return "TThostFtdcApplyTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcApplyTypeType_name[_TThostFtdcApplyTypeType_index[i]:_TThostFtdcApplyTypeType_index[i+1]]
+	return _TThostFtdcApplyTypeType_name[_TThostFtdcApplyTypeType_index[idx]:_TThostFtdcApplyTypeType_index[idx+1]]
 }

@@ -18,9 +18,9 @@ const _TThostFtdcRateInvestorRangeType_name = "公司标准模板单一投资者
 var _TThostFtdcRateInvestorRangeType_index = [...]uint8{0, 12, 18, 33}
 
 func (i TThostFtdcRateInvestorRangeType) String() string {
-	i -= 49
-	if i >= TThostFtdcRateInvestorRangeType(len(_TThostFtdcRateInvestorRangeType_index)-1) {
-		return "TThostFtdcRateInvestorRangeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcRateInvestorRangeType_index)-1 {
+		return "TThostFtdcRateInvestorRangeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcRateInvestorRangeType_name[_TThostFtdcRateInvestorRangeType_index[i]:_TThostFtdcRateInvestorRangeType_index[i+1]]
+	return _TThostFtdcRateInvestorRangeType_name[_TThostFtdcRateInvestorRangeType_index[idx]:_TThostFtdcRateInvestorRangeType_index[idx+1]]
 }

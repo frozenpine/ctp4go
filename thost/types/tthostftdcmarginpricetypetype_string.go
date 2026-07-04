@@ -19,9 +19,9 @@ const _TThostFtdcMarginPriceTypeType_name = "昨结算价最新价成交均价�
 var _TThostFtdcMarginPriceTypeType_index = [...]uint8{0, 12, 21, 33, 42}
 
 func (i TThostFtdcMarginPriceTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcMarginPriceTypeType(len(_TThostFtdcMarginPriceTypeType_index)-1) {
-		return "TThostFtdcMarginPriceTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcMarginPriceTypeType_index)-1 {
+		return "TThostFtdcMarginPriceTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcMarginPriceTypeType_name[_TThostFtdcMarginPriceTypeType_index[i]:_TThostFtdcMarginPriceTypeType_index[i+1]]
+	return _TThostFtdcMarginPriceTypeType_name[_TThostFtdcMarginPriceTypeType_index[idx]:_TThostFtdcMarginPriceTypeType_index[idx+1]]
 }

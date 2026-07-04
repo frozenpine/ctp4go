@@ -17,9 +17,9 @@ const _TThostFtdcUOAAssetmgrTypeType_name = "期货类综合类"
 var _TThostFtdcUOAAssetmgrTypeType_index = [...]uint8{0, 9, 18}
 
 func (i TThostFtdcUOAAssetmgrTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcUOAAssetmgrTypeType(len(_TThostFtdcUOAAssetmgrTypeType_index)-1) {
-		return "TThostFtdcUOAAssetmgrTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcUOAAssetmgrTypeType_index)-1 {
+		return "TThostFtdcUOAAssetmgrTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcUOAAssetmgrTypeType_name[_TThostFtdcUOAAssetmgrTypeType_index[i]:_TThostFtdcUOAAssetmgrTypeType_index[i+1]]
+	return _TThostFtdcUOAAssetmgrTypeType_name[_TThostFtdcUOAAssetmgrTypeType_index[idx]:_TThostFtdcUOAAssetmgrTypeType_index[idx+1]]
 }

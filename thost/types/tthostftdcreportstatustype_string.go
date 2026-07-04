@@ -19,9 +19,9 @@ const _TThostFtdcReportStatusType_name = "未生成报表数据报表数据生�
 var _TThostFtdcReportStatusType_index = [...]uint8{0, 21, 42, 63, 87}
 
 func (i TThostFtdcReportStatusType) String() string {
-	i -= 48
-	if i >= TThostFtdcReportStatusType(len(_TThostFtdcReportStatusType_index)-1) {
-		return "TThostFtdcReportStatusType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcReportStatusType_index)-1 {
+		return "TThostFtdcReportStatusType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcReportStatusType_name[_TThostFtdcReportStatusType_index[i]:_TThostFtdcReportStatusType_index[i+1]]
+	return _TThostFtdcReportStatusType_name[_TThostFtdcReportStatusType_index[idx]:_TThostFtdcReportStatusType_index[idx+1]]
 }

@@ -18,9 +18,9 @@ const _TThostFtdcSpecProductTypeType_name = "郑商所套保产品货币质押�
 var _TThostFtdcSpecProductTypeType_index = [...]uint8{0, 21, 39, 66}
 
 func (i TThostFtdcSpecProductTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcSpecProductTypeType(len(_TThostFtdcSpecProductTypeType_index)-1) {
-		return "TThostFtdcSpecProductTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcSpecProductTypeType_index)-1 {
+		return "TThostFtdcSpecProductTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcSpecProductTypeType_name[_TThostFtdcSpecProductTypeType_index[i]:_TThostFtdcSpecProductTypeType_index[i+1]]
+	return _TThostFtdcSpecProductTypeType_name[_TThostFtdcSpecProductTypeType_index[idx]:_TThostFtdcSpecProductTypeType_index[idx+1]]
 }

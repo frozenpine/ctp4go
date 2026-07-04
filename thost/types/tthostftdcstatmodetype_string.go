@@ -22,9 +22,9 @@ const _TThostFtdcStatModeType_name = "----按合约统计按产品统计按投�
 var _TThostFtdcStatModeType_index = [...]uint8{0, 4, 19, 34, 52}
 
 func (i TThostFtdcStatModeType) String() string {
-	i -= 48
-	if i >= TThostFtdcStatModeType(len(_TThostFtdcStatModeType_index)-1) {
-		return "TThostFtdcStatModeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcStatModeType_index)-1 {
+		return "TThostFtdcStatModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcStatModeType_name[_TThostFtdcStatModeType_index[i]:_TThostFtdcStatModeType_index[i+1]]
+	return _TThostFtdcStatModeType_name[_TThostFtdcStatModeType_index[idx]:_TThostFtdcStatModeType_index[idx+1]]
 }

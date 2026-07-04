@@ -23,9 +23,9 @@ const _TThostFtdcRiskLevelType_name = "低风险客户普通客户关注客户�
 var _TThostFtdcRiskLevelType_index = [...]uint8{0, 15, 27, 39, 51}
 
 func (i TThostFtdcRiskLevelType) String() string {
-	i -= 49
-	if i >= TThostFtdcRiskLevelType(len(_TThostFtdcRiskLevelType_index)-1) {
-		return "TThostFtdcRiskLevelType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcRiskLevelType_index)-1 {
+		return "TThostFtdcRiskLevelType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcRiskLevelType_name[_TThostFtdcRiskLevelType_index[i]:_TThostFtdcRiskLevelType_index[i+1]]
+	return _TThostFtdcRiskLevelType_name[_TThostFtdcRiskLevelType_index[idx]:_TThostFtdcRiskLevelType_index[idx+1]]
 }

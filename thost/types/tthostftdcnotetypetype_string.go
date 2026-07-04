@@ -21,9 +21,9 @@ const _TThostFtdcNoteTypeType_name = "交易结算单交易结算月报追加保
 var _TThostFtdcNoteTypeType_index = [...]uint8{0, 15, 33, 57, 78, 93, 108}
 
 func (i TThostFtdcNoteTypeType) String() string {
-	i -= 49
-	if i >= TThostFtdcNoteTypeType(len(_TThostFtdcNoteTypeType_index)-1) {
-		return "TThostFtdcNoteTypeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcNoteTypeType_index)-1 {
+		return "TThostFtdcNoteTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcNoteTypeType_name[_TThostFtdcNoteTypeType_index[i]:_TThostFtdcNoteTypeType_index[i+1]]
+	return _TThostFtdcNoteTypeType_name[_TThostFtdcNoteTypeType_index[idx]:_TThostFtdcNoteTypeType_index[idx+1]]
 }

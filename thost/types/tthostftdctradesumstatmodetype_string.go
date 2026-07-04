@@ -18,9 +18,9 @@ const _TThostFtdcTradeSumStatModeType_name = "按合约统计按产品统计按�
 var _TThostFtdcTradeSumStatModeType_index = [...]uint8{0, 15, 30, 48}
 
 func (i TThostFtdcTradeSumStatModeType) String() string {
-	i -= 49
-	if i >= TThostFtdcTradeSumStatModeType(len(_TThostFtdcTradeSumStatModeType_index)-1) {
-		return "TThostFtdcTradeSumStatModeType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcTradeSumStatModeType_index)-1 {
+		return "TThostFtdcTradeSumStatModeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcTradeSumStatModeType_name[_TThostFtdcTradeSumStatModeType_index[i]:_TThostFtdcTradeSumStatModeType_index[i+1]]
+	return _TThostFtdcTradeSumStatModeType_name[_TThostFtdcTradeSumStatModeType_index[idx]:_TThostFtdcTradeSumStatModeType_index[idx+1]]
 }

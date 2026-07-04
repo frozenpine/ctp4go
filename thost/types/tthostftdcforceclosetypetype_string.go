@@ -18,9 +18,9 @@ const _TThostFtdcForceCloseTypeType_name = "手工强平单一投资者辅助强
 var _TThostFtdcForceCloseTypeType_index = [...]uint8{0, 12, 39, 66}
 
 func (i TThostFtdcForceCloseTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcForceCloseTypeType(len(_TThostFtdcForceCloseTypeType_index)-1) {
-		return "TThostFtdcForceCloseTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcForceCloseTypeType_index)-1 {
+		return "TThostFtdcForceCloseTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcForceCloseTypeType_name[_TThostFtdcForceCloseTypeType_index[i]:_TThostFtdcForceCloseTypeType_index[i+1]]
+	return _TThostFtdcForceCloseTypeType_name[_TThostFtdcForceCloseTypeType_index[idx]:_TThostFtdcForceCloseTypeType_index[idx+1]]
 }

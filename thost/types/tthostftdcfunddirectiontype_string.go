@@ -17,9 +17,9 @@ const _TThostFtdcFundDirectionType_name = "入金出金"
 var _TThostFtdcFundDirectionType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcFundDirectionType) String() string {
-	i -= 49
-	if i >= TThostFtdcFundDirectionType(len(_TThostFtdcFundDirectionType_index)-1) {
-		return "TThostFtdcFundDirectionType(" + strconv.FormatInt(int64(i+49), 10) + ")"
+	idx := int(i) - 49
+	if i < 49 || idx >= len(_TThostFtdcFundDirectionType_index)-1 {
+		return "TThostFtdcFundDirectionType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcFundDirectionType_name[_TThostFtdcFundDirectionType_index[i]:_TThostFtdcFundDirectionType_index[i+1]]
+	return _TThostFtdcFundDirectionType_name[_TThostFtdcFundDirectionType_index[idx]:_TThostFtdcFundDirectionType_index[idx+1]]
 }

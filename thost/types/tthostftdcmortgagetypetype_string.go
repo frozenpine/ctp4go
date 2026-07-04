@@ -17,9 +17,9 @@ const _TThostFtdcMortgageTypeType_name = "质出质入"
 var _TThostFtdcMortgageTypeType_index = [...]uint8{0, 6, 12}
 
 func (i TThostFtdcMortgageTypeType) String() string {
-	i -= 48
-	if i >= TThostFtdcMortgageTypeType(len(_TThostFtdcMortgageTypeType_index)-1) {
-		return "TThostFtdcMortgageTypeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcMortgageTypeType_index)-1 {
+		return "TThostFtdcMortgageTypeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcMortgageTypeType_name[_TThostFtdcMortgageTypeType_index[i]:_TThostFtdcMortgageTypeType_index[i+1]]
+	return _TThostFtdcMortgageTypeType_name[_TThostFtdcMortgageTypeType_index[idx]:_TThostFtdcMortgageTypeType_index[idx+1]]
 }

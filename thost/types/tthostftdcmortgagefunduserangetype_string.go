@@ -19,9 +19,9 @@ const _TThostFtdcMortgageFundUseRangeType_name = "不能使用用于保证金用
 var _TThostFtdcMortgageFundUseRangeType_index = [...]uint8{0, 12, 27, 63, 79}
 
 func (i TThostFtdcMortgageFundUseRangeType) String() string {
-	i -= 48
-	if i >= TThostFtdcMortgageFundUseRangeType(len(_TThostFtdcMortgageFundUseRangeType_index)-1) {
-		return "TThostFtdcMortgageFundUseRangeType(" + strconv.FormatInt(int64(i+48), 10) + ")"
+	idx := int(i) - 48
+	if i < 48 || idx >= len(_TThostFtdcMortgageFundUseRangeType_index)-1 {
+		return "TThostFtdcMortgageFundUseRangeType(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
-	return _TThostFtdcMortgageFundUseRangeType_name[_TThostFtdcMortgageFundUseRangeType_index[i]:_TThostFtdcMortgageFundUseRangeType_index[i+1]]
+	return _TThostFtdcMortgageFundUseRangeType_name[_TThostFtdcMortgageFundUseRangeType_index[idx]:_TThostFtdcMortgageFundUseRangeType_index[idx+1]]
 }
