@@ -11,7 +11,7 @@ import (
 
 func sdkMaker(
 	libPath string,
-	params ...{{ .Platform }}.Param,
+	params ...thost.Param,
 ) func() ({{ .Platform }}.{{ $className | TrimPrefix "CThostFtdc" }}, error) {
 	return func() ({{ .Platform }}.{{ $className | TrimPrefix "CThostFtdc" }}, error) {
 		if libPath == "" {
@@ -31,7 +31,7 @@ func sdkMaker(
 		for _, p := range params {
 			switch p.Key {
 			{{- range .CreateCall.Params }}
-			case {{ $.Platform }}.Param{{ GoParamName . }}:
+			case thost.Param{{ GoParamName . }}:
 				if {{ GoParamName . }}, ok = p.Value.({{ GoParamType . }}); !ok {
 					return nil, fmt.Errorf(
 						"%w: invalid %s value %+v",
@@ -49,7 +49,10 @@ func sdkMaker(
 }
 
 func init() {
-	if err := {{ .Platform }}.Set{{ $sdk.Name | Title }}Maker("{{ $sdk.Version }}", sdkMaker); err != nil {
+	if err := thost.SetSdkMaker(
+		"{{ .Platform }}", "{{ $sdk.Name }}",
+		"{{ $sdk.Version }}", sdkMaker,
+	); err != nil {
 		panic(err)
 	}
 }

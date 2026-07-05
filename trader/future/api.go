@@ -13,6 +13,7 @@ import (
 	"github.com/frozenpine/ctp4go/state"
 	"github.com/frozenpine/ctp4go/thost"
 	"github.com/frozenpine/ctp4go/thost/future"
+	"github.com/frozenpine/ctp4go/thost/future/types"
 )
 
 type TraderApi struct {
@@ -66,8 +67,8 @@ func NewTraderApi(
 		},
 		cfg: traderCfg{
 			libPath:  libPath,
-			flowMode: future.DEFAULT_FLOW_MODE,
-			flowPath: future.DEFAULT_FLOW_PATH,
+			flowMode: types.THOST_TERT_QUICK,
+			flowPath: "./flow/",
 		},
 	}
 
@@ -89,17 +90,16 @@ func NewTraderApi(
 }
 
 func (td *TraderApi) createApi() error {
-	maker := future.GetTraderMaker()
-	if maker == nil {
-		return fmt.Errorf(
-			"%w: no version maker found", future.ErrCreatorMissing,
-		)
+	maker, err := thost.GetSdkMaker[future.TraderApi]("future", "trader")
+
+	if err != nil {
+		return err
 	}
 
-	api, err := maker.TraderMaker(
+	api, err := maker.SdkMaker(
 		td.cfg.libPath,
-		future.Param{Key: future.ParamFlowPath, Value: td.cfg.flowPath},
-		future.Param{Key: future.ParamIsProductionMode, Value: !td.cfg.isTest},
+		thost.Param{Key: thost.ParamFlowPath, Value: td.cfg.flowPath},
+		thost.Param{Key: thost.ParamIsProductionMode, Value: !td.cfg.isTest},
 	)()
 	if err != nil {
 		return errors.Join(thost.ErrApiCreateFailed, err)

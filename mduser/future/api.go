@@ -66,7 +66,7 @@ func NewMduserApi(
 		},
 		cfg: mduserCfg{
 			libPath:  libPath,
-			flowPath: future.DEFAULT_FLOW_PATH,
+			flowPath: "./flow/",
 		},
 	}
 
@@ -88,19 +88,17 @@ func NewMduserApi(
 }
 
 func (md *MduserApi) createApi() error {
-	maker := future.GetMduserMaker()
-	if maker == nil {
-		return fmt.Errorf(
-			"%w: no version maker found", future.ErrCreatorMissing,
-		)
+	maker, err := thost.GetSdkMaker[future.MdApi]("future", "mduser")
+	if err != nil {
+		return err
 	}
 
-	api, err := maker.MduserMaker(
+	api, err := maker.SdkMaker(
 		md.cfg.libPath,
-		future.Param{Key: future.ParamFlowPath, Value: md.cfg.flowPath},
-		future.Param{Key: future.ParamIsUsingUdp, Value: md.cfg.isUdp},
-		future.Param{Key: future.ParamIsMulticast, Value: md.cfg.isMulti},
-		future.Param{Key: future.ParamIsProductionMode, Value: !md.cfg.isTest},
+		thost.Param{Key: thost.ParamFlowPath, Value: md.cfg.flowPath},
+		thost.Param{Key: thost.ParamIsUsingUdp, Value: md.cfg.isUdp},
+		thost.Param{Key: thost.ParamIsMulticast, Value: md.cfg.isMulti},
+		thost.Param{Key: thost.ParamIsProductionMode, Value: !md.cfg.isTest},
 	)()
 	if err != nil {
 		return errors.Join(thost.ErrApiCreateFailed, err)

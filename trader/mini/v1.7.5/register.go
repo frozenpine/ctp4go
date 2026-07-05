@@ -1,17 +1,17 @@
-package v6_7_13
+package v1_7_5
 
 import (
 	"fmt"
 
 	"github.com/frozenpine/ctp4go/thost"
-	"github.com/frozenpine/ctp4go/thost/future"
+	"github.com/frozenpine/ctp4go/thost/mini"
 )
 
 func sdkMaker(
 	libPath string,
 	params ...thost.Param,
-) func() (future.TraderApi, error) {
-	return func() (future.TraderApi, error) {
+) func() (mini.TraderApi, error) {
+	return func() (mini.TraderApi, error) {
 		if libPath == "" {
 			return nil, fmt.Errorf(
 				"%w: lib path is empty", thost.ErrInvalidArgs,
@@ -19,8 +19,7 @@ func sdkMaker(
 		}
 
 		var (
-			FlowPath         string
-			IsProductionMode bool
+			FlowPath string
 
 			ok bool
 		)
@@ -34,25 +33,19 @@ func sdkMaker(
 						thost.ErrInvalidArgs, p.Key, p.Value,
 					)
 				}
-			case thost.ParamIsProductionMode:
-				if IsProductionMode, ok = p.Value.(bool); !ok {
-					return nil, fmt.Errorf(
-						"%w: invalid %s value %+v",
-						thost.ErrInvalidArgs, p.Key, p.Value,
-					)
-				}
 			}
 		}
 
 		return CreateThostFtdcTraderApi(
-			libPath, FlowPath, IsProductionMode,
+			libPath, FlowPath,
 		)
 	}
 }
 
 func init() {
 	if err := thost.SetSdkMaker(
-		"future", "trader", "v6.7.13", sdkMaker,
+		"mini", "trader",
+		"v1.7.5", sdkMaker,
 	); err != nil {
 		panic(err)
 	}

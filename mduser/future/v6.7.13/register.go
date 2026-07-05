@@ -9,7 +9,7 @@ import (
 
 func sdkMaker(
 	libPath string,
-	params ...future.Param,
+	params ...thost.Param,
 ) func() (future.MdApi, error) {
 	return func() (future.MdApi, error) {
 		if libPath == "" {
@@ -29,28 +29,28 @@ func sdkMaker(
 
 		for _, p := range params {
 			switch p.Key {
-			case future.ParamFlowPath:
+			case thost.ParamFlowPath:
 				if FlowPath, ok = p.Value.(string); !ok {
 					return nil, fmt.Errorf(
 						"%w: invalid %s value %+v",
 						thost.ErrInvalidArgs, p.Key, p.Value,
 					)
 				}
-			case future.ParamIsUsingUdp:
+			case thost.ParamIsUsingUdp:
 				if IsUsingUdp, ok = p.Value.(bool); !ok {
 					return nil, fmt.Errorf(
 						"%w: invalid %s value %+v",
 						thost.ErrInvalidArgs, p.Key, p.Value,
 					)
 				}
-			case future.ParamIsMulticast:
+			case thost.ParamIsMulticast:
 				if IsMulticast, ok = p.Value.(bool); !ok {
 					return nil, fmt.Errorf(
 						"%w: invalid %s value %+v",
 						thost.ErrInvalidArgs, p.Key, p.Value,
 					)
 				}
-			case future.ParamIsProductionMode:
+			case thost.ParamIsProductionMode:
 				if IsProductionMode, ok = p.Value.(bool); !ok {
 					return nil, fmt.Errorf(
 						"%w: invalid %s value %+v",
@@ -67,7 +67,9 @@ func sdkMaker(
 }
 
 func init() {
-	if err := future.SetMduserMaker("v6.7.13", sdkMaker); err != nil {
+	if err := thost.SetSdkMaker(
+		"future", "mduser", "v6.7.13", sdkMaker,
+	); err != nil {
 		panic(err)
 	}
 }
