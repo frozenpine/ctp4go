@@ -1,16 +1,8 @@
 package thost
 
 import (
-	"errors"
 	"fmt"
-	"sync/atomic"
-
-	"github.com/frozenpine/ctp4go/thost/types"
-)
-
-const (
-	DEFAULT_FLOW_PATH = "./flow"
-	DEFAULT_FLOW_MODE = types.THOST_TERT_QUICK
+	"sync"
 )
 
 type paramKey string
@@ -27,8 +19,6 @@ var (
 
 	// ParamIsMulticast true for transport by Multicast
 	ParamIsMulticast paramKey = "useMulticast"
-
-	ErrInvalidCreator = errors.New("invalid creator")
 )
 
 type Param struct {
@@ -36,78 +26,64 @@ type Param struct {
 	Value any
 }
 
-type TraderMaker func(
+type SdkMaker[T any] func(
 	libPath string, params ...Param,
-) func() (TraderApi, error)
+) func() (T, error)
 
-type traderMaker struct {
-	TraderMaker
+type Sdk[T any] struct {
+	SdkMaker[T]
 	version string
 }
 
-func (u *traderMaker) GetVersionTag() string {
-	return u.version
-}
-
-type MduserMaker func(
-	libPath string, params ...Param,
-) func() (MdApi, error)
-
-type mduserMaker struct {
-	MduserMaker
-	version string
-}
-
-func (u *mduserMaker) GetVersionTag() string {
-	return u.version
-}
+func (s *Sdk[T]) GetVersionTag() string { return s.version }
 
 var (
-	trader atomic.Pointer[traderMaker]
-	mduser atomic.Pointer[mduserMaker]
-
-	ErrCreatorMissing  = errors.New("thost api creator missing")
-	ErrCreatorConflict = errors.New(
-		"multiple version's thost api creator conflict",
-	)
+	sdkCache sync.Map
 )
 
-func SetTraderMaker(version string, fn TraderMaker) error {
-	if trader.CompareAndSwap(nil, &traderMaker{
-		TraderMaker: fn,
-		version:     version,
-	}) {
-		return nil
+func SetSdkMaker[T any](
+	plat, sdk, ver string, fn SdkMaker[T],
+) error {
+	sdkKey := fmt.Sprintf("%s.%s", plat, sdk)
+
+	cache, exist := sdkCache.Load(sdkKey)
+
+	if exist {
+		if old, ok := cache.(*Sdk[T]); ok {
+			return fmt.Errorf(
+				"%w: sdk[%s] conflicted with [%s]",
+				ErrInvalidCreator, sdkKey, old.version,
+			)
+		}
 	}
 
-	exist := trader.Load()
+	sdkCache.Store(sdkKey, &Sdk[T]{
+		SdkMaker: fn,
+		version:  ver,
+	})
 
-	return fmt.Errorf(
-		"%w: trader api[%s] conflicted with [%s]",
-		ErrInvalidCreator, version, exist.version,
-	)
+	return nil
 }
 
-func GetTraderMaker() *traderMaker {
-	return trader.Load()
-}
+func GetSdkMaker[T any](plat, sdk string) (*Sdk[T], error) {
+	sdkKey := fmt.Sprintf("%s.%s", plat, sdk)
 
-func SetMduserMaker(version string, fn MduserMaker) error {
-	if mduser.CompareAndSwap(nil, &mduserMaker{
-		MduserMaker: fn,
-		version:     version,
-	}) {
-		return nil
+	cache, exist := sdkCache.Load(sdkKey)
+	if !exist {
+		return nil, fmt.Errorf(
+			"%w: sdk[%s] creator missing",
+			ErrCreatorMissing, sdkKey,
+		)
 	}
 
-	exist := trader.Load()
+	if maker, ok := cache.(*Sdk[T]); ok {
+		return maker, nil
+	}
 
-	return fmt.Errorf(
-		"%w mduser api[%s] conflicted with [%s]",
-		ErrInvalidCreator, version, exist.version,
+	sdkCache.Delete(sdkKey)
+
+	return nil, fmt.Errorf(
+		"%w: sdk[%s] creator invalid",
+		ErrInvalidCreator, sdkKey,
 	)
-}
-
-func GetMduserMaker() *mduserMaker {
-	return mduser.Load()
 }

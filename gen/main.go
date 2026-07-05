@@ -32,21 +32,24 @@ var (
 
 	cTplMapper = map[string][]string{
 		"api": {
-			"api_helper.h.tpl:$version",
-			"api_helper.c.tpl:$version",
-			"api_impl.go.tpl:$version",
-			"consts_linux.go.tpl:$version",
-			"consts_windows.go.tpl:$version",
-			"imp_$version.go.tpl",
+			"api_helper.h.tpl:$platform/$version",
+			"api_helper.c.tpl:$platform/$version",
+			"api_impl.go.tpl:$platform/$version",
+			"consts_linux.go.tpl:$platform/$version",
+			"consts_windows.go.tpl:$platform/$version",
+			"register.go.tpl:$platform/$version",
+			"imp_$version.go.tpl:$platform",
+			"$sdkName_api.go.tpl:../thost/$platform",
 		},
 		"spi": {
-			"spi_helper.h.tpl:$version",
-			"spi_helper.c.tpl:$version",
-			"spi_impl.go.tpl:$version",
+			"spi_helper.h.tpl:$platform/$version",
+			"spi_helper.c.tpl:$platform/$version",
+			"spi_impl.go.tpl:$platform/$version",
+			"$sdkName_spi.go.tpl:../thost/$platform",
 		},
 		"thost": {
-			"ctp_types.go.tpl:types:true",
-			"ctp_structs.go.tpl",
+			"ctp_types.go.tpl:$platform/types:true",
+			"ctp_structs.go.tpl:$platform",
 		},
 	}
 
@@ -59,7 +62,13 @@ var (
 	tplFuncs = template.FuncMap{
 		"ToUpper": strings.ToUpper,
 		"ToLower": strings.ToLower,
-		"Title":   strings.ToTitle,
+		"Title": func(in string) string {
+			if in == "" {
+				return ""
+			}
+
+			return strings.ToTitle(string(in[0])) + in[1:]
+		},
 		"Replace": func(old, new string, n int, in string) string {
 			return strings.Replace(in, old, new, n)
 		},
@@ -85,7 +94,9 @@ var (
 		"GoCaller":    handlers.GoCaller,
 		"GoCallee":    handlers.GoCallee,
 		"GoParamName": handlers.GoParamName,
+		"GoParamType": handlers.GoParamType,
 		"GoType":      handlers.GoType,
+		"GoTypeName":  handlers.GoTypeName,
 		"CgoCaller":   handlers.CgoCaller,
 		"CgoCallee":   handlers.CgoCallee,
 	}

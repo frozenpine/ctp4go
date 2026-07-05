@@ -483,7 +483,7 @@ func (e *Entry) walk(cursor, parent clang.Cursor) clang.ChildVisitResult {
 		}
 	case clang.Cursor_MacroDefinition:
 		if macro, err := e.ParseMacro(&cursor, e.definePrefix); err != nil {
-			fmt.Fprintf(os.Stderr, "%+v: %+v", err, macro)
+			fmt.Fprintf(os.Stderr, "%+v: %+v\n", err, macro)
 			return clang.ChildVisit_Break
 		}
 	}

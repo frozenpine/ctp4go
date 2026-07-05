@@ -6,6 +6,12 @@ import (
 )
 
 var (
+	ErrInvalidCreator  = errors.New("invalid creator")
+	ErrCreatorMissing  = errors.New("thost api creator missing")
+	ErrCreatorConflict = errors.New(
+		"multiple version's thost api creator conflict",
+	)
+
 	ErrInvalidArgs = errors.New("invalid args")
 
 	ErrLibOpenFailed     = errors.New("lib open failed")

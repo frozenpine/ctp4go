@@ -1,0 +1,35 @@
+﻿版本号：SFIT CTP Mini API V1.7.5版本
+后台版本：V1.7.5及以上版 本
+注意：V1.7.5 API连接CTP Mini后台需为V1.7.5及以上版本。
+
+变更说明：（请各终端厂商根据自身情况进行开发）
+
+（一）新增加用户口令更新请求与响应接口（注：在后台启用密码管理功能后接口生效）
+	i.用户口令更新请求：virtual int ReqUserPasswordUpdate (CThostFtdcUserPasswordUpdateField *pUserPasswordUpdate, int nRequestID) = 0;
+	ii.用户口令更新请求响应	virtual void OnRspUserPasswordUpdate(CThostFtdcUserPasswordUpdateField *pUserPasswordUpdate, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {};
+	iii.接口可以使用的前提是后台CTP Mini交易系统开启了密码管理开关；如有问题，请联系对应期货公司后台人员。
+	iv.对应接口的数据结构增加：
+		///用户口令变更
+		struct CThostFtdcUserPasswordUpdateField
+		{
+			///经纪公司代码
+			TThostFtdcBrokerIDType	BrokerID;
+			///用户代码
+			TThostFtdcUserIDType	UserID;
+			///原来的口令
+			TThostFtdcPasswordType	OldPassword;
+			///新的口令
+			TThostFtdcPasswordType	NewPassword;
+		};
+（二）配合程序化监管要求，后台新增加检查，对应新增加错误码：
+	i.ERROR_PRICE_WRONG_TICK		3054	CTP:报单价格非最小变动价位整数倍
+	ii.ERROR_PRICE_OVER_LIMIT		3055	CTP:报单价格不在涨跌停板价范围内
+	iii.ERROR_VOLUME_NOT_VALID	3056	CTP:下单数量不符合交易所规范
+	iv.ERROR_FIRST_LOGIN		3057	CTP:首次登录，请修改密码
+	v.ERROR_PASSWORD_EXPIRED	3058	CTP:密码过期，请尽快修改
+	vi.ERROR_UPG_INVESTOR_FORBIDDEN	3050	CTP:系统升级测试期间禁止普通投资者登录
+
+（三）本次CTP Mini API版本变化兼容之前版本。
+
+
+文档更新日期：2025年12月31日

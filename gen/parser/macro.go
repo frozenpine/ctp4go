@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	rTypePattern = regexp.MustCompile(`^/// ([a-zA-Z]+).+`)
+	rTypePattern = regexp.MustCompile(`^///? ([a-zA-Z]+).+`)
 
 	errRefTypeNotFound = errors.New("define ref type not found")
 )
@@ -137,6 +137,9 @@ PARSE:
 
 		if currLine < int(line)-1 {
 			c := seeker.Text()
+			if !strings.HasPrefix(c, "//") {
+				continue
+			}
 
 			rTypeComments = append(rTypeComments, c)
 
@@ -163,7 +166,7 @@ PARSE:
 	}
 
 	if rType == "" {
-		return nil, errRefTypeNotFound
+		return nil, fmt.Errorf("%w: %+v", errRefTypeNotFound, define)
 	}
 
 	e.defineType[cataName] = rType
