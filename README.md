@@ -12,7 +12,7 @@
   
   - *future* 期货期权交易系统SDK，
   
-  - *mini* Mini交易系统SDK（待扩展）
+  - *mini* Mini交易系统SDK
   
   - *etf* 股票期权交易系统SDK（待扩展）
 
@@ -73,222 +73,77 @@
 
 ## 代码生成
 
-1. 工程根目录可执行 `make` 命令生成对应模块
-   
-   > `make` 支持的参数：
-   > 
-   > - VERSION=版本号（默认：v6.7.13）
-   > 
-   > - PLATFORM=平台名称（默认：future）
-   >   
-   >   - future： 期货期权交易系统
-   >   
-   >   - mini： CTPMini交易系统（待支持）
-   >   
-   >   - etf：CTP ETF交易系统（待支持）
-   > 
-   > 也可进入对应模块目录，使用 `make` 命令生成模块对应的代码文件
-   
-   1. `thost` 数据定义代码：
-      
-      > ```bash
-      > # 生成数据定义代码
-      > make thost
-      > 
-      > # 清除数据定义代码
-      > make clean-thost
-      > 
-      > # 生成v6.5.1版的模块代码，trader & mduser 同理
-      > # 需在 dependencies 对应的平台目录下存在对应版本的头文件定义
-      > make VERSION=v6.5.1 thost
-      > ```
-      
-      - ***thost*** 下生成结构体定义文件：*ctp_structs.go*
-      
-      - ***thost/types*** 下生成类型定义文件：*ctp_types.go
-   
-   2. `trader` | `mduser` 接口封装代码 `make trader` | `make mduser` ：
-      
-      > ```bash
-      > make trader
-      > # make clean-trader
-      > 
-      > make mduser
-      > # make clean-mduser
-      > ```
-      > 
-      > 封装代码生成在对应版本号文件夹下，可直接导入需要的版本实现使用
-      
-      - ***trader|mduser/v6.7.13*** 包含对应版本接口封装代码
-        
-        - *api_helper.h* api 接口的 c 桥接代码定义
-        
-        - *api_helper.c* api 接口的 c 桥接代码实现
-        
-        - *api_impl.go* api 接口的 go 封装实现
-        
-        - *spi_helper.h* spi 接口的 c 桥接代码定义
-        
-        - *spi_helper.c* spi 接口的 c 桥接代码实现
-        
-        - *spi_impl.go* spi 接口的 go 封装实现
-        
-        - *consts_linux.go* linux系统特定的静态函数名
-        
-        - *consts_windows.go* windows系统特定的静态函数名
-      
-      - ***trader|mduser/imp_v6.7.13.go*** `trader` | `mduser` 模块版本特化的导入代码，编译时需指定 `-tags v6.7.13` 参数
-   
-   3. `clean` 清除
+工程根目录可执行 `make` 命令生成对应模块，也可进入对应模块目录下执行 `make`
 
-2. 如需使用 `trader` 或 `mduser` 模块下更高抽象层级的接口，需在对应版本封装模块内实现 `init()` 初始化调用，完成 `thost` 的版本化模块注册。 
+> ```bash
+> # 工程根目录
+> make trader
+> 
+> # trader 模块目录下
+> cd trader
+> make
+> 
+> # 以上两种执行方式等价
+> ```
+
+1. `thost` 数据定义代码：
    
-   > 目前由于 `TraderApi` 和 `MdApi` 的接口定义由于不同版本存在差异，接口的定义暂未做自动化生成，故而封装模块的初始化注册代码也未通过自动化生成
+   > ```bash
+   > # 生成数据定义代码
+   > make thost
+   > 
+   > # 生成v6.5.1版的模块代码，trader & mduser 同理
+   > # 需在 dependencies 对应的平台目录下存在对应版本的头文件定义
+   > make VERSION=v6.5.1 thost
+   > ```
    
-   ```go
-   package v6_7_13
+   - ***thost/${平台名}*** 下生成结构体定义文件：*ctp_structs.go*
    
-   import (
-       "fmt"
+   - ***thost/${平台名}/types*** 下生成类型定义文件：*ctp_types.go
+
+2. `trader` | `mduser` 接口封装代码 `make trader` | `make mduser` ：
    
-       "github.com/frozenpine/ctp4go/thost"
-       "github.com/frozenpine/ctp4go/thost/types"
-   )
+   > ```bash
+   > # 生成 v1.7.5 版本的 mini 交易接口
+   > make PLATFORM=mini VERSION=v1.7.5 trader
+   > 
+   > # 生成 v6.5.1 版本的 future 行情接口
+   > make VERSION=v6.5.1 mduser 
+   > ```
+   > 
+   > 封装代码生成在对应版本号文件夹下，可直接导入需要的版本实现使用
    
-   type apiWrapper struct {
-       *ThostFtdcTraderApi
-   }
+   - ***trader|mduser/${平台名}/v6.7.13*** 包含对应版本接口封装代码
+     
+     - *api_helper.h* api 接口的 c 桥接代码定义
+     
+     - *api_helper.c* api 接口的 c 桥接代码实现
+     
+     - *api_impl.go* api 接口的 go 封装实现
+     
+     - *spi_helper.h* spi 接口的 c 桥接代码定义
+     
+     - *spi_helper.c* spi 接口的 c 桥接代码实现
+     
+     - *spi_impl.go* spi 接口的 go 封装实现
+     
+     - *consts_linux.go* linux系统特定的静态函数名
+     
+     - *consts_windows.go* windows系统特定的静态函数名
    
-   func (api apiWrapper) SubscribePrivateTopic(
-       nResumeType types.THOST_TE_RESUME_TYPE, nSeqNo ...int,
-   ) {
-       var seq int
-       if len(nSeqNo) > 0 {
-           seq = nSeqNo[0]
-       }
-       api.ThostFtdcTraderApi.SubscribePrivateTopic(
-           int(nResumeType), seq,
-       )
-   }
+   - ***trader|mduser/${平台名}/imp_v6.7.13.go*** `trader` | `mduser` 模块版本特化的导入代码，编译时需指定 `-tags v6.7.13` 参数
+
+3. `clean` 清除全部生成代码
    
-   func (api apiWrapper) SubscribePublicTopic(
-       nResumeType types.THOST_TE_RESUME_TYPE,
-   ) {
-       api.ThostFtdcTraderApi.SubscribePublicTopic(int(nResumeType))
-   }
-   
-   func sdkMaker(
-       libPath string,
-       params ...thost.Param,
-   ) func() (thost.TraderApi, error) {
-       return func() (thost.TraderApi, error) {
-           if libPath == "" {
-               return nil, fmt.Errorf(
-                   "%w: lib path is empty", thost.ErrInvalidArgs,
-               )
-           }
-   
-           var (
-               FlowPath         string
-               IsProductinoMode bool
-   
-               ok bool
-           )
-   
-           for _, p := range params {
-               switch p.Key {
-               case thost.ParamFlowPath:
-                   if FlowPath, ok = p.Value.(string); !ok {
-                       return nil, fmt.Errorf(
-                           "%w: invalid %s value %+v",
-                           thost.ErrInvalidArgs, p.Key, p.Value,
-                       )
-                   }
-               case thost.ParamIsProductionMode:
-                   if IsProductinoMode, ok = p.Value.(bool); !ok {
-                       return nil, fmt.Errorf(
-                           "%w: invalid %s value %+v",
-                           thost.ErrInvalidArgs, p.Key, p.Value,
-                       )
-                   }
-               }
-           }
-   
-           api, err := CreateThostFtdcTraderApi(
-               libPath, FlowPath, IsProductinoMode,
-           )
-           if err != nil {
-               return nil, err
-           }
-   
-           return apiWrapper{api}, nil
-       }
-   }
-   
-   func init() {
-       if err := thost.SetTraderMaker("v6.7.13", sdkMaker); err != nil {
-           panic(err)
-       }
-   }
-   ```
-   
-   ```go
-   package v6_7_13
-   
-   import (
-       "fmt"
-   
-       "github.com/frozenpine/ctp4go/thost"
-   )
-   
-   func sdkMaker(
-       libPath string,
-       params ...thost.Param,
-   ) func() (thost.MdApi, error) {
-       return func() (thost.MdApi, error) {
-           if libPath == "" {
-               return nil, fmt.Errorf(
-                   "%w: lib path is empty", thost.ErrInvalidArgs,
-               )
-           }
-   
-           var (
-               FlowPath         string
-               IsUsingUdp       bool
-               IsMulticast      bool
-               IsProductinoMode bool
-   
-               ok bool
-           )
-   
-           for _, p := range params {
-               switch p.Key {
-               case thost.ParamFlowPath:
-                   if FlowPath, ok = p.Value.(string); !ok {
-                       return nil, fmt.Errorf(
-                           "%w: invalid %s value %+v",
-                           thost.ErrInvalidArgs, p.Key, p.Value,
-                       )
-                   }
-               case thost.ParamIsProductionMode:
-                   if IsProductinoMode, ok = p.Value.(bool); !ok {
-                       return nil, fmt.Errorf(
-                           "%w: invalid %s value %+v",
-                           thost.ErrInvalidArgs, p.Key, p.Value,
-                       )
-                   }
-               }
-           }
-   
-           return CreateThostFtdcMdApi(
-               libPath, FlowPath, IsUsingUdp, IsMulticast, IsProductinoMode,
-           )
-       }
-   }
-   
-   func init() {
-       if err := thost.SetMduserMaker("v6.7.13", sdkMaker); err != nil {
-           panic(err)
-       }
-   }
-   ```
+   > 可在 `clean` 后加连字符 **-** 跟 **target** 名（无空格分隔），清理指定 **target** 的生成代码
+   > 
+   > ```bash
+   > # 清除全部指定平台版本的模块代码
+   > make clean
+   > 
+   > # 清除指定平台版本的 thost 代码
+   > make clean-thost
+   > 
+   > # 清除 mini 版本 v1.7.5 全部代码
+   > make PLATFORM=mini VERSION=v1.7.5 clean
+   > ```

@@ -8,3 +8,4 @@ default:
 clean:
 	$(RM) -r $(PLATFORM)/$(VERSION)
 	$(RM) $(PLATFORM)/imp_$(VERSION).go
+	$(RM) ../thost/$(PLATFORM)/mduser_*pi.go
