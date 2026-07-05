@@ -31,8 +31,7 @@ func TestMdApi(t *testing.T) {
 		future.WithFrontAddr(front),
 		future.WithBrokerID("9999"),
 		future.WithUserID("164889"),
-		// future.WithUserPassEnvKey("RDQH_CTP_USER_PASS"),
-		future.WithUserPass("022010blue@safe"),
+		future.WithUserPassEnvKey("RDQH_CTP_USER_PASS"),
 	)
 	if err != nil {
 		t.Fatal(err)

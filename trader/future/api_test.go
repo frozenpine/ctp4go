@@ -33,9 +33,8 @@ func TestTraderApi(t *testing.T) {
 		future.WithUserID("164889"),
 		future.WithAppID("simnow_client_test"),
 		// future.WithAuthCodeEnvKey("RDQH_CTP_AUTH_CODE"),
-		// future.WithUserPassEnvKey("RDQH_CTP_USER_PASS"),
 		future.WithAuthCode("0000000000000000"),
-		future.WithUserPass("022010blue@safe"),
+		future.WithUserPassEnvKey("RDQH_CTP_USER_PASS"),
 	)
 	if err != nil {
 		t.Fatal(err)

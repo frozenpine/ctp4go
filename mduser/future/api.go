@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"os"
 	"path/filepath"
 	"runtime"
 	"sync"
@@ -91,6 +92,10 @@ func (md *MduserApi) createApi() error {
 	maker, err := thost.GetSdkMaker[future.MdApi]("future", "mduser")
 	if err != nil {
 		return err
+	}
+
+	if err = os.MkdirAll(md.cfg.flowPath, os.ModePerm); err != nil {
+		return errors.Join(thost.ErrInvalidArgs, err)
 	}
 
 	api, err := maker.SdkMaker(

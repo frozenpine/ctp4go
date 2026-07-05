@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"os"
 	"path/filepath"
 	"runtime"
 	"sync"
@@ -94,6 +95,10 @@ func (td *TraderApi) createApi() error {
 
 	if err != nil {
 		return err
+	}
+
+	if err = os.MkdirAll(td.cfg.flowPath, os.ModePerm); err != nil {
+		return errors.Join(thost.ErrInvalidArgs, err)
 	}
 
 	api, err := maker.SdkMaker(
