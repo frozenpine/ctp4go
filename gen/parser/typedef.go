@@ -3,6 +3,7 @@ package parser
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/go-clang/clang-v15/clang"
@@ -78,9 +79,14 @@ func ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
 	case clang.Type_Char_S, clang.Type_Char_U,
 		clang.Type_Double, clang.Type_Int,
 		clang.Type_Short, clang.Type_UShort,
-		clang.Type_Long, clang.Type_ULong:
+		clang.Type_Long, clang.Type_ULong,
+		clang.Type_LongLong:
 		define.Underlying.Name = define.Underlying.kind.String()
-
+	default:
+		fmt.Fprintf(
+			os.Stderr, "unsupported typedef: %s %s",
+			define.Name, define.Underlying.String(),
+		)
 	}
 
 	return &define, nil
@@ -101,8 +107,14 @@ func (e *Entry) ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
 		define.MacroDefine = g
 	}
 
-	if _, exist := e.typeCache[define.Name]; exist {
-		return nil, fmt.Errorf("typedef duplicated: %+v", define)
+	if old, exist := e.typeCache[define.Name]; exist {
+		if define.Underlying.Name != old.Underlying.Name {
+			return nil, fmt.Errorf("typedef conflicted: %+v", define)
+		} else {
+			fmt.Fprintf(
+				os.Stderr, "typedef duplicated: \n%+v\n", define,
+			)
+		}
 	}
 
 	e.typeCache[define.Name] = define

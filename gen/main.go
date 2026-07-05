@@ -96,6 +96,7 @@ var (
 		"GoParamName": handlers.GoParamName,
 		"GoParamType": handlers.GoParamType,
 		"GoType":      handlers.GoType,
+		"GoTypeName":  handlers.GoTypeName,
 		"CgoCaller":   handlers.CgoCaller,
 		"CgoCallee":   handlers.CgoCallee,
 	}

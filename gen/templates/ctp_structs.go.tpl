@@ -23,7 +23,7 @@ type {{ .Name }} struct {
     //     {{ . }}
             {{- end }}
         {{- end}}
-    {{ .Name }} types.{{ .Type }}
+    {{ .Name }} {{ if .IsBaseType }}{{ GoTypeName .Type }}{{ else }}types.{{ .Type }}{{ end }}
     {{- end }}
 }
 {{ end }}

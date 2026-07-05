@@ -49,8 +49,8 @@ func TestTypes(t *testing.T) {
 	typTpl := "../templates/ctp_types.go.tpl"
 
 	entry, err := parser.NewEntry(
-		"future", dep, parser.WithSDK("",
-			parser.WithVersion("v6.5.1"),
+		"mini", dep, parser.WithSDK("",
+			parser.WithVersion("v1.7.5"),
 			parser.WithHdrFileName("ThostFtdcUserApiStruct.h"),
 		),
 	)

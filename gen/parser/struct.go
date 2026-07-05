@@ -3,6 +3,7 @@ package parser
 import (
 	"bytes"
 	"fmt"
+	"os"
 
 	"github.com/go-clang/clang-v15/clang"
 )
@@ -10,7 +11,8 @@ import (
 type StructField struct {
 	baseDefine
 
-	Type string
+	Type       string
+	IsBaseType bool
 }
 
 type StructDefine struct {
@@ -48,7 +50,16 @@ func (s *StructDefine) walkFields(cursor, parent clang.Cursor) clang.ChildVisitR
 			},
 			Type: cursor.Type().DefName(),
 		}
+		if field.Type == "" {
+			// 结构体成员使用了非 typedef 类型
+			field.Type = cursor.Type().Kind().String()
+			field.IsBaseType = true
+		}
 		s.Fields = append(s.Fields, field)
+	default:
+		fmt.Fprintf(
+			os.Stderr, "unsupported field: %+v", fieldKind,
+		)
 	}
 
 	return clang.ChildVisit_Continue

@@ -3,6 +3,7 @@ package handlers
 import (
 	"bytes"
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/frozenpine/ctp4go/gen/parser"
@@ -43,6 +44,8 @@ func GoParamType(p *parser.Param, prefix ...string) string {
 		}
 	case "Enum":
 		buff.WriteString("int")
+	case "LongLong":
+		buff.WriteString("int64")
 	default:
 		if p.IsPointer {
 			buff.WriteString("*")
@@ -102,6 +105,31 @@ func GoCaller(p *parser.Param, prefix ...string) string {
 	return fmt.Sprintf("%s %s", GoParamName(p), GoParamType(p, prefix...))
 }
 
+func GoTypeName(v string) string {
+	switch v {
+	case "Int":
+		return "int32"
+	case "Bool":
+		return "bool"
+	case "Char_S":
+		return "byte"
+	case "Double":
+		return "float64"
+	case "Short":
+		return "int16"
+	case "LongLong":
+		return "int64"
+	case "UInt":
+		return "uint32"
+	default:
+		fmt.Fprintf(
+			os.Stderr, "unsupported type for go: %s", v,
+		)
+	}
+
+	return ""
+}
+
 func GoType(p parser.UnderType) string {
 	buff := bytes.NewBufferString("")
 
@@ -124,6 +152,14 @@ func GoType(p parser.UnderType) string {
 		buff.WriteString("float64")
 	case "Short":
 		buff.WriteString("int16")
+	case "LongLong":
+		buff.WriteString("int64")
+	case "Uint":
+		buff.WriteString("uint32")
+	default:
+		fmt.Fprintf(
+			os.Stderr, "unsupported type for go: %s", p.String(),
+		)
 	}
 
 	return buff.String()
