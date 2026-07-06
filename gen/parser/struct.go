@@ -84,11 +84,9 @@ func (e *Entry) ParseStruct(cursor *clang.Cursor) (*StructDefine, error) {
 		return nil, err
 	}
 
-	if _, exist := e.dataCache[define.Name]; exist {
-		return nil, fmt.Errorf("data struct duplicated: %+v", define)
+	if err := e.dataCache.Append(define.Name, define); err != nil {
+		return nil, fmt.Errorf("%w: data struct duplicated %+v", err, define)
 	}
-
-	e.dataCache[define.Name] = define
 
 	return define, nil
 }

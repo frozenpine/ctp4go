@@ -19,22 +19,28 @@ func TestTraderApi(t *testing.T) {
 	//  RDXM - CT
 	//  front := "tcp://222.76.240.170:51205"
 
+	// FZ md_port: 42213
+	front := "tcp://101.226.250.133:42205"
+
 	// simnow
 	// 主用：182.254.243.31:30001 行情30011
 	// 备用: 182.254.243.31:30002 行情30012
 	// 7*24：182.254.243.31:40001 行情40011
-	front := "tcp://182.254.243.31:40001"
+	// front := "tcp://182.254.243.31:40001"
 
 	td, err := future.NewTraderApi(
 		t.Context(),
 		future.WithLibPath(libPath),
 		future.WithFrontAddr(front),
-		future.WithBrokerID("9999"),
-		future.WithUserID("164889"),
-		future.WithAppID("simnow_client_test"),
+
+		// future.WithAppID("simnow_client_test"),
 		// future.WithAuthCodeEnvKey("RDQH_CTP_AUTH_CODE"),
-		future.WithAuthCode("0000000000000000"),
-		future.WithUserPassEnvKey("RDQH_CTP_USER_PASS"),
+		// future.WithAuthCode("0000000000000000"),
+		// future.WithUserPassEnvKey("RDQH_CTP_USER_PASS"),
+		future.WithBrokerID("01\n21"),
+		future.WithUserID("666666"),
+		future.WithTestMode(),
+		future.WithUserPass("rdqh@123456"),
 	)
 	if err != nil {
 		t.Fatal(err)

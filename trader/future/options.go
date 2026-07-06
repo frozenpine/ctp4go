@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/frozenpine/ctp4go"
 	"github.com/frozenpine/ctp4go/state"
 	"github.com/frozenpine/ctp4go/thost"
 	"github.com/frozenpine/ctp4go/thost/future/types"
@@ -148,6 +149,12 @@ func WithBrokerID(id string) cfgOpt {
 			)
 		}
 
+		if !ctp4go.IsAlphabet([]byte(id)) {
+			return fmt.Errorf(
+				"%w: illegal character in broker id", thost.ErrInvalidArgs,
+			)
+		}
+
 		ac.brokerID = id
 		return nil
 	}
@@ -177,6 +184,12 @@ func WithUserID(id string) cfgOpt {
 			)
 		}
 
+		if !ctp4go.IsAlphabet([]byte(id)) {
+			return fmt.Errorf(
+				"%w: illegal character in user id", thost.ErrInvalidArgs,
+			)
+		}
+
 		ac.userID = id
 		return nil
 	}
@@ -203,6 +216,12 @@ func WithUserPass(pass string) cfgOpt {
 		if len(pass) >= len(types.TThostFtdcPasswordType{}) {
 			return fmt.Errorf(
 				"%w: user pass size exceeded", thost.ErrInvalidArgs,
+			)
+		}
+
+		if !ctp4go.IsASCII([]byte(pass)) {
+			return fmt.Errorf(
+				"%w: illegal character in user pass", thost.ErrInvalidArgs,
 			)
 		}
 

@@ -17,15 +17,15 @@ import (
 	"path/filepath"
 	"unsafe"
 
+	"github.com/frozenpine/ctp4go"
 	"github.com/frozenpine/ctp4go/thost"
 	"github.com/frozenpine/ctp4go/thost/{{ .Platform }}"
-	"github.com/frozenpine/ctp4go/thost/{{ .Platform }}/types"
 )
 
-// var (
-//     // 确保Api封装完整实现了thost中的接口签名
-//     _ {{ .Platform }}.{{ $className | TrimPrefix "CThostFtdc" }} = &{{ $className | TrimPrefix "C" }}{}
-// )
+var (
+    // 确保Api封装完整实现了thost中的接口签名
+    _ {{ .Platform }}.{{ $className | TrimPrefix "CThostFtdc" }} = &{{ $className | TrimPrefix "C" }}{}
+)
 
 func Create{{ $className | TrimPrefix "C" }}(
     libPath string, {{ range .CreateCall.Params }}{{ $.Platform | GoCaller . }}, {{end}}
@@ -55,7 +55,7 @@ func Create{{ $className | TrimPrefix "C" }}(
 
 		return nil, fmt.Errorf(
 			"%w: %s", thost.ErrLibOpenFailed,
-			types.DecodeGBK(([]byte)(C.GoString(msg))),
+			ctp4go.DecodeGBK(([]byte)(C.GoString(msg))),
 		)
 	}
 
@@ -81,7 +81,7 @@ func Create{{ $className | TrimPrefix "C" }}(
 
 		return nil, fmt.Errorf(
 			"%w: %s", thost.ErrLibSymbolNotFound,
-			types.DecodeGBK(([]byte)(C.GoString(msg))),
+			ctp4go.DecodeGBK(([]byte)(C.GoString(msg))),
 		)
 	}
 
@@ -91,7 +91,7 @@ func Create{{ $className | TrimPrefix "C" }}(
 
 		slog.Error(
 			"thost mduser api version fn not found",
-			slog.String("error", types.DecodeGBK(([]byte)(C.GoString(msg)))),
+			slog.String("error", ctp4go.DecodeGBK(([]byte)(C.GoString(msg)))),
 		)
 	} else {
 		apiVer = C.GoString(C.CallGetApiVersion(

@@ -6,10 +6,8 @@ import "C"
 import (
 	"errors"
 	"fmt"
-	"maps"
 	"os"
 	"path/filepath"
-	"slices"
 	"strings"
 	"sync"
 
@@ -223,9 +221,6 @@ func NewEntry(
 		definePrefix: DefaultDefinePrefix,
 		defineType:   make(map[string]string),
 		defineCache:  make(map[string]*MacroGroup),
-		enumCache:    make(map[string]*EnumDefine),
-		typeCache:    make(map[string]*TypedefDefine),
-		dataCache:    make(map[string]*StructDefine),
 	}
 
 	for _, opt := range append(
@@ -303,6 +298,39 @@ func (i sdkInfo) SpiName() string { return i.spiName }
 
 func (i sdkInfo) SpiExtName() string { return i.spiExtName }
 
+type orderedMap[T any] struct {
+	cache map[string]T
+	order []string
+}
+
+func (m *orderedMap[T]) Append(k string, v T) error {
+	if m.cache == nil {
+		m.cache = make(map[string]T)
+	}
+
+	if _, exist := m.cache[k]; exist {
+		return errors.New("data key duplicated")
+	}
+
+	m.cache[k] = v
+	m.order = append(m.order, k)
+	return nil
+}
+
+func (m *orderedMap[T]) Values() []T {
+	result := make([]T, len(m.order))
+
+	for i, k := range m.order {
+		result[i] = m.cache[k]
+	}
+
+	return result
+}
+
+func (m *orderedMap[T]) Get(k string) T {
+	return m.cache[k]
+}
+
 type Entry struct {
 	baseDir   string
 	entryPath string
@@ -317,9 +345,9 @@ type Entry struct {
 	defineType   map[string]string
 	defineCache  map[string]*MacroGroup
 
-	typeCache   map[string]*TypedefDefine
-	enumCache   map[string]*EnumDefine
-	dataCache   map[string]*StructDefine
+	typeCache   orderedMap[*TypedefDefine]
+	enumCache   orderedMap[*EnumDefine]
+	dataCache   orderedMap[*StructDefine]
 	apiClass    *ClassDefine
 	createCall  *ClsMethod
 	versionCall *ClsMethod
@@ -339,15 +367,15 @@ func (e *Entry) Sdk() sdkInfo { return e.sdk }
 func (e *Entry) Platform() string { return string(e.plat) }
 
 func (e *Entry) Structures() []*StructDefine {
-	return slices.Collect(maps.Values(e.dataCache))
+	return e.dataCache.Values()
 }
 
 func (e *Entry) Enums() []*EnumDefine {
-	return slices.Collect(maps.Values(e.enumCache))
+	return e.enumCache.Values()
 }
 
 func (e *Entry) Types() []*TypedefDefine {
-	return slices.Collect(maps.Values(e.typeCache))
+	return e.typeCache.Values()
 }
 
 func (e *Entry) EntryFile() string {

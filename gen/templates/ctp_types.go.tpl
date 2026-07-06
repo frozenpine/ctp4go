@@ -3,76 +3,8 @@ package types
 import (
     "strconv"
 
-    "bytes"
-	"encoding/hex"
-	"io"
-	"log/slog"
-	"strings"
-	"unsafe"
-
-	"golang.org/x/text/encoding/simplifiedchinese"
-	"golang.org/x/text/transform"
+	"github.com/frozenpine/ctp4go"
 )
-
-var decoder = simplifiedchinese.GB18030.NewDecoder()
-
-func RawBytes(ptr unsafe.Pointer, len int) []byte {
-	return unsafe.Slice((*byte)(ptr), len)
-}
-
-func SetCString(buff []byte, v string) int {
-	size := copy(buff, ([]byte)(v))
-	buff[len(buff)-1] = 0
-	return size
-}
-
-func IsASCII(buff []byte) bool {
-	for _, b := range buff {
-		if b > 127 {
-			return false
-		}
-	}
-
-	return true
-}
-
-func ShadowString(buff []byte) string {
-	idx := bytes.IndexByte(buff, 0)
-
-	if idx <= 0 {
-		return ""
-	}
-
-	return strings.Repeat("*", idx+1)
-}
-
-func DecodeGBK(buff []byte) string {
-	idx := bytes.IndexByte(buff, 0)
-
-	if idx == 0 {
-		return ""
-	}
-
-	if idx < 0 {
-		return hex.EncodeToString(buff)
-	}
-
-	if IsASCII(buff[:idx]) {
-		return string(buff[:idx])
-	}
-
-	reader := transform.NewReader(bytes.NewReader(buff[:idx]), decoder)
-	if decoded, err := io.ReadAll(reader); err != nil {
-		slog.Error(
-			"decode GB18030 failed",
-			slog.Any("error", err),
-			slog.Any("buff", buff),
-		)
-		return ""
-	} else {
-		return string(decoded)
-	}
-}
 
 {{ range $_, $enum := .Enums }}
 	{{- range $enum.Comments.Summary }}
@@ -119,10 +51,10 @@ func (t {{ .Name }}) String() string {
 }
     {{ end }}
     {{- if and (eq .Underlying.Name "Char_S") (gt .Underlying.Size 0) }}
-func (t {{ .Name }}) String() string { return DecodeGBK(t[:]) }
+func (t {{ .Name }}) String() string { return ctp4go.DecodeGBK(t[:]) }
 
 func (t *{{ .Name }}) SetString(v string) int {
-    return SetCString(([]byte)((*t)[:]), v)
+    return ctp4go.SetCString(([]byte)((*t)[:]), v)
 }
     {{ end }}
 {{ end }}

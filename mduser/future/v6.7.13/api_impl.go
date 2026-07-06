@@ -15,15 +15,15 @@ import (
 	"path/filepath"
 	"unsafe"
 
+	"github.com/frozenpine/ctp4go"
 	"github.com/frozenpine/ctp4go/thost"
 	"github.com/frozenpine/ctp4go/thost/future"
-	"github.com/frozenpine/ctp4go/thost/future/types"
 )
 
-// var (
-//     // 确保Api封装完整实现了thost中的接口签名
-//     _ future.MdApi = &ThostFtdcMdApi{}
-// )
+var (
+	// 确保Api封装完整实现了thost中的接口签名
+	_ future.MdApi = &ThostFtdcMdApi{}
+)
 
 func CreateThostFtdcMdApi(
 	libPath string, FlowPath string, IsUsingUdp bool, IsMulticast bool, IsProductionMode bool,
@@ -53,7 +53,7 @@ func CreateThostFtdcMdApi(
 
 		return nil, fmt.Errorf(
 			"%w: %s", thost.ErrLibOpenFailed,
-			types.DecodeGBK(([]byte)(C.GoString(msg))),
+			ctp4go.DecodeGBK(([]byte)(C.GoString(msg))),
 		)
 	}
 
@@ -79,7 +79,7 @@ func CreateThostFtdcMdApi(
 
 		return nil, fmt.Errorf(
 			"%w: %s", thost.ErrLibSymbolNotFound,
-			types.DecodeGBK(([]byte)(C.GoString(msg))),
+			ctp4go.DecodeGBK(([]byte)(C.GoString(msg))),
 		)
 	}
 
@@ -88,7 +88,7 @@ func CreateThostFtdcMdApi(
 
 		slog.Error(
 			"thost mduser api version fn not found",
-			slog.String("error", types.DecodeGBK(([]byte)(C.GoString(msg)))),
+			slog.String("error", ctp4go.DecodeGBK(([]byte)(C.GoString(msg)))),
 		)
 	} else {
 		apiVer = C.GoString(C.CallGetApiVersion(

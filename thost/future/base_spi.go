@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/frozenpine/ctp4go/thost/future/types"
+	"github.com/frozenpine/ctp4go"
 )
 
 var (
@@ -26,7 +26,7 @@ func (spi *ThostLogSpi) CheckRsp(rsp *CThostFtdcRspInfoField) error {
 
 	if rsp.ErrorID != 0 {
 		return fmt.Errorf(
-			"[%d] %s", rsp.ErrorID, types.DecodeGBK(rsp.ErrorMsg[:]),
+			"[%d] %s", rsp.ErrorID, ctp4go.DecodeGBK(rsp.ErrorMsg[:]),
 		)
 	}
 

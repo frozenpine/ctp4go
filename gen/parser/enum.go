@@ -78,11 +78,9 @@ func (e *Entry) ParseEnum(cursor *clang.Cursor) (*EnumDefine, error) {
 		return nil, err
 	}
 
-	if _, exist := e.enumCache[define.Name]; exist {
-		return nil, fmt.Errorf("enum duplicated: %+v", define)
+	if err := e.enumCache.Append(define.Name, define); err != nil {
+		return nil, fmt.Errorf("%w: enum duplicated %+v", err, define)
 	}
-
-	e.enumCache[define.Name] = define
 
 	return define, nil
 }

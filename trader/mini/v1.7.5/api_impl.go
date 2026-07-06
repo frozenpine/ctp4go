@@ -15,15 +15,15 @@ import (
 	"path/filepath"
 	"unsafe"
 
+	"github.com/frozenpine/ctp4go"
 	"github.com/frozenpine/ctp4go/thost"
 	"github.com/frozenpine/ctp4go/thost/mini"
-	"github.com/frozenpine/ctp4go/thost/mini/types"
 )
 
-// var (
-//     // 确保Api封装完整实现了thost中的接口签名
-//     _ mini.TraderApi = &ThostFtdcTraderApi{}
-// )
+var (
+	// 确保Api封装完整实现了thost中的接口签名
+	_ mini.TraderApi = &ThostFtdcTraderApi{}
+)
 
 func CreateThostFtdcTraderApi(
 	libPath string, FlowPath string,
@@ -53,7 +53,7 @@ func CreateThostFtdcTraderApi(
 
 		return nil, fmt.Errorf(
 			"%w: %s", thost.ErrLibOpenFailed,
-			types.DecodeGBK(([]byte)(C.GoString(msg))),
+			ctp4go.DecodeGBK(([]byte)(C.GoString(msg))),
 		)
 	}
 
@@ -79,7 +79,7 @@ func CreateThostFtdcTraderApi(
 
 		return nil, fmt.Errorf(
 			"%w: %s", thost.ErrLibSymbolNotFound,
-			types.DecodeGBK(([]byte)(C.GoString(msg))),
+			ctp4go.DecodeGBK(([]byte)(C.GoString(msg))),
 		)
 	}
 
@@ -88,7 +88,7 @@ func CreateThostFtdcTraderApi(
 
 		slog.Error(
 			"thost mduser api version fn not found",
-			slog.String("error", types.DecodeGBK(([]byte)(C.GoString(msg)))),
+			slog.String("error", ctp4go.DecodeGBK(([]byte)(C.GoString(msg)))),
 		)
 	} else {
 		apiVer = C.GoString(C.CallGetApiVersion(

@@ -1,5 +1,5 @@
 NAME="ctptest"
-VERSION=1.0.1
+VERSION=1.0.0
 BUILD=`date +%FT%T%z`
 VERSION ?= V6.7.13
 

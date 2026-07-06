@@ -1,5 +1,6 @@
 VERSION ?= v6.7.13
 PLATFORM ?= future
+GEN_TYPES ?= 0
 
 SUB_MODULES = thost trader mduser
 

@@ -107,7 +107,8 @@ func (e *Entry) ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
 		define.MacroDefine = g
 	}
 
-	if old, exist := e.typeCache[define.Name]; exist {
+	if err := e.typeCache.Append(define.Name, define); err != nil {
+		old := e.typeCache.Get(define.Name)
 		if define.Underlying.Name != old.Underlying.Name {
 			return nil, fmt.Errorf("typedef conflicted: %+v", define)
 		} else {
@@ -116,8 +117,6 @@ func (e *Entry) ParseTypedef(cursor *clang.Cursor) (*TypedefDefine, error) {
 			)
 		}
 	}
-
-	e.typeCache[define.Name] = define
 
 	return define, nil
 }

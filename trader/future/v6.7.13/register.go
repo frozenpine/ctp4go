@@ -52,7 +52,8 @@ func sdkMaker(
 
 func init() {
 	if err := thost.SetSdkMaker(
-		"future", "trader", "v6.7.13", sdkMaker,
+		"future", "trader",
+		"v6.7.13", sdkMaker,
 	); err != nil {
 		panic(err)
 	}
