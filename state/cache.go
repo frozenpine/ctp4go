@@ -21,11 +21,10 @@ type Data interface {
 	fmt.Stringer
 
 	GetIdentity() string
-	Merge(Data) error
 
 	GetFieldString(string) (string, error)
 	GetFieldInt(string) (int64, error)
-	GetFieldUint(string) (uint64, error)
+	GetFieldUInt(string) (uint64, error)
 	GetFieldFloat(string) (float64, error)
 	GetFieldBool(string) (bool, error)
 	GetFieldByte(string, ...int) (byte, error)
@@ -37,27 +36,27 @@ type dataPtr[T fmt.Stringer] interface {
 	fmt.Stringer
 }
 
-type wrapperCfg[T fmt.Stringer, Ptr dataPtr[T]] struct {
+type dataCfg[T fmt.Stringer, Ptr dataPtr[T]] struct {
 	identifier func(Ptr) string
 	dataMerger func(dst Ptr, src Ptr) error
 
 	fields map[string]reflect.StructField
 }
 
-type dataWrapper[T fmt.Stringer, Ptr dataPtr[T]] struct {
-	wrapperCfg[T, Ptr]
+type dataContainer[T fmt.Stringer, Ptr dataPtr[T]] struct {
+	dataCfg[T, Ptr]
 
 	lock    sync.RWMutex
 	data    Ptr
 	basePtr uintptr
 }
 
-type wrapperOpt[T fmt.Stringer, Ptr dataPtr[T]] func(*wrapperCfg[T, Ptr]) error
+type wrapperOpt[T fmt.Stringer, Ptr dataPtr[T]] func(*dataCfg[T, Ptr]) error
 
 func WithIdentifier[T fmt.Stringer, Ptr dataPtr[T]](
 	fn func(Ptr) string,
 ) wrapperOpt[T, Ptr] {
-	return func(wc *wrapperCfg[T, Ptr]) error {
+	return func(wc *dataCfg[T, Ptr]) error {
 		if fn == nil {
 			return errors.New("invalid identifier func")
 		}
@@ -70,7 +69,7 @@ func WithIdentifier[T fmt.Stringer, Ptr dataPtr[T]](
 func WithMerger[T fmt.Stringer, Ptr dataPtr[T]](
 	fn func(Ptr, Ptr) error,
 ) wrapperOpt[T, Ptr] {
-	return func(wc *wrapperCfg[T, Ptr]) error {
+	return func(wc *dataCfg[T, Ptr]) error {
 		if fn == nil {
 			return errors.New("invalid merger func")
 		}
@@ -82,7 +81,7 @@ func WithMerger[T fmt.Stringer, Ptr dataPtr[T]](
 
 func MakeDataWrapper[T fmt.Stringer, Ptr dataPtr[T]](
 	options ...wrapperOpt[T, Ptr],
-) (func(Ptr) *dataWrapper[T, Ptr], error) {
+) (func(Ptr) *dataContainer[T, Ptr], error) {
 	ptrType := reflect.TypeFor[Ptr]()
 	dType := ptrType.Elem()
 
@@ -90,7 +89,7 @@ func MakeDataWrapper[T fmt.Stringer, Ptr dataPtr[T]](
 		return nil, errors.New("generic type must be struct")
 	}
 
-	cfg := wrapperCfg[T, Ptr]{
+	cfg := dataCfg[T, Ptr]{
 		fields: make(map[string]reflect.StructField),
 	}
 
@@ -130,40 +129,42 @@ func MakeDataWrapper[T fmt.Stringer, Ptr dataPtr[T]](
 		cfg.fields[f.Name] = f
 	}
 
-	return func(t Ptr) *dataWrapper[T, Ptr] {
-		return &dataWrapper[T, Ptr]{
-			wrapperCfg: cfg,
-			data:       t,
-			basePtr:    uintptr(unsafe.Pointer(t)),
+	return func(t Ptr) *dataContainer[T, Ptr] {
+		return &dataContainer[T, Ptr]{
+			dataCfg: cfg,
+			data:    t,
+			basePtr: uintptr(unsafe.Pointer(t)),
 		}
 	}, nil
 }
 
-func (w *dataWrapper[T, Ptr]) String() string {
+func (w *dataContainer[T, Ptr]) String() string {
 	return w.data.String()
 }
 
-func (w *dataWrapper[T, Ptr]) GetIdentity() string {
+func (w *dataContainer[T, Ptr]) GetIdentity() string {
 	w.lock.RLock()
 	defer w.lock.RUnlock()
 
 	return w.identifier(w.data)
 }
 
-func (w *dataWrapper[T, Ptr]) Merge(v Ptr) {
+func (w *dataContainer[T, Ptr]) Merge(v Ptr) {
 	w.lock.Lock()
 	defer w.lock.Unlock()
 
 	w.dataMerger(w.data, v)
 }
 
-func (w *dataWrapper[T, Ptr]) GetFieldString(name string) (string, error) {
+func (w *dataContainer[T, Ptr]) GetFieldString(name string) (string, error) {
 	f, exist := w.fields[name]
 	if !exist {
 		return "", fmt.Errorf("%w: %s", ErrNoFieldName, name)
 	}
 
 	ptr := w.basePtr + f.Offset
+	w.lock.RLock()
+	defer w.lock.RUnlock()
 
 	switch f.Type.Kind() {
 	case reflect.String, reflect.Slice:
@@ -183,13 +184,15 @@ func (w *dataWrapper[T, Ptr]) GetFieldString(name string) (string, error) {
 	}
 }
 
-func (w *dataWrapper[T, Ptr]) GetFieldInt(name string) (int64, error) {
+func (w *dataContainer[T, Ptr]) GetFieldInt(name string) (int64, error) {
 	f, exist := w.fields[name]
 	if !exist {
 		return 0, fmt.Errorf("%w: %s", ErrNoFieldName, name)
 	}
 
 	ptr := w.basePtr + f.Offset
+	w.lock.RLock()
+	defer w.lock.RUnlock()
 
 	switch f.Type.Kind() {
 	case reflect.Int32:
@@ -216,13 +219,15 @@ func (w *dataWrapper[T, Ptr]) GetFieldInt(name string) (int64, error) {
 	}
 }
 
-func (w *dataWrapper[T, Ptr]) GetFieldUInt(name string) (uint64, error) {
+func (w *dataContainer[T, Ptr]) GetFieldUInt(name string) (uint64, error) {
 	f, exist := w.fields[name]
 	if !exist {
 		return 0, fmt.Errorf("%w: %s", ErrNoFieldName, name)
 	}
 
 	ptr := w.basePtr + f.Offset
+	w.lock.RLock()
+	defer w.lock.RUnlock()
 
 	switch f.Type.Kind() {
 	case reflect.Uint32:
@@ -243,13 +248,15 @@ func (w *dataWrapper[T, Ptr]) GetFieldUInt(name string) (uint64, error) {
 	}
 }
 
-func (w *dataWrapper[T, Ptr]) GetFieldBool(name string) (bool, error) {
+func (w *dataContainer[T, Ptr]) GetFieldBool(name string) (bool, error) {
 	f, exist := w.fields[name]
 	if !exist {
 		return false, fmt.Errorf("%w: %s", ErrNoFieldName, name)
 	}
 
 	ptr := w.basePtr + f.Offset
+	w.lock.RLock()
+	defer w.lock.RUnlock()
 
 	switch f.Type.Kind() {
 	case reflect.Int32:
@@ -280,13 +287,15 @@ func (w *dataWrapper[T, Ptr]) GetFieldBool(name string) (bool, error) {
 	}
 }
 
-func (w *dataWrapper[T, Ptr]) GetFieldFloat(name string) (float64, error) {
+func (w *dataContainer[T, Ptr]) GetFieldFloat(name string) (float64, error) {
 	f, exist := w.fields[name]
 	if !exist {
 		return math.NaN(), fmt.Errorf("%w: %s", ErrNoFieldName, name)
 	}
 
 	ptr := w.basePtr + f.Offset
+	w.lock.RLock()
+	defer w.lock.RUnlock()
 
 	switch f.Type.Kind() {
 	case reflect.Int32:
@@ -317,7 +326,7 @@ func (w *dataWrapper[T, Ptr]) GetFieldFloat(name string) (float64, error) {
 	}
 }
 
-func (w *dataWrapper[T, Ptr]) GetFieldByte(
+func (w *dataContainer[T, Ptr]) GetFieldByte(
 	name string, offset ...int,
 ) (byte, error) {
 	f, exist := w.fields[name]
@@ -336,6 +345,8 @@ func (w *dataWrapper[T, Ptr]) GetFieldByte(
 
 		pos = offset[0]
 	}
+	w.lock.RLock()
+	defer w.lock.RUnlock()
 
 	switch f.Type.Kind() {
 	case reflect.Uint8, reflect.Int8:
@@ -368,36 +379,37 @@ func (w *dataWrapper[T, Ptr]) GetFieldByte(
 	}
 }
 
-type baseCache[T Data] struct {
+type TypedCache[T fmt.Stringer, Ptr dataPtr[T]] struct {
 	lock sync.RWMutex
 
-	idtCache map[string]int
-	cache    []T
+	idtCache  map[string]int
+	cache     []*dataContainer[T, Ptr]
+	dataMaker func(Ptr) *dataContainer[T, Ptr]
 }
 
-func (c *baseCache[T]) AddOrUpdate(v T) {
+func (c *TypedCache[T, Ptr]) AddOrUpdate(v Ptr) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 
-	idt := v.GetIdentity()
+	data := c.dataMaker(v)
+	idt := data.GetIdentity()
 
 	if idx, exist := c.idtCache[idt]; exist {
 		c.cache[idx].Merge(v)
 	} else {
 		idx := len(c.idtCache)
 		c.idtCache[idt] = idx
-		c.cache = append(c.cache, v)
+		c.cache = append(c.cache, data)
 	}
 }
 
-func (c *baseCache[T]) Get(k string) (T, bool) {
+func (c *TypedCache[T, Ptr]) Get(k string) (*dataContainer[T, Ptr], bool) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 
 	idx, exist := c.idtCache[k]
 	if !exist {
-		var dummy T
-		return dummy, false
+		return nil, false
 	}
 
 	return c.cache[idx], true
