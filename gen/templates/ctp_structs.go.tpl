@@ -34,6 +34,8 @@ type {{ .Name }} struct {
     {{- end }}
 }
 
+func (d {{ .Name }}) Type() string { return "{{ .Name }}" }
+
 func (d {{ .Name }}) String() string {
     var builder strings.Builder
     builder.Grow({{ $buffLen }})

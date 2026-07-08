@@ -15,6 +15,8 @@ type CThostFtdcDisseminationField struct {
 	SequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcDisseminationField) Type() string { return "CThostFtdcDisseminationField" }
+
 func (d CThostFtdcDisseminationField) String() string {
 	var builder strings.Builder
 	builder.Grow(72)
@@ -59,6 +61,8 @@ type CThostFtdcReqUserLoginField struct {
 	// 短信验证码
 	SMSCode types.TThostFtdcSMSCodeType
 }
+
+func (d CThostFtdcReqUserLoginField) Type() string { return "CThostFtdcReqUserLoginField" }
 
 func (d CThostFtdcReqUserLoginField) String() string {
 	var builder strings.Builder
@@ -127,6 +131,8 @@ type CThostFtdcRspUserLoginField struct {
 	ReserveInfo types.TThostFtdcReserveInfoType
 }
 
+func (d CThostFtdcRspUserLoginField) Type() string { return "CThostFtdcRspUserLoginField" }
+
 func (d CThostFtdcRspUserLoginField) String() string {
 	var builder strings.Builder
 	builder.Grow(400)
@@ -165,6 +171,8 @@ type CThostFtdcUserLogoutField struct {
 	UserID types.TThostFtdcUserIDType
 }
 
+func (d CThostFtdcUserLogoutField) Type() string { return "CThostFtdcUserLogoutField" }
+
 func (d CThostFtdcUserLogoutField) String() string {
 	var builder strings.Builder
 	builder.Grow(59)
@@ -185,6 +193,8 @@ type CThostFtdcForceUserLogoutField struct {
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
 }
+
+func (d CThostFtdcForceUserLogoutField) Type() string { return "CThostFtdcForceUserLogoutField" }
 
 func (d CThostFtdcForceUserLogoutField) String() string {
 	var builder strings.Builder
@@ -212,6 +222,8 @@ type CThostFtdcReqAuthenticateField struct {
 	// App代码
 	AppID types.TThostFtdcAppIDType
 }
+
+func (d CThostFtdcReqAuthenticateField) Type() string { return "CThostFtdcReqAuthenticateField" }
 
 func (d CThostFtdcReqAuthenticateField) String() string {
 	var builder strings.Builder
@@ -242,6 +254,8 @@ type CThostFtdcRspAuthenticateField struct {
 	// App类型
 	AppType types.TThostFtdcAppTypeType
 }
+
+func (d CThostFtdcRspAuthenticateField) Type() string { return "CThostFtdcRspAuthenticateField" }
 
 func (d CThostFtdcRspAuthenticateField) String() string {
 	var builder strings.Builder
@@ -280,6 +294,8 @@ type CThostFtdcAuthenticationInfoField struct {
 	// 终端IP地址
 	ClientIPAddress types.TThostFtdcIPAddressType
 }
+
+func (d CThostFtdcAuthenticationInfoField) Type() string { return "CThostFtdcAuthenticationInfoField" }
 
 func (d CThostFtdcAuthenticationInfoField) String() string {
 	var builder strings.Builder
@@ -332,6 +348,8 @@ type CThostFtdcRspUserLogin2Field struct {
 	// 随机串
 	RandomString types.TThostFtdcRandomStringType
 }
+
+func (d CThostFtdcRspUserLogin2Field) Type() string { return "CThostFtdcRspUserLogin2Field" }
 
 func (d CThostFtdcRspUserLogin2Field) String() string {
 	var builder strings.Builder
@@ -388,6 +406,8 @@ type CThostFtdcTransferHeaderField struct {
 	RequestID types.TThostFtdcRequestIDType
 }
 
+func (d CThostFtdcTransferHeaderField) Type() string { return "CThostFtdcTransferHeaderField" }
+
 func (d CThostFtdcTransferHeaderField) String() string {
 	var builder strings.Builder
 	builder.Grow(269)
@@ -428,6 +448,10 @@ type CThostFtdcTransferBankToFutureReqField struct {
 	CurrencyCode types.TThostFtdcCurrencyCodeType
 }
 
+func (d CThostFtdcTransferBankToFutureReqField) Type() string {
+	return "CThostFtdcTransferBankToFutureReqField"
+}
+
 func (d CThostFtdcTransferBankToFutureReqField) String() string {
 	var builder strings.Builder
 	builder.Grow(163)
@@ -459,6 +483,10 @@ type CThostFtdcTransferBankToFutureRspField struct {
 	CustFee types.TThostFtdcMoneyType
 	// 币种
 	CurrencyCode types.TThostFtdcCurrencyCodeType
+}
+
+func (d CThostFtdcTransferBankToFutureRspField) Type() string {
+	return "CThostFtdcTransferBankToFutureRspField"
 }
 
 func (d CThostFtdcTransferBankToFutureRspField) String() string {
@@ -494,6 +522,10 @@ type CThostFtdcTransferFutureToBankReqField struct {
 	CurrencyCode types.TThostFtdcCurrencyCodeType
 }
 
+func (d CThostFtdcTransferFutureToBankReqField) Type() string {
+	return "CThostFtdcTransferFutureToBankReqField"
+}
+
 func (d CThostFtdcTransferFutureToBankReqField) String() string {
 	var builder strings.Builder
 	builder.Grow(163)
@@ -527,6 +559,10 @@ type CThostFtdcTransferFutureToBankRspField struct {
 	CurrencyCode types.TThostFtdcCurrencyCodeType
 }
 
+func (d CThostFtdcTransferFutureToBankRspField) Type() string {
+	return "CThostFtdcTransferFutureToBankRspField"
+}
+
 func (d CThostFtdcTransferFutureToBankRspField) String() string {
 	var builder strings.Builder
 	builder.Grow(152)
@@ -555,6 +591,8 @@ type CThostFtdcTransferQryBankReqField struct {
 	// 币种：RMB-人民币 USD-美圆 HKD-港元
 	CurrencyCode types.TThostFtdcCurrencyCodeType
 }
+
+func (d CThostFtdcTransferQryBankReqField) Type() string { return "CThostFtdcTransferQryBankReqField" }
 
 func (d CThostFtdcTransferQryBankReqField) String() string {
 	var builder strings.Builder
@@ -589,6 +627,8 @@ type CThostFtdcTransferQryBankRspField struct {
 	CurrencyCode types.TThostFtdcCurrencyCodeType
 }
 
+func (d CThostFtdcTransferQryBankRspField) Type() string { return "CThostFtdcTransferQryBankRspField" }
+
 func (d CThostFtdcTransferQryBankRspField) String() string {
 	var builder strings.Builder
 	builder.Grow(164)
@@ -611,6 +651,10 @@ func (d CThostFtdcTransferQryBankRspField) String() string {
 type CThostFtdcTransferQryDetailReqField struct {
 	// 期货资金账户
 	FutureAccount types.TThostFtdcAccountIDType
+}
+
+func (d CThostFtdcTransferQryDetailReqField) Type() string {
+	return "CThostFtdcTransferQryDetailReqField"
 }
 
 func (d CThostFtdcTransferQryDetailReqField) String() string {
@@ -657,6 +701,10 @@ type CThostFtdcTransferQryDetailRspField struct {
 	Flag types.TThostFtdcTransferValidFlagType
 }
 
+func (d CThostFtdcTransferQryDetailRspField) Type() string {
+	return "CThostFtdcTransferQryDetailRspField"
+}
+
 func (d CThostFtdcTransferQryDetailRspField) String() string {
 	var builder strings.Builder
 	builder.Grow(304)
@@ -690,6 +738,8 @@ type CThostFtdcRspInfoField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcRspInfoField) Type() string { return "CThostFtdcRspInfoField" }
+
 func (d CThostFtdcRspInfoField) String() string {
 	var builder strings.Builder
 	builder.Grow(57)
@@ -712,6 +762,8 @@ type CThostFtdcExchangeField struct {
 	// 交易所属性
 	ExchangeProperty types.TThostFtdcExchangePropertyType
 }
+
+func (d CThostFtdcExchangeField) Type() string { return "CThostFtdcExchangeField" }
 
 func (d CThostFtdcExchangeField) String() string {
 	var builder strings.Builder
@@ -772,6 +824,8 @@ type CThostFtdcProductField struct {
 	// 报单频率控制粒度
 	OrderFreqControlLevel types.TThostFtdcOrderFreqControlLevelType
 }
+
+func (d CThostFtdcProductField) Type() string { return "CThostFtdcProductField" }
 
 func (d CThostFtdcProductField) String() string {
 	var builder strings.Builder
@@ -879,6 +933,8 @@ type CThostFtdcInstrumentField struct {
 	UnderlyingInstrID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcInstrumentField) Type() string { return "CThostFtdcInstrumentField" }
+
 func (d CThostFtdcInstrumentField) String() string {
 	var builder strings.Builder
 	builder.Grow(833)
@@ -937,6 +993,8 @@ type CThostFtdcBrokerField struct {
 	IsActive types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcBrokerField) Type() string { return "CThostFtdcBrokerField" }
+
 func (d CThostFtdcBrokerField) String() string {
 	var builder strings.Builder
 	builder.Grow(97)
@@ -973,6 +1031,8 @@ type CThostFtdcTraderField struct {
 	// 行情报盘安装数量
 	MDInstallCount types.TThostFtdcInstallCountType
 }
+
+func (d CThostFtdcTraderField) Type() string { return "CThostFtdcTraderField" }
 
 func (d CThostFtdcTraderField) String() string {
 	var builder strings.Builder
@@ -1028,6 +1088,8 @@ type CThostFtdcInvestorField struct {
 	IsOpenVolLimit types.TThostFtdcEnumBoolType
 }
 
+func (d CThostFtdcInvestorField) Type() string { return "CThostFtdcInvestorField" }
+
 func (d CThostFtdcInvestorField) String() string {
 	var builder strings.Builder
 	builder.Grow(339)
@@ -1076,6 +1138,8 @@ type CThostFtdcTradingCodeField struct {
 	InvestUnitID types.TThostFtdcInvestUnitIDType
 }
 
+func (d CThostFtdcTradingCodeField) Type() string { return "CThostFtdcTradingCodeField" }
+
 func (d CThostFtdcTradingCodeField) String() string {
 	var builder strings.Builder
 	builder.Grow(199)
@@ -1108,6 +1172,8 @@ type CThostFtdcPartBrokerField struct {
 	IsActive types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcPartBrokerField) Type() string { return "CThostFtdcPartBrokerField" }
+
 func (d CThostFtdcPartBrokerField) String() string {
 	var builder strings.Builder
 	builder.Grow(104)
@@ -1135,6 +1201,8 @@ type CThostFtdcSuperUserField struct {
 	IsActive types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcSuperUserField) Type() string { return "CThostFtdcSuperUserField" }
+
 func (d CThostFtdcSuperUserField) String() string {
 	var builder strings.Builder
 	builder.Grow(94)
@@ -1158,6 +1226,8 @@ type CThostFtdcSuperUserFunctionField struct {
 	FunctionCode types.TThostFtdcFunctionCodeType
 }
 
+func (d CThostFtdcSuperUserFunctionField) Type() string { return "CThostFtdcSuperUserFunctionField" }
+
 func (d CThostFtdcSuperUserFunctionField) String() string {
 	var builder strings.Builder
 	builder.Grow(70)
@@ -1180,6 +1250,8 @@ type CThostFtdcInvestorGroupField struct {
 	// 投资者分组名称
 	InvestorGroupName types.TThostFtdcInvestorGroupNameType
 }
+
+func (d CThostFtdcInvestorGroupField) Type() string { return "CThostFtdcInvestorGroupField" }
 
 func (d CThostFtdcInvestorGroupField) String() string {
 	var builder strings.Builder
@@ -1298,6 +1370,8 @@ type CThostFtdcTradingAccountField struct {
 	// 期权市值
 	OptionValue types.TThostFtdcMoneyType
 }
+
+func (d CThostFtdcTradingAccountField) Type() string { return "CThostFtdcTradingAccountField" }
 
 func (d CThostFtdcTradingAccountField) String() string {
 	var builder strings.Builder
@@ -1466,6 +1540,8 @@ type CThostFtdcInvestorPositionField struct {
 	OptionValue types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcInvestorPositionField) Type() string { return "CThostFtdcInvestorPositionField" }
+
 func (d CThostFtdcInvestorPositionField) String() string {
 	var builder strings.Builder
 	builder.Grow(1171)
@@ -1558,6 +1634,10 @@ type CThostFtdcInstrumentMarginRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcInstrumentMarginRateField) Type() string {
+	return "CThostFtdcInstrumentMarginRateField"
+}
+
 func (d CThostFtdcInstrumentMarginRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(349)
@@ -1612,6 +1692,10 @@ type CThostFtdcInstrumentCommissionRateField struct {
 	InvestUnitID types.TThostFtdcInvestUnitIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcInstrumentCommissionRateField) Type() string {
+	return "CThostFtdcInstrumentCommissionRateField"
 }
 
 func (d CThostFtdcInstrumentCommissionRateField) String() string {
@@ -1739,6 +1823,8 @@ type CThostFtdcDepthMarketDataField struct {
 	BandingLowerPrice types.TThostFtdcPriceType
 }
 
+func (d CThostFtdcDepthMarketDataField) Type() string { return "CThostFtdcDepthMarketDataField" }
+
 func (d CThostFtdcDepthMarketDataField) String() string {
 	var builder strings.Builder
 	builder.Grow(1026)
@@ -1814,6 +1900,10 @@ type CThostFtdcInstrumentTradingRightField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcInstrumentTradingRightField) Type() string {
+	return "CThostFtdcInstrumentTradingRightField"
+}
+
 func (d CThostFtdcInstrumentTradingRightField) String() string {
 	var builder strings.Builder
 	builder.Grow(160)
@@ -1848,6 +1938,8 @@ type CThostFtdcBrokerUserField struct {
 	// 是否强制终端认证
 	IsAuthForce types.TThostFtdcBoolType
 }
+
+func (d CThostFtdcBrokerUserField) Type() string { return "CThostFtdcBrokerUserField" }
 
 func (d CThostFtdcBrokerUserField) String() string {
 	var builder strings.Builder
@@ -1885,6 +1977,8 @@ type CThostFtdcBrokerUserPasswordField struct {
 	WeakExpireDate types.TThostFtdcDateType
 }
 
+func (d CThostFtdcBrokerUserPasswordField) Type() string { return "CThostFtdcBrokerUserPasswordField" }
+
 func (d CThostFtdcBrokerUserPasswordField) String() string {
 	var builder strings.Builder
 	builder.Grow(176)
@@ -1912,6 +2006,8 @@ type CThostFtdcBrokerUserFunctionField struct {
 	// 经纪公司功能代码
 	BrokerFunctionCode types.TThostFtdcBrokerFunctionCodeType
 }
+
+func (d CThostFtdcBrokerUserFunctionField) Type() string { return "CThostFtdcBrokerUserFunctionField" }
 
 func (d CThostFtdcBrokerUserFunctionField) String() string {
 	var builder strings.Builder
@@ -1971,6 +2067,8 @@ type CThostFtdcTraderOfferField struct {
 	OrderCancelAlg types.TThostFtdcOrderCancelAlgType
 }
 
+func (d CThostFtdcTraderOfferField) Type() string { return "CThostFtdcTraderOfferField" }
+
 func (d CThostFtdcTraderOfferField) String() string {
 	var builder strings.Builder
 	builder.Grow(475)
@@ -2022,6 +2120,8 @@ type CThostFtdcSettlementInfoField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcSettlementInfoField) Type() string { return "CThostFtdcSettlementInfoField" }
+
 func (d CThostFtdcSettlementInfoField) String() string {
 	var builder strings.Builder
 	builder.Grow(185)
@@ -2067,6 +2167,10 @@ type CThostFtdcInstrumentMarginRateAdjustField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcInstrumentMarginRateAdjustField) Type() string {
+	return "CThostFtdcInstrumentMarginRateAdjustField"
+}
+
 func (d CThostFtdcInstrumentMarginRateAdjustField) String() string {
 	var builder strings.Builder
 	builder.Grow(313)
@@ -2110,6 +2214,8 @@ type CThostFtdcExchangeMarginRateField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcExchangeMarginRateField) Type() string { return "CThostFtdcExchangeMarginRateField" }
 
 func (d CThostFtdcExchangeMarginRateField) String() string {
 	var builder strings.Builder
@@ -2167,6 +2273,10 @@ type CThostFtdcExchangeMarginRateAdjustField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcExchangeMarginRateAdjustField) Type() string {
+	return "CThostFtdcExchangeMarginRateAdjustField"
+}
+
 func (d CThostFtdcExchangeMarginRateAdjustField) String() string {
 	var builder strings.Builder
 	builder.Grow(536)
@@ -2208,6 +2318,8 @@ type CThostFtdcExchangeRateField struct {
 	ExchangeRate types.TThostFtdcExchangeRateType
 }
 
+func (d CThostFtdcExchangeRateField) Type() string { return "CThostFtdcExchangeRateField" }
+
 func (d CThostFtdcExchangeRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(139)
@@ -2231,6 +2343,8 @@ type CThostFtdcSettlementRefField struct {
 	// 结算编号
 	SettlementID types.TThostFtdcSettlementIDType
 }
+
+func (d CThostFtdcSettlementRefField) Type() string { return "CThostFtdcSettlementRefField" }
 
 func (d CThostFtdcSettlementRefField) String() string {
 	var builder strings.Builder
@@ -2257,6 +2371,8 @@ type CThostFtdcCurrentTimeField struct {
 	ActionDay types.TThostFtdcDateType
 }
 
+func (d CThostFtdcCurrentTimeField) Type() string { return "CThostFtdcCurrentTimeField" }
+
 func (d CThostFtdcCurrentTimeField) String() string {
 	var builder strings.Builder
 	builder.Grow(103)
@@ -2281,6 +2397,8 @@ type CThostFtdcCommPhaseField struct {
 	// 系统编号
 	SystemID types.TThostFtdcSystemIDType
 }
+
+func (d CThostFtdcCommPhaseField) Type() string { return "CThostFtdcCommPhaseField" }
 
 func (d CThostFtdcCommPhaseField) String() string {
 	var builder strings.Builder
@@ -2348,6 +2466,8 @@ type CThostFtdcLoginInfoField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcLoginInfoField) Type() string { return "CThostFtdcLoginInfoField" }
+
 func (d CThostFtdcLoginInfoField) String() string {
 	var builder strings.Builder
 	builder.Grow(509)
@@ -2393,6 +2513,8 @@ type CThostFtdcLogoutAllField struct {
 	SystemName types.TThostFtdcSystemNameType
 }
 
+func (d CThostFtdcLogoutAllField) Type() string { return "CThostFtdcLogoutAllField" }
+
 func (d CThostFtdcLogoutAllField) String() string {
 	var builder strings.Builder
 	builder.Grow(80)
@@ -2418,6 +2540,8 @@ type CThostFtdcFrontStatusField struct {
 	// 是否活跃
 	IsActive types.TThostFtdcBoolType
 }
+
+func (d CThostFtdcFrontStatusField) Type() string { return "CThostFtdcFrontStatusField" }
 
 func (d CThostFtdcFrontStatusField) String() string {
 	var builder strings.Builder
@@ -2445,6 +2569,8 @@ type CThostFtdcUserPasswordUpdateField struct {
 	// 新的口令
 	NewPassword types.TThostFtdcPasswordType
 }
+
+func (d CThostFtdcUserPasswordUpdateField) Type() string { return "CThostFtdcUserPasswordUpdateField" }
 
 func (d CThostFtdcUserPasswordUpdateField) String() string {
 	var builder strings.Builder
@@ -2532,6 +2658,8 @@ type CThostFtdcInputOrderField struct {
 	// session上请求计数 api自动维护
 	SessionReqSeq types.TThostFtdcSequenceNo12Type
 }
+
+func (d CThostFtdcInputOrderField) Type() string { return "CThostFtdcInputOrderField" }
 
 func (d CThostFtdcInputOrderField) String() string {
 	var builder strings.Builder
@@ -2718,6 +2846,8 @@ type CThostFtdcOrderField struct {
 	SessionReqSeq types.TThostFtdcSequenceNo12Type
 }
 
+func (d CThostFtdcOrderField) Type() string { return "CThostFtdcOrderField" }
+
 func (d CThostFtdcOrderField) String() string {
 	var builder strings.Builder
 	builder.Grow(1468)
@@ -2895,6 +3025,8 @@ type CThostFtdcExchangeOrderField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcExchangeOrderField) Type() string { return "CThostFtdcExchangeOrderField" }
+
 func (d CThostFtdcExchangeOrderField) String() string {
 	var builder strings.Builder
 	builder.Grow(1032)
@@ -2971,6 +3103,10 @@ type CThostFtdcExchangeOrderInsertErrorField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcExchangeOrderInsertErrorField) Type() string {
+	return "CThostFtdcExchangeOrderInsertErrorField"
+}
+
 func (d CThostFtdcExchangeOrderInsertErrorField) String() string {
 	var builder strings.Builder
 	builder.Grow(176)
@@ -3034,6 +3170,8 @@ type CThostFtdcInputOrderActionField struct {
 	// session上请求计数 api自动维护
 	SessionReqSeq types.TThostFtdcSequenceNo12Type
 }
+
+func (d CThostFtdcInputOrderActionField) Type() string { return "CThostFtdcInputOrderActionField" }
 
 func (d CThostFtdcInputOrderActionField) String() string {
 	var builder strings.Builder
@@ -3137,6 +3275,8 @@ type CThostFtdcOrderActionField struct {
 	SessionReqSeq types.TThostFtdcSequenceNo12Type
 }
 
+func (d CThostFtdcOrderActionField) Type() string { return "CThostFtdcOrderActionField" }
+
 func (d CThostFtdcOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(689)
@@ -3225,6 +3365,10 @@ type CThostFtdcExchangeOrderActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcExchangeOrderActionField) Type() string {
+	return "CThostFtdcExchangeOrderActionField"
+}
+
 func (d CThostFtdcExchangeOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(439)
@@ -3274,6 +3418,10 @@ type CThostFtdcExchangeOrderActionErrorField struct {
 	ErrorID types.TThostFtdcErrorIDType
 	// 错误信息
 	ErrorMsg types.TThostFtdcErrorMsgType
+}
+
+func (d CThostFtdcExchangeOrderActionErrorField) Type() string {
+	return "CThostFtdcExchangeOrderActionErrorField"
 }
 
 func (d CThostFtdcExchangeOrderActionErrorField) String() string {
@@ -3344,6 +3492,8 @@ type CThostFtdcExchangeTradeField struct {
 	// 合约在交易所的代码
 	ExchangeInstID types.TThostFtdcExchangeInstIDType
 }
+
+func (d CThostFtdcExchangeTradeField) Type() string { return "CThostFtdcExchangeTradeField" }
 
 func (d CThostFtdcExchangeTradeField) String() string {
 	var builder strings.Builder
@@ -3449,6 +3599,8 @@ type CThostFtdcTradeField struct {
 	ExchangeInstID types.TThostFtdcExchangeInstIDType
 }
 
+func (d CThostFtdcTradeField) Type() string { return "CThostFtdcTradeField" }
+
 func (d CThostFtdcTradeField) String() string {
 	var builder strings.Builder
 	builder.Grow(675)
@@ -3523,6 +3675,8 @@ type CThostFtdcUserSessionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcUserSessionField) Type() string { return "CThostFtdcUserSessionField" }
+
 func (d CThostFtdcUserSessionField) String() string {
 	var builder strings.Builder
 	builder.Grow(289)
@@ -3571,6 +3725,8 @@ type CThostFtdcQryMaxOrderVolumeField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryMaxOrderVolumeField) Type() string { return "CThostFtdcQryMaxOrderVolumeField" }
+
 func (d CThostFtdcQryMaxOrderVolumeField) String() string {
 	var builder strings.Builder
 	builder.Grow(229)
@@ -3608,6 +3764,10 @@ type CThostFtdcSettlementInfoConfirmField struct {
 	AccountID types.TThostFtdcAccountIDType
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
+}
+
+func (d CThostFtdcSettlementInfoConfirmField) Type() string {
+	return "CThostFtdcSettlementInfoConfirmField"
 }
 
 func (d CThostFtdcSettlementInfoConfirmField) String() string {
@@ -3650,6 +3810,8 @@ type CThostFtdcSyncDepositField struct {
 	IsSecAgentTranfer types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcSyncDepositField) Type() string { return "CThostFtdcSyncDepositField" }
+
 func (d CThostFtdcSyncDepositField) String() string {
 	var builder strings.Builder
 	builder.Grow(212)
@@ -3686,6 +3848,8 @@ type CThostFtdcSyncFundMortgageField struct {
 	ToCurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcSyncFundMortgageField) Type() string { return "CThostFtdcSyncFundMortgageField" }
+
 func (d CThostFtdcSyncFundMortgageField) String() string {
 	var builder strings.Builder
 	builder.Grow(162)
@@ -3708,6 +3872,8 @@ type CThostFtdcBrokerSyncField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 }
+
+func (d CThostFtdcBrokerSyncField) Type() string { return "CThostFtdcBrokerSyncField" }
 
 func (d CThostFtdcBrokerSyncField) String() string {
 	var builder strings.Builder
@@ -3755,6 +3921,8 @@ type CThostFtdcSyncingInvestorField struct {
 	IsOpenVolLimit types.TThostFtdcEnumBoolType
 }
 
+func (d CThostFtdcSyncingInvestorField) Type() string { return "CThostFtdcSyncingInvestorField" }
+
 func (d CThostFtdcSyncingInvestorField) String() string {
 	var builder strings.Builder
 	builder.Grow(346)
@@ -3797,6 +3965,8 @@ type CThostFtdcSyncingTradingCodeField struct {
 	ClientIDType types.TThostFtdcClientIDTypeType
 }
 
+func (d CThostFtdcSyncingTradingCodeField) Type() string { return "CThostFtdcSyncingTradingCodeField" }
+
 func (d CThostFtdcSyncingTradingCodeField) String() string {
 	var builder strings.Builder
 	builder.Grow(149)
@@ -3822,6 +3992,10 @@ type CThostFtdcSyncingInvestorGroupField struct {
 	InvestorGroupID types.TThostFtdcInvestorIDType
 	// 投资者分组名称
 	InvestorGroupName types.TThostFtdcInvestorGroupNameType
+}
+
+func (d CThostFtdcSyncingInvestorGroupField) Type() string {
+	return "CThostFtdcSyncingInvestorGroupField"
 }
 
 func (d CThostFtdcSyncingInvestorGroupField) String() string {
@@ -3938,6 +4112,10 @@ type CThostFtdcSyncingTradingAccountField struct {
 	RemainSwap types.TThostFtdcMoneyType
 	// 期权市值
 	OptionValue types.TThostFtdcMoneyType
+}
+
+func (d CThostFtdcSyncingTradingAccountField) Type() string {
+	return "CThostFtdcSyncingTradingAccountField"
 }
 
 func (d CThostFtdcSyncingTradingAccountField) String() string {
@@ -4104,6 +4282,10 @@ type CThostFtdcSyncingInvestorPositionField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcSyncingInvestorPositionField) Type() string {
+	return "CThostFtdcSyncingInvestorPositionField"
+}
+
 func (d CThostFtdcSyncingInvestorPositionField) String() string {
 	var builder strings.Builder
 	builder.Grow(1157)
@@ -4191,6 +4373,10 @@ type CThostFtdcSyncingInstrumentMarginRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcSyncingInstrumentMarginRateField) Type() string {
+	return "CThostFtdcSyncingInstrumentMarginRateField"
+}
+
 func (d CThostFtdcSyncingInstrumentMarginRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(314)
@@ -4239,6 +4425,10 @@ type CThostFtdcSyncingInstrumentCommissionRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcSyncingInstrumentCommissionRateField) Type() string {
+	return "CThostFtdcSyncingInstrumentCommissionRateField"
+}
+
 func (d CThostFtdcSyncingInstrumentCommissionRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(320)
@@ -4275,6 +4465,10 @@ type CThostFtdcSyncingInstrumentTradingRightField struct {
 	TradingRight types.TThostFtdcTradingRightType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcSyncingInstrumentTradingRightField) Type() string {
+	return "CThostFtdcSyncingInstrumentTradingRightField"
 }
 
 func (d CThostFtdcSyncingInstrumentTradingRightField) String() string {
@@ -4315,6 +4509,8 @@ type CThostFtdcQryOrderField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcQryOrderField) Type() string { return "CThostFtdcQryOrderField" }
 
 func (d CThostFtdcQryOrderField) String() string {
 	var builder strings.Builder
@@ -4358,6 +4554,8 @@ type CThostFtdcQryTradeField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryTradeField) Type() string { return "CThostFtdcQryTradeField" }
+
 func (d CThostFtdcQryTradeField) String() string {
 	var builder strings.Builder
 	builder.Grow(206)
@@ -4394,6 +4592,10 @@ type CThostFtdcQryInvestorPositionField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryInvestorPositionField) Type() string {
+	return "CThostFtdcQryInvestorPositionField"
+}
+
 func (d CThostFtdcQryInvestorPositionField) String() string {
 	var builder strings.Builder
 	builder.Grow(154)
@@ -4425,6 +4627,8 @@ type CThostFtdcQryTradingAccountField struct {
 	AccountID types.TThostFtdcAccountIDType
 }
 
+func (d CThostFtdcQryTradingAccountField) Type() string { return "CThostFtdcQryTradingAccountField" }
+
 func (d CThostFtdcQryTradingAccountField) String() string {
 	var builder strings.Builder
 	builder.Grow(126)
@@ -4448,6 +4652,8 @@ type CThostFtdcQryInvestorField struct {
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
 }
+
+func (d CThostFtdcQryInvestorField) Type() string { return "CThostFtdcQryInvestorField" }
 
 func (d CThostFtdcQryInvestorField) String() string {
 	var builder strings.Builder
@@ -4478,6 +4684,8 @@ type CThostFtdcQryTradingCodeField struct {
 	InvestUnitID types.TThostFtdcInvestUnitIDType
 }
 
+func (d CThostFtdcQryTradingCodeField) Type() string { return "CThostFtdcQryTradingCodeField" }
+
 func (d CThostFtdcQryTradingCodeField) String() string {
 	var builder strings.Builder
 	builder.Grow(149)
@@ -4500,6 +4708,8 @@ type CThostFtdcQryInvestorGroupField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 }
+
+func (d CThostFtdcQryInvestorGroupField) Type() string { return "CThostFtdcQryInvestorGroupField" }
 
 func (d CThostFtdcQryInvestorGroupField) String() string {
 	var builder strings.Builder
@@ -4529,6 +4739,10 @@ type CThostFtdcQryInstrumentMarginRateField struct {
 	InvestUnitID types.TThostFtdcInvestUnitIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryInstrumentMarginRateField) Type() string {
+	return "CThostFtdcQryInstrumentMarginRateField"
 }
 
 func (d CThostFtdcQryInstrumentMarginRateField) String() string {
@@ -4565,6 +4779,10 @@ type CThostFtdcQryInstrumentCommissionRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryInstrumentCommissionRateField) Type() string {
+	return "CThostFtdcQryInstrumentCommissionRateField"
+}
+
 func (d CThostFtdcQryInstrumentCommissionRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(162)
@@ -4594,6 +4812,10 @@ type CThostFtdcQryInstrumentTradingRightField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryInstrumentTradingRightField) Type() string {
+	return "CThostFtdcQryInstrumentTradingRightField"
+}
+
 func (d CThostFtdcQryInstrumentTradingRightField) String() string {
 	var builder strings.Builder
 	builder.Grow(118)
@@ -4614,6 +4836,8 @@ type CThostFtdcQryBrokerField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 }
+
+func (d CThostFtdcQryBrokerField) Type() string { return "CThostFtdcQryBrokerField" }
 
 func (d CThostFtdcQryBrokerField) String() string {
 	var builder strings.Builder
@@ -4637,6 +4861,8 @@ type CThostFtdcQryTraderField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryTraderField) Type() string { return "CThostFtdcQryTraderField" }
+
 func (d CThostFtdcQryTraderField) String() string {
 	var builder strings.Builder
 	builder.Grow(85)
@@ -4655,6 +4881,10 @@ func (d CThostFtdcQryTraderField) String() string {
 type CThostFtdcQrySuperUserFunctionField struct {
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
+}
+
+func (d CThostFtdcQrySuperUserFunctionField) Type() string {
+	return "CThostFtdcQrySuperUserFunctionField"
 }
 
 func (d CThostFtdcQrySuperUserFunctionField) String() string {
@@ -4681,6 +4911,8 @@ type CThostFtdcQryUserSessionField struct {
 	UserID types.TThostFtdcUserIDType
 }
 
+func (d CThostFtdcQryUserSessionField) Type() string { return "CThostFtdcQryUserSessionField" }
+
 func (d CThostFtdcQryUserSessionField) String() string {
 	var builder strings.Builder
 	builder.Grow(99)
@@ -4706,6 +4938,8 @@ type CThostFtdcQryPartBrokerField struct {
 	ParticipantID types.TThostFtdcParticipantIDType
 }
 
+func (d CThostFtdcQryPartBrokerField) Type() string { return "CThostFtdcQryPartBrokerField" }
+
 func (d CThostFtdcQryPartBrokerField) String() string {
 	var builder strings.Builder
 	builder.Grow(89)
@@ -4725,6 +4959,8 @@ type CThostFtdcQryFrontStatusField struct {
 	// 前置编号
 	FrontID types.TThostFtdcFrontIDType
 }
+
+func (d CThostFtdcQryFrontStatusField) Type() string { return "CThostFtdcQryFrontStatusField" }
 
 func (d CThostFtdcQryFrontStatusField) String() string {
 	var builder strings.Builder
@@ -4754,6 +4990,8 @@ type CThostFtdcQryExchangeOrderField struct {
 	ExchangeInstID types.TThostFtdcExchangeInstIDType
 }
 
+func (d CThostFtdcQryExchangeOrderField) Type() string { return "CThostFtdcQryExchangeOrderField" }
+
 func (d CThostFtdcQryExchangeOrderField) String() string {
 	var builder strings.Builder
 	builder.Grow(152)
@@ -4781,6 +5019,8 @@ type CThostFtdcQryOrderActionField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 }
 
+func (d CThostFtdcQryOrderActionField) Type() string { return "CThostFtdcQryOrderActionField" }
+
 func (d CThostFtdcQryOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(87)
@@ -4807,6 +5047,10 @@ type CThostFtdcQryExchangeOrderActionField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryExchangeOrderActionField) Type() string {
+	return "CThostFtdcQryExchangeOrderActionField"
+}
+
 func (d CThostFtdcQryExchangeOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(116)
@@ -4828,6 +5072,8 @@ type CThostFtdcQrySuperUserField struct {
 	UserID types.TThostFtdcUserIDType
 }
 
+func (d CThostFtdcQrySuperUserField) Type() string { return "CThostFtdcQrySuperUserField" }
+
 func (d CThostFtdcQrySuperUserField) String() string {
 	var builder strings.Builder
 	builder.Grow(43)
@@ -4845,6 +5091,8 @@ type CThostFtdcQryExchangeField struct {
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
 }
+
+func (d CThostFtdcQryExchangeField) Type() string { return "CThostFtdcQryExchangeField" }
 
 func (d CThostFtdcQryExchangeField) String() string {
 	var builder strings.Builder
@@ -4869,6 +5117,8 @@ type CThostFtdcQryProductField struct {
 	// 产品代码
 	ProductID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcQryProductField) Type() string { return "CThostFtdcQryProductField" }
 
 func (d CThostFtdcQryProductField) String() string {
 	var builder strings.Builder
@@ -4903,6 +5153,8 @@ type CThostFtdcQryInstrumentField struct {
 	ProductID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryInstrumentField) Type() string { return "CThostFtdcQryInstrumentField" }
+
 func (d CThostFtdcQryInstrumentField) String() string {
 	var builder strings.Builder
 	builder.Grow(167)
@@ -4933,6 +5185,8 @@ type CThostFtdcQryDepthMarketDataField struct {
 	ProductClass types.TThostFtdcProductClassType
 }
 
+func (d CThostFtdcQryDepthMarketDataField) Type() string { return "CThostFtdcQryDepthMarketDataField" }
+
 func (d CThostFtdcQryDepthMarketDataField) String() string {
 	var builder strings.Builder
 	builder.Grow(115)
@@ -4956,6 +5210,8 @@ type CThostFtdcQryBrokerUserField struct {
 	UserID types.TThostFtdcUserIDType
 }
 
+func (d CThostFtdcQryBrokerUserField) Type() string { return "CThostFtdcQryBrokerUserField" }
+
 func (d CThostFtdcQryBrokerUserField) String() string {
 	var builder strings.Builder
 	builder.Grow(62)
@@ -4975,6 +5231,10 @@ type CThostFtdcQryBrokerUserFunctionField struct {
 	BrokerID types.TThostFtdcBrokerIDType
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
+}
+
+func (d CThostFtdcQryBrokerUserFunctionField) Type() string {
+	return "CThostFtdcQryBrokerUserFunctionField"
 }
 
 func (d CThostFtdcQryBrokerUserFunctionField) String() string {
@@ -5000,6 +5260,8 @@ type CThostFtdcQryTraderOfferField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryTraderOfferField) Type() string { return "CThostFtdcQryTraderOfferField" }
+
 func (d CThostFtdcQryTraderOfferField) String() string {
 	var builder strings.Builder
 	builder.Grow(90)
@@ -5021,6 +5283,8 @@ type CThostFtdcQrySyncDepositField struct {
 	// 出入金流水号
 	DepositSeqNo types.TThostFtdcDepositSeqNoType
 }
+
+func (d CThostFtdcQrySyncDepositField) Type() string { return "CThostFtdcQrySyncDepositField" }
 
 func (d CThostFtdcQrySyncDepositField) String() string {
 	var builder strings.Builder
@@ -5048,6 +5312,8 @@ type CThostFtdcQrySettlementInfoField struct {
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
+
+func (d CThostFtdcQrySettlementInfoField) Type() string { return "CThostFtdcQrySettlementInfoField" }
 
 func (d CThostFtdcQrySettlementInfoField) String() string {
 	var builder strings.Builder
@@ -5079,6 +5345,10 @@ type CThostFtdcQryExchangeMarginRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryExchangeMarginRateField) Type() string {
+	return "CThostFtdcQryExchangeMarginRateField"
+}
+
 func (d CThostFtdcQryExchangeMarginRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(133)
@@ -5107,6 +5377,10 @@ type CThostFtdcQryExchangeMarginRateAdjustField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryExchangeMarginRateAdjustField) Type() string {
+	return "CThostFtdcQryExchangeMarginRateAdjustField"
+}
+
 func (d CThostFtdcQryExchangeMarginRateAdjustField) String() string {
 	var builder strings.Builder
 	builder.Grow(119)
@@ -5132,6 +5406,8 @@ type CThostFtdcQryExchangeRateField struct {
 	ToCurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcQryExchangeRateField) Type() string { return "CThostFtdcQryExchangeRateField" }
+
 func (d CThostFtdcQryExchangeRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(94)
@@ -5152,6 +5428,10 @@ type CThostFtdcQrySyncFundMortgageField struct {
 	BrokerID types.TThostFtdcBrokerIDType
 	// 货币质押流水号
 	MortgageSeqNo types.TThostFtdcDepositSeqNoType
+}
+
+func (d CThostFtdcQrySyncFundMortgageField) Type() string {
+	return "CThostFtdcQrySyncFundMortgageField"
 }
 
 func (d CThostFtdcQrySyncFundMortgageField) String() string {
@@ -5190,6 +5470,8 @@ type CThostFtdcQryHisOrderField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcQryHisOrderField) Type() string { return "CThostFtdcQryHisOrderField" }
 
 func (d CThostFtdcQryHisOrderField) String() string {
 	var builder strings.Builder
@@ -5230,6 +5512,10 @@ type CThostFtdcOptionInstrMiniMarginField struct {
 	IsRelative types.TThostFtdcBoolType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcOptionInstrMiniMarginField) Type() string {
+	return "CThostFtdcOptionInstrMiniMarginField"
 }
 
 func (d CThostFtdcOptionInstrMiniMarginField) String() string {
@@ -5281,6 +5567,10 @@ type CThostFtdcOptionInstrMarginAdjustField struct {
 	MShortMarginRatioByVolume types.TThostFtdcMoneyType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcOptionInstrMarginAdjustField) Type() string {
+	return "CThostFtdcOptionInstrMarginAdjustField"
 }
 
 func (d CThostFtdcOptionInstrMarginAdjustField) String() string {
@@ -5342,6 +5632,10 @@ type CThostFtdcOptionInstrCommRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcOptionInstrCommRateField) Type() string {
+	return "CThostFtdcOptionInstrCommRateField"
+}
+
 func (d CThostFtdcOptionInstrCommRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(407)
@@ -5396,6 +5690,10 @@ type CThostFtdcOptionInstrTradeCostField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcOptionInstrTradeCostField) Type() string {
+	return "CThostFtdcOptionInstrTradeCostField"
+}
+
 func (d CThostFtdcOptionInstrTradeCostField) String() string {
 	var builder strings.Builder
 	builder.Grow(281)
@@ -5441,6 +5739,10 @@ type CThostFtdcQryOptionInstrTradeCostField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryOptionInstrTradeCostField) Type() string {
+	return "CThostFtdcQryOptionInstrTradeCostField"
+}
+
 func (d CThostFtdcQryOptionInstrTradeCostField) String() string {
 	var builder strings.Builder
 	builder.Grow(222)
@@ -5477,6 +5779,10 @@ type CThostFtdcQryOptionInstrCommRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryOptionInstrCommRateField) Type() string {
+	return "CThostFtdcQryOptionInstrCommRateField"
+}
+
 func (d CThostFtdcQryOptionInstrCommRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(157)
@@ -5505,6 +5811,8 @@ type CThostFtdcIndexPriceField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcIndexPriceField) Type() string { return "CThostFtdcIndexPriceField" }
 
 func (d CThostFtdcIndexPriceField) String() string {
 	var builder strings.Builder
@@ -5570,6 +5878,8 @@ type CThostFtdcInputExecOrderField struct {
 	// IP地址
 	IPAddress types.TThostFtdcIPAddressType
 }
+
+func (d CThostFtdcInputExecOrderField) Type() string { return "CThostFtdcInputExecOrderField" }
 
 func (d CThostFtdcInputExecOrderField) String() string {
 	var builder strings.Builder
@@ -5641,6 +5951,10 @@ type CThostFtdcInputExecOrderActionField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// IP地址
 	IPAddress types.TThostFtdcIPAddressType
+}
+
+func (d CThostFtdcInputExecOrderActionField) Type() string {
+	return "CThostFtdcInputExecOrderActionField"
 }
 
 func (d CThostFtdcInputExecOrderActionField) String() string {
@@ -5769,6 +6083,8 @@ type CThostFtdcExecOrderField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcExecOrderField) Type() string { return "CThostFtdcExecOrderField" }
+
 func (d CThostFtdcExecOrderField) String() string {
 	var builder strings.Builder
 	builder.Grow(1000)
@@ -5891,6 +6207,8 @@ type CThostFtdcExecOrderActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcExecOrderActionField) Type() string { return "CThostFtdcExecOrderActionField" }
+
 func (d CThostFtdcExecOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(645)
@@ -5951,6 +6269,8 @@ type CThostFtdcQryExecOrderField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcQryExecOrderField) Type() string { return "CThostFtdcQryExecOrderField" }
 
 func (d CThostFtdcQryExecOrderField) String() string {
 	var builder strings.Builder
@@ -6039,6 +6359,8 @@ type CThostFtdcExchangeExecOrderField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcExchangeExecOrderField) Type() string { return "CThostFtdcExchangeExecOrderField" }
+
 func (d CThostFtdcExchangeExecOrderField) String() string {
 	var builder strings.Builder
 	builder.Grow(701)
@@ -6098,6 +6420,10 @@ type CThostFtdcQryExchangeExecOrderField struct {
 	ExchangeInstID types.TThostFtdcExchangeInstIDType
 }
 
+func (d CThostFtdcQryExchangeExecOrderField) Type() string {
+	return "CThostFtdcQryExchangeExecOrderField"
+}
+
 func (d CThostFtdcQryExchangeExecOrderField) String() string {
 	var builder strings.Builder
 	builder.Grow(156)
@@ -6124,6 +6450,8 @@ type CThostFtdcQryExecOrderActionField struct {
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
 }
+
+func (d CThostFtdcQryExecOrderActionField) Type() string { return "CThostFtdcQryExecOrderActionField" }
 
 func (d CThostFtdcQryExecOrderActionField) String() string {
 	var builder strings.Builder
@@ -6187,6 +6515,10 @@ type CThostFtdcExchangeExecOrderActionField struct {
 	ExchangeInstID types.TThostFtdcExchangeInstIDType
 }
 
+func (d CThostFtdcExchangeExecOrderActionField) Type() string {
+	return "CThostFtdcExchangeExecOrderActionField"
+}
+
 func (d CThostFtdcExchangeExecOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(487)
@@ -6230,6 +6562,10 @@ type CThostFtdcQryExchangeExecOrderActionField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 交易所交易员代码
 	TraderID types.TThostFtdcTraderIDType
+}
+
+func (d CThostFtdcQryExchangeExecOrderActionField) Type() string {
+	return "CThostFtdcQryExchangeExecOrderActionField"
 }
 
 func (d CThostFtdcQryExchangeExecOrderActionField) String() string {
@@ -6301,6 +6637,8 @@ type CThostFtdcErrExecOrderField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcErrExecOrderField) Type() string { return "CThostFtdcErrExecOrderField" }
+
 func (d CThostFtdcErrExecOrderField) String() string {
 	var builder strings.Builder
 	builder.Grow(521)
@@ -6344,6 +6682,8 @@ type CThostFtdcQryErrExecOrderField struct {
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
 }
+
+func (d CThostFtdcQryErrExecOrderField) Type() string { return "CThostFtdcQryErrExecOrderField" }
 
 func (d CThostFtdcQryErrExecOrderField) String() string {
 	var builder strings.Builder
@@ -6400,6 +6740,8 @@ type CThostFtdcErrExecOrderActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcErrExecOrderActionField) Type() string { return "CThostFtdcErrExecOrderActionField" }
+
 func (d CThostFtdcErrExecOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(410)
@@ -6438,6 +6780,10 @@ type CThostFtdcQryErrExecOrderActionField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 }
 
+func (d CThostFtdcQryErrExecOrderActionField) Type() string {
+	return "CThostFtdcQryErrExecOrderActionField"
+}
+
 func (d CThostFtdcQryErrExecOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(74)
@@ -6467,6 +6813,10 @@ type CThostFtdcOptionInstrTradingRightField struct {
 	TradingRight types.TThostFtdcTradingRightType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcOptionInstrTradingRightField) Type() string {
+	return "CThostFtdcOptionInstrTradingRightField"
 }
 
 func (d CThostFtdcOptionInstrTradingRightField) String() string {
@@ -6499,6 +6849,10 @@ type CThostFtdcQryOptionInstrTradingRightField struct {
 	Direction types.TThostFtdcDirectionType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryOptionInstrTradingRightField) Type() string {
+	return "CThostFtdcQryOptionInstrTradingRightField"
 }
 
 func (d CThostFtdcQryOptionInstrTradingRightField) String() string {
@@ -6542,6 +6896,8 @@ type CThostFtdcInputForQuoteField struct {
 	// IP地址
 	IPAddress types.TThostFtdcIPAddressType
 }
+
+func (d CThostFtdcInputForQuoteField) Type() string { return "CThostFtdcInputForQuoteField" }
 
 func (d CThostFtdcInputForQuoteField) String() string {
 	var builder strings.Builder
@@ -6621,6 +6977,8 @@ type CThostFtdcForQuoteField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcForQuoteField) Type() string { return "CThostFtdcForQuoteField" }
+
 func (d CThostFtdcForQuoteField) String() string {
 	var builder strings.Builder
 	builder.Grow(549)
@@ -6678,6 +7036,8 @@ type CThostFtdcQryForQuoteField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryForQuoteField) Type() string { return "CThostFtdcQryForQuoteField" }
+
 func (d CThostFtdcQryForQuoteField) String() string {
 	var builder strings.Builder
 	builder.Grow(194)
@@ -6729,6 +7089,8 @@ type CThostFtdcExchangeForQuoteField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcExchangeForQuoteField) Type() string { return "CThostFtdcExchangeForQuoteField" }
+
 func (d CThostFtdcExchangeForQuoteField) String() string {
 	var builder strings.Builder
 	builder.Grow(317)
@@ -6768,6 +7130,10 @@ type CThostFtdcQryExchangeForQuoteField struct {
 	TraderID types.TThostFtdcTraderIDType
 	// 合约在交易所的代码
 	ExchangeInstID types.TThostFtdcExchangeInstIDType
+}
+
+func (d CThostFtdcQryExchangeForQuoteField) Type() string {
+	return "CThostFtdcQryExchangeForQuoteField"
 }
 
 func (d CThostFtdcQryExchangeForQuoteField) String() string {
@@ -6848,6 +7214,8 @@ type CThostFtdcInputQuoteField struct {
 	// session上请求计数 api自动维护
 	SessionReqSeq types.TThostFtdcSequenceNo12Type
 }
+
+func (d CThostFtdcInputQuoteField) Type() string { return "CThostFtdcInputQuoteField" }
 
 func (d CThostFtdcInputQuoteField) String() string {
 	var builder strings.Builder
@@ -6932,6 +7300,8 @@ type CThostFtdcInputQuoteActionField struct {
 	// session上请求计数 api自动维护
 	SessionReqSeq types.TThostFtdcSequenceNo12Type
 }
+
+func (d CThostFtdcInputQuoteActionField) Type() string { return "CThostFtdcInputQuoteActionField" }
 
 func (d CThostFtdcInputQuoteActionField) String() string {
 	var builder strings.Builder
@@ -7082,6 +7452,8 @@ type CThostFtdcQuoteField struct {
 	SessionReqSeq types.TThostFtdcSequenceNo12Type
 }
 
+func (d CThostFtdcQuoteField) Type() string { return "CThostFtdcQuoteField" }
+
 func (d CThostFtdcQuoteField) String() string {
 	var builder strings.Builder
 	builder.Grow(1197)
@@ -7216,6 +7588,8 @@ type CThostFtdcQuoteActionField struct {
 	SessionReqSeq types.TThostFtdcSequenceNo12Type
 }
 
+func (d CThostFtdcQuoteActionField) Type() string { return "CThostFtdcQuoteActionField" }
+
 func (d CThostFtdcQuoteActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(647)
@@ -7279,6 +7653,8 @@ type CThostFtdcQryQuoteField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcQryQuoteField) Type() string { return "CThostFtdcQryQuoteField" }
 
 func (d CThostFtdcQryQuoteField) String() string {
 	var builder strings.Builder
@@ -7378,6 +7754,8 @@ type CThostFtdcExchangeQuoteField struct {
 	TimeCondition types.TThostFtdcTimeConditionType
 }
 
+func (d CThostFtdcExchangeQuoteField) Type() string { return "CThostFtdcExchangeQuoteField" }
+
 func (d CThostFtdcExchangeQuoteField) String() string {
 	var builder strings.Builder
 	builder.Grow(800)
@@ -7442,6 +7820,8 @@ type CThostFtdcQryExchangeQuoteField struct {
 	ExchangeInstID types.TThostFtdcExchangeInstIDType
 }
 
+func (d CThostFtdcQryExchangeQuoteField) Type() string { return "CThostFtdcQryExchangeQuoteField" }
+
 func (d CThostFtdcQryExchangeQuoteField) String() string {
 	var builder strings.Builder
 	builder.Grow(152)
@@ -7468,6 +7848,8 @@ type CThostFtdcQryQuoteActionField struct {
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
 }
+
+func (d CThostFtdcQryQuoteActionField) Type() string { return "CThostFtdcQryQuoteActionField" }
 
 func (d CThostFtdcQryQuoteActionField) String() string {
 	var builder strings.Builder
@@ -7521,6 +7903,10 @@ type CThostFtdcExchangeQuoteActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcExchangeQuoteActionField) Type() string {
+	return "CThostFtdcExchangeQuoteActionField"
+}
+
 func (d CThostFtdcExchangeQuoteActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(379)
@@ -7561,6 +7947,10 @@ type CThostFtdcQryExchangeQuoteActionField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryExchangeQuoteActionField) Type() string {
+	return "CThostFtdcQryExchangeQuoteActionField"
+}
+
 func (d CThostFtdcQryExchangeQuoteActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(116)
@@ -7591,6 +7981,8 @@ type CThostFtdcOptionInstrDeltaField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcOptionInstrDeltaField) Type() string { return "CThostFtdcOptionInstrDeltaField" }
 
 func (d CThostFtdcOptionInstrDeltaField) String() string {
 	var builder strings.Builder
@@ -7626,6 +8018,8 @@ type CThostFtdcForQuoteRspField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcForQuoteRspField) Type() string { return "CThostFtdcForQuoteRspField" }
 
 func (d CThostFtdcForQuoteRspField) String() string {
 	var builder strings.Builder
@@ -7663,6 +8057,8 @@ type CThostFtdcStrikeOffsetField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcStrikeOffsetField) Type() string { return "CThostFtdcStrikeOffsetField" }
+
 func (d CThostFtdcStrikeOffsetField) String() string {
 	var builder strings.Builder
 	builder.Grow(164)
@@ -7692,6 +8088,8 @@ type CThostFtdcQryStrikeOffsetField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcQryStrikeOffsetField) Type() string { return "CThostFtdcQryStrikeOffsetField" }
 
 func (d CThostFtdcQryStrikeOffsetField) String() string {
 	var builder strings.Builder
@@ -7734,6 +8132,10 @@ type CThostFtdcInputBatchOrderActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 	// IP地址
 	IPAddress types.TThostFtdcIPAddressType
+}
+
+func (d CThostFtdcInputBatchOrderActionField) Type() string {
+	return "CThostFtdcInputBatchOrderActionField"
 }
 
 func (d CThostFtdcInputBatchOrderActionField) String() string {
@@ -7807,6 +8209,8 @@ type CThostFtdcBatchOrderActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcBatchOrderActionField) Type() string { return "CThostFtdcBatchOrderActionField" }
+
 func (d CThostFtdcBatchOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(472)
@@ -7872,6 +8276,10 @@ type CThostFtdcExchangeBatchOrderActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcExchangeBatchOrderActionField) Type() string {
+	return "CThostFtdcExchangeBatchOrderActionField"
+}
+
 func (d CThostFtdcExchangeBatchOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(322)
@@ -7907,6 +8315,10 @@ type CThostFtdcQryBatchOrderActionField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 }
 
+func (d CThostFtdcQryBatchOrderActionField) Type() string {
+	return "CThostFtdcQryBatchOrderActionField"
+}
+
 func (d CThostFtdcQryBatchOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(92)
@@ -7932,6 +8344,10 @@ type CThostFtdcCombInstrumentGuardField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcCombInstrumentGuardField) Type() string {
+	return "CThostFtdcCombInstrumentGuardField"
 }
 
 func (d CThostFtdcCombInstrumentGuardField) String() string {
@@ -7960,6 +8376,10 @@ type CThostFtdcQryCombInstrumentGuardField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryCombInstrumentGuardField) Type() string {
+	return "CThostFtdcQryCombInstrumentGuardField"
 }
 
 func (d CThostFtdcQryCombInstrumentGuardField) String() string {
@@ -8014,6 +8434,8 @@ type CThostFtdcInputCombActionField struct {
 	// IP地址
 	IPAddress types.TThostFtdcIPAddressType
 }
+
+func (d CThostFtdcInputCombActionField) Type() string { return "CThostFtdcInputCombActionField" }
 
 func (d CThostFtdcInputCombActionField) String() string {
 	var builder strings.Builder
@@ -8113,6 +8535,8 @@ type CThostFtdcCombActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcCombActionField) Type() string { return "CThostFtdcCombActionField" }
+
 func (d CThostFtdcCombActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(687)
@@ -8172,6 +8596,8 @@ type CThostFtdcQryCombActionField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcQryCombActionField) Type() string { return "CThostFtdcQryCombActionField" }
 
 func (d CThostFtdcQryCombActionField) String() string {
 	var builder strings.Builder
@@ -8238,6 +8664,8 @@ type CThostFtdcExchangeCombActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcExchangeCombActionField) Type() string { return "CThostFtdcExchangeCombActionField" }
+
 func (d CThostFtdcExchangeCombActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(476)
@@ -8287,6 +8715,10 @@ type CThostFtdcQryExchangeCombActionField struct {
 	ExchangeInstID types.TThostFtdcExchangeInstIDType
 }
 
+func (d CThostFtdcQryExchangeCombActionField) Type() string {
+	return "CThostFtdcQryExchangeCombActionField"
+}
+
 func (d CThostFtdcQryExchangeCombActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(157)
@@ -8318,6 +8750,8 @@ type CThostFtdcProductExchRateField struct {
 	ProductID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcProductExchRateField) Type() string { return "CThostFtdcProductExchRateField" }
+
 func (d CThostFtdcProductExchRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(134)
@@ -8344,6 +8778,8 @@ type CThostFtdcQryProductExchRateField struct {
 	ProductID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryProductExchRateField) Type() string { return "CThostFtdcQryProductExchRateField" }
+
 func (d CThostFtdcQryProductExchRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(90)
@@ -8369,6 +8805,8 @@ type CThostFtdcQryForQuoteParamField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcQryForQuoteParamField) Type() string { return "CThostFtdcQryForQuoteParamField" }
 
 func (d CThostFtdcQryForQuoteParamField) String() string {
 	var builder strings.Builder
@@ -8400,6 +8838,8 @@ type CThostFtdcForQuoteParamField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcForQuoteParamField) Type() string { return "CThostFtdcForQuoteParamField" }
 
 func (d CThostFtdcForQuoteParamField) String() string {
 	var builder strings.Builder
@@ -8448,6 +8888,10 @@ type CThostFtdcMMOptionInstrCommRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcMMOptionInstrCommRateField) Type() string {
+	return "CThostFtdcMMOptionInstrCommRateField"
+}
+
 func (d CThostFtdcMMOptionInstrCommRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(367)
@@ -8482,6 +8926,10 @@ type CThostFtdcQryMMOptionInstrCommRateField struct {
 	reserve1 types.TThostFtdcOldInstrumentIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryMMOptionInstrCommRateField) Type() string {
+	return "CThostFtdcQryMMOptionInstrCommRateField"
 }
 
 func (d CThostFtdcQryMMOptionInstrCommRateField) String() string {
@@ -8525,6 +8973,10 @@ type CThostFtdcMMInstrumentCommissionRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcMMInstrumentCommissionRateField) Type() string {
+	return "CThostFtdcMMInstrumentCommissionRateField"
+}
+
 func (d CThostFtdcMMInstrumentCommissionRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(315)
@@ -8557,6 +9009,10 @@ type CThostFtdcQryMMInstrumentCommissionRateField struct {
 	reserve1 types.TThostFtdcOldInstrumentIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryMMInstrumentCommissionRateField) Type() string {
+	return "CThostFtdcQryMMInstrumentCommissionRateField"
 }
 
 func (d CThostFtdcQryMMInstrumentCommissionRateField) String() string {
@@ -8602,6 +9058,10 @@ type CThostFtdcInstrumentOrderCommRateField struct {
 	OrderActionCommByTrade types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcInstrumentOrderCommRateField) Type() string {
+	return "CThostFtdcInstrumentOrderCommRateField"
+}
+
 func (d CThostFtdcInstrumentOrderCommRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(318)
@@ -8637,6 +9097,10 @@ type CThostFtdcQryInstrumentOrderCommRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryInstrumentOrderCommRateField) Type() string {
+	return "CThostFtdcQryInstrumentOrderCommRateField"
+}
+
 func (d CThostFtdcQryInstrumentOrderCommRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(119)
@@ -8663,6 +9127,8 @@ type CThostFtdcTradeParamField struct {
 	// 备注
 	Memo types.TThostFtdcMemoType
 }
+
+func (d CThostFtdcTradeParamField) Type() string { return "CThostFtdcTradeParamField" }
 
 func (d CThostFtdcTradeParamField) String() string {
 	var builder strings.Builder
@@ -8701,6 +9167,10 @@ type CThostFtdcInstrumentMarginRateULField struct {
 	ShortMarginRatioByVolume types.TThostFtdcMoneyType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcInstrumentMarginRateULField) Type() string {
+	return "CThostFtdcInstrumentMarginRateULField"
 }
 
 func (d CThostFtdcInstrumentMarginRateULField) String() string {
@@ -8744,6 +9214,10 @@ type CThostFtdcFutureLimitPosiParamField struct {
 	ProductID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcFutureLimitPosiParamField) Type() string {
+	return "CThostFtdcFutureLimitPosiParamField"
+}
+
 func (d CThostFtdcFutureLimitPosiParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(201)
@@ -8771,6 +9245,8 @@ type CThostFtdcLoginForbiddenIPField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcLoginForbiddenIPField) Type() string { return "CThostFtdcLoginForbiddenIPField" }
+
 func (d CThostFtdcLoginForbiddenIPField) String() string {
 	var builder strings.Builder
 	builder.Grow(68)
@@ -8793,6 +9269,8 @@ type CThostFtdcIPListField struct {
 	// IP地址
 	IPAddress types.TThostFtdcIPAddressType
 }
+
+func (d CThostFtdcIPListField) Type() string { return "CThostFtdcIPListField" }
 
 func (d CThostFtdcIPListField) String() string {
 	var builder strings.Builder
@@ -8848,6 +9326,10 @@ type CThostFtdcInputOptionSelfCloseField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// IP地址
 	IPAddress types.TThostFtdcIPAddressType
+}
+
+func (d CThostFtdcInputOptionSelfCloseField) Type() string {
+	return "CThostFtdcInputOptionSelfCloseField"
 }
 
 func (d CThostFtdcInputOptionSelfCloseField) String() string {
@@ -8916,6 +9398,10 @@ type CThostFtdcInputOptionSelfCloseActionField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// IP地址
 	IPAddress types.TThostFtdcIPAddressType
+}
+
+func (d CThostFtdcInputOptionSelfCloseActionField) Type() string {
+	return "CThostFtdcInputOptionSelfCloseActionField"
 }
 
 func (d CThostFtdcInputOptionSelfCloseActionField) String() string {
@@ -9036,6 +9522,8 @@ type CThostFtdcOptionSelfCloseField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcOptionSelfCloseField) Type() string { return "CThostFtdcOptionSelfCloseField" }
+
 func (d CThostFtdcOptionSelfCloseField) String() string {
 	var builder strings.Builder
 	builder.Grow(945)
@@ -9152,6 +9640,10 @@ type CThostFtdcOptionSelfCloseActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcOptionSelfCloseActionField) Type() string {
+	return "CThostFtdcOptionSelfCloseActionField"
+}
+
 func (d CThostFtdcOptionSelfCloseActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(655)
@@ -9211,6 +9703,8 @@ type CThostFtdcQryOptionSelfCloseField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcQryOptionSelfCloseField) Type() string { return "CThostFtdcQryOptionSelfCloseField" }
 
 func (d CThostFtdcQryOptionSelfCloseField) String() string {
 	var builder strings.Builder
@@ -9291,6 +9785,10 @@ type CThostFtdcExchangeOptionSelfCloseField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcExchangeOptionSelfCloseField) Type() string {
+	return "CThostFtdcExchangeOptionSelfCloseField"
+}
+
 func (d CThostFtdcExchangeOptionSelfCloseField) String() string {
 	var builder strings.Builder
 	builder.Grow(634)
@@ -9338,6 +9836,10 @@ type CThostFtdcQryOptionSelfCloseActionField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
+}
+
+func (d CThostFtdcQryOptionSelfCloseActionField) Type() string {
+	return "CThostFtdcQryOptionSelfCloseActionField"
 }
 
 func (d CThostFtdcQryOptionSelfCloseActionField) String() string {
@@ -9400,6 +9902,10 @@ type CThostFtdcExchangeOptionSelfCloseActionField struct {
 	ExchangeInstID types.TThostFtdcExchangeInstIDType
 }
 
+func (d CThostFtdcExchangeOptionSelfCloseActionField) Type() string {
+	return "CThostFtdcExchangeOptionSelfCloseActionField"
+}
+
 func (d CThostFtdcExchangeOptionSelfCloseActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(495)
@@ -9458,6 +9964,8 @@ type CThostFtdcSyncDelaySwapField struct {
 	IsAllRemainSetZero types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcSyncDelaySwapField) Type() string { return "CThostFtdcSyncDelaySwapField" }
+
 func (d CThostFtdcSyncDelaySwapField) String() string {
 	var builder strings.Builder
 	builder.Grow(272)
@@ -9487,6 +9995,8 @@ type CThostFtdcQrySyncDelaySwapField struct {
 	// 延时换汇流水号
 	DelaySwapSeqNo types.TThostFtdcDepositSeqNoType
 }
+
+func (d CThostFtdcQrySyncDelaySwapField) Type() string { return "CThostFtdcQrySyncDelaySwapField" }
 
 func (d CThostFtdcQrySyncDelaySwapField) String() string {
 	var builder strings.Builder
@@ -9523,6 +10033,8 @@ type CThostFtdcInvestUnitField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcInvestUnitField) Type() string { return "CThostFtdcInvestUnitField" }
+
 func (d CThostFtdcInvestUnitField) String() string {
 	var builder strings.Builder
 	builder.Grow(219)
@@ -9553,6 +10065,8 @@ type CThostFtdcQryInvestUnitField struct {
 	InvestUnitID types.TThostFtdcInvestUnitIDType
 }
 
+func (d CThostFtdcQryInvestUnitField) Type() string { return "CThostFtdcQryInvestUnitField" }
+
 func (d CThostFtdcQryInvestUnitField) String() string {
 	var builder strings.Builder
 	builder.Grow(88)
@@ -9581,6 +10095,8 @@ type CThostFtdcSecAgentCheckModeField struct {
 	CheckSelfAccount types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcSecAgentCheckModeField) Type() string { return "CThostFtdcSecAgentCheckModeField" }
+
 func (d CThostFtdcSecAgentCheckModeField) String() string {
 	var builder strings.Builder
 	builder.Grow(142)
@@ -9608,6 +10124,8 @@ type CThostFtdcSecAgentTradeInfoField struct {
 	// 二级代理商姓名
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
+
+func (d CThostFtdcSecAgentTradeInfoField) Type() string { return "CThostFtdcSecAgentTradeInfoField" }
 
 func (d CThostFtdcSecAgentTradeInfoField) String() string {
 	var builder strings.Builder
@@ -9678,6 +10196,8 @@ type CThostFtdcMarketDataField struct {
 	ExchangeInstID types.TThostFtdcExchangeInstIDType
 }
 
+func (d CThostFtdcMarketDataField) Type() string { return "CThostFtdcMarketDataField" }
+
 func (d CThostFtdcMarketDataField) String() string {
 	var builder strings.Builder
 	builder.Grow(555)
@@ -9728,6 +10248,8 @@ type CThostFtdcMarketDataBaseField struct {
 	PreDelta types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcMarketDataBaseField) Type() string { return "CThostFtdcMarketDataBaseField" }
+
 func (d CThostFtdcMarketDataBaseField) String() string {
 	var builder strings.Builder
 	builder.Grow(143)
@@ -9764,6 +10286,8 @@ type CThostFtdcMarketDataStaticField struct {
 	CurrDelta types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcMarketDataStaticField) Type() string { return "CThostFtdcMarketDataStaticField" }
+
 func (d CThostFtdcMarketDataStaticField) String() string {
 	var builder strings.Builder
 	builder.Grow(207)
@@ -9795,6 +10319,10 @@ type CThostFtdcMarketDataLastMatchField struct {
 	OpenInterest types.TThostFtdcLargeVolumeType
 }
 
+func (d CThostFtdcMarketDataLastMatchField) Type() string {
+	return "CThostFtdcMarketDataLastMatchField"
+}
+
 func (d CThostFtdcMarketDataLastMatchField) String() string {
 	var builder strings.Builder
 	builder.Grow(109)
@@ -9820,6 +10348,10 @@ type CThostFtdcMarketDataBestPriceField struct {
 	AskPrice1 types.TThostFtdcPriceType
 	// 申卖量一
 	AskVolume1 types.TThostFtdcVolumeType
+}
+
+func (d CThostFtdcMarketDataBestPriceField) Type() string {
+	return "CThostFtdcMarketDataBestPriceField"
 }
 
 func (d CThostFtdcMarketDataBestPriceField) String() string {
@@ -9849,6 +10381,8 @@ type CThostFtdcMarketDataBid23Field struct {
 	BidVolume3 types.TThostFtdcVolumeType
 }
 
+func (d CThostFtdcMarketDataBid23Field) Type() string { return "CThostFtdcMarketDataBid23Field" }
+
 func (d CThostFtdcMarketDataBid23Field) String() string {
 	var builder strings.Builder
 	builder.Grow(108)
@@ -9875,6 +10409,8 @@ type CThostFtdcMarketDataAsk23Field struct {
 	// 申卖量三
 	AskVolume3 types.TThostFtdcVolumeType
 }
+
+func (d CThostFtdcMarketDataAsk23Field) Type() string { return "CThostFtdcMarketDataAsk23Field" }
 
 func (d CThostFtdcMarketDataAsk23Field) String() string {
 	var builder strings.Builder
@@ -9903,6 +10439,8 @@ type CThostFtdcMarketDataBid45Field struct {
 	BidVolume5 types.TThostFtdcVolumeType
 }
 
+func (d CThostFtdcMarketDataBid45Field) Type() string { return "CThostFtdcMarketDataBid45Field" }
+
 func (d CThostFtdcMarketDataBid45Field) String() string {
 	var builder strings.Builder
 	builder.Grow(108)
@@ -9929,6 +10467,8 @@ type CThostFtdcMarketDataAsk45Field struct {
 	// 申卖量五
 	AskVolume5 types.TThostFtdcVolumeType
 }
+
+func (d CThostFtdcMarketDataAsk45Field) Type() string { return "CThostFtdcMarketDataAsk45Field" }
 
 func (d CThostFtdcMarketDataAsk45Field) String() string {
 	var builder strings.Builder
@@ -9959,6 +10499,10 @@ type CThostFtdcMarketDataUpdateTimeField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcMarketDataUpdateTimeField) Type() string {
+	return "CThostFtdcMarketDataUpdateTimeField"
+}
+
 func (d CThostFtdcMarketDataUpdateTimeField) String() string {
 	var builder strings.Builder
 	builder.Grow(138)
@@ -9983,6 +10527,10 @@ type CThostFtdcMarketDataBandingPriceField struct {
 	BandingLowerPrice types.TThostFtdcPriceType
 }
 
+func (d CThostFtdcMarketDataBandingPriceField) Type() string {
+	return "CThostFtdcMarketDataBandingPriceField"
+}
+
 func (d CThostFtdcMarketDataBandingPriceField) String() string {
 	var builder strings.Builder
 	builder.Grow(91)
@@ -10001,6 +10549,8 @@ type CThostFtdcMarketDataExchangeField struct {
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
 }
+
+func (d CThostFtdcMarketDataExchangeField) Type() string { return "CThostFtdcMarketDataExchangeField" }
 
 func (d CThostFtdcMarketDataExchangeField) String() string {
 	var builder strings.Builder
@@ -10021,6 +10571,8 @@ type CThostFtdcSpecificInstrumentField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcSpecificInstrumentField) Type() string { return "CThostFtdcSpecificInstrumentField" }
 
 func (d CThostFtdcSpecificInstrumentField) String() string {
 	var builder strings.Builder
@@ -10059,6 +10611,8 @@ type CThostFtdcInstrumentStatusField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcInstrumentStatusField) Type() string { return "CThostFtdcInstrumentStatusField" }
+
 func (d CThostFtdcInstrumentStatusField) String() string {
 	var builder strings.Builder
 	builder.Grow(252)
@@ -10090,6 +10644,10 @@ type CThostFtdcQryInstrumentStatusField struct {
 	ExchangeInstID types.TThostFtdcExchangeInstIDType
 }
 
+func (d CThostFtdcQryInstrumentStatusField) Type() string {
+	return "CThostFtdcQryInstrumentStatusField"
+}
+
 func (d CThostFtdcQryInstrumentStatusField) String() string {
 	var builder strings.Builder
 	builder.Grow(96)
@@ -10115,6 +10673,8 @@ type CThostFtdcInvestorAccountField struct {
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
+
+func (d CThostFtdcInvestorAccountField) Type() string { return "CThostFtdcInvestorAccountField" }
 
 func (d CThostFtdcInvestorAccountField) String() string {
 	var builder strings.Builder
@@ -10145,6 +10705,10 @@ type CThostFtdcPositionProfitAlgorithmField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcPositionProfitAlgorithmField) Type() string {
+	return "CThostFtdcPositionProfitAlgorithmField"
+}
+
 func (d CThostFtdcPositionProfitAlgorithmField) String() string {
 	var builder strings.Builder
 	builder.Grow(128)
@@ -10173,6 +10737,8 @@ type CThostFtdcDiscountField struct {
 	Discount types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcDiscountField) Type() string { return "CThostFtdcDiscountField" }
+
 func (d CThostFtdcDiscountField) String() string {
 	var builder strings.Builder
 	builder.Grow(102)
@@ -10195,6 +10761,8 @@ type CThostFtdcQryTransferBankField struct {
 	// 银行分中心代码
 	BankBrchID types.TThostFtdcBankBrchIDType
 }
+
+func (d CThostFtdcQryTransferBankField) Type() string { return "CThostFtdcQryTransferBankField" }
 
 func (d CThostFtdcQryTransferBankField) String() string {
 	var builder strings.Builder
@@ -10220,6 +10788,8 @@ type CThostFtdcTransferBankField struct {
 	// 是否活跃
 	IsActive types.TThostFtdcBoolType
 }
+
+func (d CThostFtdcTransferBankField) Type() string { return "CThostFtdcTransferBankField" }
 
 func (d CThostFtdcTransferBankField) String() string {
 	var builder strings.Builder
@@ -10250,6 +10820,10 @@ type CThostFtdcQryInvestorPositionDetailField struct {
 	InvestUnitID types.TThostFtdcInvestUnitIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryInvestorPositionDetailField) Type() string {
+	return "CThostFtdcQryInvestorPositionDetailField"
 }
 
 func (d CThostFtdcQryInvestorPositionDetailField) String() string {
@@ -10335,6 +10909,10 @@ type CThostFtdcInvestorPositionDetailField struct {
 	CombInstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcInvestorPositionDetailField) Type() string {
+	return "CThostFtdcInvestorPositionDetailField"
+}
+
 func (d CThostFtdcInvestorPositionDetailField) String() string {
 	var builder strings.Builder
 	builder.Grow(720)
@@ -10387,6 +10965,10 @@ type CThostFtdcTradingAccountPasswordField struct {
 	Password types.TThostFtdcPasswordType
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
+}
+
+func (d CThostFtdcTradingAccountPasswordField) Type() string {
+	return "CThostFtdcTradingAccountPasswordField"
 }
 
 func (d CThostFtdcTradingAccountPasswordField) String() string {
@@ -10448,6 +11030,8 @@ type CThostFtdcMDTraderOfferField struct {
 	OrderCancelAlg types.TThostFtdcOrderCancelAlgType
 }
 
+func (d CThostFtdcMDTraderOfferField) Type() string { return "CThostFtdcMDTraderOfferField" }
+
 func (d CThostFtdcMDTraderOfferField) String() string {
 	var builder strings.Builder
 	builder.Grow(477)
@@ -10489,6 +11073,8 @@ type CThostFtdcQryMDTraderOfferField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryMDTraderOfferField) Type() string { return "CThostFtdcQryMDTraderOfferField" }
+
 func (d CThostFtdcQryMDTraderOfferField) String() string {
 	var builder strings.Builder
 	builder.Grow(92)
@@ -10508,6 +11094,8 @@ type CThostFtdcQryNoticeField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 }
+
+func (d CThostFtdcQryNoticeField) Type() string { return "CThostFtdcQryNoticeField" }
 
 func (d CThostFtdcQryNoticeField) String() string {
 	var builder strings.Builder
@@ -10530,6 +11118,8 @@ type CThostFtdcNoticeField struct {
 	// 经纪公司通知内容序列号
 	SequenceLabel types.TThostFtdcSequenceLabelType
 }
+
+func (d CThostFtdcNoticeField) Type() string { return "CThostFtdcNoticeField" }
 
 func (d CThostFtdcNoticeField) String() string {
 	var builder strings.Builder
@@ -10556,6 +11146,8 @@ type CThostFtdcUserRightField struct {
 	// 是否禁止
 	IsForbidden types.TThostFtdcBoolType
 }
+
+func (d CThostFtdcUserRightField) Type() string { return "CThostFtdcUserRightField" }
 
 func (d CThostFtdcUserRightField) String() string {
 	var builder strings.Builder
@@ -10584,6 +11176,10 @@ type CThostFtdcQrySettlementInfoConfirmField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcQrySettlementInfoConfirmField) Type() string {
+	return "CThostFtdcQrySettlementInfoConfirmField"
+}
+
 func (d CThostFtdcQrySettlementInfoConfirmField) String() string {
 	var builder strings.Builder
 	builder.Grow(116)
@@ -10604,6 +11200,8 @@ type CThostFtdcLoadSettlementInfoField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 }
+
+func (d CThostFtdcLoadSettlementInfoField) Type() string { return "CThostFtdcLoadSettlementInfoField" }
 
 func (d CThostFtdcLoadSettlementInfoField) String() string {
 	var builder strings.Builder
@@ -10641,6 +11239,10 @@ type CThostFtdcBrokerWithdrawAlgorithmField struct {
 	BalanceAlgorithm types.TThostFtdcBalanceAlgorithmType
 }
 
+func (d CThostFtdcBrokerWithdrawAlgorithmField) Type() string {
+	return "CThostFtdcBrokerWithdrawAlgorithmField"
+}
+
 func (d CThostFtdcBrokerWithdrawAlgorithmField) String() string {
 	var builder strings.Builder
 	builder.Grow(289)
@@ -10674,6 +11276,10 @@ type CThostFtdcTradingAccountPasswordUpdateV1Field struct {
 	NewPassword types.TThostFtdcPasswordType
 }
 
+func (d CThostFtdcTradingAccountPasswordUpdateV1Field) Type() string {
+	return "CThostFtdcTradingAccountPasswordUpdateV1Field"
+}
+
 func (d CThostFtdcTradingAccountPasswordUpdateV1Field) String() string {
 	var builder strings.Builder
 	builder.Grow(125)
@@ -10701,6 +11307,10 @@ type CThostFtdcTradingAccountPasswordUpdateField struct {
 	NewPassword types.TThostFtdcPasswordType
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
+}
+
+func (d CThostFtdcTradingAccountPasswordUpdateField) Type() string {
+	return "CThostFtdcTradingAccountPasswordUpdateField"
 }
 
 func (d CThostFtdcTradingAccountPasswordUpdateField) String() string {
@@ -10733,6 +11343,8 @@ type CThostFtdcQryCombinationLegField struct {
 	LegInstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryCombinationLegField) Type() string { return "CThostFtdcQryCombinationLegField" }
+
 func (d CThostFtdcQryCombinationLegField) String() string {
 	var builder strings.Builder
 	builder.Grow(134)
@@ -10754,6 +11366,8 @@ type CThostFtdcQrySyncStatusField struct {
 	// 交易日
 	TradingDay types.TThostFtdcDateType
 }
+
+func (d CThostFtdcQrySyncStatusField) Type() string { return "CThostFtdcQrySyncStatusField" }
 
 func (d CThostFtdcQrySyncStatusField) String() string {
 	var builder strings.Builder
@@ -10787,6 +11401,8 @@ type CThostFtdcCombinationLegField struct {
 	LegInstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcCombinationLegField) Type() string { return "CThostFtdcCombinationLegField" }
+
 func (d CThostFtdcCombinationLegField) String() string {
 	var builder strings.Builder
 	builder.Grow(191)
@@ -10814,6 +11430,8 @@ type CThostFtdcSyncStatusField struct {
 	DataSyncStatus types.TThostFtdcDataSyncStatusType
 }
 
+func (d CThostFtdcSyncStatusField) Type() string { return "CThostFtdcSyncStatusField" }
+
 func (d CThostFtdcSyncStatusField) String() string {
 	var builder strings.Builder
 	builder.Grow(69)
@@ -10834,6 +11452,8 @@ type CThostFtdcQryLinkManField struct {
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
 }
+
+func (d CThostFtdcQryLinkManField) Type() string { return "CThostFtdcQryLinkManField" }
 
 func (d CThostFtdcQryLinkManField) String() string {
 	var builder strings.Builder
@@ -10876,6 +11496,8 @@ type CThostFtdcLinkManField struct {
 	PersonFullName types.TThostFtdcInvestorFullNameType
 }
 
+func (d CThostFtdcLinkManField) Type() string { return "CThostFtdcLinkManField" }
+
 func (d CThostFtdcLinkManField) String() string {
 	var builder strings.Builder
 	builder.Grow(269)
@@ -10908,6 +11530,8 @@ type CThostFtdcQryBrokerUserEventField struct {
 	// 用户事件类型
 	UserEventType types.TThostFtdcUserEventTypeType
 }
+
+func (d CThostFtdcQryBrokerUserEventField) Type() string { return "CThostFtdcQryBrokerUserEventField" }
 
 func (d CThostFtdcQryBrokerUserEventField) String() string {
 	var builder strings.Builder
@@ -10951,6 +11575,8 @@ type CThostFtdcBrokerUserEventField struct {
 	TradingDay types.TThostFtdcDateType
 }
 
+func (d CThostFtdcBrokerUserEventField) Type() string { return "CThostFtdcBrokerUserEventField" }
+
 func (d CThostFtdcBrokerUserEventField) String() string {
 	var builder strings.Builder
 	builder.Grow(275)
@@ -10984,6 +11610,8 @@ type CThostFtdcQryContractBankField struct {
 	BankBrchID types.TThostFtdcBankBrchIDType
 }
 
+func (d CThostFtdcQryContractBankField) Type() string { return "CThostFtdcQryContractBankField" }
+
 func (d CThostFtdcQryContractBankField) String() string {
 	var builder strings.Builder
 	builder.Grow(84)
@@ -11011,6 +11639,8 @@ type CThostFtdcContractBankField struct {
 	// 上报csrc的银行代码
 	csrcBankID types.TThostFtdcBankIDType
 }
+
+func (d CThostFtdcContractBankField) Type() string { return "CThostFtdcContractBankField" }
 
 func (d CThostFtdcContractBankField) String() string {
 	var builder strings.Builder
@@ -11076,6 +11706,10 @@ type CThostFtdcInvestorPositionCombineDetailField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// 组合持仓合约编码
 	CombInstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcInvestorPositionCombineDetailField) Type() string {
+	return "CThostFtdcInvestorPositionCombineDetailField"
 }
 
 func (d CThostFtdcInvestorPositionCombineDetailField) String() string {
@@ -11190,6 +11824,8 @@ type CThostFtdcParkedOrderField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcParkedOrderField) Type() string { return "CThostFtdcParkedOrderField" }
+
 func (d CThostFtdcParkedOrderField) String() string {
 	var builder strings.Builder
 	builder.Grow(792)
@@ -11290,6 +11926,8 @@ type CThostFtdcParkedOrderActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcParkedOrderActionField) Type() string { return "CThostFtdcParkedOrderActionField" }
+
 func (d CThostFtdcParkedOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(502)
@@ -11341,6 +11979,8 @@ type CThostFtdcQryParkedOrderField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryParkedOrderField) Type() string { return "CThostFtdcQryParkedOrderField" }
+
 func (d CThostFtdcQryParkedOrderField) String() string {
 	var builder strings.Builder
 	builder.Grow(149)
@@ -11374,6 +12014,10 @@ type CThostFtdcQryParkedOrderActionField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryParkedOrderActionField) Type() string {
+	return "CThostFtdcQryParkedOrderActionField"
+}
+
 func (d CThostFtdcQryParkedOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(155)
@@ -11403,6 +12047,8 @@ type CThostFtdcRemoveParkedOrderField struct {
 	InvestUnitID types.TThostFtdcInvestUnitIDType
 }
 
+func (d CThostFtdcRemoveParkedOrderField) Type() string { return "CThostFtdcRemoveParkedOrderField" }
+
 func (d CThostFtdcRemoveParkedOrderField) String() string {
 	var builder strings.Builder
 	builder.Grow(115)
@@ -11428,6 +12074,10 @@ type CThostFtdcRemoveParkedOrderActionField struct {
 	ParkedOrderActionID types.TThostFtdcParkedOrderActionIDType
 	// 投资单元代码
 	InvestUnitID types.TThostFtdcInvestUnitIDType
+}
+
+func (d CThostFtdcRemoveParkedOrderActionField) Type() string {
+	return "CThostFtdcRemoveParkedOrderActionField"
 }
 
 func (d CThostFtdcRemoveParkedOrderActionField) String() string {
@@ -11459,6 +12109,10 @@ type CThostFtdcInvestorWithdrawAlgorithmField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 	// 货币质押比率
 	FundMortgageRatio types.TThostFtdcRatioType
+}
+
+func (d CThostFtdcInvestorWithdrawAlgorithmField) Type() string {
+	return "CThostFtdcInvestorWithdrawAlgorithmField"
 }
 
 func (d CThostFtdcInvestorWithdrawAlgorithmField) String() string {
@@ -11494,6 +12148,10 @@ type CThostFtdcQryInvestorPositionCombineDetailField struct {
 	CombInstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryInvestorPositionCombineDetailField) Type() string {
+	return "CThostFtdcQryInvestorPositionCombineDetailField"
+}
+
 func (d CThostFtdcQryInvestorPositionCombineDetailField) String() string {
 	var builder strings.Builder
 	builder.Grow(171)
@@ -11517,6 +12175,10 @@ type CThostFtdcMarketDataAveragePriceField struct {
 	AveragePrice types.TThostFtdcPriceType
 }
 
+func (d CThostFtdcMarketDataAveragePriceField) Type() string {
+	return "CThostFtdcMarketDataAveragePriceField"
+}
+
 func (d CThostFtdcMarketDataAveragePriceField) String() string {
 	var builder strings.Builder
 	builder.Grow(59)
@@ -11537,6 +12199,10 @@ type CThostFtdcVerifyInvestorPasswordField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 密码
 	Password types.TThostFtdcPasswordType
+}
+
+func (d CThostFtdcVerifyInvestorPasswordField) Type() string {
+	return "CThostFtdcVerifyInvestorPasswordField"
 }
 
 func (d CThostFtdcVerifyInvestorPasswordField) String() string {
@@ -11570,6 +12236,8 @@ type CThostFtdcUserIPField struct {
 	// IP地址掩码
 	IPMask types.TThostFtdcIPAddressType
 }
+
+func (d CThostFtdcUserIPField) Type() string { return "CThostFtdcUserIPField" }
 
 func (d CThostFtdcUserIPField) String() string {
 	var builder strings.Builder
@@ -11606,6 +12274,8 @@ type CThostFtdcTradingNoticeInfoField struct {
 	// 投资单元代码
 	InvestUnitID types.TThostFtdcInvestUnitIDType
 }
+
+func (d CThostFtdcTradingNoticeInfoField) Type() string { return "CThostFtdcTradingNoticeInfoField" }
 
 func (d CThostFtdcTradingNoticeInfoField) String() string {
 	var builder strings.Builder
@@ -11647,6 +12317,8 @@ type CThostFtdcTradingNoticeField struct {
 	InvestUnitID types.TThostFtdcInvestUnitIDType
 }
 
+func (d CThostFtdcTradingNoticeField) Type() string { return "CThostFtdcTradingNoticeField" }
+
 func (d CThostFtdcTradingNoticeField) String() string {
 	var builder strings.Builder
 	builder.Grow(211)
@@ -11677,6 +12349,8 @@ type CThostFtdcQryTradingNoticeField struct {
 	InvestUnitID types.TThostFtdcInvestUnitIDType
 }
 
+func (d CThostFtdcQryTradingNoticeField) Type() string { return "CThostFtdcQryTradingNoticeField" }
+
 func (d CThostFtdcQryTradingNoticeField) String() string {
 	var builder strings.Builder
 	builder.Grow(91)
@@ -11698,6 +12372,8 @@ type CThostFtdcQryErrOrderField struct {
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
 }
+
+func (d CThostFtdcQryErrOrderField) Type() string { return "CThostFtdcQryErrOrderField" }
 
 func (d CThostFtdcQryErrOrderField) String() string {
 	var builder strings.Builder
@@ -11787,6 +12463,8 @@ type CThostFtdcErrOrderField struct {
 	// session上请求计数 api自动维护
 	SessionReqSeq types.TThostFtdcSequenceNo12Type
 }
+
+func (d CThostFtdcErrOrderField) Type() string { return "CThostFtdcErrOrderField" }
 
 func (d CThostFtdcErrOrderField) String() string {
 	var builder strings.Builder
@@ -11975,6 +12653,10 @@ type CThostFtdcErrorConditionalOrderField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcErrorConditionalOrderField) Type() string {
+	return "CThostFtdcErrorConditionalOrderField"
+}
+
 func (d CThostFtdcErrorConditionalOrderField) String() string {
 	var builder strings.Builder
 	builder.Grow(1477)
@@ -12061,6 +12743,8 @@ type CThostFtdcQryErrOrderActionField struct {
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
 }
+
+func (d CThostFtdcQryErrOrderActionField) Type() string { return "CThostFtdcQryErrOrderActionField" }
 
 func (d CThostFtdcQryErrOrderActionField) String() string {
 	var builder strings.Builder
@@ -12149,6 +12833,8 @@ type CThostFtdcErrOrderActionField struct {
 	SessionReqSeq types.TThostFtdcSequenceNo12Type
 }
 
+func (d CThostFtdcErrOrderActionField) Type() string { return "CThostFtdcErrOrderActionField" }
+
 func (d CThostFtdcErrOrderActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(727)
@@ -12201,6 +12887,10 @@ type CThostFtdcQryExchangeSequenceField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 }
 
+func (d CThostFtdcQryExchangeSequenceField) Type() string {
+	return "CThostFtdcQryExchangeSequenceField"
+}
+
 func (d CThostFtdcQryExchangeSequenceField) String() string {
 	var builder strings.Builder
 	builder.Grow(54)
@@ -12222,6 +12912,8 @@ type CThostFtdcExchangeSequenceField struct {
 	// 合约交易状态
 	MarketStatus types.TThostFtdcInstrumentStatusType
 }
+
+func (d CThostFtdcExchangeSequenceField) Type() string { return "CThostFtdcExchangeSequenceField" }
 
 func (d CThostFtdcExchangeSequenceField) String() string {
 	var builder strings.Builder
@@ -12263,6 +12955,10 @@ type CThostFtdcQryMaxOrderVolumeWithPriceField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryMaxOrderVolumeWithPriceField) Type() string {
+	return "CThostFtdcQryMaxOrderVolumeWithPriceField"
+}
+
 func (d CThostFtdcQryMaxOrderVolumeWithPriceField) String() string {
 	var builder strings.Builder
 	builder.Grow(253)
@@ -12295,6 +12991,10 @@ type CThostFtdcQryBrokerTradingParamsField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 	// 投资者帐号
 	AccountID types.TThostFtdcAccountIDType
+}
+
+func (d CThostFtdcQryBrokerTradingParamsField) Type() string {
+	return "CThostFtdcQryBrokerTradingParamsField"
 }
 
 func (d CThostFtdcQryBrokerTradingParamsField) String() string {
@@ -12332,6 +13032,10 @@ type CThostFtdcBrokerTradingParamsField struct {
 	AccountID types.TThostFtdcAccountIDType
 }
 
+func (d CThostFtdcBrokerTradingParamsField) Type() string {
+	return "CThostFtdcBrokerTradingParamsField"
+}
+
 func (d CThostFtdcBrokerTradingParamsField) String() string {
 	var builder strings.Builder
 	builder.Grow(220)
@@ -12361,6 +13065,10 @@ type CThostFtdcQryBrokerTradingAlgosField struct {
 	reserve1 types.TThostFtdcOldInstrumentIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryBrokerTradingAlgosField) Type() string {
+	return "CThostFtdcQryBrokerTradingAlgosField"
 }
 
 func (d CThostFtdcQryBrokerTradingAlgosField) String() string {
@@ -12396,6 +13104,8 @@ type CThostFtdcBrokerTradingAlgosField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcBrokerTradingAlgosField) Type() string { return "CThostFtdcBrokerTradingAlgosField" }
+
 func (d CThostFtdcBrokerTradingAlgosField) String() string {
 	var builder strings.Builder
 	builder.Grow(207)
@@ -12421,6 +13131,8 @@ type CThostFtdcQueryBrokerDepositField struct {
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
 }
+
+func (d CThostFtdcQueryBrokerDepositField) Type() string { return "CThostFtdcQueryBrokerDepositField" }
 
 func (d CThostFtdcQueryBrokerDepositField) String() string {
 	var builder strings.Builder
@@ -12465,6 +13177,8 @@ type CThostFtdcBrokerDepositField struct {
 	FrozenMargin types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcBrokerDepositField) Type() string { return "CThostFtdcBrokerDepositField" }
+
 func (d CThostFtdcBrokerDepositField) String() string {
 	var builder strings.Builder
 	builder.Grow(280)
@@ -12495,6 +13209,8 @@ type CThostFtdcQryCFMMCBrokerKeyField struct {
 	BrokerID types.TThostFtdcBrokerIDType
 }
 
+func (d CThostFtdcQryCFMMCBrokerKeyField) Type() string { return "CThostFtdcQryCFMMCBrokerKeyField" }
+
 func (d CThostFtdcQryCFMMCBrokerKeyField) String() string {
 	var builder strings.Builder
 	builder.Grow(50)
@@ -12524,6 +13240,8 @@ type CThostFtdcCFMMCBrokerKeyField struct {
 	// 动态密钥类型
 	KeyKind types.TThostFtdcCFMMCKeyKindType
 }
+
+func (d CThostFtdcCFMMCBrokerKeyField) Type() string { return "CThostFtdcCFMMCBrokerKeyField" }
 
 func (d CThostFtdcCFMMCBrokerKeyField) String() string {
 	var builder strings.Builder
@@ -12557,6 +13275,10 @@ type CThostFtdcCFMMCTradingAccountKeyField struct {
 	CurrentKey types.TThostFtdcCFMMCKeyType
 }
 
+func (d CThostFtdcCFMMCTradingAccountKeyField) Type() string {
+	return "CThostFtdcCFMMCTradingAccountKeyField"
+}
+
 func (d CThostFtdcCFMMCTradingAccountKeyField) String() string {
 	var builder strings.Builder
 	builder.Grow(132)
@@ -12579,6 +13301,10 @@ type CThostFtdcQryCFMMCTradingAccountKeyField struct {
 	BrokerID types.TThostFtdcBrokerIDType
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQryCFMMCTradingAccountKeyField) Type() string {
+	return "CThostFtdcQryCFMMCTradingAccountKeyField"
 }
 
 func (d CThostFtdcQryCFMMCTradingAccountKeyField) String() string {
@@ -12614,6 +13340,8 @@ type CThostFtdcBrokerUserOTPParamField struct {
 	OTPType types.TThostFtdcOTPTypeType
 }
 
+func (d CThostFtdcBrokerUserOTPParamField) Type() string { return "CThostFtdcBrokerUserOTPParamField" }
+
 func (d CThostFtdcBrokerUserOTPParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(185)
@@ -12647,6 +13375,10 @@ type CThostFtdcManualSyncBrokerUserOTPField struct {
 	SecondOTP types.TThostFtdcPasswordType
 }
 
+func (d CThostFtdcManualSyncBrokerUserOTPField) Type() string {
+	return "CThostFtdcManualSyncBrokerUserOTPField"
+}
+
 func (d CThostFtdcManualSyncBrokerUserOTPField) String() string {
 	var builder strings.Builder
 	builder.Grow(126)
@@ -12673,6 +13405,8 @@ type CThostFtdcCommRateModelField struct {
 	CommModelName types.TThostFtdcCommModelNameType
 }
 
+func (d CThostFtdcCommRateModelField) Type() string { return "CThostFtdcCommRateModelField" }
+
 func (d CThostFtdcCommRateModelField) String() string {
 	var builder strings.Builder
 	builder.Grow(90)
@@ -12694,6 +13428,8 @@ type CThostFtdcQryCommRateModelField struct {
 	// 手续费率模板代码
 	CommModelID types.TThostFtdcInvestorIDType
 }
+
+func (d CThostFtdcQryCommRateModelField) Type() string { return "CThostFtdcQryCommRateModelField" }
 
 func (d CThostFtdcQryCommRateModelField) String() string {
 	var builder strings.Builder
@@ -12718,6 +13454,8 @@ type CThostFtdcMarginModelField struct {
 	MarginModelName types.TThostFtdcCommModelNameType
 }
 
+func (d CThostFtdcMarginModelField) Type() string { return "CThostFtdcMarginModelField" }
+
 func (d CThostFtdcMarginModelField) String() string {
 	var builder strings.Builder
 	builder.Grow(92)
@@ -12739,6 +13477,8 @@ type CThostFtdcQryMarginModelField struct {
 	// 保证金率模板代码
 	MarginModelID types.TThostFtdcInvestorIDType
 }
+
+func (d CThostFtdcQryMarginModelField) Type() string { return "CThostFtdcQryMarginModelField" }
 
 func (d CThostFtdcQryMarginModelField) String() string {
 	var builder strings.Builder
@@ -12777,6 +13517,8 @@ type CThostFtdcEWarrantOffsetField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcEWarrantOffsetField) Type() string { return "CThostFtdcEWarrantOffsetField" }
+
 func (d CThostFtdcEWarrantOffsetField) String() string {
 	var builder strings.Builder
 	builder.Grow(223)
@@ -12814,6 +13556,8 @@ type CThostFtdcQryEWarrantOffsetField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryEWarrantOffsetField) Type() string { return "CThostFtdcQryEWarrantOffsetField" }
+
 func (d CThostFtdcQryEWarrantOffsetField) String() string {
 	var builder strings.Builder
 	builder.Grow(152)
@@ -12847,6 +13591,10 @@ type CThostFtdcQryInvestorProductGroupMarginField struct {
 	InvestUnitID types.TThostFtdcInvestUnitIDType
 	// 品种跨品种标示
 	ProductGroupID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryInvestorProductGroupMarginField) Type() string {
+	return "CThostFtdcQryInvestorProductGroupMarginField"
 }
 
 func (d CThostFtdcQryInvestorProductGroupMarginField) String() string {
@@ -12931,6 +13679,10 @@ type CThostFtdcInvestorProductGroupMarginField struct {
 	ProductGroupID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcInvestorProductGroupMarginField) Type() string {
+	return "CThostFtdcInvestorProductGroupMarginField"
+}
+
 func (d CThostFtdcInvestorProductGroupMarginField) String() string {
 	var builder strings.Builder
 	builder.Grow(723)
@@ -12982,6 +13734,10 @@ type CThostFtdcQueryCFMMCTradingAccountTokenField struct {
 	InvestUnitID types.TThostFtdcInvestUnitIDType
 }
 
+func (d CThostFtdcQueryCFMMCTradingAccountTokenField) Type() string {
+	return "CThostFtdcQueryCFMMCTradingAccountTokenField"
+}
+
 func (d CThostFtdcQueryCFMMCTradingAccountTokenField) String() string {
 	var builder strings.Builder
 	builder.Grow(104)
@@ -13010,6 +13766,10 @@ type CThostFtdcCFMMCTradingAccountTokenField struct {
 	Token types.TThostFtdcCFMMCTokenType
 }
 
+func (d CThostFtdcCFMMCTradingAccountTokenField) Type() string {
+	return "CThostFtdcCFMMCTradingAccountTokenField"
+}
+
 func (d CThostFtdcCFMMCTradingAccountTokenField) String() string {
 	var builder strings.Builder
 	builder.Grow(129)
@@ -13035,6 +13795,8 @@ type CThostFtdcQryProductGroupField struct {
 	// 产品代码
 	ProductID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcQryProductGroupField) Type() string { return "CThostFtdcQryProductGroupField" }
 
 func (d CThostFtdcQryProductGroupField) String() string {
 	var builder strings.Builder
@@ -13063,6 +13825,8 @@ type CThostFtdcProductGroupField struct {
 	// 产品组代码
 	ProductGroupID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcProductGroupField) Type() string { return "CThostFtdcProductGroupField" }
 
 func (d CThostFtdcProductGroupField) String() string {
 	var builder strings.Builder
@@ -13108,6 +13872,8 @@ type CThostFtdcBulletinField struct {
 	MarketID types.TThostFtdcMarketIDType
 }
 
+func (d CThostFtdcBulletinField) Type() string { return "CThostFtdcBulletinField" }
+
 func (d CThostFtdcBulletinField) String() string {
 	var builder strings.Builder
 	builder.Grow(248)
@@ -13145,6 +13911,8 @@ type CThostFtdcQryBulletinField struct {
 	NewsUrgency types.TThostFtdcNewsUrgencyType
 }
 
+func (d CThostFtdcQryBulletinField) Type() string { return "CThostFtdcQryBulletinField" }
+
 func (d CThostFtdcQryBulletinField) String() string {
 	var builder strings.Builder
 	builder.Grow(125)
@@ -13179,6 +13947,10 @@ type CThostFtdcMulticastInstrumentField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcMulticastInstrumentField) Type() string {
+	return "CThostFtdcMulticastInstrumentField"
+}
+
 func (d CThostFtdcMulticastInstrumentField) String() string {
 	var builder strings.Builder
 	builder.Grow(175)
@@ -13207,6 +13979,10 @@ type CThostFtdcQryMulticastInstrumentField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryMulticastInstrumentField) Type() string {
+	return "CThostFtdcQryMulticastInstrumentField"
+}
+
 func (d CThostFtdcQryMulticastInstrumentField) String() string {
 	var builder strings.Builder
 	builder.Grow(94)
@@ -13230,6 +14006,8 @@ type CThostFtdcAppIDAuthAssignField struct {
 	// 交易中心代码
 	DRIdentityID types.TThostFtdcDRIdentityIDType
 }
+
+func (d CThostFtdcAppIDAuthAssignField) Type() string { return "CThostFtdcAppIDAuthAssignField" }
 
 func (d CThostFtdcAppIDAuthAssignField) String() string {
 	var builder strings.Builder
@@ -13338,6 +14116,8 @@ type CThostFtdcReqOpenAccountField struct {
 	// 长客户姓名
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
+
+func (d CThostFtdcReqOpenAccountField) Type() string { return "CThostFtdcReqOpenAccountField" }
 
 func (d CThostFtdcReqOpenAccountField) String() string {
 	var builder strings.Builder
@@ -13489,6 +14269,8 @@ type CThostFtdcReqCancelAccountField struct {
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
 
+func (d CThostFtdcReqCancelAccountField) Type() string { return "CThostFtdcReqCancelAccountField" }
+
 func (d CThostFtdcReqCancelAccountField) String() string {
 	var builder strings.Builder
 	builder.Grow(932)
@@ -13630,6 +14412,8 @@ type CThostFtdcReqChangeAccountField struct {
 	// 长客户姓名
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
+
+func (d CThostFtdcReqChangeAccountField) Type() string { return "CThostFtdcReqChangeAccountField" }
 
 func (d CThostFtdcReqChangeAccountField) String() string {
 	var builder strings.Builder
@@ -13774,6 +14558,8 @@ type CThostFtdcReqTransferField struct {
 	// 长客户姓名
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
+
+func (d CThostFtdcReqTransferField) Type() string { return "CThostFtdcReqTransferField" }
 
 func (d CThostFtdcReqTransferField) String() string {
 	var builder strings.Builder
@@ -13925,6 +14711,8 @@ type CThostFtdcRspTransferField struct {
 	// 长客户姓名
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
+
+func (d CThostFtdcRspTransferField) Type() string { return "CThostFtdcRspTransferField" }
 
 func (d CThostFtdcRspTransferField) String() string {
 	var builder strings.Builder
@@ -14088,6 +14876,8 @@ type CThostFtdcReqRepealField struct {
 	// 长客户姓名
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
+
+func (d CThostFtdcReqRepealField) Type() string { return "CThostFtdcReqRepealField" }
 
 func (d CThostFtdcReqRepealField) String() string {
 	var builder strings.Builder
@@ -14261,6 +15051,8 @@ type CThostFtdcRspRepealField struct {
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
 
+func (d CThostFtdcRspRepealField) Type() string { return "CThostFtdcRspRepealField" }
+
 func (d CThostFtdcRspRepealField) String() string {
 	var builder strings.Builder
 	builder.Grow(1135)
@@ -14403,6 +15195,8 @@ type CThostFtdcReqQueryAccountField struct {
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
 
+func (d CThostFtdcReqQueryAccountField) Type() string { return "CThostFtdcReqQueryAccountField" }
+
 func (d CThostFtdcReqQueryAccountField) String() string {
 	var builder strings.Builder
 	builder.Grow(779)
@@ -14533,6 +15327,8 @@ type CThostFtdcRspQueryAccountField struct {
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
 
+func (d CThostFtdcRspQueryAccountField) Type() string { return "CThostFtdcRspQueryAccountField" }
+
 func (d CThostFtdcRspQueryAccountField) String() string {
 	var builder strings.Builder
 	builder.Grow(827)
@@ -14629,6 +15425,8 @@ type CThostFtdcFutureSignIOField struct {
 	TID types.TThostFtdcTIDType
 }
 
+func (d CThostFtdcFutureSignIOField) Type() string { return "CThostFtdcFutureSignIOField" }
+
 func (d CThostFtdcFutureSignIOField) String() string {
 	var builder strings.Builder
 	builder.Grow(427)
@@ -14715,6 +15513,8 @@ type CThostFtdcRspFutureSignInField struct {
 	MacKey types.TThostFtdcPasswordKeyType
 }
 
+func (d CThostFtdcRspFutureSignInField) Type() string { return "CThostFtdcRspFutureSignInField" }
+
 func (d CThostFtdcRspFutureSignInField) String() string {
 	var builder strings.Builder
 	builder.Grow(497)
@@ -14797,6 +15597,8 @@ type CThostFtdcReqFutureSignOutField struct {
 	TID types.TThostFtdcTIDType
 }
 
+func (d CThostFtdcReqFutureSignOutField) Type() string { return "CThostFtdcReqFutureSignOutField" }
+
 func (d CThostFtdcReqFutureSignOutField) String() string {
 	var builder strings.Builder
 	builder.Grow(431)
@@ -14878,6 +15680,8 @@ type CThostFtdcRspFutureSignOutField struct {
 	// 错误信息
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
+
+func (d CThostFtdcRspFutureSignOutField) Type() string { return "CThostFtdcRspFutureSignOutField" }
 
 func (d CThostFtdcRspFutureSignOutField) String() string {
 	var builder strings.Builder
@@ -14969,6 +15773,10 @@ type CThostFtdcReqQueryTradeResultBySerialField struct {
 	Digest types.TThostFtdcDigestType
 	// 长客户姓名
 	LongCustomerName types.TThostFtdcLongIndividualNameType
+}
+
+func (d CThostFtdcReqQueryTradeResultBySerialField) Type() string {
+	return "CThostFtdcReqQueryTradeResultBySerialField"
 }
 
 func (d CThostFtdcReqQueryTradeResultBySerialField) String() string {
@@ -15065,6 +15873,10 @@ type CThostFtdcRspQueryTradeResultBySerialField struct {
 	Digest types.TThostFtdcDigestType
 }
 
+func (d CThostFtdcRspQueryTradeResultBySerialField) Type() string {
+	return "CThostFtdcRspQueryTradeResultBySerialField"
+}
+
 func (d CThostFtdcRspQueryTradeResultBySerialField) String() string {
 	var builder strings.Builder
 	builder.Grow(588)
@@ -15134,6 +15946,8 @@ type CThostFtdcReqDayEndFileReadyField struct {
 	Digest types.TThostFtdcDigestType
 }
 
+func (d CThostFtdcReqDayEndFileReadyField) Type() string { return "CThostFtdcReqDayEndFileReadyField" }
+
 func (d CThostFtdcReqDayEndFileReadyField) String() string {
 	var builder strings.Builder
 	builder.Grow(314)
@@ -15166,6 +15980,8 @@ type CThostFtdcReturnResultField struct {
 	// 返回码描述
 	DescrInfoForReturnCode types.TThostFtdcDescrInfoForReturnCodeType
 }
+
+func (d CThostFtdcReturnResultField) Type() string { return "CThostFtdcReturnResultField" }
 
 func (d CThostFtdcReturnResultField) String() string {
 	var builder strings.Builder
@@ -15222,6 +16038,10 @@ type CThostFtdcVerifyFuturePasswordField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcVerifyFuturePasswordField) Type() string {
+	return "CThostFtdcVerifyFuturePasswordField"
+}
+
 func (d CThostFtdcVerifyFuturePasswordField) String() string {
 	var builder strings.Builder
 	builder.Grow(406)
@@ -15266,6 +16086,8 @@ type CThostFtdcVerifyCustInfoField struct {
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
 
+func (d CThostFtdcVerifyCustInfoField) Type() string { return "CThostFtdcVerifyCustInfoField" }
+
 func (d CThostFtdcVerifyCustInfoField) String() string {
 	var builder strings.Builder
 	builder.Grow(141)
@@ -15300,6 +16122,10 @@ type CThostFtdcVerifyFuturePasswordAndCustInfoField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 	// 长客户姓名
 	LongCustomerName types.TThostFtdcLongIndividualNameType
+}
+
+func (d CThostFtdcVerifyFuturePasswordAndCustInfoField) Type() string {
+	return "CThostFtdcVerifyFuturePasswordAndCustInfoField"
 }
 
 func (d CThostFtdcVerifyFuturePasswordAndCustInfoField) String() string {
@@ -15337,6 +16163,10 @@ type CThostFtdcDepositResultInformField struct {
 	ReturnCode types.TThostFtdcReturnCodeType
 	// 返回码描述
 	DescrInfoForReturnCode types.TThostFtdcDescrInfoForReturnCodeType
+}
+
+func (d CThostFtdcDepositResultInformField) Type() string {
+	return "CThostFtdcDepositResultInformField"
 }
 
 func (d CThostFtdcDepositResultInformField) String() string {
@@ -15400,6 +16230,8 @@ type CThostFtdcReqSyncKeyField struct {
 	// 交易ID
 	TID types.TThostFtdcTIDType
 }
+
+func (d CThostFtdcReqSyncKeyField) Type() string { return "CThostFtdcReqSyncKeyField" }
 
 func (d CThostFtdcReqSyncKeyField) String() string {
 	var builder strings.Builder
@@ -15479,6 +16311,8 @@ type CThostFtdcRspSyncKeyField struct {
 	// 错误信息
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
+
+func (d CThostFtdcRspSyncKeyField) Type() string { return "CThostFtdcRspSyncKeyField" }
 
 func (d CThostFtdcRspSyncKeyField) String() string {
 	var builder strings.Builder
@@ -15599,6 +16433,8 @@ type CThostFtdcNotifyQueryAccountField struct {
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
 
+func (d CThostFtdcNotifyQueryAccountField) Type() string { return "CThostFtdcNotifyQueryAccountField" }
+
 func (d CThostFtdcNotifyQueryAccountField) String() string {
 	var builder strings.Builder
 	builder.Grow(865)
@@ -15711,6 +16547,8 @@ type CThostFtdcTransferSerialField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcTransferSerialField) Type() string { return "CThostFtdcTransferSerialField" }
+
 func (d CThostFtdcTransferSerialField) String() string {
 	var builder strings.Builder
 	builder.Grow(602)
@@ -15761,6 +16599,8 @@ type CThostFtdcQryTransferSerialField struct {
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
+
+func (d CThostFtdcQryTransferSerialField) Type() string { return "CThostFtdcQryTransferSerialField" }
 
 func (d CThostFtdcQryTransferSerialField) String() string {
 	var builder strings.Builder
@@ -15830,6 +16670,8 @@ type CThostFtdcNotifyFutureSignInField struct {
 	// MAC密钥
 	MacKey types.TThostFtdcPasswordKeyType
 }
+
+func (d CThostFtdcNotifyFutureSignInField) Type() string { return "CThostFtdcNotifyFutureSignInField" }
 
 func (d CThostFtdcNotifyFutureSignInField) String() string {
 	var builder strings.Builder
@@ -15917,6 +16759,10 @@ type CThostFtdcNotifyFutureSignOutField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcNotifyFutureSignOutField) Type() string {
+	return "CThostFtdcNotifyFutureSignOutField"
+}
+
 func (d CThostFtdcNotifyFutureSignOutField) String() string {
 	var builder strings.Builder
 	builder.Grow(469)
@@ -15999,6 +16845,8 @@ type CThostFtdcNotifySyncKeyField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcNotifySyncKeyField) Type() string { return "CThostFtdcNotifySyncKeyField" }
+
 func (d CThostFtdcNotifySyncKeyField) String() string {
 	var builder strings.Builder
 	builder.Grow(444)
@@ -16045,6 +16893,8 @@ type CThostFtdcQryAccountregisterField struct {
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
+
+func (d CThostFtdcQryAccountregisterField) Type() string { return "CThostFtdcQryAccountregisterField" }
 
 func (d CThostFtdcQryAccountregisterField) String() string {
 	var builder strings.Builder
@@ -16101,6 +16951,8 @@ type CThostFtdcAccountregisterField struct {
 	// 长客户姓名
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
+
+func (d CThostFtdcAccountregisterField) Type() string { return "CThostFtdcAccountregisterField" }
 
 func (d CThostFtdcAccountregisterField) String() string {
 	var builder strings.Builder
@@ -16228,6 +17080,8 @@ type CThostFtdcOpenAccountField struct {
 	// 长客户姓名
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
+
+func (d CThostFtdcOpenAccountField) Type() string { return "CThostFtdcOpenAccountField" }
 
 func (d CThostFtdcOpenAccountField) String() string {
 	var builder strings.Builder
@@ -16385,6 +17239,8 @@ type CThostFtdcCancelAccountField struct {
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
 
+func (d CThostFtdcCancelAccountField) Type() string { return "CThostFtdcCancelAccountField" }
+
 func (d CThostFtdcCancelAccountField) String() string {
 	var builder strings.Builder
 	builder.Grow(964)
@@ -16533,6 +17389,8 @@ type CThostFtdcChangeAccountField struct {
 	LongCustomerName types.TThostFtdcLongIndividualNameType
 }
 
+func (d CThostFtdcChangeAccountField) Type() string { return "CThostFtdcChangeAccountField" }
+
 func (d CThostFtdcChangeAccountField) String() string {
 	var builder strings.Builder
 	builder.Grow(891)
@@ -16601,6 +17459,8 @@ type CThostFtdcSecAgentACIDMapField struct {
 	BrokerSecAgentID types.TThostFtdcAccountIDType
 }
 
+func (d CThostFtdcSecAgentACIDMapField) Type() string { return "CThostFtdcSecAgentACIDMapField" }
+
 func (d CThostFtdcSecAgentACIDMapField) String() string {
 	var builder strings.Builder
 	builder.Grow(129)
@@ -16629,6 +17489,8 @@ type CThostFtdcQrySecAgentACIDMapField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcQrySecAgentACIDMapField) Type() string { return "CThostFtdcQrySecAgentACIDMapField" }
+
 func (d CThostFtdcQrySecAgentACIDMapField) String() string {
 	var builder strings.Builder
 	builder.Grow(106)
@@ -16654,6 +17516,8 @@ type CThostFtdcUserRightsAssignField struct {
 	DRIdentityID types.TThostFtdcDRIdentityIDType
 }
 
+func (d CThostFtdcUserRightsAssignField) Type() string { return "CThostFtdcUserRightsAssignField" }
+
 func (d CThostFtdcUserRightsAssignField) String() string {
 	var builder strings.Builder
 	builder.Grow(87)
@@ -16676,6 +17540,10 @@ type CThostFtdcBrokerUserRightAssignField struct {
 	DRIdentityID types.TThostFtdcDRIdentityIDType
 	// 能否交易
 	Tradeable types.TThostFtdcBoolType
+}
+
+func (d CThostFtdcBrokerUserRightAssignField) Type() string {
+	return "CThostFtdcBrokerUserRightAssignField"
 }
 
 func (d CThostFtdcBrokerUserRightAssignField) String() string {
@@ -16704,6 +17572,8 @@ type CThostFtdcDRTransferField struct {
 	DestBrokerID types.TThostFtdcBrokerIDType
 }
 
+func (d CThostFtdcDRTransferField) Type() string { return "CThostFtdcDRTransferField" }
+
 func (d CThostFtdcDRTransferField) String() string {
 	var builder strings.Builder
 	builder.Grow(121)
@@ -16729,6 +17599,8 @@ type CThostFtdcFensUserInfoField struct {
 	LoginMode types.TThostFtdcLoginModeType
 }
 
+func (d CThostFtdcFensUserInfoField) Type() string { return "CThostFtdcFensUserInfoField" }
+
 func (d CThostFtdcFensUserInfoField) String() string {
 	var builder strings.Builder
 	builder.Grow(80)
@@ -16747,6 +17619,10 @@ func (d CThostFtdcFensUserInfoField) String() string {
 type CThostFtdcCurrTransferIdentityField struct {
 	// 交易中心代码
 	IdentityID types.TThostFtdcDRIdentityIDType
+}
+
+func (d CThostFtdcCurrTransferIdentityField) Type() string {
+	return "CThostFtdcCurrTransferIdentityField"
 }
 
 func (d CThostFtdcCurrTransferIdentityField) String() string {
@@ -16773,6 +17649,8 @@ type CThostFtdcLoginForbiddenUserField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcLoginForbiddenUserField) Type() string { return "CThostFtdcLoginForbiddenUserField" }
+
 func (d CThostFtdcLoginForbiddenUserField) String() string {
 	var builder strings.Builder
 	builder.Grow(104)
@@ -16794,6 +17672,10 @@ type CThostFtdcQryLoginForbiddenUserField struct {
 	BrokerID types.TThostFtdcBrokerIDType
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
+}
+
+func (d CThostFtdcQryLoginForbiddenUserField) Type() string {
+	return "CThostFtdcQryLoginForbiddenUserField"
 }
 
 func (d CThostFtdcQryLoginForbiddenUserField) String() string {
@@ -16821,6 +17703,10 @@ type CThostFtdcTradingAccountReserveField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcTradingAccountReserveField) Type() string {
+	return "CThostFtdcTradingAccountReserveField"
+}
+
 func (d CThostFtdcTradingAccountReserveField) String() string {
 	var builder strings.Builder
 	builder.Grow(110)
@@ -16844,6 +17730,10 @@ type CThostFtdcQryLoginForbiddenIPField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcQryLoginForbiddenIPField) Type() string {
+	return "CThostFtdcQryLoginForbiddenIPField"
+}
+
 func (d CThostFtdcQryLoginForbiddenIPField) String() string {
 	var builder strings.Builder
 	builder.Grow(71)
@@ -16865,6 +17755,8 @@ type CThostFtdcQryIPListField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcQryIPListField) Type() string { return "CThostFtdcQryIPListField" }
+
 func (d CThostFtdcQryIPListField) String() string {
 	var builder strings.Builder
 	builder.Grow(61)
@@ -16884,6 +17776,10 @@ type CThostFtdcQryUserRightsAssignField struct {
 	BrokerID types.TThostFtdcBrokerIDType
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
+}
+
+func (d CThostFtdcQryUserRightsAssignField) Type() string {
+	return "CThostFtdcQryUserRightsAssignField"
 }
 
 func (d CThostFtdcQryUserRightsAssignField) String() string {
@@ -16983,6 +17879,10 @@ type CThostFtdcReserveOpenAccountConfirmField struct {
 	ErrorID types.TThostFtdcErrorIDType
 	// 错误信息
 	ErrorMsg types.TThostFtdcErrorMsgType
+}
+
+func (d CThostFtdcReserveOpenAccountConfirmField) Type() string {
+	return "CThostFtdcReserveOpenAccountConfirmField"
 }
 
 func (d CThostFtdcReserveOpenAccountConfirmField) String() string {
@@ -17115,6 +18015,8 @@ type CThostFtdcReserveOpenAccountField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcReserveOpenAccountField) Type() string { return "CThostFtdcReserveOpenAccountField" }
+
 func (d CThostFtdcReserveOpenAccountField) String() string {
 	var builder strings.Builder
 	builder.Grow(770)
@@ -17195,6 +18097,8 @@ type CThostFtdcAccountPropertyField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcAccountPropertyField) Type() string { return "CThostFtdcAccountPropertyField" }
+
 func (d CThostFtdcAccountPropertyField) String() string {
 	var builder strings.Builder
 	builder.Grow(305)
@@ -17226,6 +18130,8 @@ type CThostFtdcQryCurrDRIdentityField struct {
 	DRIdentityID types.TThostFtdcDRIdentityIDType
 }
 
+func (d CThostFtdcQryCurrDRIdentityField) Type() string { return "CThostFtdcQryCurrDRIdentityField" }
+
 func (d CThostFtdcQryCurrDRIdentityField) String() string {
 	var builder strings.Builder
 	builder.Grow(54)
@@ -17243,6 +18149,8 @@ type CThostFtdcCurrDRIdentityField struct {
 	// 交易中心代码
 	DRIdentityID types.TThostFtdcDRIdentityIDType
 }
+
+func (d CThostFtdcCurrDRIdentityField) Type() string { return "CThostFtdcCurrDRIdentityField" }
 
 func (d CThostFtdcCurrDRIdentityField) String() string {
 	var builder strings.Builder
@@ -17264,6 +18172,10 @@ type CThostFtdcQrySecAgentCheckModeField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 }
 
+func (d CThostFtdcQrySecAgentCheckModeField) Type() string {
+	return "CThostFtdcQrySecAgentCheckModeField"
+}
+
 func (d CThostFtdcQrySecAgentCheckModeField) String() string {
 	var builder strings.Builder
 	builder.Grow(73)
@@ -17283,6 +18195,10 @@ type CThostFtdcQrySecAgentTradeInfoField struct {
 	BrokerID types.TThostFtdcBrokerIDType
 	// 境外中介机构资金帐号
 	BrokerSecAgentID types.TThostFtdcAccountIDType
+}
+
+func (d CThostFtdcQrySecAgentTradeInfoField) Type() string {
+	return "CThostFtdcQrySecAgentTradeInfoField"
 }
 
 func (d CThostFtdcQrySecAgentTradeInfoField) String() string {
@@ -17308,6 +18224,8 @@ type CThostFtdcReqUserAuthMethodField struct {
 	UserID types.TThostFtdcUserIDType
 }
 
+func (d CThostFtdcReqUserAuthMethodField) Type() string { return "CThostFtdcReqUserAuthMethodField" }
+
 func (d CThostFtdcReqUserAuthMethodField) String() string {
 	var builder strings.Builder
 	builder.Grow(86)
@@ -17327,6 +18245,8 @@ type CThostFtdcRspUserAuthMethodField struct {
 	// 当前可以用的认证模式
 	UsableAuthMethod types.TThostFtdcCurrentAuthMethodType
 }
+
+func (d CThostFtdcRspUserAuthMethodField) Type() string { return "CThostFtdcRspUserAuthMethodField" }
 
 func (d CThostFtdcRspUserAuthMethodField) String() string {
 	var builder strings.Builder
@@ -17349,6 +18269,8 @@ type CThostFtdcReqGenUserCaptchaField struct {
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
 }
+
+func (d CThostFtdcReqGenUserCaptchaField) Type() string { return "CThostFtdcReqGenUserCaptchaField" }
 
 func (d CThostFtdcReqGenUserCaptchaField) String() string {
 	var builder strings.Builder
@@ -17376,6 +18298,8 @@ type CThostFtdcRspGenUserCaptchaField struct {
 	CaptchaInfo types.TThostFtdcCaptchaInfoType
 }
 
+func (d CThostFtdcRspGenUserCaptchaField) Type() string { return "CThostFtdcRspGenUserCaptchaField" }
+
 func (d CThostFtdcRspGenUserCaptchaField) String() string {
 	var builder strings.Builder
 	builder.Grow(111)
@@ -17401,6 +18325,8 @@ type CThostFtdcReqGenUserTextField struct {
 	UserID types.TThostFtdcUserIDType
 }
 
+func (d CThostFtdcReqGenUserTextField) Type() string { return "CThostFtdcReqGenUserTextField" }
+
 func (d CThostFtdcReqGenUserTextField) String() string {
 	var builder strings.Builder
 	builder.Grow(83)
@@ -17420,6 +18346,8 @@ type CThostFtdcRspGenUserTextField struct {
 	// 短信验证码序号
 	UserTextSeq types.TThostFtdcUserTextSeqType
 }
+
+func (d CThostFtdcRspGenUserTextField) Type() string { return "CThostFtdcRspGenUserTextField" }
 
 func (d CThostFtdcRspGenUserTextField) String() string {
 	var builder strings.Builder
@@ -17461,6 +18389,10 @@ type CThostFtdcReqUserLoginWithCaptchaField struct {
 	ClientIPPort types.TThostFtdcIPPortType
 	// 终端IP地址
 	ClientIPAddress types.TThostFtdcIPAddressType
+}
+
+func (d CThostFtdcReqUserLoginWithCaptchaField) Type() string {
+	return "CThostFtdcReqUserLoginWithCaptchaField"
 }
 
 func (d CThostFtdcReqUserLoginWithCaptchaField) String() string {
@@ -17517,6 +18449,10 @@ type CThostFtdcReqUserLoginWithTextField struct {
 	ClientIPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcReqUserLoginWithTextField) Type() string {
+	return "CThostFtdcReqUserLoginWithTextField"
+}
+
 func (d CThostFtdcReqUserLoginWithTextField) String() string {
 	var builder strings.Builder
 	builder.Grow(304)
@@ -17571,6 +18507,10 @@ type CThostFtdcReqUserLoginWithOTPField struct {
 	ClientIPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcReqUserLoginWithOTPField) Type() string {
+	return "CThostFtdcReqUserLoginWithOTPField"
+}
+
 func (d CThostFtdcReqUserLoginWithOTPField) String() string {
 	var builder strings.Builder
 	builder.Grow(310)
@@ -17601,6 +18541,8 @@ type CThostFtdcReqApiHandshakeField struct {
 	CryptoKeyVersion types.TThostFtdcCryptoKeyVersionType
 }
 
+func (d CThostFtdcReqApiHandshakeField) Type() string { return "CThostFtdcReqApiHandshakeField" }
+
 func (d CThostFtdcReqApiHandshakeField) String() string {
 	var builder strings.Builder
 	builder.Grow(56)
@@ -17623,6 +18565,8 @@ type CThostFtdcRspApiHandshakeField struct {
 	IsApiAuthEnabled types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcRspApiHandshakeField) Type() string { return "CThostFtdcRspApiHandshakeField" }
+
 func (d CThostFtdcRspApiHandshakeField) String() string {
 	var builder strings.Builder
 	builder.Grow(115)
@@ -17644,6 +18588,8 @@ type CThostFtdcReqVerifyApiKeyField struct {
 	// 握手回复数据
 	ApiHandshakeData types.TThostFtdcHandshakeDataType
 }
+
+func (d CThostFtdcReqVerifyApiKeyField) Type() string { return "CThostFtdcReqVerifyApiKeyField" }
 
 func (d CThostFtdcReqVerifyApiKeyField) String() string {
 	var builder strings.Builder
@@ -17670,6 +18616,8 @@ type CThostFtdcDepartmentUserField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 }
 
+func (d CThostFtdcDepartmentUserField) Type() string { return "CThostFtdcDepartmentUserField" }
+
 func (d CThostFtdcDepartmentUserField) String() string {
 	var builder strings.Builder
 	builder.Grow(106)
@@ -17693,6 +18641,8 @@ type CThostFtdcQueryFreqField struct {
 	FTDPkgFreq types.TThostFtdcQueryFreqType
 }
 
+func (d CThostFtdcQueryFreqField) Type() string { return "CThostFtdcQueryFreqField" }
+
 func (d CThostFtdcQueryFreqField) String() string {
 	var builder strings.Builder
 	builder.Grow(63)
@@ -17712,6 +18662,8 @@ type CThostFtdcAuthForbiddenIPField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcAuthForbiddenIPField) Type() string { return "CThostFtdcAuthForbiddenIPField" }
+
 func (d CThostFtdcAuthForbiddenIPField) String() string {
 	var builder strings.Builder
 	builder.Grow(49)
@@ -17729,6 +18681,8 @@ type CThostFtdcQryAuthForbiddenIPField struct {
 	// IP地址
 	IPAddress types.TThostFtdcIPAddressType
 }
+
+func (d CThostFtdcQryAuthForbiddenIPField) Type() string { return "CThostFtdcQryAuthForbiddenIPField" }
 
 func (d CThostFtdcQryAuthForbiddenIPField) String() string {
 	var builder strings.Builder
@@ -17756,6 +18710,10 @@ type CThostFtdcSyncDelaySwapFrozenField struct {
 	FromRemainSwap types.TThostFtdcMoneyType
 	// 是否手工换汇
 	IsManualSwap types.TThostFtdcBoolType
+}
+
+func (d CThostFtdcSyncDelaySwapFrozenField) Type() string {
+	return "CThostFtdcSyncDelaySwapFrozenField"
 }
 
 func (d CThostFtdcSyncDelaySwapFrozenField) String() string {
@@ -17801,6 +18759,8 @@ type CThostFtdcUserSystemInfoField struct {
 	MAC types.TThostFtdcDeviceTagType
 }
 
+func (d CThostFtdcUserSystemInfoField) Type() string { return "CThostFtdcUserSystemInfoField" }
+
 func (d CThostFtdcUserSystemInfoField) String() string {
 	var builder strings.Builder
 	builder.Grow(268)
@@ -17835,6 +18795,8 @@ type CThostFtdcAuthUserIDField struct {
 	AuthType types.TThostFtdcAuthTypeType
 }
 
+func (d CThostFtdcAuthUserIDField) Type() string { return "CThostFtdcAuthUserIDField" }
+
 func (d CThostFtdcAuthUserIDField) String() string {
 	var builder strings.Builder
 	builder.Grow(92)
@@ -17859,6 +18821,8 @@ type CThostFtdcAuthIPField struct {
 	// 用户代码
 	IPAddress types.TThostFtdcIPAddressType
 }
+
+func (d CThostFtdcAuthIPField) Type() string { return "CThostFtdcAuthIPField" }
 
 func (d CThostFtdcAuthIPField) String() string {
 	var builder strings.Builder
@@ -17890,6 +18854,10 @@ type CThostFtdcQryClassifiedInstrumentField struct {
 	ClassType types.TThostFtdcClassTypeType
 }
 
+func (d CThostFtdcQryClassifiedInstrumentField) Type() string {
+	return "CThostFtdcQryClassifiedInstrumentField"
+}
+
 func (d CThostFtdcQryClassifiedInstrumentField) String() string {
 	var builder strings.Builder
 	builder.Grow(163)
@@ -17913,6 +18881,10 @@ type CThostFtdcQryCombPromotionParamField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryCombPromotionParamField) Type() string {
+	return "CThostFtdcQryCombPromotionParamField"
 }
 
 func (d CThostFtdcQryCombPromotionParamField) String() string {
@@ -17939,6 +18911,8 @@ type CThostFtdcCombPromotionParamField struct {
 	// 期权组合保证金比例
 	Xparameter types.TThostFtdcDiscountRatioType
 }
+
+func (d CThostFtdcCombPromotionParamField) Type() string { return "CThostFtdcCombPromotionParamField" }
 
 func (d CThostFtdcCombPromotionParamField) String() string {
 	var builder strings.Builder
@@ -17995,6 +18969,8 @@ type CThostFtdcReqUserLoginSMField struct {
 	PIN types.TThostFtdcPasswordType
 }
 
+func (d CThostFtdcReqUserLoginSMField) Type() string { return "CThostFtdcReqUserLoginSMField" }
+
 func (d CThostFtdcReqUserLoginSMField) String() string {
 	var builder strings.Builder
 	builder.Grow(392)
@@ -18034,6 +19010,10 @@ type CThostFtdcQryRiskSettleInvstPositionField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryRiskSettleInvstPositionField) Type() string {
+	return "CThostFtdcQryRiskSettleInvstPositionField"
+}
+
 func (d CThostFtdcQryRiskSettleInvstPositionField) String() string {
 	var builder strings.Builder
 	builder.Grow(101)
@@ -18052,6 +19032,10 @@ func (d CThostFtdcQryRiskSettleInvstPositionField) String() string {
 type CThostFtdcQryRiskSettleProductStatusField struct {
 	// 产品代码
 	ProductID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryRiskSettleProductStatusField) Type() string {
+	return "CThostFtdcQryRiskSettleProductStatusField"
 }
 
 func (d CThostFtdcQryRiskSettleProductStatusField) String() string {
@@ -18168,6 +19152,10 @@ type CThostFtdcRiskSettleInvstPositionField struct {
 	TasPositionCost types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcRiskSettleInvstPositionField) Type() string {
+	return "CThostFtdcRiskSettleInvstPositionField"
+}
+
 func (d CThostFtdcRiskSettleInvstPositionField) String() string {
 	var builder strings.Builder
 	builder.Grow(1139)
@@ -18238,6 +19226,10 @@ type CThostFtdcRiskSettleProductStatusField struct {
 	ProductStatus types.TThostFtdcProductStatusType
 }
 
+func (d CThostFtdcRiskSettleProductStatusField) Type() string {
+	return "CThostFtdcRiskSettleProductStatusField"
+}
+
 func (d CThostFtdcRiskSettleProductStatusField) String() string {
 	var builder strings.Builder
 	builder.Grow(100)
@@ -18264,6 +19256,8 @@ type CThostFtdcSyncDeltaInfoField struct {
 	IsOnlyTrdDelta types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcSyncDeltaInfoField) Type() string { return "CThostFtdcSyncDeltaInfoField" }
+
 func (d CThostFtdcSyncDeltaInfoField) String() string {
 	var builder strings.Builder
 	builder.Grow(131)
@@ -18289,6 +19283,10 @@ type CThostFtdcSyncDeltaProductStatusField struct {
 	ProductID types.TThostFtdcInstrumentIDType
 	// 是否允许交易
 	ProductStatus types.TThostFtdcProductStatusType
+}
+
+func (d CThostFtdcSyncDeltaProductStatusField) Type() string {
+	return "CThostFtdcSyncDeltaProductStatusField"
 }
 
 func (d CThostFtdcSyncDeltaProductStatusField) String() string {
@@ -18368,6 +19366,10 @@ type CThostFtdcSyncDeltaInvstPosDtlField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaInvstPosDtlField) Type() string {
+	return "CThostFtdcSyncDeltaInvstPosDtlField"
 }
 
 func (d CThostFtdcSyncDeltaInvstPosDtlField) String() string {
@@ -18455,6 +19457,10 @@ type CThostFtdcSyncDeltaInvstPosCombDtlField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaInvstPosCombDtlField) Type() string {
+	return "CThostFtdcSyncDeltaInvstPosCombDtlField"
 }
 
 func (d CThostFtdcSyncDeltaInvstPosCombDtlField) String() string {
@@ -18593,6 +19599,10 @@ type CThostFtdcSyncDeltaTradingAccountField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaTradingAccountField) Type() string {
+	return "CThostFtdcSyncDeltaTradingAccountField"
+}
+
 func (d CThostFtdcSyncDeltaTradingAccountField) String() string {
 	var builder strings.Builder
 	builder.Grow(1215)
@@ -18688,6 +19698,10 @@ type CThostFtdcSyncDeltaInitInvstMarginField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaInitInvstMarginField) Type() string {
+	return "CThostFtdcSyncDeltaInitInvstMarginField"
+}
+
 func (d CThostFtdcSyncDeltaInitInvstMarginField) String() string {
 	var builder strings.Builder
 	builder.Grow(500)
@@ -18740,6 +19754,10 @@ type CThostFtdcSyncDeltaDceCombInstrumentField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaDceCombInstrumentField) Type() string {
+	return "CThostFtdcSyncDeltaDceCombInstrumentField"
+}
+
 func (d CThostFtdcSyncDeltaDceCombInstrumentField) String() string {
 	var builder strings.Builder
 	builder.Grow(293)
@@ -18790,6 +19808,10 @@ type CThostFtdcSyncDeltaInvstMarginRateField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaInvstMarginRateField) Type() string {
+	return "CThostFtdcSyncDeltaInvstMarginRateField"
+}
+
 func (d CThostFtdcSyncDeltaInvstMarginRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(347)
@@ -18833,6 +19855,10 @@ type CThostFtdcSyncDeltaExchMarginRateField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaExchMarginRateField) Type() string {
+	return "CThostFtdcSyncDeltaExchMarginRateField"
 }
 
 func (d CThostFtdcSyncDeltaExchMarginRateField) String() string {
@@ -18881,6 +19907,10 @@ type CThostFtdcSyncDeltaOptExchMarginField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaOptExchMarginField) Type() string {
+	return "CThostFtdcSyncDeltaOptExchMarginField"
 }
 
 func (d CThostFtdcSyncDeltaOptExchMarginField) String() string {
@@ -18940,6 +19970,10 @@ type CThostFtdcSyncDeltaOptInvstMarginField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaOptInvstMarginField) Type() string {
+	return "CThostFtdcSyncDeltaOptInvstMarginField"
+}
+
 func (d CThostFtdcSyncDeltaOptInvstMarginField) String() string {
 	var builder strings.Builder
 	builder.Grow(471)
@@ -18990,6 +20024,10 @@ type CThostFtdcSyncDeltaInvstMarginRateULField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaInvstMarginRateULField) Type() string {
+	return "CThostFtdcSyncDeltaInvstMarginRateULField"
 }
 
 func (d CThostFtdcSyncDeltaInvstMarginRateULField) String() string {
@@ -19046,6 +20084,10 @@ type CThostFtdcSyncDeltaOptInvstCommRateField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaOptInvstCommRateField) Type() string {
+	return "CThostFtdcSyncDeltaOptInvstCommRateField"
+}
+
 func (d CThostFtdcSyncDeltaOptInvstCommRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(407)
@@ -19099,6 +20141,10 @@ type CThostFtdcSyncDeltaInvstCommRateField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaInvstCommRateField) Type() string {
+	return "CThostFtdcSyncDeltaInvstCommRateField"
+}
+
 func (d CThostFtdcSyncDeltaInvstCommRateField) String() string {
 	var builder strings.Builder
 	builder.Grow(347)
@@ -19134,6 +20180,10 @@ type CThostFtdcSyncDeltaProductExchRateField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaProductExchRateField) Type() string {
+	return "CThostFtdcSyncDeltaProductExchRateField"
 }
 
 func (d CThostFtdcSyncDeltaProductExchRateField) String() string {
@@ -19252,6 +20302,10 @@ type CThostFtdcSyncDeltaDepthMarketDataField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaDepthMarketDataField) Type() string {
+	return "CThostFtdcSyncDeltaDepthMarketDataField"
+}
+
 func (d CThostFtdcSyncDeltaDepthMarketDataField) String() string {
 	var builder strings.Builder
 	builder.Grow(1053)
@@ -19325,6 +20379,10 @@ type CThostFtdcSyncDeltaIndexPriceField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaIndexPriceField) Type() string {
+	return "CThostFtdcSyncDeltaIndexPriceField"
+}
+
 func (d CThostFtdcSyncDeltaIndexPriceField) String() string {
 	var builder strings.Builder
 	builder.Grow(148)
@@ -19363,6 +20421,10 @@ type CThostFtdcSyncDeltaEWarrantOffsetField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaEWarrantOffsetField) Type() string {
+	return "CThostFtdcSyncDeltaEWarrantOffsetField"
 }
 
 func (d CThostFtdcSyncDeltaEWarrantOffsetField) String() string {
@@ -19412,6 +20474,10 @@ type CThostFtdcSPBMFutureParameterField struct {
 	AddOnLockRateX2 types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcSPBMFutureParameterField) Type() string {
+	return "CThostFtdcSPBMFutureParameterField"
+}
+
 func (d CThostFtdcSPBMFutureParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(263)
@@ -19456,6 +20522,10 @@ type CThostFtdcSPBMOptionParameterField struct {
 	PreSettlementPrice types.TThostFtdcPriceType
 }
 
+func (d CThostFtdcSPBMOptionParameterField) Type() string {
+	return "CThostFtdcSPBMOptionParameterField"
+}
+
 func (d CThostFtdcSPBMOptionParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(215)
@@ -19490,6 +20560,8 @@ type CThostFtdcSPBMIntraParameterField struct {
 	AddOnIntraRateY2 types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcSPBMIntraParameterField) Type() string { return "CThostFtdcSPBMIntraParameterField" }
+
 func (d CThostFtdcSPBMIntraParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(143)
@@ -19522,6 +20594,8 @@ type CThostFtdcSPBMInterParameterField struct {
 	Leg2ProdFamilyCode types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcSPBMInterParameterField) Type() string { return "CThostFtdcSPBMInterParameterField" }
+
 func (d CThostFtdcSPBMInterParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(167)
@@ -19545,6 +20619,10 @@ type CThostFtdcSyncSPBMParameterEndField struct {
 	TradingDay types.TThostFtdcDateType
 }
 
+func (d CThostFtdcSyncSPBMParameterEndField) Type() string {
+	return "CThostFtdcSyncSPBMParameterEndField"
+}
+
 func (d CThostFtdcSyncSPBMParameterEndField) String() string {
 	var builder strings.Builder
 	builder.Grow(55)
@@ -19565,6 +20643,10 @@ type CThostFtdcQrySPBMFutureParameterField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// 品种代码
 	ProdFamilyCode types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQrySPBMFutureParameterField) Type() string {
+	return "CThostFtdcQrySPBMFutureParameterField"
 }
 
 func (d CThostFtdcQrySPBMFutureParameterField) String() string {
@@ -19591,6 +20673,10 @@ type CThostFtdcQrySPBMOptionParameterField struct {
 	ProdFamilyCode types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQrySPBMOptionParameterField) Type() string {
+	return "CThostFtdcQrySPBMOptionParameterField"
+}
+
 func (d CThostFtdcQrySPBMOptionParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(103)
@@ -19611,6 +20697,10 @@ type CThostFtdcQrySPBMIntraParameterField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 品种代码
 	ProdFamilyCode types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQrySPBMIntraParameterField) Type() string {
+	return "CThostFtdcQrySPBMIntraParameterField"
 }
 
 func (d CThostFtdcQrySPBMIntraParameterField) String() string {
@@ -19634,6 +20724,10 @@ type CThostFtdcQrySPBMInterParameterField struct {
 	Leg1ProdFamilyCode types.TThostFtdcInstrumentIDType
 	// 第二腿构成品种
 	Leg2ProdFamilyCode types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQrySPBMInterParameterField) Type() string {
+	return "CThostFtdcQrySPBMInterParameterField"
 }
 
 func (d CThostFtdcQrySPBMInterParameterField) String() string {
@@ -19662,6 +20756,10 @@ type CThostFtdcSPBMPortfDefinitionField struct {
 	IsSPBM types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcSPBMPortfDefinitionField) Type() string {
+	return "CThostFtdcSPBMPortfDefinitionField"
+}
+
 func (d CThostFtdcSPBMPortfDefinitionField) String() string {
 	var builder strings.Builder
 	builder.Grow(118)
@@ -19687,6 +20785,10 @@ type CThostFtdcSPBMInvestorPortfDefField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 组合保证金套餐代码
 	PortfolioDefID types.TThostFtdcPortfolioDefIDType
+}
+
+func (d CThostFtdcSPBMInvestorPortfDefField) Type() string {
+	return "CThostFtdcSPBMInvestorPortfDefField"
 }
 
 func (d CThostFtdcSPBMInvestorPortfDefField) String() string {
@@ -19720,6 +20822,10 @@ type CThostFtdcInvestorPortfMarginRatioField struct {
 	ProductGroupID types.TThostFtdcProductIDType
 }
 
+func (d CThostFtdcInvestorPortfMarginRatioField) Type() string {
+	return "CThostFtdcInvestorPortfMarginRatioField"
+}
+
 func (d CThostFtdcInvestorPortfMarginRatioField) String() string {
 	var builder strings.Builder
 	builder.Grow(165)
@@ -19747,6 +20853,10 @@ type CThostFtdcQrySPBMPortfDefinitionField struct {
 	ProdFamilyCode types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQrySPBMPortfDefinitionField) Type() string {
+	return "CThostFtdcQrySPBMPortfDefinitionField"
+}
+
 func (d CThostFtdcQrySPBMPortfDefinitionField) String() string {
 	var builder strings.Builder
 	builder.Grow(105)
@@ -19769,6 +20879,10 @@ type CThostFtdcQrySPBMInvestorPortfDefField struct {
 	BrokerID types.TThostFtdcBrokerIDType
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQrySPBMInvestorPortfDefField) Type() string {
+	return "CThostFtdcQrySPBMInvestorPortfDefField"
 }
 
 func (d CThostFtdcQrySPBMInvestorPortfDefField) String() string {
@@ -19795,6 +20909,10 @@ type CThostFtdcQryInvestorPortfMarginRatioField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 产品群代码
 	ProductGroupID types.TThostFtdcProductIDType
+}
+
+func (d CThostFtdcQryInvestorPortfMarginRatioField) Type() string {
+	return "CThostFtdcQryInvestorPortfMarginRatioField"
 }
 
 func (d CThostFtdcQryInvestorPortfMarginRatioField) String() string {
@@ -19858,6 +20976,10 @@ type CThostFtdcInvestorProdSPBMDetailField struct {
 	ExchMargin types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcInvestorProdSPBMDetailField) Type() string {
+	return "CThostFtdcInvestorProdSPBMDetailField"
+}
+
 func (d CThostFtdcInvestorProdSPBMDetailField) String() string {
 	var builder strings.Builder
 	builder.Grow(528)
@@ -19902,6 +21024,10 @@ type CThostFtdcQryInvestorProdSPBMDetailField struct {
 	ProdFamilyCode types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryInvestorProdSPBMDetailField) Type() string {
+	return "CThostFtdcQryInvestorProdSPBMDetailField"
+}
+
 func (d CThostFtdcQryInvestorProdSPBMDetailField) String() string {
 	var builder strings.Builder
 	builder.Grow(122)
@@ -19933,6 +21059,10 @@ type CThostFtdcPortfTradeParamSettingField struct {
 	IsCloseVerify types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcPortfTradeParamSettingField) Type() string {
+	return "CThostFtdcPortfTradeParamSettingField"
+}
+
 func (d CThostFtdcPortfTradeParamSettingField) String() string {
 	var builder strings.Builder
 	builder.Grow(161)
@@ -19958,6 +21088,10 @@ type CThostFtdcInvestorTradingRightField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 交易权限
 	InvstTradingRight types.TThostFtdcInvstTradingRightType
+}
+
+func (d CThostFtdcInvestorTradingRightField) Type() string {
+	return "CThostFtdcInvestorTradingRightField"
 }
 
 func (d CThostFtdcInvestorTradingRightField) String() string {
@@ -19986,6 +21120,8 @@ type CThostFtdcMortgageParamField struct {
 	CheckMortgageRatio types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcMortgageParamField) Type() string { return "CThostFtdcMortgageParamField" }
+
 func (d CThostFtdcMortgageParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(118)
@@ -20013,6 +21149,8 @@ type CThostFtdcWithDrawParamField struct {
 	WithDrawParamValue types.TThostFtdcWithDrawParamValueType
 }
 
+func (d CThostFtdcWithDrawParamField) Type() string { return "CThostFtdcWithDrawParamField" }
+
 func (d CThostFtdcWithDrawParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(118)
@@ -20038,6 +21176,8 @@ type CThostFtdcThostUserFunctionField struct {
 	ThostFunctionCode types.TThostFtdcThostFunctionCodeType
 }
 
+func (d CThostFtdcThostUserFunctionField) Type() string { return "CThostFtdcThostUserFunctionField" }
+
 func (d CThostFtdcThostUserFunctionField) String() string {
 	var builder strings.Builder
 	builder.Grow(93)
@@ -20058,6 +21198,10 @@ type CThostFtdcQryThostUserFunctionField struct {
 	BrokerID types.TThostFtdcBrokerIDType
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
+}
+
+func (d CThostFtdcQryThostUserFunctionField) Type() string {
+	return "CThostFtdcQryThostUserFunctionField"
 }
 
 func (d CThostFtdcQryThostUserFunctionField) String() string {
@@ -20089,6 +21233,10 @@ type CThostFtdcSPBMAddOnInterParameterField struct {
 	Leg2ProdFamilyCode types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcSPBMAddOnInterParameterField) Type() string {
+	return "CThostFtdcSPBMAddOnInterParameterField"
+}
+
 func (d CThostFtdcSPBMAddOnInterParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(178)
@@ -20116,6 +21264,10 @@ type CThostFtdcQrySPBMAddOnInterParameterField struct {
 	Leg2ProdFamilyCode types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQrySPBMAddOnInterParameterField) Type() string {
+	return "CThostFtdcQrySPBMAddOnInterParameterField"
+}
+
 func (d CThostFtdcQrySPBMAddOnInterParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(117)
@@ -20138,6 +21290,10 @@ type CThostFtdcQryInvestorCommoditySPMMMarginField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 商品组代码
 	CommodityID types.TThostFtdcSPMMProductIDType
+}
+
+func (d CThostFtdcQryInvestorCommoditySPMMMarginField) Type() string {
+	return "CThostFtdcQryInvestorCommoditySPMMMarginField"
 }
 
 func (d CThostFtdcQryInvestorCommoditySPMMMarginField) String() string {
@@ -20164,6 +21320,10 @@ type CThostFtdcQryInvestorCommodityGroupSPMMMarginField struct {
 	CommodityGroupID types.TThostFtdcSPMMProductIDType
 }
 
+func (d CThostFtdcQryInvestorCommodityGroupSPMMMarginField) Type() string {
+	return "CThostFtdcQryInvestorCommodityGroupSPMMMarginField"
+}
+
 func (d CThostFtdcQryInvestorCommodityGroupSPMMMarginField) String() string {
 	var builder strings.Builder
 	builder.Grow(114)
@@ -20184,6 +21344,8 @@ type CThostFtdcQrySPMMInstParamField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQrySPMMInstParamField) Type() string { return "CThostFtdcQrySPMMInstParamField" }
+
 func (d CThostFtdcQrySPMMInstParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(53)
@@ -20200,6 +21362,10 @@ func (d CThostFtdcQrySPMMInstParamField) String() string {
 type CThostFtdcQrySPMMProductParamField struct {
 	// 产品代码
 	ProductID types.TThostFtdcSPMMProductIDType
+}
+
+func (d CThostFtdcQrySPMMProductParamField) Type() string {
+	return "CThostFtdcQrySPMMProductParamField"
 }
 
 func (d CThostFtdcQrySPMMProductParamField) String() string {
@@ -20262,6 +21428,10 @@ type CThostFtdcInvestorCommoditySPMMMarginField struct {
 	CashIn types.TThostFtdcMoneyType
 	// 行权冻结资金
 	StrikeFrozenMargin types.TThostFtdcMoneyType
+}
+
+func (d CThostFtdcInvestorCommoditySPMMMarginField) Type() string {
+	return "CThostFtdcInvestorCommoditySPMMMarginField"
 }
 
 func (d CThostFtdcInvestorCommoditySPMMMarginField) String() string {
@@ -20344,6 +21514,10 @@ type CThostFtdcInvestorCommodityGroupSPMMMarginField struct {
 	StrikeFrozenMargin types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcInvestorCommodityGroupSPMMMarginField) Type() string {
+	return "CThostFtdcInvestorCommodityGroupSPMMMarginField"
+}
+
 func (d CThostFtdcInvestorCommodityGroupSPMMMarginField) String() string {
 	var builder strings.Builder
 	builder.Grow(543)
@@ -20390,6 +21564,8 @@ type CThostFtdcSPMMInstParamField struct {
 	CommodityGroupID types.TThostFtdcSPMMProductIDType
 }
 
+func (d CThostFtdcSPMMInstParamField) Type() string { return "CThostFtdcSPMMInstParamField" }
+
 func (d CThostFtdcSPMMInstParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(142)
@@ -20418,6 +21594,8 @@ type CThostFtdcSPMMProductParamField struct {
 	CommodityGroupID types.TThostFtdcSPMMProductIDType
 }
 
+func (d CThostFtdcSPMMProductParamField) Type() string { return "CThostFtdcSPMMProductParamField" }
+
 func (d CThostFtdcSPMMProductParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(117)
@@ -20438,6 +21616,8 @@ type CThostFtdcQryTraderAssignField struct {
 	// 交易员代码
 	TraderID types.TThostFtdcTraderIDType
 }
+
+func (d CThostFtdcQryTraderAssignField) Type() string { return "CThostFtdcQryTraderAssignField" }
 
 func (d CThostFtdcQryTraderAssignField) String() string {
 	var builder strings.Builder
@@ -20464,6 +21644,8 @@ type CThostFtdcTraderAssignField struct {
 	// 交易中心代码
 	DRIdentityID types.TThostFtdcDRIdentityIDType
 }
+
+func (d CThostFtdcTraderAssignField) Type() string { return "CThostFtdcTraderAssignField" }
 
 func (d CThostFtdcTraderAssignField) String() string {
 	var builder strings.Builder
@@ -20499,6 +21681,10 @@ type CThostFtdcInvestorInfoCntSettingField struct {
 	InfoMaxLimit types.TThostFtdcVolumeType
 }
 
+func (d CThostFtdcInvestorInfoCntSettingField) Type() string {
+	return "CThostFtdcInvestorInfoCntSettingField"
+}
+
 func (d CThostFtdcInvestorInfoCntSettingField) String() string {
 	var builder strings.Builder
 	builder.Grow(183)
@@ -20531,6 +21717,10 @@ type CThostFtdcRCAMSCombProductInfoField struct {
 	ProductGroupID types.TThostFtdcProductIDType
 }
 
+func (d CThostFtdcRCAMSCombProductInfoField) Type() string {
+	return "CThostFtdcRCAMSCombProductInfoField"
+}
+
 func (d CThostFtdcRCAMSCombProductInfoField) String() string {
 	var builder strings.Builder
 	builder.Grow(141)
@@ -20559,6 +21749,10 @@ type CThostFtdcRCAMSInstrParameterField struct {
 	HedgeRate types.TThostFtdcHedgeRateType
 }
 
+func (d CThostFtdcRCAMSInstrParameterField) Type() string {
+	return "CThostFtdcRCAMSInstrParameterField"
+}
+
 func (d CThostFtdcRCAMSInstrParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(112)
@@ -20584,6 +21778,10 @@ type CThostFtdcRCAMSIntraParameterField struct {
 	CombProductID types.TThostFtdcProductIDType
 	// 品种内对冲比率
 	HedgeRate types.TThostFtdcHedgeRateType
+}
+
+func (d CThostFtdcRCAMSIntraParameterField) Type() string {
+	return "CThostFtdcRCAMSIntraParameterField"
 }
 
 func (d CThostFtdcRCAMSIntraParameterField) String() string {
@@ -20619,6 +21817,10 @@ type CThostFtdcRCAMSInterParameterField struct {
 	CombProduct2 types.TThostFtdcProductIDType
 }
 
+func (d CThostFtdcRCAMSInterParameterField) Type() string {
+	return "CThostFtdcRCAMSInterParameterField"
+}
+
 func (d CThostFtdcRCAMSInterParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(180)
@@ -20649,6 +21851,10 @@ type CThostFtdcRCAMSShortOptAdjustParamField struct {
 	HedgeFlag types.TThostFtdcHedgeFlagType
 	// 空头期权风险调整标准
 	AdjustValue types.TThostFtdcAdjustValueType
+}
+
+func (d CThostFtdcRCAMSShortOptAdjustParamField) Type() string {
+	return "CThostFtdcRCAMSShortOptAdjustParamField"
 }
 
 func (d CThostFtdcRCAMSShortOptAdjustParamField) String() string {
@@ -20693,6 +21899,10 @@ type CThostFtdcRCAMSInvestorCombPositionField struct {
 	ExchMargin types.TThostFtdcMoneyType
 	// 投资者保证金
 	Margin types.TThostFtdcMoneyType
+}
+
+func (d CThostFtdcRCAMSInvestorCombPositionField) Type() string {
+	return "CThostFtdcRCAMSInvestorCombPositionField"
 }
 
 func (d CThostFtdcRCAMSInvestorCombPositionField) String() string {
@@ -20776,6 +21986,10 @@ type CThostFtdcInvestorProdRCAMSMarginField struct {
 	UseMargin types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcInvestorProdRCAMSMarginField) Type() string {
+	return "CThostFtdcInvestorProdRCAMSMarginField"
+}
+
 func (d CThostFtdcInvestorProdRCAMSMarginField) String() string {
 	var builder strings.Builder
 	builder.Grow(680)
@@ -20824,6 +22038,10 @@ type CThostFtdcQryRCAMSCombProductInfoField struct {
 	ProductGroupID types.TThostFtdcProductIDType
 }
 
+func (d CThostFtdcQryRCAMSCombProductInfoField) Type() string {
+	return "CThostFtdcQryRCAMSCombProductInfoField"
+}
+
 func (d CThostFtdcQryRCAMSCombProductInfoField) String() string {
 	var builder strings.Builder
 	builder.Grow(104)
@@ -20844,6 +22062,10 @@ type CThostFtdcQryRCAMSInstrParameterField struct {
 	ProductID types.TThostFtdcProductIDType
 }
 
+func (d CThostFtdcQryRCAMSInstrParameterField) Type() string {
+	return "CThostFtdcQryRCAMSInstrParameterField"
+}
+
 func (d CThostFtdcQryRCAMSInstrParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(56)
@@ -20860,6 +22082,10 @@ func (d CThostFtdcQryRCAMSInstrParameterField) String() string {
 type CThostFtdcQryRCAMSIntraParameterField struct {
 	// 产品组合代码
 	CombProductID types.TThostFtdcProductIDType
+}
+
+func (d CThostFtdcQryRCAMSIntraParameterField) Type() string {
+	return "CThostFtdcQryRCAMSIntraParameterField"
 }
 
 func (d CThostFtdcQryRCAMSIntraParameterField) String() string {
@@ -20884,6 +22110,10 @@ type CThostFtdcQryRCAMSInterParameterField struct {
 	CombProduct2 types.TThostFtdcProductIDType
 }
 
+func (d CThostFtdcQryRCAMSInterParameterField) Type() string {
+	return "CThostFtdcQryRCAMSInterParameterField"
+}
+
 func (d CThostFtdcQryRCAMSInterParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(105)
@@ -20902,6 +22132,10 @@ func (d CThostFtdcQryRCAMSInterParameterField) String() string {
 type CThostFtdcQryRCAMSShortOptAdjustParamField struct {
 	// 产品组合代码
 	CombProductID types.TThostFtdcProductIDType
+}
+
+func (d CThostFtdcQryRCAMSShortOptAdjustParamField) Type() string {
+	return "CThostFtdcQryRCAMSShortOptAdjustParamField"
 }
 
 func (d CThostFtdcQryRCAMSShortOptAdjustParamField) String() string {
@@ -20926,6 +22160,10 @@ type CThostFtdcQryRCAMSInvestorCombPositionField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// 组合合约代码
 	CombInstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryRCAMSInvestorCombPositionField) Type() string {
+	return "CThostFtdcQryRCAMSInvestorCombPositionField"
 }
 
 func (d CThostFtdcQryRCAMSInvestorCombPositionField) String() string {
@@ -20953,6 +22191,10 @@ type CThostFtdcQryInvestorProdRCAMSMarginField struct {
 	CombProductID types.TThostFtdcProductIDType
 	// 商品群代码
 	ProductGroupID types.TThostFtdcProductIDType
+}
+
+func (d CThostFtdcQryInvestorProdRCAMSMarginField) Type() string {
+	return "CThostFtdcQryInvestorProdRCAMSMarginField"
 }
 
 func (d CThostFtdcQryInvestorProdRCAMSMarginField) String() string {
@@ -20998,6 +22240,8 @@ type CThostFtdcRULEInstrParameterField struct {
 	CommodityGroupID types.TThostFtdcCommodityGroupIDType
 }
 
+func (d CThostFtdcRULEInstrParameterField) Type() string { return "CThostFtdcRULEInstrParameterField" }
+
 func (d CThostFtdcRULEInstrParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(297)
@@ -21038,6 +22282,8 @@ type CThostFtdcRULEIntraParameterField struct {
 	// 临近交割合约组合保证金系数
 	DeliveryIntraRate types.TThostFtdcRatioType
 }
+
+func (d CThostFtdcRULEIntraParameterField) Type() string { return "CThostFtdcRULEIntraParameterField" }
 
 func (d CThostFtdcRULEIntraParameterField) String() string {
 	var builder strings.Builder
@@ -21081,6 +22327,8 @@ type CThostFtdcRULEInterParameterField struct {
 	CommodityGroupName types.TThostFtdcInstrumentNameType
 }
 
+func (d CThostFtdcRULEInterParameterField) Type() string { return "CThostFtdcRULEInterParameterField" }
+
 func (d CThostFtdcRULEInterParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(268)
@@ -21110,6 +22358,10 @@ type CThostFtdcQryRULEInstrParameterField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryRULEInstrParameterField) Type() string {
+	return "CThostFtdcQryRULEInstrParameterField"
+}
+
 func (d CThostFtdcQryRULEInstrParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(78)
@@ -21129,6 +22381,10 @@ type CThostFtdcQryRULEIntraParameterField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 品种代码
 	ProdFamilyCode types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryRULEIntraParameterField) Type() string {
+	return "CThostFtdcQryRULEIntraParameterField"
 }
 
 func (d CThostFtdcQryRULEIntraParameterField) String() string {
@@ -21154,6 +22410,10 @@ type CThostFtdcQryRULEInterParameterField struct {
 	Leg2ProdFamilyCode types.TThostFtdcInstrumentIDType
 	// 商品群号
 	CommodityGroupID types.TThostFtdcCommodityGroupIDType
+}
+
+func (d CThostFtdcQryRULEInterParameterField) Type() string {
+	return "CThostFtdcQryRULEInterParameterField"
 }
 
 func (d CThostFtdcQryRULEInterParameterField) String() string {
@@ -21229,6 +22489,10 @@ type CThostFtdcInvestorProdRULEMarginField struct {
 	FrozenMargin types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcInvestorProdRULEMarginField) Type() string {
+	return "CThostFtdcInvestorProdRULEMarginField"
+}
+
 func (d CThostFtdcInvestorProdRULEMarginField) String() string {
 	var builder strings.Builder
 	builder.Grow(677)
@@ -21281,6 +22545,10 @@ type CThostFtdcQryInvestorProdRULEMarginField struct {
 	CommodityGroupID types.TThostFtdcCommodityGroupIDType
 }
 
+func (d CThostFtdcQryInvestorProdRULEMarginField) Type() string {
+	return "CThostFtdcQryInvestorProdRULEMarginField"
+}
+
 func (d CThostFtdcQryInvestorProdRULEMarginField) String() string {
 	var builder strings.Builder
 	builder.Grow(148)
@@ -21311,6 +22579,10 @@ type CThostFtdcSyncDeltaSPBMPortfDefinitionField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaSPBMPortfDefinitionField) Type() string {
+	return "CThostFtdcSyncDeltaSPBMPortfDefinitionField"
 }
 
 func (d CThostFtdcSyncDeltaSPBMPortfDefinitionField) String() string {
@@ -21344,6 +22616,10 @@ type CThostFtdcSyncDeltaSPBMInvstPortfDefField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaSPBMInvstPortfDefField) Type() string {
+	return "CThostFtdcSyncDeltaSPBMInvstPortfDefField"
 }
 
 func (d CThostFtdcSyncDeltaSPBMInvstPortfDefField) String() string {
@@ -21391,6 +22667,10 @@ type CThostFtdcSyncDeltaSPBMFutureParameterField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaSPBMFutureParameterField) Type() string {
+	return "CThostFtdcSyncDeltaSPBMFutureParameterField"
 }
 
 func (d CThostFtdcSyncDeltaSPBMFutureParameterField) String() string {
@@ -21443,6 +22723,10 @@ type CThostFtdcSyncDeltaSPBMOptionParameterField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaSPBMOptionParameterField) Type() string {
+	return "CThostFtdcSyncDeltaSPBMOptionParameterField"
+}
+
 func (d CThostFtdcSyncDeltaSPBMOptionParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(278)
@@ -21483,6 +22767,10 @@ type CThostFtdcSyncDeltaSPBMIntraParameterField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaSPBMIntraParameterField) Type() string {
+	return "CThostFtdcSyncDeltaSPBMIntraParameterField"
+}
+
 func (d CThostFtdcSyncDeltaSPBMIntraParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(206)
@@ -21519,6 +22807,10 @@ type CThostFtdcSyncDeltaSPBMInterParameterField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaSPBMInterParameterField) Type() string {
+	return "CThostFtdcSyncDeltaSPBMInterParameterField"
 }
 
 func (d CThostFtdcSyncDeltaSPBMInterParameterField) String() string {
@@ -21560,6 +22852,10 @@ type CThostFtdcSyncDeltaSPBMAddOnInterParamField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaSPBMAddOnInterParamField) Type() string {
+	return "CThostFtdcSyncDeltaSPBMAddOnInterParamField"
+}
+
 func (d CThostFtdcSyncDeltaSPBMAddOnInterParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(237)
@@ -21597,6 +22893,10 @@ type CThostFtdcSyncDeltaSPMMInstParamField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaSPMMInstParamField) Type() string {
+	return "CThostFtdcSyncDeltaSPMMInstParamField"
+}
+
 func (d CThostFtdcSyncDeltaSPMMInstParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(205)
@@ -21631,6 +22931,10 @@ type CThostFtdcSyncDeltaSPMMProductParamField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaSPMMProductParamField) Type() string {
+	return "CThostFtdcSyncDeltaSPMMProductParamField"
+}
+
 func (d CThostFtdcSyncDeltaSPMMProductParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(180)
@@ -21662,6 +22966,10 @@ type CThostFtdcSyncDeltaInvestorSPMMModelField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaInvestorSPMMModelField) Type() string {
+	return "CThostFtdcSyncDeltaInvestorSPMMModelField"
 }
 
 func (d CThostFtdcSyncDeltaInvestorSPMMModelField) String() string {
@@ -21703,6 +23011,10 @@ type CThostFtdcSyncDeltaSPMMModelParamField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaSPMMModelParamField) Type() string {
+	return "CThostFtdcSyncDeltaSPMMModelParamField"
+}
+
 func (d CThostFtdcSyncDeltaSPMMModelParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(268)
@@ -21741,6 +23053,10 @@ type CThostFtdcSyncDeltaRCAMSCombProdInfoField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaRCAMSCombProdInfoField) Type() string {
+	return "CThostFtdcSyncDeltaRCAMSCombProdInfoField"
+}
+
 func (d CThostFtdcSyncDeltaRCAMSCombProdInfoField) String() string {
 	var builder strings.Builder
 	builder.Grow(201)
@@ -21775,6 +23091,10 @@ type CThostFtdcSyncDeltaRCAMSInstrParameterField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaRCAMSInstrParameterField) Type() string {
+	return "CThostFtdcSyncDeltaRCAMSInstrParameterField"
+}
+
 func (d CThostFtdcSyncDeltaRCAMSInstrParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(175)
@@ -21806,6 +23126,10 @@ type CThostFtdcSyncDeltaRCAMSIntraParameterField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaRCAMSIntraParameterField) Type() string {
+	return "CThostFtdcSyncDeltaRCAMSIntraParameterField"
 }
 
 func (d CThostFtdcSyncDeltaRCAMSIntraParameterField) String() string {
@@ -21847,6 +23171,10 @@ type CThostFtdcSyncDeltaRCAMSInterParameterField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaRCAMSInterParameterField) Type() string {
+	return "CThostFtdcSyncDeltaRCAMSInterParameterField"
+}
+
 func (d CThostFtdcSyncDeltaRCAMSInterParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(243)
@@ -21883,6 +23211,10 @@ type CThostFtdcSyncDeltaRCAMSSOptAdjParamField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaRCAMSSOptAdjParamField) Type() string {
+	return "CThostFtdcSyncDeltaRCAMSSOptAdjParamField"
 }
 
 func (d CThostFtdcSyncDeltaRCAMSSOptAdjParamField) String() string {
@@ -21933,6 +23265,10 @@ type CThostFtdcSyncDeltaRCAMSCombRuleDtlField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaRCAMSCombRuleDtlField) Type() string {
+	return "CThostFtdcSyncDeltaRCAMSCombRuleDtlField"
 }
 
 func (d CThostFtdcSyncDeltaRCAMSCombRuleDtlField) String() string {
@@ -21992,6 +23328,10 @@ type CThostFtdcSyncDeltaRCAMSInvstCombPosField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaRCAMSInvstCombPosField) Type() string {
+	return "CThostFtdcSyncDeltaRCAMSInvstCombPosField"
+}
+
 func (d CThostFtdcSyncDeltaRCAMSInvstCombPosField) String() string {
 	var builder strings.Builder
 	builder.Grow(336)
@@ -22049,6 +23389,10 @@ type CThostFtdcSyncDeltaRULEInstrParameterField struct {
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
 }
 
+func (d CThostFtdcSyncDeltaRULEInstrParameterField) Type() string {
+	return "CThostFtdcSyncDeltaRULEInstrParameterField"
+}
+
 func (d CThostFtdcSyncDeltaRULEInstrParameterField) String() string {
 	var builder strings.Builder
 	builder.Grow(360)
@@ -22094,6 +23438,10 @@ type CThostFtdcSyncDeltaRULEIntraParameterField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaRULEIntraParameterField) Type() string {
+	return "CThostFtdcSyncDeltaRULEIntraParameterField"
 }
 
 func (d CThostFtdcSyncDeltaRULEIntraParameterField) String() string {
@@ -22142,6 +23490,10 @@ type CThostFtdcSyncDeltaRULEInterParameterField struct {
 	ActionDirection types.TThostFtdcActionDirectionType
 	// 追平序号
 	SyncDeltaSequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcSyncDeltaRULEInterParameterField) Type() string {
+	return "CThostFtdcSyncDeltaRULEInterParameterField"
 }
 
 func (d CThostFtdcSyncDeltaRULEInterParameterField) String() string {
@@ -22199,6 +23551,8 @@ type CThostFtdcIpAddrParamField struct {
 	SysName types.TThostFtdcAddrNameType
 }
 
+func (d CThostFtdcIpAddrParamField) Type() string { return "CThostFtdcIpAddrParamField" }
+
 func (d CThostFtdcIpAddrParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(282)
@@ -22229,6 +23583,8 @@ type CThostFtdcQryIpAddrParamField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 }
+
+func (d CThostFtdcQryIpAddrParamField) Type() string { return "CThostFtdcQryIpAddrParamField" }
 
 func (d CThostFtdcQryIpAddrParamField) String() string {
 	var builder strings.Builder
@@ -22276,6 +23632,8 @@ type CThostFtdcTGIpAddrParamField struct {
 	SysName types.TThostFtdcAddrNameType
 }
 
+func (d CThostFtdcTGIpAddrParamField) Type() string { return "CThostFtdcTGIpAddrParamField" }
+
 func (d CThostFtdcTGIpAddrParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(300)
@@ -22312,6 +23670,8 @@ type CThostFtdcQryTGIpAddrParamField struct {
 	AppID types.TThostFtdcAppIDType
 }
 
+func (d CThostFtdcQryTGIpAddrParamField) Type() string { return "CThostFtdcQryTGIpAddrParamField" }
+
 func (d CThostFtdcQryTGIpAddrParamField) String() string {
 	var builder strings.Builder
 	builder.Grow(80)
@@ -22333,6 +23693,8 @@ type CThostFtdcTGSessionQryStatusField struct {
 	// 查询状态
 	QryStatus types.TThostFtdcTGSessionQryStatusType
 }
+
+func (d CThostFtdcTGSessionQryStatusField) Type() string { return "CThostFtdcTGSessionQryStatusField" }
 
 func (d CThostFtdcTGSessionQryStatusField) String() string {
 	var builder strings.Builder
@@ -22361,6 +23723,8 @@ type CThostFtdcLocalAddrConfigField struct {
 	LocalAddress types.TThostFtdcIpAddrType
 }
 
+func (d CThostFtdcLocalAddrConfigField) Type() string { return "CThostFtdcLocalAddrConfigField" }
+
 func (d CThostFtdcLocalAddrConfigField) String() string {
 	var builder strings.Builder
 	builder.Grow(127)
@@ -22382,6 +23746,8 @@ type CThostFtdcQryLocalAddrConfigField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 }
+
+func (d CThostFtdcQryLocalAddrConfigField) Type() string { return "CThostFtdcQryLocalAddrConfigField" }
 
 func (d CThostFtdcQryLocalAddrConfigField) String() string {
 	var builder strings.Builder
@@ -22475,6 +23841,10 @@ type CThostFtdcReqQueryBankAccountBySecField struct {
 	DRIdentityID types.TThostFtdcDRIdentityIDType
 	// 次中心发起转账期货公司流水号
 	SecFutureSerial types.TThostFtdcFutureSerialType
+}
+
+func (d CThostFtdcReqQueryBankAccountBySecField) Type() string {
+	return "CThostFtdcReqQueryBankAccountBySecField"
 }
 
 func (d CThostFtdcReqQueryBankAccountBySecField) String() string {
@@ -22611,6 +23981,10 @@ type CThostFtdcRspQueryBankAccountBySecField struct {
 	DRIdentityID types.TThostFtdcDRIdentityIDType
 	// 次中心发起转账期货公司流水号
 	SecFutureSerial types.TThostFtdcFutureSerialType
+}
+
+func (d CThostFtdcRspQueryBankAccountBySecField) Type() string {
+	return "CThostFtdcRspQueryBankAccountBySecField"
 }
 
 func (d CThostFtdcRspQueryBankAccountBySecField) String() string {
@@ -22760,6 +24134,8 @@ type CThostFtdcReqTransferBySecField struct {
 	// 次中心发起转账期货公司流水号
 	SecFutureSerial types.TThostFtdcFutureSerialType
 }
+
+func (d CThostFtdcReqTransferBySecField) Type() string { return "CThostFtdcReqTransferBySecField" }
 
 func (d CThostFtdcReqTransferBySecField) String() string {
 	var builder strings.Builder
@@ -22918,6 +24294,8 @@ type CThostFtdcRspTransferBySecField struct {
 	SecFutureSerial types.TThostFtdcFutureSerialType
 }
 
+func (d CThostFtdcRspTransferBySecField) Type() string { return "CThostFtdcRspTransferBySecField" }
+
 func (d CThostFtdcRspTransferBySecField) String() string {
 	var builder strings.Builder
 	builder.Grow(1007)
@@ -23067,6 +24445,10 @@ type CThostFtdcNotifyQueryFutureAccountBySecField struct {
 	SecFutureSerial types.TThostFtdcFutureSerialType
 }
 
+func (d CThostFtdcNotifyQueryFutureAccountBySecField) Type() string {
+	return "CThostFtdcNotifyQueryFutureAccountBySecField"
+}
+
 func (d CThostFtdcNotifyQueryFutureAccountBySecField) String() string {
 	var builder strings.Builder
 	builder.Grow(923)
@@ -23127,6 +24509,8 @@ type CThostFtdcExitEmergencyField struct {
 	BrokerID types.TThostFtdcBrokerIDType
 }
 
+func (d CThostFtdcExitEmergencyField) Type() string { return "CThostFtdcExitEmergencyField" }
+
 func (d CThostFtdcExitEmergencyField) String() string {
 	var builder strings.Builder
 	builder.Grow(46)
@@ -23147,6 +24531,10 @@ type CThostFtdcInvestorPortfMarginModelField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 保证金系数模板
 	MarginModelID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcInvestorPortfMarginModelField) Type() string {
+	return "CThostFtdcInvestorPortfMarginModelField"
 }
 
 func (d CThostFtdcInvestorPortfMarginModelField) String() string {
@@ -23177,6 +24565,10 @@ type CThostFtdcInvestorPortfSettingField struct {
 	UsePortf types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcInvestorPortfSettingField) Type() string {
+	return "CThostFtdcInvestorPortfSettingField"
+}
+
 func (d CThostFtdcInvestorPortfSettingField) String() string {
 	var builder strings.Builder
 	builder.Grow(130)
@@ -23201,6 +24593,10 @@ type CThostFtdcQryInvestorPortfSettingField struct {
 	BrokerID types.TThostFtdcBrokerIDType
 	// 投资者编号
 	InvestorID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQryInvestorPortfSettingField) Type() string {
+	return "CThostFtdcQryInvestorPortfSettingField"
 }
 
 func (d CThostFtdcQryInvestorPortfSettingField) String() string {
@@ -23231,6 +24627,10 @@ type CThostFtdcUserPasswordUpdateFromSecField struct {
 	FromSec types.TThostFtdcDRIdentityIDType
 }
 
+func (d CThostFtdcUserPasswordUpdateFromSecField) Type() string {
+	return "CThostFtdcUserPasswordUpdateFromSecField"
+}
+
 func (d CThostFtdcUserPasswordUpdateFromSecField) String() string {
 	var builder strings.Builder
 	builder.Grow(133)
@@ -23259,6 +24659,10 @@ type CThostFtdcSettlementInfoConfirmFromSecField struct {
 	ConfirmTime types.TThostFtdcTimeType
 	// 次席的交易中心代码
 	FromSec types.TThostFtdcDRIdentityIDType
+}
+
+func (d CThostFtdcSettlementInfoConfirmFromSecField) Type() string {
+	return "CThostFtdcSettlementInfoConfirmFromSecField"
 }
 
 func (d CThostFtdcSettlementInfoConfirmFromSecField) String() string {
@@ -23293,6 +24697,10 @@ type CThostFtdcTradingAccountPasswordUpdateFromSecField struct {
 	FromSec types.TThostFtdcDRIdentityIDType
 }
 
+func (d CThostFtdcTradingAccountPasswordUpdateFromSecField) Type() string {
+	return "CThostFtdcTradingAccountPasswordUpdateFromSecField"
+}
+
 func (d CThostFtdcTradingAccountPasswordUpdateFromSecField) String() string {
 	var builder strings.Builder
 	builder.Grow(166)
@@ -23321,6 +24729,8 @@ type CThostFtdcRiskForbiddenRightField struct {
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
 }
+
+func (d CThostFtdcRiskForbiddenRightField) Type() string { return "CThostFtdcRiskForbiddenRightField" }
 
 func (d CThostFtdcRiskForbiddenRightField) String() string {
 	var builder strings.Builder
@@ -23363,6 +24773,10 @@ type CThostFtdcInvestorInfoCommRecField struct {
 	InfoCnt types.TThostFtdcVolumeType
 }
 
+func (d CThostFtdcInvestorInfoCommRecField) Type() string {
+	return "CThostFtdcInvestorInfoCommRecField"
+}
+
 func (d CThostFtdcInvestorInfoCommRecField) String() string {
 	var builder strings.Builder
 	builder.Grow(256)
@@ -23395,6 +24809,10 @@ type CThostFtdcQryInvestorInfoCommRecField struct {
 	BrokerID types.TThostFtdcBrokerIDType
 }
 
+func (d CThostFtdcQryInvestorInfoCommRecField) Type() string {
+	return "CThostFtdcQryInvestorInfoCommRecField"
+}
+
 func (d CThostFtdcQryInvestorInfoCommRecField) String() string {
 	var builder strings.Builder
 	builder.Grow(97)
@@ -23425,6 +24843,8 @@ type CThostFtdcCombLegField struct {
 	ImplyLevel types.TThostFtdcImplyLevelType
 }
 
+func (d CThostFtdcCombLegField) Type() string { return "CThostFtdcCombLegField" }
+
 func (d CThostFtdcCombLegField) String() string {
 	var builder strings.Builder
 	builder.Grow(148)
@@ -23447,6 +24867,8 @@ type CThostFtdcQryCombLegField struct {
 	// 单腿合约代码
 	LegInstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcQryCombLegField) Type() string { return "CThostFtdcQryCombLegField" }
 
 func (d CThostFtdcQryCombLegField) String() string {
 	var builder strings.Builder
@@ -23489,6 +24911,8 @@ type CThostFtdcInputOffsetSettingField struct {
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
 }
+
+func (d CThostFtdcInputOffsetSettingField) Type() string { return "CThostFtdcInputOffsetSettingField" }
 
 func (d CThostFtdcInputOffsetSettingField) String() string {
 	var builder strings.Builder
@@ -23585,6 +25009,8 @@ type CThostFtdcOffsetSettingField struct {
 	// 申请来源
 	ApplySrc types.TThostFtdcApplySrcType
 }
+
+func (d CThostFtdcOffsetSettingField) Type() string { return "CThostFtdcOffsetSettingField" }
 
 func (d CThostFtdcOffsetSettingField) String() string {
 	var builder strings.Builder
@@ -23685,6 +25111,10 @@ type CThostFtdcCancelOffsetSettingField struct {
 	ActionTime types.TThostFtdcTimeType
 }
 
+func (d CThostFtdcCancelOffsetSettingField) Type() string {
+	return "CThostFtdcCancelOffsetSettingField"
+}
+
 func (d CThostFtdcCancelOffsetSettingField) String() string {
 	var builder strings.Builder
 	builder.Grow(552)
@@ -23733,6 +25163,8 @@ type CThostFtdcQryOffsetSettingField struct {
 	OffsetType types.TThostFtdcOffsetTypeType
 }
 
+func (d CThostFtdcQryOffsetSettingField) Type() string { return "CThostFtdcQryOffsetSettingField" }
+
 func (d CThostFtdcQryOffsetSettingField) String() string {
 	var builder strings.Builder
 	builder.Grow(108)
@@ -23760,6 +25192,8 @@ type CThostFtdcAddrAppIDRelationField struct {
 	AppID types.TThostFtdcAppIDType
 }
 
+func (d CThostFtdcAddrAppIDRelationField) Type() string { return "CThostFtdcAddrAppIDRelationField" }
+
 func (d CThostFtdcAddrAppIDRelationField) String() string {
 	var builder strings.Builder
 	builder.Grow(104)
@@ -23779,6 +25213,10 @@ func (d CThostFtdcAddrAppIDRelationField) String() string {
 type CThostFtdcQryAddrAppIDRelationField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
+}
+
+func (d CThostFtdcQryAddrAppIDRelationField) Type() string {
+	return "CThostFtdcQryAddrAppIDRelationField"
 }
 
 func (d CThostFtdcQryAddrAppIDRelationField) String() string {
@@ -23815,6 +25253,10 @@ type CThostFtdcWechatUserSystemInfoField struct {
 	ClientLoginRemark types.TThostFtdcClientLoginRemarkType
 }
 
+func (d CThostFtdcWechatUserSystemInfoField) Type() string {
+	return "CThostFtdcWechatUserSystemInfoField"
+}
+
 func (d CThostFtdcWechatUserSystemInfoField) String() string {
 	var builder strings.Builder
 	builder.Grow(243)
@@ -23845,6 +25287,10 @@ type CThostFtdcInvestorReserveInfoField struct {
 	ReserveInfo types.TThostFtdcReserveInfoType
 }
 
+func (d CThostFtdcInvestorReserveInfoField) Type() string {
+	return "CThostFtdcInvestorReserveInfoField"
+}
+
 func (d CThostFtdcInvestorReserveInfoField) String() string {
 	var builder strings.Builder
 	builder.Grow(89)
@@ -23863,6 +25309,10 @@ func (d CThostFtdcInvestorReserveInfoField) String() string {
 type CThostFtdcQryInvestorDepartmentFlatField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
+}
+
+func (d CThostFtdcQryInvestorDepartmentFlatField) Type() string {
+	return "CThostFtdcQryInvestorDepartmentFlatField"
 }
 
 func (d CThostFtdcQryInvestorDepartmentFlatField) String() string {
@@ -23887,6 +25337,10 @@ type CThostFtdcInvestorDepartmentFlatField struct {
 	DepartmentID types.TThostFtdcInvestorIDType
 }
 
+func (d CThostFtdcInvestorDepartmentFlatField) Type() string {
+	return "CThostFtdcInvestorDepartmentFlatField"
+}
+
 func (d CThostFtdcInvestorDepartmentFlatField) String() string {
 	var builder strings.Builder
 	builder.Grow(97)
@@ -23906,6 +25360,8 @@ type CThostFtdcQryDepartmentUserField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 }
+
+func (d CThostFtdcQryDepartmentUserField) Type() string { return "CThostFtdcQryDepartmentUserField" }
 
 func (d CThostFtdcQryDepartmentUserField) String() string {
 	var builder strings.Builder
@@ -23931,6 +25387,10 @@ type CThostFtdcAppAuthenticationCodeField struct {
 	PreAuthCode types.TThostFtdcAuthCodeType
 	// App类型
 	AppType types.TThostFtdcAppTypeType
+}
+
+func (d CThostFtdcAppAuthenticationCodeField) Type() string {
+	return "CThostFtdcAppAuthenticationCodeField"
 }
 
 func (d CThostFtdcAppAuthenticationCodeField) String() string {
@@ -23959,6 +25419,8 @@ type CThostFtdcUserDRIBypassField struct {
 	DRIdentityID types.TThostFtdcDRIdentityIDType
 }
 
+func (d CThostFtdcUserDRIBypassField) Type() string { return "CThostFtdcUserDRIBypassField" }
+
 func (d CThostFtdcUserDRIBypassField) String() string {
 	var builder strings.Builder
 	builder.Grow(84)
@@ -23983,6 +25445,8 @@ type CThostFtdcReqGenSMSCodeField struct {
 	Mobile types.TThostFtdcSMSPhoneType
 }
 
+func (d CThostFtdcReqGenSMSCodeField) Type() string { return "CThostFtdcReqGenSMSCodeField" }
+
 func (d CThostFtdcReqGenSMSCodeField) String() string {
 	var builder strings.Builder
 	builder.Grow(78)
@@ -24006,6 +25470,8 @@ type CThostFtdcRspGenSMSCodeField struct {
 	// 生成时间
 	GenTime types.TThostFtdcTimeType
 }
+
+func (d CThostFtdcRspGenSMSCodeField) Type() string { return "CThostFtdcRspGenSMSCodeField" }
 
 func (d CThostFtdcRspGenSMSCodeField) String() string {
 	var builder strings.Builder
@@ -24043,6 +25509,10 @@ type CThostFtdcSMSVerifyInfoFromSecField struct {
 	FromSec types.TThostFtdcDRIdentityIDType
 }
 
+func (d CThostFtdcSMSVerifyInfoFromSecField) Type() string {
+	return "CThostFtdcSMSVerifyInfoFromSecField"
+}
+
 func (d CThostFtdcSMSVerifyInfoFromSecField) String() string {
 	var builder strings.Builder
 	builder.Grow(195)
@@ -24075,6 +25545,8 @@ type CThostFtdcSMSVerifyConfigField struct {
 	UseSMSVerify types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcSMSVerifyConfigField) Type() string { return "CThostFtdcSMSVerifyConfigField" }
+
 func (d CThostFtdcSMSVerifyConfigField) String() string {
 	var builder strings.Builder
 	builder.Grow(102)
@@ -24099,6 +25571,8 @@ type CThostFtdcSMSVerifyInfoField struct {
 	// 短信验证信息内容
 	SMSContent types.TThostFtdcSMSContentType
 }
+
+func (d CThostFtdcSMSVerifyInfoField) Type() string { return "CThostFtdcSMSVerifyInfoField" }
 
 func (d CThostFtdcSMSVerifyInfoField) String() string {
 	var builder strings.Builder
@@ -24143,6 +25617,8 @@ type CThostFtdcInputSpdApplyField struct {
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
 }
+
+func (d CThostFtdcInputSpdApplyField) Type() string { return "CThostFtdcInputSpdApplyField" }
 
 func (d CThostFtdcInputSpdApplyField) String() string {
 	var builder strings.Builder
@@ -24193,6 +25669,8 @@ type CThostFtdcInputHedgeCfmField struct {
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
 }
+
+func (d CThostFtdcInputHedgeCfmField) Type() string { return "CThostFtdcInputHedgeCfmField" }
 
 func (d CThostFtdcInputHedgeCfmField) String() string {
 	var builder strings.Builder
@@ -24287,6 +25765,8 @@ type CThostFtdcSpdApplyField struct {
 	// 状态信息
 	StatusMsg types.TThostFtdcErrorMsgType
 }
+
+func (d CThostFtdcSpdApplyField) Type() string { return "CThostFtdcSpdApplyField" }
 
 func (d CThostFtdcSpdApplyField) String() string {
 	var builder strings.Builder
@@ -24405,6 +25885,8 @@ type CThostFtdcHedgeCfmField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcHedgeCfmField) Type() string { return "CThostFtdcHedgeCfmField" }
+
 func (d CThostFtdcHedgeCfmField) String() string {
 	var builder strings.Builder
 	builder.Grow(706)
@@ -24466,6 +25948,8 @@ type CThostFtdcQrySpdApplyField struct {
 	SecondLegInstrumentID types.TThostFtdcExchangeInstIDType
 }
 
+func (d CThostFtdcQrySpdApplyField) Type() string { return "CThostFtdcQrySpdApplyField" }
+
 func (d CThostFtdcQrySpdApplyField) String() string {
 	var builder strings.Builder
 	builder.Grow(165)
@@ -24496,6 +25980,8 @@ type CThostFtdcQryHedgeCfmField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
+
+func (d CThostFtdcQryHedgeCfmField) Type() string { return "CThostFtdcQryHedgeCfmField" }
 
 func (d CThostFtdcQryHedgeCfmField) String() string {
 	var builder strings.Builder
@@ -24537,6 +26023,10 @@ type CThostFtdcInputSpdApplyActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
+}
+
+func (d CThostFtdcInputSpdApplyActionField) Type() string {
+	return "CThostFtdcInputSpdApplyActionField"
 }
 
 func (d CThostFtdcInputSpdApplyActionField) String() string {
@@ -24585,6 +26075,10 @@ type CThostFtdcInputHedgeCfmActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
+}
+
+func (d CThostFtdcInputHedgeCfmActionField) Type() string {
+	return "CThostFtdcInputHedgeCfmActionField"
 }
 
 func (d CThostFtdcInputHedgeCfmActionField) String() string {
@@ -24654,6 +26148,8 @@ type CThostFtdcSpdApplyActionField struct {
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
 }
+
+func (d CThostFtdcSpdApplyActionField) Type() string { return "CThostFtdcSpdApplyActionField" }
 
 func (d CThostFtdcSpdApplyActionField) String() string {
 	var builder strings.Builder
@@ -24733,6 +26229,8 @@ type CThostFtdcHedgeCfmActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcHedgeCfmActionField) Type() string { return "CThostFtdcHedgeCfmActionField" }
+
 func (d CThostFtdcHedgeCfmActionField) String() string {
 	var builder strings.Builder
 	builder.Grow(444)
@@ -24774,6 +26272,8 @@ type CThostFtdcFrontInfoField struct {
 	// FTD流控
 	FTDPkgFreq types.TThostFtdcQueryFreqType
 }
+
+func (d CThostFtdcFrontInfoField) Type() string { return "CThostFtdcFrontInfoField" }
 
 func (d CThostFtdcFrontInfoField) String() string {
 	var builder strings.Builder

@@ -9,18 +9,19 @@ import (
 	"unsafe"
 
 	"github.com/frozenpine/ctp4go"
+	"github.com/frozenpine/ctp4go/thost"
 )
 
 var (
 	ErrNoFieldName      = errors.New("no field name")
 	ErrInvalidFieldType = errors.New("invalid field type")
 	ErrInvalidOffset    = errors.New("invalid offset")
+
+	ErrCacheDataMissing = errors.New("data not found")
 )
 
 type Data interface {
-	fmt.Stringer
-
-	GetIdentity() string
+	thost.ThostData
 
 	GetFieldString(string) (string, error)
 	GetFieldInt(string) (int64, error)
@@ -30,20 +31,20 @@ type Data interface {
 	GetFieldByte(string, ...int) (byte, error)
 }
 
-type dataPtr[T fmt.Stringer] interface {
+type dataPtr[T thost.ThostData] interface {
 	ctp4go.PtrConstraint[T]
 
-	fmt.Stringer
+	thost.ThostData
 }
 
-type dataCfg[T fmt.Stringer, Ptr dataPtr[T]] struct {
-	identifier func(Ptr) string
+type dataCfg[T thost.ThostData, Ptr dataPtr[T]] struct {
 	dataMerger func(dst Ptr, src Ptr) error
 
-	fields map[string]reflect.StructField
+	idtKeys map[string]func(Ptr) string
+	fields  map[string]reflect.StructField
 }
 
-type dataContainer[T fmt.Stringer, Ptr dataPtr[T]] struct {
+type DataContainer[T thost.ThostData, Ptr dataPtr[T]] struct {
 	dataCfg[T, Ptr]
 
 	lock    sync.RWMutex
@@ -51,24 +52,33 @@ type dataContainer[T fmt.Stringer, Ptr dataPtr[T]] struct {
 	basePtr uintptr
 }
 
-type wrapperOpt[T fmt.Stringer, Ptr dataPtr[T]] func(*dataCfg[T, Ptr]) error
+type dataOpt[T thost.ThostData, Ptr dataPtr[T]] func(*dataCfg[T, Ptr]) error
 
-func WithIdentifier[T fmt.Stringer, Ptr dataPtr[T]](
-	fn func(Ptr) string,
-) wrapperOpt[T, Ptr] {
+func WithIdentifier[T thost.ThostData, Ptr dataPtr[T]](
+	name string, fn func(Ptr) string,
+) dataOpt[T, Ptr] {
 	return func(wc *dataCfg[T, Ptr]) error {
+		if name == "" {
+			return errors.New("invalid identifier name")
+		}
+
 		if fn == nil {
 			return errors.New("invalid identifier func")
 		}
 
-		wc.identifier = fn
+		if _, exist := wc.idtKeys[name]; exist {
+			return errors.New("identifier duplicated")
+		}
+
+		wc.idtKeys[name] = fn
+
 		return nil
 	}
 }
 
-func WithMerger[T fmt.Stringer, Ptr dataPtr[T]](
+func WithMerger[T thost.ThostData, Ptr dataPtr[T]](
 	fn func(Ptr, Ptr) error,
-) wrapperOpt[T, Ptr] {
+) dataOpt[T, Ptr] {
 	return func(wc *dataCfg[T, Ptr]) error {
 		if fn == nil {
 			return errors.New("invalid merger func")
@@ -79,18 +89,19 @@ func WithMerger[T fmt.Stringer, Ptr dataPtr[T]](
 	}
 }
 
-func MakeDataWrapper[T fmt.Stringer, Ptr dataPtr[T]](
-	options ...wrapperOpt[T, Ptr],
-) (func(Ptr) *dataContainer[T, Ptr], error) {
+func ContainerMaker[T thost.ThostData, Ptr dataPtr[T]](
+	options ...dataOpt[T, Ptr],
+) (*dataCfg[T, Ptr], func(Ptr) *DataContainer[T, Ptr], error) {
 	ptrType := reflect.TypeFor[Ptr]()
 	dType := ptrType.Elem()
 
 	if dType.Kind() != reflect.Struct {
-		return nil, errors.New("generic type must be struct")
+		return nil, nil, errors.New("generic type must be struct")
 	}
 
 	cfg := dataCfg[T, Ptr]{
-		fields: make(map[string]reflect.StructField),
+		idtKeys: make(map[string]func(Ptr) string),
+		fields:  make(map[string]reflect.StructField),
 	}
 
 	for _, opt := range options {
@@ -99,64 +110,41 @@ func MakeDataWrapper[T fmt.Stringer, Ptr dataPtr[T]](
 		}
 
 		if err := opt(&cfg); err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 	}
 
-	if fn, ok := dType.MethodByName("GetIdentity"); ok {
-		reflect.ValueOf(&cfg.identifier).Elem().Set(reflect.MakeFunc(
-			reflect.TypeOf(cfg.identifier),
-			func(args []reflect.Value) (results []reflect.Value) {
-				return fn.Func.Call(args)
-			},
-		))
-	}
-
-	if fn, ok := ptrType.MethodByName("Merge"); ok {
-		reflect.ValueOf(&cfg.identifier).Elem().Set(reflect.MakeFunc(
-			reflect.TypeOf(cfg.identifier),
-			func(args []reflect.Value) (results []reflect.Value) {
-				return fn.Func.Call(args)
-			},
-		))
-	}
-
-	if cfg.identifier == nil || cfg.dataMerger == nil {
-		return nil, errors.New("no identifier & merger specified")
+	if cfg.dataMerger == nil {
+		return nil, nil, errors.New("no merger specified")
 	}
 
 	for f := range dType.Fields() {
 		cfg.fields[f.Name] = f
 	}
 
-	return func(t Ptr) *dataContainer[T, Ptr] {
-		return &dataContainer[T, Ptr]{
+	return &cfg, func(t Ptr) *DataContainer[T, Ptr] {
+		// 封装时copy数据，避免传入指针为栈指针
+		var copy T = *t
+		return &DataContainer[T, Ptr]{
 			dataCfg: cfg,
-			data:    t,
+			data:    &copy,
 			basePtr: uintptr(unsafe.Pointer(t)),
 		}
 	}, nil
 }
 
-func (w *dataContainer[T, Ptr]) String() string {
-	return w.data.String()
-}
+func (w *DataContainer[T, Ptr]) String() string { return w.data.String() }
 
-func (w *dataContainer[T, Ptr]) GetIdentity() string {
-	w.lock.RLock()
-	defer w.lock.RUnlock()
+func (w *DataContainer[T, Ptr]) Type() string { return w.data.Type() }
 
-	return w.identifier(w.data)
-}
-
-func (w *dataContainer[T, Ptr]) Merge(v Ptr) {
+func (w *DataContainer[T, Ptr]) Merge(v Ptr) {
 	w.lock.Lock()
 	defer w.lock.Unlock()
 
 	w.dataMerger(w.data, v)
 }
 
-func (w *dataContainer[T, Ptr]) GetFieldString(name string) (string, error) {
+func (w *DataContainer[T, Ptr]) GetFieldString(name string) (string, error) {
 	f, exist := w.fields[name]
 	if !exist {
 		return "", fmt.Errorf("%w: %s", ErrNoFieldName, name)
@@ -184,7 +172,7 @@ func (w *dataContainer[T, Ptr]) GetFieldString(name string) (string, error) {
 	}
 }
 
-func (w *dataContainer[T, Ptr]) GetFieldInt(name string) (int64, error) {
+func (w *DataContainer[T, Ptr]) GetFieldInt(name string) (int64, error) {
 	f, exist := w.fields[name]
 	if !exist {
 		return 0, fmt.Errorf("%w: %s", ErrNoFieldName, name)
@@ -219,7 +207,7 @@ func (w *dataContainer[T, Ptr]) GetFieldInt(name string) (int64, error) {
 	}
 }
 
-func (w *dataContainer[T, Ptr]) GetFieldUInt(name string) (uint64, error) {
+func (w *DataContainer[T, Ptr]) GetFieldUInt(name string) (uint64, error) {
 	f, exist := w.fields[name]
 	if !exist {
 		return 0, fmt.Errorf("%w: %s", ErrNoFieldName, name)
@@ -248,7 +236,7 @@ func (w *dataContainer[T, Ptr]) GetFieldUInt(name string) (uint64, error) {
 	}
 }
 
-func (w *dataContainer[T, Ptr]) GetFieldBool(name string) (bool, error) {
+func (w *DataContainer[T, Ptr]) GetFieldBool(name string) (bool, error) {
 	f, exist := w.fields[name]
 	if !exist {
 		return false, fmt.Errorf("%w: %s", ErrNoFieldName, name)
@@ -287,7 +275,7 @@ func (w *dataContainer[T, Ptr]) GetFieldBool(name string) (bool, error) {
 	}
 }
 
-func (w *dataContainer[T, Ptr]) GetFieldFloat(name string) (float64, error) {
+func (w *DataContainer[T, Ptr]) GetFieldFloat(name string) (float64, error) {
 	f, exist := w.fields[name]
 	if !exist {
 		return math.NaN(), fmt.Errorf("%w: %s", ErrNoFieldName, name)
@@ -326,7 +314,7 @@ func (w *dataContainer[T, Ptr]) GetFieldFloat(name string) (float64, error) {
 	}
 }
 
-func (w *dataContainer[T, Ptr]) GetFieldByte(
+func (w *DataContainer[T, Ptr]) GetFieldByte(
 	name string, offset ...int,
 ) (byte, error) {
 	f, exist := w.fields[name]
@@ -379,38 +367,104 @@ func (w *dataContainer[T, Ptr]) GetFieldByte(
 	}
 }
 
-type TypedCache[T fmt.Stringer, Ptr dataPtr[T]] struct {
+type DataCache[T thost.ThostData, Ptr dataPtr[T]] struct {
 	lock sync.RWMutex
 
+	cfg       *dataCfg[T, Ptr]
 	idtCache  map[string]int
-	cache     []*dataContainer[T, Ptr]
-	dataMaker func(Ptr) *dataContainer[T, Ptr]
+	cache     []*DataContainer[T, Ptr]
+	dataMaker func(Ptr) *DataContainer[T, Ptr]
 }
 
-func (c *TypedCache[T, Ptr]) AddOrUpdate(v Ptr) {
+func NewDataCache[T thost.ThostData, Ptr dataPtr[T]](
+	options ...dataOpt[T, Ptr],
+) (*DataCache[T, Ptr], error) {
+	cfg, maker, err := ContainerMaker(options...)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &DataCache[T, Ptr]{
+		cfg:       cfg,
+		idtCache:  make(map[string]int),
+		dataMaker: maker,
+	}, nil
+}
+
+func (c *DataCache[T, Ptr]) AddOrUpdate(v Ptr) int {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 
 	data := c.dataMaker(v)
-	idt := data.GetIdentity()
 
-	if idx, exist := c.idtCache[idt]; exist {
-		c.cache[idx].Merge(v)
-	} else {
-		idx := len(c.idtCache)
-		c.idtCache[idt] = idx
+	var (
+		idx    int = -1
+		rtnIdx     = len(c.cache)
+		merged bool
+	)
+
+	for _, identifier := range c.cfg.idtKeys {
+		idt := identifier(v)
+
+		var (
+			exist  bool
+			preIdx = idx
+		)
+
+		idx, exist = c.idtCache[idt]
+
+		if exist {
+			rtnIdx = idx
+			if !merged {
+				c.cache[idx].Merge(v)
+				merged = true
+			}
+
+			if preIdx >= 0 && idx != preIdx {
+				panic("exists cache index missmatch")
+			}
+		} else {
+			c.idtCache[idt] = rtnIdx
+		}
+	}
+
+	if !merged {
 		c.cache = append(c.cache, data)
 	}
+
+	return rtnIdx
 }
 
-func (c *TypedCache[T, Ptr]) Get(k string) (*dataContainer[T, Ptr], bool) {
-	c.lock.Lock()
-	defer c.lock.Unlock()
+func (c *DataCache[T, Ptr]) GetByKey(k string) (*DataContainer[T, Ptr], error) {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
 
 	idx, exist := c.idtCache[k]
 	if !exist {
-		return nil, false
+		return nil, fmt.Errorf(
+			"%w: invalid key %s", ErrCacheDataMissing, k,
+		)
 	}
 
-	return c.cache[idx], true
+	return c.cache[idx], nil
+}
+
+func (c *DataCache[T, Ptr]) GetByIdx(idx int) (*DataContainer[T, Ptr], error) {
+	if idx < 0 {
+		return nil, fmt.Errorf(
+			"%w: index[%d] out of range", ErrCacheDataMissing, idx,
+		)
+	}
+
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	if idx >= len(c.cache) {
+		return nil, fmt.Errorf(
+			"%w: index[%d] out of range", ErrCacheDataMissing, idx,
+		)
+	}
+
+	return c.cache[idx], nil
 }

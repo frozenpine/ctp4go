@@ -11,8 +11,8 @@ import (
 )
 
 func TestCache(t *testing.T) {
-	wrapFn, err := state.MakeDataWrapper(
-		state.WithIdentifier(func(v *future.CThostFtdcInputOrderField) string {
+	_, wrapFn, err := state.ContainerMaker(
+		state.WithIdentifier("a", func(v *future.CThostFtdcInputOrderField) string {
 			return fmt.Sprintf(
 				"%s.%s", v.ExchangeID.String(), v.InstrumentID.String(),
 			)
@@ -38,8 +38,6 @@ func TestCache(t *testing.T) {
 		CombOffsetFlag:      types.TThostFtdcCombOffsetFlagType{byte(types.THOST_FTDC_OF_Open)},
 		CombHedgeFlag:       types.TThostFtdcCombHedgeFlagType{0, byte(types.THOST_FTDC_HF_Speculation)},
 	})
-
-	t.Log(data.GetIdentity())
 
 	t.Log(data.GetFieldString("ExchangeID"))
 	t.Log(data.GetFieldInt("ProductClass"))
