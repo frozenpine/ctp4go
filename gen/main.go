@@ -88,6 +88,13 @@ var (
 		"Index": func(substr, in string) int {
 			return strings.Index(in, substr)
 		},
+		"Add": func(l, r int, other ...int) int {
+			base := l + r
+			for _, v := range other {
+				base += v
+			}
+			return base
+		},
 
 		"CCaller":     handlers.CCaller,
 		"CCallee":     handlers.CCallee,

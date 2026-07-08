@@ -1,6 +1,11 @@
 package mini
 
-import "github.com/frozenpine/ctp4go/thost/mini/types"
+import (
+	"fmt"
+	"strings"
+
+	"github.com/frozenpine/ctp4go/thost/mini/types"
+)
 
 // 信息分发
 type CThostFtdcDisseminationField struct {
@@ -8,6 +13,19 @@ type CThostFtdcDisseminationField struct {
 	SequenceSeries types.TThostFtdcSequenceSeriesType
 	// 序列号
 	SequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcDisseminationField) String() string {
+	var builder strings.Builder
+	builder.Grow(72)
+
+	builder.WriteString("CThostFtdcDisseminationField{")
+	fmt.Fprintf(&builder, "SequenceSeries=%+v", d.SequenceSeries)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 用户登录请求
@@ -34,6 +52,28 @@ type CThostFtdcReqUserLoginField struct {
 	ClientIPAddress types.TThostFtdcIPAddressType
 	// 登录备注
 	LoginRemark types.TThostFtdcLoginRemarkType
+}
+
+func (d CThostFtdcReqUserLoginField) String() string {
+	var builder strings.Builder
+	builder.Grow(267)
+
+	builder.WriteString("CThostFtdcReqUserLoginField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", UserProductInfo=%+v", d.UserProductInfo)
+	fmt.Fprintf(&builder, ", InterfaceProductInfo=%+v", d.InterfaceProductInfo)
+	fmt.Fprintf(&builder, ", ProtocolInfo=%+v", d.ProtocolInfo)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", OneTimePassword=%+v", d.OneTimePassword)
+	fmt.Fprintf(&builder, ", ClientIPAddress=%+v", d.ClientIPAddress)
+	fmt.Fprintf(&builder, ", LoginRemark=%+v", d.LoginRemark)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 用户登录应答
@@ -68,6 +108,31 @@ type CThostFtdcRspUserLoginField struct {
 	GFEXTime types.TThostFtdcTimeType
 }
 
+func (d CThostFtdcRspUserLoginField) String() string {
+	var builder strings.Builder
+	builder.Grow(283)
+
+	builder.WriteString("CThostFtdcRspUserLoginField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", LoginTime=%+v", d.LoginTime)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", SystemName=%+v", d.SystemName)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", MaxOrderRef=%+v", d.MaxOrderRef)
+	fmt.Fprintf(&builder, ", SHFETime=%+v", d.SHFETime)
+	fmt.Fprintf(&builder, ", DCETime=%+v", d.DCETime)
+	fmt.Fprintf(&builder, ", CZCETime=%+v", d.CZCETime)
+	fmt.Fprintf(&builder, ", FFEXTime=%+v", d.FFEXTime)
+	fmt.Fprintf(&builder, ", INETime=%+v", d.INETime)
+	fmt.Fprintf(&builder, ", GFEXTime=%+v", d.GFEXTime)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 用户登出请求
 type CThostFtdcUserLogoutField struct {
 	// 经纪公司代码
@@ -76,12 +141,38 @@ type CThostFtdcUserLogoutField struct {
 	UserID types.TThostFtdcUserIDType
 }
 
+func (d CThostFtdcUserLogoutField) String() string {
+	var builder strings.Builder
+	builder.Grow(59)
+
+	builder.WriteString("CThostFtdcUserLogoutField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 强制交易员退出
 type CThostFtdcForceUserLogoutField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
+}
+
+func (d CThostFtdcForceUserLogoutField) String() string {
+	var builder strings.Builder
+	builder.Grow(64)
+
+	builder.WriteString("CThostFtdcForceUserLogoutField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 客户端认证请求
@@ -98,6 +189,22 @@ type CThostFtdcReqAuthenticateField struct {
 	AppID types.TThostFtdcClientAppIDType
 }
 
+func (d CThostFtdcReqAuthenticateField) String() string {
+	var builder strings.Builder
+	builder.Grow(122)
+
+	builder.WriteString("CThostFtdcReqAuthenticateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", UserProductInfo=%+v", d.UserProductInfo)
+	fmt.Fprintf(&builder, ", AuthCode=%+v", d.AuthCode)
+	fmt.Fprintf(&builder, ", AppID=%+v", d.AppID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 客户端认证响应
 type CThostFtdcRspAuthenticateField struct {
 	// 经纪公司代码
@@ -108,6 +215,21 @@ type CThostFtdcRspAuthenticateField struct {
 	UserProductInfo types.TThostFtdcProductInfoType
 	// App代码
 	AppID types.TThostFtdcClientAppIDType
+}
+
+func (d CThostFtdcRspAuthenticateField) String() string {
+	var builder strings.Builder
+	builder.Grow(104)
+
+	builder.WriteString("CThostFtdcRspAuthenticateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", UserProductInfo=%+v", d.UserProductInfo)
+	fmt.Fprintf(&builder, ", AppID=%+v", d.AppID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 客户端认证信息
@@ -126,6 +248,24 @@ type CThostFtdcAuthenticationInfoField struct {
 	IsResult types.TThostFtdcBoolType
 	// App代码
 	AppID types.TThostFtdcClientAppIDType
+}
+
+func (d CThostFtdcAuthenticationInfoField) String() string {
+	var builder strings.Builder
+	builder.Grow(162)
+
+	builder.WriteString("CThostFtdcAuthenticationInfoField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", UserProductInfo=%+v", d.UserProductInfo)
+	fmt.Fprintf(&builder, ", TimeStamp=%+v", d.TimeStamp)
+	fmt.Fprintf(&builder, ", AuthInfo=%+v", d.AuthInfo)
+	fmt.Fprintf(&builder, ", IsResult=%+v", d.IsResult)
+	fmt.Fprintf(&builder, ", AppID=%+v", d.AppID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 银期转帐报文头
@@ -158,6 +298,30 @@ type CThostFtdcTransferHeaderField struct {
 	RequestID types.TThostFtdcRequestIDType
 }
 
+func (d CThostFtdcTransferHeaderField) String() string {
+	var builder strings.Builder
+	builder.Grow(269)
+
+	builder.WriteString("CThostFtdcTransferHeaderField{")
+	fmt.Fprintf(&builder, "Version=%+v", d.Version)
+	fmt.Fprintf(&builder, ", TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", TradeSerial=%+v", d.TradeSerial)
+	fmt.Fprintf(&builder, ", FutureID=%+v", d.FutureID)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBrchID=%+v", d.BankBrchID)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", RecordNum=%+v", d.RecordNum)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 银行资金转期货请求，TradeCode=202001
 type CThostFtdcTransferBankToFutureReqField struct {
 	// 期货资金账户
@@ -172,6 +336,23 @@ type CThostFtdcTransferBankToFutureReqField struct {
 	CustFee types.TThostFtdcMoneyType
 	// 币种：RMB-人民币 USD-美圆 HKD-港元
 	CurrencyCode types.TThostFtdcCurrencyCodeType
+}
+
+func (d CThostFtdcTransferBankToFutureReqField) String() string {
+	var builder strings.Builder
+	builder.Grow(163)
+
+	builder.WriteString("CThostFtdcTransferBankToFutureReqField{")
+	fmt.Fprintf(&builder, "FutureAccount=%+v", d.FutureAccount)
+	fmt.Fprintf(&builder, ", FuturePwdFlag=%+v", d.FuturePwdFlag)
+	fmt.Fprintf(&builder, ", FutureAccPwd=%+v", d.FutureAccPwd)
+	fmt.Fprintf(&builder, ", TradeAmt=%+v", d.TradeAmt)
+	fmt.Fprintf(&builder, ", CustFee=%+v", d.CustFee)
+	fmt.Fprintf(&builder, ", CurrencyCode=%+v", d.CurrencyCode)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 银行资金转期货请求响应
@@ -190,6 +371,23 @@ type CThostFtdcTransferBankToFutureRspField struct {
 	CurrencyCode types.TThostFtdcCurrencyCodeType
 }
 
+func (d CThostFtdcTransferBankToFutureRspField) String() string {
+	var builder strings.Builder
+	builder.Grow(152)
+
+	builder.WriteString("CThostFtdcTransferBankToFutureRspField{")
+	fmt.Fprintf(&builder, "RetCode=%+v", d.RetCode)
+	fmt.Fprintf(&builder, ", RetInfo=%+v", d.RetInfo)
+	fmt.Fprintf(&builder, ", FutureAccount=%+v", d.FutureAccount)
+	fmt.Fprintf(&builder, ", TradeAmt=%+v", d.TradeAmt)
+	fmt.Fprintf(&builder, ", CustFee=%+v", d.CustFee)
+	fmt.Fprintf(&builder, ", CurrencyCode=%+v", d.CurrencyCode)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 期货资金转银行请求，TradeCode=202002
 type CThostFtdcTransferFutureToBankReqField struct {
 	// 期货资金账户
@@ -204,6 +402,23 @@ type CThostFtdcTransferFutureToBankReqField struct {
 	CustFee types.TThostFtdcMoneyType
 	// 币种：RMB-人民币 USD-美圆 HKD-港元
 	CurrencyCode types.TThostFtdcCurrencyCodeType
+}
+
+func (d CThostFtdcTransferFutureToBankReqField) String() string {
+	var builder strings.Builder
+	builder.Grow(163)
+
+	builder.WriteString("CThostFtdcTransferFutureToBankReqField{")
+	fmt.Fprintf(&builder, "FutureAccount=%+v", d.FutureAccount)
+	fmt.Fprintf(&builder, ", FuturePwdFlag=%+v", d.FuturePwdFlag)
+	fmt.Fprintf(&builder, ", FutureAccPwd=%+v", d.FutureAccPwd)
+	fmt.Fprintf(&builder, ", TradeAmt=%+v", d.TradeAmt)
+	fmt.Fprintf(&builder, ", CustFee=%+v", d.CustFee)
+	fmt.Fprintf(&builder, ", CurrencyCode=%+v", d.CurrencyCode)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 期货资金转银行请求响应
@@ -222,6 +437,23 @@ type CThostFtdcTransferFutureToBankRspField struct {
 	CurrencyCode types.TThostFtdcCurrencyCodeType
 }
 
+func (d CThostFtdcTransferFutureToBankRspField) String() string {
+	var builder strings.Builder
+	builder.Grow(152)
+
+	builder.WriteString("CThostFtdcTransferFutureToBankRspField{")
+	fmt.Fprintf(&builder, "RetCode=%+v", d.RetCode)
+	fmt.Fprintf(&builder, ", RetInfo=%+v", d.RetInfo)
+	fmt.Fprintf(&builder, ", FutureAccount=%+v", d.FutureAccount)
+	fmt.Fprintf(&builder, ", TradeAmt=%+v", d.TradeAmt)
+	fmt.Fprintf(&builder, ", CustFee=%+v", d.CustFee)
+	fmt.Fprintf(&builder, ", CurrencyCode=%+v", d.CurrencyCode)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询银行资金请求，TradeCode=204002
 type CThostFtdcTransferQryBankReqField struct {
 	// 期货资金账户
@@ -232,6 +464,21 @@ type CThostFtdcTransferQryBankReqField struct {
 	FutureAccPwd types.TThostFtdcFutureAccPwdType
 	// 币种：RMB-人民币 USD-美圆 HKD-港元
 	CurrencyCode types.TThostFtdcCurrencyCodeType
+}
+
+func (d CThostFtdcTransferQryBankReqField) String() string {
+	var builder strings.Builder
+	builder.Grow(123)
+
+	builder.WriteString("CThostFtdcTransferQryBankReqField{")
+	fmt.Fprintf(&builder, "FutureAccount=%+v", d.FutureAccount)
+	fmt.Fprintf(&builder, ", FuturePwdFlag=%+v", d.FuturePwdFlag)
+	fmt.Fprintf(&builder, ", FutureAccPwd=%+v", d.FutureAccPwd)
+	fmt.Fprintf(&builder, ", CurrencyCode=%+v", d.CurrencyCode)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询银行资金请求响应
@@ -252,10 +499,40 @@ type CThostFtdcTransferQryBankRspField struct {
 	CurrencyCode types.TThostFtdcCurrencyCodeType
 }
 
+func (d CThostFtdcTransferQryBankRspField) String() string {
+	var builder strings.Builder
+	builder.Grow(164)
+
+	builder.WriteString("CThostFtdcTransferQryBankRspField{")
+	fmt.Fprintf(&builder, "RetCode=%+v", d.RetCode)
+	fmt.Fprintf(&builder, ", RetInfo=%+v", d.RetInfo)
+	fmt.Fprintf(&builder, ", FutureAccount=%+v", d.FutureAccount)
+	fmt.Fprintf(&builder, ", TradeAmt=%+v", d.TradeAmt)
+	fmt.Fprintf(&builder, ", UseAmt=%+v", d.UseAmt)
+	fmt.Fprintf(&builder, ", FetchAmt=%+v", d.FetchAmt)
+	fmt.Fprintf(&builder, ", CurrencyCode=%+v", d.CurrencyCode)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询银行交易明细请求，TradeCode=204999
 type CThostFtdcTransferQryDetailReqField struct {
 	// 期货资金账户
 	FutureAccount types.TThostFtdcAccountIDType
+}
+
+func (d CThostFtdcTransferQryDetailReqField) String() string {
+	var builder strings.Builder
+	builder.Grow(58)
+
+	builder.WriteString("CThostFtdcTransferQryDetailReqField{")
+	fmt.Fprintf(&builder, "FutureAccount=%+v", d.FutureAccount)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询银行交易明细请求响应
@@ -290,6 +567,31 @@ type CThostFtdcTransferQryDetailRspField struct {
 	Flag types.TThostFtdcTransferValidFlagType
 }
 
+func (d CThostFtdcTransferQryDetailRspField) String() string {
+	var builder strings.Builder
+	builder.Grow(304)
+
+	builder.WriteString("CThostFtdcTransferQryDetailRspField{")
+	fmt.Fprintf(&builder, "TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", FutureSerial=%+v", d.FutureSerial)
+	fmt.Fprintf(&builder, ", FutureID=%+v", d.FutureID)
+	fmt.Fprintf(&builder, ", FutureAccount=%+v", d.FutureAccount)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBrchID=%+v", d.BankBrchID)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", CertCode=%+v", d.CertCode)
+	fmt.Fprintf(&builder, ", CurrencyCode=%+v", d.CurrencyCode)
+	fmt.Fprintf(&builder, ", TxAmount=%+v", d.TxAmount)
+	fmt.Fprintf(&builder, ", Flag=%+v", d.Flag)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 响应信息
 type CThostFtdcRspInfoField struct {
 	// 错误代码
@@ -300,6 +602,20 @@ type CThostFtdcRspInfoField struct {
 	RecordCount types.TThostFtdcRecordCountType
 }
 
+func (d CThostFtdcRspInfoField) String() string {
+	var builder strings.Builder
+	builder.Grow(78)
+
+	builder.WriteString("CThostFtdcRspInfoField{")
+	fmt.Fprintf(&builder, "ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+	fmt.Fprintf(&builder, ", RecordCount=%+v", d.RecordCount)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所
 type CThostFtdcExchangeField struct {
 	// 交易所代码
@@ -308,6 +624,20 @@ type CThostFtdcExchangeField struct {
 	ExchangeName types.TThostFtdcExchangeNameType
 	// 交易所属性
 	ExchangeProperty types.TThostFtdcExchangePropertyType
+}
+
+func (d CThostFtdcExchangeField) String() string {
+	var builder strings.Builder
+	builder.Grow(91)
+
+	builder.WriteString("CThostFtdcExchangeField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ExchangeName=%+v", d.ExchangeName)
+	fmt.Fprintf(&builder, ", ExchangeProperty=%+v", d.ExchangeProperty)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 产品
@@ -346,6 +676,34 @@ type CThostFtdcProductField struct {
 	ExchangeProductID types.TThostFtdcInstrumentIDType
 	// 合约基础商品乘数
 	UnderlyingMultiple types.TThostFtdcUnderlyingMultipleType
+}
+
+func (d CThostFtdcProductField) String() string {
+	var builder strings.Builder
+	builder.Grow(446)
+
+	builder.WriteString("CThostFtdcProductField{")
+	fmt.Fprintf(&builder, "ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", ProductName=%+v", d.ProductName)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ProductClass=%+v", d.ProductClass)
+	fmt.Fprintf(&builder, ", VolumeMultiple=%+v", d.VolumeMultiple)
+	fmt.Fprintf(&builder, ", PriceTick=%+v", d.PriceTick)
+	fmt.Fprintf(&builder, ", MaxMarketOrderVolume=%+v", d.MaxMarketOrderVolume)
+	fmt.Fprintf(&builder, ", MinMarketOrderVolume=%+v", d.MinMarketOrderVolume)
+	fmt.Fprintf(&builder, ", MaxLimitOrderVolume=%+v", d.MaxLimitOrderVolume)
+	fmt.Fprintf(&builder, ", MinLimitOrderVolume=%+v", d.MinLimitOrderVolume)
+	fmt.Fprintf(&builder, ", PositionType=%+v", d.PositionType)
+	fmt.Fprintf(&builder, ", PositionDateType=%+v", d.PositionDateType)
+	fmt.Fprintf(&builder, ", CloseDealType=%+v", d.CloseDealType)
+	fmt.Fprintf(&builder, ", TradeCurrencyID=%+v", d.TradeCurrencyID)
+	fmt.Fprintf(&builder, ", MortgageFundUseRange=%+v", d.MortgageFundUseRange)
+	fmt.Fprintf(&builder, ", ExchangeProductID=%+v", d.ExchangeProductID)
+	fmt.Fprintf(&builder, ", UnderlyingMultiple=%+v", d.UnderlyingMultiple)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 合约
@@ -414,6 +772,48 @@ type CThostFtdcInstrumentField struct {
 	CombinationType types.TThostFtdcCombinationTypeType
 }
 
+func (d CThostFtdcInstrumentField) String() string {
+	var builder strings.Builder
+	builder.Grow(761)
+
+	builder.WriteString("CThostFtdcInstrumentField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InstrumentName=%+v", d.InstrumentName)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", ProductClass=%+v", d.ProductClass)
+	fmt.Fprintf(&builder, ", DeliveryYear=%+v", d.DeliveryYear)
+	fmt.Fprintf(&builder, ", DeliveryMonth=%+v", d.DeliveryMonth)
+	fmt.Fprintf(&builder, ", MaxMarketOrderVolume=%+v", d.MaxMarketOrderVolume)
+	fmt.Fprintf(&builder, ", MinMarketOrderVolume=%+v", d.MinMarketOrderVolume)
+	fmt.Fprintf(&builder, ", MaxLimitOrderVolume=%+v", d.MaxLimitOrderVolume)
+	fmt.Fprintf(&builder, ", MinLimitOrderVolume=%+v", d.MinLimitOrderVolume)
+	fmt.Fprintf(&builder, ", VolumeMultiple=%+v", d.VolumeMultiple)
+	fmt.Fprintf(&builder, ", PriceTick=%+v", d.PriceTick)
+	fmt.Fprintf(&builder, ", CreateDate=%+v", d.CreateDate)
+	fmt.Fprintf(&builder, ", OpenDate=%+v", d.OpenDate)
+	fmt.Fprintf(&builder, ", ExpireDate=%+v", d.ExpireDate)
+	fmt.Fprintf(&builder, ", StartDelivDate=%+v", d.StartDelivDate)
+	fmt.Fprintf(&builder, ", EndDelivDate=%+v", d.EndDelivDate)
+	fmt.Fprintf(&builder, ", InstLifePhase=%+v", d.InstLifePhase)
+	fmt.Fprintf(&builder, ", IsTrading=%+v", d.IsTrading)
+	fmt.Fprintf(&builder, ", PositionType=%+v", d.PositionType)
+	fmt.Fprintf(&builder, ", PositionDateType=%+v", d.PositionDateType)
+	fmt.Fprintf(&builder, ", LongMarginRatio=%+v", d.LongMarginRatio)
+	fmt.Fprintf(&builder, ", ShortMarginRatio=%+v", d.ShortMarginRatio)
+	fmt.Fprintf(&builder, ", MaxMarginSideAlgorithm=%+v", d.MaxMarginSideAlgorithm)
+	fmt.Fprintf(&builder, ", UnderlyingInstrID=%+v", d.UnderlyingInstrID)
+	fmt.Fprintf(&builder, ", StrikePrice=%+v", d.StrikePrice)
+	fmt.Fprintf(&builder, ", OptionsType=%+v", d.OptionsType)
+	fmt.Fprintf(&builder, ", UnderlyingMultiple=%+v", d.UnderlyingMultiple)
+	fmt.Fprintf(&builder, ", CombinationType=%+v", d.CombinationType)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 申请组合合约信息
 type CThostFtdcCombInstrumentField struct {
 	// 合约代码
@@ -426,6 +826,22 @@ type CThostFtdcCombInstrumentField struct {
 	ProductID types.TThostFtdcInstrumentIDType
 	// 保证金优惠比例
 	Xparameter types.TThostFtdcRatioType
+}
+
+func (d CThostFtdcCombInstrumentField) String() string {
+	var builder strings.Builder
+	builder.Grow(135)
+
+	builder.WriteString("CThostFtdcCombInstrumentField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", CombinationType=%+v", d.CombinationType)
+	fmt.Fprintf(&builder, ", ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", Xparameter=%+v", d.Xparameter)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 投资者RCAMS组合保证金信息
@@ -476,6 +892,39 @@ type CThostFtdcRCAMSInvestorProdMarginField struct {
 	UseMargin types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcRCAMSInvestorProdMarginField) String() string {
+	var builder strings.Builder
+	builder.Grow(536)
+
+	builder.WriteString("CThostFtdcRCAMSInvestorProdMarginField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", CombProductID=%+v", d.CombProductID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", ProductGroupID=%+v", d.ProductGroupID)
+	fmt.Fprintf(&builder, ", RiskBeforeDiscount=%+v", d.RiskBeforeDiscount)
+	fmt.Fprintf(&builder, ", IntraInstrRisk=%+v", d.IntraInstrRisk)
+	fmt.Fprintf(&builder, ", BPosRisk=%+v", d.BPosRisk)
+	fmt.Fprintf(&builder, ", SPosRisk=%+v", d.SPosRisk)
+	fmt.Fprintf(&builder, ", IntraProdRisk=%+v", d.IntraProdRisk)
+	fmt.Fprintf(&builder, ", NetRisk=%+v", d.NetRisk)
+	fmt.Fprintf(&builder, ", InterProdRisk=%+v", d.InterProdRisk)
+	fmt.Fprintf(&builder, ", OptionRoyalty=%+v", d.OptionRoyalty)
+	fmt.Fprintf(&builder, ", DeliveryOpenFrozenMargin=%+v", d.DeliveryOpenFrozenMargin)
+	fmt.Fprintf(&builder, ", OpenFrozenMargin=%+v", d.OpenFrozenMargin)
+	fmt.Fprintf(&builder, ", UseFrozenMargin=%+v", d.UseFrozenMargin)
+	fmt.Fprintf(&builder, ", MMSAExchMargin=%+v", d.MMSAExchMargin)
+	fmt.Fprintf(&builder, ", DeliveryExchMargin=%+v", d.DeliveryExchMargin)
+	fmt.Fprintf(&builder, ", CombExchMargin=%+v", d.CombExchMargin)
+	fmt.Fprintf(&builder, ", ExchMargin=%+v", d.ExchMargin)
+	fmt.Fprintf(&builder, ", UseMargin=%+v", d.UseMargin)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // RCAMS策略组合持仓信息
 type CThostFtdcRCAMSInvestorCombPositionField struct {
 	// 交易所代码
@@ -504,6 +953,29 @@ type CThostFtdcRCAMSInvestorCombPositionField struct {
 	Margin types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcRCAMSInvestorCombPositionField) String() string {
+	var builder strings.Builder
+	builder.Grow(281)
+
+	builder.WriteString("CThostFtdcRCAMSInvestorCombPositionField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", PosiDirection=%+v", d.PosiDirection)
+	fmt.Fprintf(&builder, ", CombInstrumentID=%+v", d.CombInstrumentID)
+	fmt.Fprintf(&builder, ", LegID=%+v", d.LegID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TotalAmt=%+v", d.TotalAmt)
+	fmt.Fprintf(&builder, ", ExchMargin=%+v", d.ExchMargin)
+	fmt.Fprintf(&builder, ", Margin=%+v", d.Margin)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 经纪公司
 type CThostFtdcBrokerField struct {
 	// 经纪公司代码
@@ -514,6 +986,21 @@ type CThostFtdcBrokerField struct {
 	BrokerName types.TThostFtdcBrokerNameType
 	// 是否活跃
 	IsActive types.TThostFtdcBoolType
+}
+
+func (d CThostFtdcBrokerField) String() string {
+	var builder strings.Builder
+	builder.Grow(97)
+
+	builder.WriteString("CThostFtdcBrokerField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerAbbr=%+v", d.BrokerAbbr)
+	fmt.Fprintf(&builder, ", BrokerName=%+v", d.BrokerName)
+	fmt.Fprintf(&builder, ", IsActive=%+v", d.IsActive)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所交易员
@@ -530,6 +1017,23 @@ type CThostFtdcTraderField struct {
 	InstallCount types.TThostFtdcInstallCountType
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
+}
+
+func (d CThostFtdcTraderField) String() string {
+	var builder strings.Builder
+	builder.Grow(140)
+
+	builder.WriteString("CThostFtdcTraderField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", InstallCount=%+v", d.InstallCount)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 投资者
@@ -562,6 +1066,30 @@ type CThostFtdcInvestorField struct {
 	MarginModelID types.TThostFtdcInvestorIDType
 }
 
+func (d CThostFtdcInvestorField) String() string {
+	var builder strings.Builder
+	builder.Grow(294)
+
+	builder.WriteString("CThostFtdcInvestorField{")
+	fmt.Fprintf(&builder, "InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorGroupID=%+v", d.InvestorGroupID)
+	fmt.Fprintf(&builder, ", InvestorName=%+v", d.InvestorName)
+	fmt.Fprintf(&builder, ", IdentifiedCardType=%+v", d.IdentifiedCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", IsActive=%+v", d.IsActive)
+	fmt.Fprintf(&builder, ", Telephone=%+v", d.Telephone)
+	fmt.Fprintf(&builder, ", Address=%+v", d.Address)
+	fmt.Fprintf(&builder, ", OpenDate=%+v", d.OpenDate)
+	fmt.Fprintf(&builder, ", Mobile=%+v", d.Mobile)
+	fmt.Fprintf(&builder, ", CommModelID=%+v", d.CommModelID)
+	fmt.Fprintf(&builder, ", MarginModelID=%+v", d.MarginModelID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易编码
 type CThostFtdcTradingCodeField struct {
 	// 投资者代码
@@ -578,6 +1106,23 @@ type CThostFtdcTradingCodeField struct {
 	ClientIDType types.TThostFtdcClientIDTypeType
 }
 
+func (d CThostFtdcTradingCodeField) String() string {
+	var builder strings.Builder
+	builder.Grow(142)
+
+	builder.WriteString("CThostFtdcTradingCodeField{")
+	fmt.Fprintf(&builder, "InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", IsActive=%+v", d.IsActive)
+	fmt.Fprintf(&builder, ", ClientIDType=%+v", d.ClientIDType)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 会员编码和经纪公司编码对照表
 type CThostFtdcPartBrokerField struct {
 	// 经纪公司代码
@@ -588,6 +1133,21 @@ type CThostFtdcPartBrokerField struct {
 	ParticipantID types.TThostFtdcParticipantIDType
 	// 是否活跃
 	IsActive types.TThostFtdcBoolType
+}
+
+func (d CThostFtdcPartBrokerField) String() string {
+	var builder strings.Builder
+	builder.Grow(104)
+
+	builder.WriteString("CThostFtdcPartBrokerField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", IsActive=%+v", d.IsActive)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 管理用户
@@ -602,12 +1162,40 @@ type CThostFtdcSuperUserField struct {
 	IsActive types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcSuperUserField) String() string {
+	var builder strings.Builder
+	builder.Grow(94)
+
+	builder.WriteString("CThostFtdcSuperUserField{")
+	fmt.Fprintf(&builder, "UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", UserName=%+v", d.UserName)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", IsActive=%+v", d.IsActive)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 管理用户功能权限
 type CThostFtdcSuperUserFunctionField struct {
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
 	// 功能代码
 	FunctionCode types.TThostFtdcFunctionCodeType
+}
+
+func (d CThostFtdcSuperUserFunctionField) String() string {
+	var builder strings.Builder
+	builder.Grow(70)
+
+	builder.WriteString("CThostFtdcSuperUserFunctionField{")
+	fmt.Fprintf(&builder, "UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", FunctionCode=%+v", d.FunctionCode)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 投资者组
@@ -618,6 +1206,20 @@ type CThostFtdcInvestorGroupField struct {
 	InvestorGroupID types.TThostFtdcInvestorIDType
 	// 投资者分组名称
 	InvestorGroupName types.TThostFtdcInvestorGroupNameType
+}
+
+func (d CThostFtdcInvestorGroupField) String() string {
+	var builder strings.Builder
+	builder.Grow(98)
+
+	builder.WriteString("CThostFtdcInvestorGroupField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorGroupID=%+v", d.InvestorGroupID)
+	fmt.Fprintf(&builder, ", InvestorGroupName=%+v", d.InvestorGroupName)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 资金账户
@@ -718,6 +1320,64 @@ type CThostFtdcTradingAccountField struct {
 	FrozenPartition types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcTradingAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(1141)
+
+	builder.WriteString("CThostFtdcTradingAccountField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", PreMortgage=%+v", d.PreMortgage)
+	fmt.Fprintf(&builder, ", PreCredit=%+v", d.PreCredit)
+	fmt.Fprintf(&builder, ", PreDeposit=%+v", d.PreDeposit)
+	fmt.Fprintf(&builder, ", PreBalance=%+v", d.PreBalance)
+	fmt.Fprintf(&builder, ", PreMargin=%+v", d.PreMargin)
+	fmt.Fprintf(&builder, ", InterestBase=%+v", d.InterestBase)
+	fmt.Fprintf(&builder, ", Interest=%+v", d.Interest)
+	fmt.Fprintf(&builder, ", Deposit=%+v", d.Deposit)
+	fmt.Fprintf(&builder, ", Withdraw=%+v", d.Withdraw)
+	fmt.Fprintf(&builder, ", FrozenMargin=%+v", d.FrozenMargin)
+	fmt.Fprintf(&builder, ", FrozenCash=%+v", d.FrozenCash)
+	fmt.Fprintf(&builder, ", FrozenCommission=%+v", d.FrozenCommission)
+	fmt.Fprintf(&builder, ", CurrMargin=%+v", d.CurrMargin)
+	fmt.Fprintf(&builder, ", CashIn=%+v", d.CashIn)
+	fmt.Fprintf(&builder, ", Commission=%+v", d.Commission)
+	fmt.Fprintf(&builder, ", CloseProfit=%+v", d.CloseProfit)
+	fmt.Fprintf(&builder, ", PositionProfit=%+v", d.PositionProfit)
+	fmt.Fprintf(&builder, ", Balance=%+v", d.Balance)
+	fmt.Fprintf(&builder, ", Available=%+v", d.Available)
+	fmt.Fprintf(&builder, ", WithdrawQuota=%+v", d.WithdrawQuota)
+	fmt.Fprintf(&builder, ", Reserve=%+v", d.Reserve)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", Credit=%+v", d.Credit)
+	fmt.Fprintf(&builder, ", Mortgage=%+v", d.Mortgage)
+	fmt.Fprintf(&builder, ", ExchangeMargin=%+v", d.ExchangeMargin)
+	fmt.Fprintf(&builder, ", DeliveryMargin=%+v", d.DeliveryMargin)
+	fmt.Fprintf(&builder, ", ExchangeDeliveryMargin=%+v", d.ExchangeDeliveryMargin)
+	fmt.Fprintf(&builder, ", ReserveBalance=%+v", d.ReserveBalance)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", PreFundMortgageIn=%+v", d.PreFundMortgageIn)
+	fmt.Fprintf(&builder, ", PreFundMortgageOut=%+v", d.PreFundMortgageOut)
+	fmt.Fprintf(&builder, ", FundMortgageIn=%+v", d.FundMortgageIn)
+	fmt.Fprintf(&builder, ", FundMortgageOut=%+v", d.FundMortgageOut)
+	fmt.Fprintf(&builder, ", FundMortgageAvailable=%+v", d.FundMortgageAvailable)
+	fmt.Fprintf(&builder, ", MortgageableFund=%+v", d.MortgageableFund)
+	fmt.Fprintf(&builder, ", SpecProductMargin=%+v", d.SpecProductMargin)
+	fmt.Fprintf(&builder, ", SpecProductFrozenMargin=%+v", d.SpecProductFrozenMargin)
+	fmt.Fprintf(&builder, ", SpecProductCommission=%+v", d.SpecProductCommission)
+	fmt.Fprintf(&builder, ", SpecProductFrozenCommission=%+v", d.SpecProductFrozenCommission)
+	fmt.Fprintf(&builder, ", SpecProductPositionProfit=%+v", d.SpecProductPositionProfit)
+	fmt.Fprintf(&builder, ", SpecProductCloseProfit=%+v", d.SpecProductCloseProfit)
+	fmt.Fprintf(&builder, ", SpecProductPositionProfitByAlg=%+v", d.SpecProductPositionProfitByAlg)
+	fmt.Fprintf(&builder, ", SpecProductExchangeMargin=%+v", d.SpecProductExchangeMargin)
+	fmt.Fprintf(&builder, ", FrozenPartition=%+v", d.FrozenPartition)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 投资者持仓
 type CThostFtdcInvestorPositionField struct {
 	// 合约代码
@@ -808,6 +1468,60 @@ type CThostFtdcInvestorPositionField struct {
 	AbandonFrozen types.TThostFtdcVolumeType
 }
 
+func (d CThostFtdcInvestorPositionField) String() string {
+	var builder strings.Builder
+	builder.Grow(992)
+
+	builder.WriteString("CThostFtdcInvestorPositionField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", PosiDirection=%+v", d.PosiDirection)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", PositionDate=%+v", d.PositionDate)
+	fmt.Fprintf(&builder, ", YdPosition=%+v", d.YdPosition)
+	fmt.Fprintf(&builder, ", Position=%+v", d.Position)
+	fmt.Fprintf(&builder, ", LongFrozen=%+v", d.LongFrozen)
+	fmt.Fprintf(&builder, ", ShortFrozen=%+v", d.ShortFrozen)
+	fmt.Fprintf(&builder, ", LongFrozenAmount=%+v", d.LongFrozenAmount)
+	fmt.Fprintf(&builder, ", ShortFrozenAmount=%+v", d.ShortFrozenAmount)
+	fmt.Fprintf(&builder, ", OpenVolume=%+v", d.OpenVolume)
+	fmt.Fprintf(&builder, ", CloseVolume=%+v", d.CloseVolume)
+	fmt.Fprintf(&builder, ", OpenAmount=%+v", d.OpenAmount)
+	fmt.Fprintf(&builder, ", CloseAmount=%+v", d.CloseAmount)
+	fmt.Fprintf(&builder, ", PositionCost=%+v", d.PositionCost)
+	fmt.Fprintf(&builder, ", PreMargin=%+v", d.PreMargin)
+	fmt.Fprintf(&builder, ", UseMargin=%+v", d.UseMargin)
+	fmt.Fprintf(&builder, ", FrozenMargin=%+v", d.FrozenMargin)
+	fmt.Fprintf(&builder, ", FrozenCash=%+v", d.FrozenCash)
+	fmt.Fprintf(&builder, ", FrozenCommission=%+v", d.FrozenCommission)
+	fmt.Fprintf(&builder, ", CashIn=%+v", d.CashIn)
+	fmt.Fprintf(&builder, ", Commission=%+v", d.Commission)
+	fmt.Fprintf(&builder, ", CloseProfit=%+v", d.CloseProfit)
+	fmt.Fprintf(&builder, ", PositionProfit=%+v", d.PositionProfit)
+	fmt.Fprintf(&builder, ", PreSettlementPrice=%+v", d.PreSettlementPrice)
+	fmt.Fprintf(&builder, ", SettlementPrice=%+v", d.SettlementPrice)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", OpenCost=%+v", d.OpenCost)
+	fmt.Fprintf(&builder, ", ExchangeMargin=%+v", d.ExchangeMargin)
+	fmt.Fprintf(&builder, ", CombPosition=%+v", d.CombPosition)
+	fmt.Fprintf(&builder, ", CombLongFrozen=%+v", d.CombLongFrozen)
+	fmt.Fprintf(&builder, ", CombShortFrozen=%+v", d.CombShortFrozen)
+	fmt.Fprintf(&builder, ", CloseProfitByDate=%+v", d.CloseProfitByDate)
+	fmt.Fprintf(&builder, ", CloseProfitByTrade=%+v", d.CloseProfitByTrade)
+	fmt.Fprintf(&builder, ", TodayPosition=%+v", d.TodayPosition)
+	fmt.Fprintf(&builder, ", MarginRateByMoney=%+v", d.MarginRateByMoney)
+	fmt.Fprintf(&builder, ", MarginRateByVolume=%+v", d.MarginRateByVolume)
+	fmt.Fprintf(&builder, ", StrikeFrozen=%+v", d.StrikeFrozen)
+	fmt.Fprintf(&builder, ", StrikeFrozenAmount=%+v", d.StrikeFrozenAmount)
+	fmt.Fprintf(&builder, ", AbandonFrozen=%+v", d.AbandonFrozen)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 合约保证金率
 type CThostFtdcInstrumentMarginRateField struct {
 	// 合约代码
@@ -832,6 +1546,27 @@ type CThostFtdcInstrumentMarginRateField struct {
 	IsRelative types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcInstrumentMarginRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(289)
+
+	builder.WriteString("CThostFtdcInstrumentMarginRateField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", LongMarginRatioByMoney=%+v", d.LongMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", LongMarginRatioByVolume=%+v", d.LongMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", ShortMarginRatioByMoney=%+v", d.ShortMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", ShortMarginRatioByVolume=%+v", d.ShortMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", IsRelative=%+v", d.IsRelative)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 合约手续费率
 type CThostFtdcInstrumentCommissionRateField struct {
 	// 合约代码
@@ -854,6 +1589,27 @@ type CThostFtdcInstrumentCommissionRateField struct {
 	CloseTodayRatioByMoney types.TThostFtdcRatioType
 	// 平今手续费
 	CloseTodayRatioByVolume types.TThostFtdcRatioType
+}
+
+func (d CThostFtdcInstrumentCommissionRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(295)
+
+	builder.WriteString("CThostFtdcInstrumentCommissionRateField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OpenRatioByMoney=%+v", d.OpenRatioByMoney)
+	fmt.Fprintf(&builder, ", OpenRatioByVolume=%+v", d.OpenRatioByVolume)
+	fmt.Fprintf(&builder, ", CloseRatioByMoney=%+v", d.CloseRatioByMoney)
+	fmt.Fprintf(&builder, ", CloseRatioByVolume=%+v", d.CloseRatioByVolume)
+	fmt.Fprintf(&builder, ", CloseTodayRatioByMoney=%+v", d.CloseTodayRatioByMoney)
+	fmt.Fprintf(&builder, ", CloseTodayRatioByVolume=%+v", d.CloseTodayRatioByVolume)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // SPBM商品组保证金明细
@@ -892,6 +1648,34 @@ type CThostFtdcInvestorProdSPBMDetailField struct {
 	Margin types.TThostFtdcMoneyType
 	// 交易所保证金
 	ExchMargin types.TThostFtdcMoneyType
+}
+
+func (d CThostFtdcInvestorProdSPBMDetailField) String() string {
+	var builder strings.Builder
+	builder.Grow(425)
+
+	builder.WriteString("CThostFtdcInvestorProdSPBMDetailField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ProdFamilyCode=%+v", d.ProdFamilyCode)
+	fmt.Fprintf(&builder, ", IntraInstrMargin=%+v", d.IntraInstrMargin)
+	fmt.Fprintf(&builder, ", BCollectingMargin=%+v", d.BCollectingMargin)
+	fmt.Fprintf(&builder, ", SCollectingMargin=%+v", d.SCollectingMargin)
+	fmt.Fprintf(&builder, ", IntraProdMargin=%+v", d.IntraProdMargin)
+	fmt.Fprintf(&builder, ", NetMargin=%+v", d.NetMargin)
+	fmt.Fprintf(&builder, ", InterProdMargin=%+v", d.InterProdMargin)
+	fmt.Fprintf(&builder, ", SingleMargin=%+v", d.SingleMargin)
+	fmt.Fprintf(&builder, ", AddOnMargin=%+v", d.AddOnMargin)
+	fmt.Fprintf(&builder, ", DeliveryMargin=%+v", d.DeliveryMargin)
+	fmt.Fprintf(&builder, ", OptionMinRisk=%+v", d.OptionMinRisk)
+	fmt.Fprintf(&builder, ", RealOptionValueOffset=%+v", d.RealOptionValueOffset)
+	fmt.Fprintf(&builder, ", Margin=%+v", d.Margin)
+	fmt.Fprintf(&builder, ", ExchMargin=%+v", d.ExchMargin)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // SPMM商品群保证金明细
@@ -940,6 +1724,38 @@ type CThostFtdcSPMMInvestorCommodityGroupMarginField struct {
 	StrikeFrozenMargin types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcSPMMInvestorCommodityGroupMarginField) String() string {
+	var builder strings.Builder
+	builder.Grow(543)
+
+	builder.WriteString("CThostFtdcSPMMInvestorCommodityGroupMarginField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", CommodityGroupID=%+v", d.CommodityGroupID)
+	fmt.Fprintf(&builder, ", MarginBeforeDiscount=%+v", d.MarginBeforeDiscount)
+	fmt.Fprintf(&builder, ", MarginNoDiscount=%+v", d.MarginNoDiscount)
+	fmt.Fprintf(&builder, ", LongRisk=%+v", d.LongRisk)
+	fmt.Fprintf(&builder, ", ShortRisk=%+v", d.ShortRisk)
+	fmt.Fprintf(&builder, ", CloseFrozenMargin=%+v", d.CloseFrozenMargin)
+	fmt.Fprintf(&builder, ", InterCommodityRate=%+v", d.InterCommodityRate)
+	fmt.Fprintf(&builder, ", MiniMarginRatio=%+v", d.MiniMarginRatio)
+	fmt.Fprintf(&builder, ", AdjustRatio=%+v", d.AdjustRatio)
+	fmt.Fprintf(&builder, ", IntraCommodityDiscount=%+v", d.IntraCommodityDiscount)
+	fmt.Fprintf(&builder, ", InterCommodityDiscount=%+v", d.InterCommodityDiscount)
+	fmt.Fprintf(&builder, ", ExchMargin=%+v", d.ExchMargin)
+	fmt.Fprintf(&builder, ", InvestorMargin=%+v", d.InvestorMargin)
+	fmt.Fprintf(&builder, ", FrozenCommission=%+v", d.FrozenCommission)
+	fmt.Fprintf(&builder, ", Commission=%+v", d.Commission)
+	fmt.Fprintf(&builder, ", FrozenCash=%+v", d.FrozenCash)
+	fmt.Fprintf(&builder, ", CashIn=%+v", d.CashIn)
+	fmt.Fprintf(&builder, ", StrikeFrozenMargin=%+v", d.StrikeFrozenMargin)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 type CThostFtdcRULEInvestorProdMarginField struct {
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
@@ -973,6 +1789,33 @@ type CThostFtdcRULEInvestorProdMarginField struct {
 	Margin types.TThostFtdcMoneyType
 	// 冻结保证金
 	FrozenMargin types.TThostFtdcMoneyType
+}
+
+func (d CThostFtdcRULEInvestorProdMarginField) String() string {
+	var builder strings.Builder
+	builder.Grow(397)
+
+	builder.WriteString("CThostFtdcRULEInvestorProdMarginField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ProdFamilyCode=%+v", d.ProdFamilyCode)
+	fmt.Fprintf(&builder, ", InstrumentClass=%+v", d.InstrumentClass)
+	fmt.Fprintf(&builder, ", CommodityGroupID=%+v", d.CommodityGroupID)
+	fmt.Fprintf(&builder, ", IntraProdMargin=%+v", d.IntraProdMargin)
+	fmt.Fprintf(&builder, ", InterProdMargin=%+v", d.InterProdMargin)
+	fmt.Fprintf(&builder, ", SingleMargin=%+v", d.SingleMargin)
+	fmt.Fprintf(&builder, ", NonCombMargin=%+v", d.NonCombMargin)
+	fmt.Fprintf(&builder, ", AddOnMargin=%+v", d.AddOnMargin)
+	fmt.Fprintf(&builder, ", ExchMargin=%+v", d.ExchMargin)
+	fmt.Fprintf(&builder, ", OpenFrozenMargin=%+v", d.OpenFrozenMargin)
+	fmt.Fprintf(&builder, ", CloseFrozenMargin=%+v", d.CloseFrozenMargin)
+	fmt.Fprintf(&builder, ", Margin=%+v", d.Margin)
+	fmt.Fprintf(&builder, ", FrozenMargin=%+v", d.FrozenMargin)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 深度行情
@@ -1071,6 +1914,63 @@ type CThostFtdcDepthMarketDataField struct {
 	BandingLowerPrice types.TThostFtdcPriceType
 }
 
+func (d CThostFtdcDepthMarketDataField) String() string {
+	var builder strings.Builder
+	builder.Grow(990)
+
+	builder.WriteString("CThostFtdcDepthMarketDataField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", LastPrice=%+v", d.LastPrice)
+	fmt.Fprintf(&builder, ", PreSettlementPrice=%+v", d.PreSettlementPrice)
+	fmt.Fprintf(&builder, ", PreClosePrice=%+v", d.PreClosePrice)
+	fmt.Fprintf(&builder, ", PreOpenInterest=%+v", d.PreOpenInterest)
+	fmt.Fprintf(&builder, ", OpenPrice=%+v", d.OpenPrice)
+	fmt.Fprintf(&builder, ", HighestPrice=%+v", d.HighestPrice)
+	fmt.Fprintf(&builder, ", LowestPrice=%+v", d.LowestPrice)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", Turnover=%+v", d.Turnover)
+	fmt.Fprintf(&builder, ", OpenInterest=%+v", d.OpenInterest)
+	fmt.Fprintf(&builder, ", ClosePrice=%+v", d.ClosePrice)
+	fmt.Fprintf(&builder, ", SettlementPrice=%+v", d.SettlementPrice)
+	fmt.Fprintf(&builder, ", UpperLimitPrice=%+v", d.UpperLimitPrice)
+	fmt.Fprintf(&builder, ", LowerLimitPrice=%+v", d.LowerLimitPrice)
+	fmt.Fprintf(&builder, ", PreDelta=%+v", d.PreDelta)
+	fmt.Fprintf(&builder, ", CurrDelta=%+v", d.CurrDelta)
+	fmt.Fprintf(&builder, ", UpdateTime=%+v", d.UpdateTime)
+	fmt.Fprintf(&builder, ", UpdateMillisec=%+v", d.UpdateMillisec)
+	fmt.Fprintf(&builder, ", BidPrice1=%+v", d.BidPrice1)
+	fmt.Fprintf(&builder, ", BidVolume1=%+v", d.BidVolume1)
+	fmt.Fprintf(&builder, ", AskPrice1=%+v", d.AskPrice1)
+	fmt.Fprintf(&builder, ", AskVolume1=%+v", d.AskVolume1)
+	fmt.Fprintf(&builder, ", BidPrice2=%+v", d.BidPrice2)
+	fmt.Fprintf(&builder, ", BidVolume2=%+v", d.BidVolume2)
+	fmt.Fprintf(&builder, ", AskPrice2=%+v", d.AskPrice2)
+	fmt.Fprintf(&builder, ", AskVolume2=%+v", d.AskVolume2)
+	fmt.Fprintf(&builder, ", BidPrice3=%+v", d.BidPrice3)
+	fmt.Fprintf(&builder, ", BidVolume3=%+v", d.BidVolume3)
+	fmt.Fprintf(&builder, ", AskPrice3=%+v", d.AskPrice3)
+	fmt.Fprintf(&builder, ", AskVolume3=%+v", d.AskVolume3)
+	fmt.Fprintf(&builder, ", BidPrice4=%+v", d.BidPrice4)
+	fmt.Fprintf(&builder, ", BidVolume4=%+v", d.BidVolume4)
+	fmt.Fprintf(&builder, ", AskPrice4=%+v", d.AskPrice4)
+	fmt.Fprintf(&builder, ", AskVolume4=%+v", d.AskVolume4)
+	fmt.Fprintf(&builder, ", BidPrice5=%+v", d.BidPrice5)
+	fmt.Fprintf(&builder, ", BidVolume5=%+v", d.BidVolume5)
+	fmt.Fprintf(&builder, ", AskPrice5=%+v", d.AskPrice5)
+	fmt.Fprintf(&builder, ", AskVolume5=%+v", d.AskVolume5)
+	fmt.Fprintf(&builder, ", AveragePrice=%+v", d.AveragePrice)
+	fmt.Fprintf(&builder, ", ActionDay=%+v", d.ActionDay)
+	fmt.Fprintf(&builder, ", BandingUpperPrice=%+v", d.BandingUpperPrice)
+	fmt.Fprintf(&builder, ", BandingLowerPrice=%+v", d.BandingLowerPrice)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 投资者合约交易权限
 type CThostFtdcInstrumentTradingRightField struct {
 	// 合约代码
@@ -1083,6 +1983,22 @@ type CThostFtdcInstrumentTradingRightField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 交易权限
 	TradingRight types.TThostFtdcTradingRightType
+}
+
+func (d CThostFtdcInstrumentTradingRightField) String() string {
+	var builder strings.Builder
+	builder.Grow(142)
+
+	builder.WriteString("CThostFtdcInstrumentTradingRightField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", TradingRight=%+v", d.TradingRight)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 经纪公司用户
@@ -1101,6 +2017,23 @@ type CThostFtdcBrokerUserField struct {
 	IsUsingOTP types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcBrokerUserField) String() string {
+	var builder strings.Builder
+	builder.Grow(133)
+
+	builder.WriteString("CThostFtdcBrokerUserField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", UserName=%+v", d.UserName)
+	fmt.Fprintf(&builder, ", UserType=%+v", d.UserType)
+	fmt.Fprintf(&builder, ", IsActive=%+v", d.IsActive)
+	fmt.Fprintf(&builder, ", IsUsingOTP=%+v", d.IsUsingOTP)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易开关设置
 type CThostFtdcControlParamField struct {
 	// 投资者代码
@@ -1113,6 +2046,21 @@ type CThostFtdcControlParamField struct {
 	Memo types.TThostFtdcMemoType
 }
 
+func (d CThostFtdcControlParamField) String() string {
+	var builder strings.Builder
+	builder.Grow(112)
+
+	builder.WriteString("CThostFtdcControlParamField{")
+	fmt.Fprintf(&builder, "InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ControlParamID=%+v", d.ControlParamID)
+	fmt.Fprintf(&builder, ", ControlParamValue=%+v", d.ControlParamValue)
+	fmt.Fprintf(&builder, ", Memo=%+v", d.Memo)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 经纪公司用户口令
 type CThostFtdcBrokerUserPasswordField struct {
 	// 经纪公司代码
@@ -1123,6 +2071,20 @@ type CThostFtdcBrokerUserPasswordField struct {
 	Password types.TThostFtdcPasswordType
 }
 
+func (d CThostFtdcBrokerUserPasswordField) String() string {
+	var builder strings.Builder
+	builder.Grow(85)
+
+	builder.WriteString("CThostFtdcBrokerUserPasswordField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 经纪公司用户功能权限
 type CThostFtdcBrokerUserFunctionField struct {
 	// 经纪公司代码
@@ -1131,6 +2093,20 @@ type CThostFtdcBrokerUserFunctionField struct {
 	UserID types.TThostFtdcUserIDType
 	// 经纪公司功能代码
 	BrokerFunctionCode types.TThostFtdcBrokerFunctionCodeType
+}
+
+func (d CThostFtdcBrokerUserFunctionField) String() string {
+	var builder strings.Builder
+	builder.Grow(95)
+
+	builder.WriteString("CThostFtdcBrokerUserFunctionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", BrokerFunctionCode=%+v", d.BrokerFunctionCode)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所交易员报盘机
@@ -1175,6 +2151,36 @@ type CThostFtdcTraderOfferField struct {
 	MaxOrderMessageReference types.TThostFtdcReturnCodeType
 }
 
+func (d CThostFtdcTraderOfferField) String() string {
+	var builder strings.Builder
+	builder.Grow(451)
+
+	builder.WriteString("CThostFtdcTraderOfferField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", TraderConnectStatus=%+v", d.TraderConnectStatus)
+	fmt.Fprintf(&builder, ", ConnectRequestDate=%+v", d.ConnectRequestDate)
+	fmt.Fprintf(&builder, ", ConnectRequestTime=%+v", d.ConnectRequestTime)
+	fmt.Fprintf(&builder, ", LastReportDate=%+v", d.LastReportDate)
+	fmt.Fprintf(&builder, ", LastReportTime=%+v", d.LastReportTime)
+	fmt.Fprintf(&builder, ", ConnectDate=%+v", d.ConnectDate)
+	fmt.Fprintf(&builder, ", ConnectTime=%+v", d.ConnectTime)
+	fmt.Fprintf(&builder, ", StartDate=%+v", d.StartDate)
+	fmt.Fprintf(&builder, ", StartTime=%+v", d.StartTime)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", MaxTradeID=%+v", d.MaxTradeID)
+	fmt.Fprintf(&builder, ", MaxOrderMessageReference=%+v", d.MaxOrderMessageReference)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 投资者结算结果
 type CThostFtdcSettlementInfoField struct {
 	// 交易日
@@ -1189,6 +2195,23 @@ type CThostFtdcSettlementInfoField struct {
 	SequenceNo types.TThostFtdcSequenceNoType
 	// 消息正文
 	Content types.TThostFtdcContentType
+}
+
+func (d CThostFtdcSettlementInfoField) String() string {
+	var builder strings.Builder
+	builder.Grow(146)
+
+	builder.WriteString("CThostFtdcSettlementInfoField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", Content=%+v", d.Content)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 合约保证金率调整
@@ -1215,6 +2238,27 @@ type CThostFtdcInstrumentMarginRateAdjustField struct {
 	IsRelative types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcInstrumentMarginRateAdjustField) String() string {
+	var builder strings.Builder
+	builder.Grow(295)
+
+	builder.WriteString("CThostFtdcInstrumentMarginRateAdjustField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", LongMarginRatioByMoney=%+v", d.LongMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", LongMarginRatioByVolume=%+v", d.LongMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", ShortMarginRatioByMoney=%+v", d.ShortMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", ShortMarginRatioByVolume=%+v", d.ShortMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", IsRelative=%+v", d.IsRelative)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所保证金率
 type CThostFtdcExchangeMarginRateField struct {
 	// 经纪公司代码
@@ -1231,6 +2275,24 @@ type CThostFtdcExchangeMarginRateField struct {
 	ShortMarginRatioByMoney types.TThostFtdcRatioType
 	// 空头保证金费
 	ShortMarginRatioByVolume types.TThostFtdcMoneyType
+}
+
+func (d CThostFtdcExchangeMarginRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(224)
+
+	builder.WriteString("CThostFtdcExchangeMarginRateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", LongMarginRatioByMoney=%+v", d.LongMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", LongMarginRatioByVolume=%+v", d.LongMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", ShortMarginRatioByMoney=%+v", d.ShortMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", ShortMarginRatioByVolume=%+v", d.ShortMarginRatioByVolume)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所保证金率调整
@@ -1267,6 +2329,32 @@ type CThostFtdcExchangeMarginRateAdjustField struct {
 	NoShortMarginRatioByVolume types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcExchangeMarginRateAdjustField) String() string {
+	var builder strings.Builder
+	builder.Grow(518)
+
+	builder.WriteString("CThostFtdcExchangeMarginRateAdjustField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", LongMarginRatioByMoney=%+v", d.LongMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", LongMarginRatioByVolume=%+v", d.LongMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", ShortMarginRatioByMoney=%+v", d.ShortMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", ShortMarginRatioByVolume=%+v", d.ShortMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", ExchLongMarginRatioByMoney=%+v", d.ExchLongMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", ExchLongMarginRatioByVolume=%+v", d.ExchLongMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", ExchShortMarginRatioByMoney=%+v", d.ExchShortMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", ExchShortMarginRatioByVolume=%+v", d.ExchShortMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", NoLongMarginRatioByMoney=%+v", d.NoLongMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", NoLongMarginRatioByVolume=%+v", d.NoLongMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", NoShortMarginRatioByMoney=%+v", d.NoShortMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", NoShortMarginRatioByVolume=%+v", d.NoShortMarginRatioByVolume)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 汇率
 type CThostFtdcExchangeRateField struct {
 	// 经纪公司代码
@@ -1281,12 +2369,41 @@ type CThostFtdcExchangeRateField struct {
 	ExchangeRate types.TThostFtdcExchangeRateType
 }
 
+func (d CThostFtdcExchangeRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(139)
+
+	builder.WriteString("CThostFtdcExchangeRateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", FromCurrencyID=%+v", d.FromCurrencyID)
+	fmt.Fprintf(&builder, ", FromCurrencyUnit=%+v", d.FromCurrencyUnit)
+	fmt.Fprintf(&builder, ", ToCurrencyID=%+v", d.ToCurrencyID)
+	fmt.Fprintf(&builder, ", ExchangeRate=%+v", d.ExchangeRate)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 结算引用
 type CThostFtdcSettlementRefField struct {
 	// 交易日
 	TradingDay types.TThostFtdcDateType
 	// 结算编号
 	SettlementID types.TThostFtdcSettlementIDType
+}
+
+func (d CThostFtdcSettlementRefField) String() string {
+	var builder strings.Builder
+	builder.Grow(70)
+
+	builder.WriteString("CThostFtdcSettlementRefField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 当前时间
@@ -1301,6 +2418,21 @@ type CThostFtdcCurrentTimeField struct {
 	ActionDay types.TThostFtdcDateType
 }
 
+func (d CThostFtdcCurrentTimeField) String() string {
+	var builder strings.Builder
+	builder.Grow(103)
+
+	builder.WriteString("CThostFtdcCurrentTimeField{")
+	fmt.Fprintf(&builder, "CurrDate=%+v", d.CurrDate)
+	fmt.Fprintf(&builder, ", CurrTime=%+v", d.CurrTime)
+	fmt.Fprintf(&builder, ", CurrMillisec=%+v", d.CurrMillisec)
+	fmt.Fprintf(&builder, ", ActionDay=%+v", d.ActionDay)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 通讯阶段
 type CThostFtdcCommPhaseField struct {
 	// 交易日
@@ -1309,6 +2441,20 @@ type CThostFtdcCommPhaseField struct {
 	CommPhaseNo types.TThostFtdcCommPhaseNoType
 	// 系统编号
 	SystemID types.TThostFtdcSystemIDType
+}
+
+func (d CThostFtdcCommPhaseField) String() string {
+	var builder strings.Builder
+	builder.Grow(83)
+
+	builder.WriteString("CThostFtdcCommPhaseField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", CommPhaseNo=%+v", d.CommPhaseNo)
+	fmt.Fprintf(&builder, ", SystemID=%+v", d.SystemID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 登录信息
@@ -1359,6 +2505,39 @@ type CThostFtdcLoginInfoField struct {
 	LoginRemark types.TThostFtdcLoginRemarkType
 }
 
+func (d CThostFtdcLoginInfoField) String() string {
+	var builder strings.Builder
+	builder.Grow(463)
+
+	builder.WriteString("CThostFtdcLoginInfoField{")
+	fmt.Fprintf(&builder, "FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", LoginDate=%+v", d.LoginDate)
+	fmt.Fprintf(&builder, ", LoginTime=%+v", d.LoginTime)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", UserProductInfo=%+v", d.UserProductInfo)
+	fmt.Fprintf(&builder, ", InterfaceProductInfo=%+v", d.InterfaceProductInfo)
+	fmt.Fprintf(&builder, ", ProtocolInfo=%+v", d.ProtocolInfo)
+	fmt.Fprintf(&builder, ", SystemName=%+v", d.SystemName)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", MaxOrderRef=%+v", d.MaxOrderRef)
+	fmt.Fprintf(&builder, ", SHFETime=%+v", d.SHFETime)
+	fmt.Fprintf(&builder, ", DCETime=%+v", d.DCETime)
+	fmt.Fprintf(&builder, ", CZCETime=%+v", d.CZCETime)
+	fmt.Fprintf(&builder, ", FFEXTime=%+v", d.FFEXTime)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", OneTimePassword=%+v", d.OneTimePassword)
+	fmt.Fprintf(&builder, ", INETime=%+v", d.INETime)
+	fmt.Fprintf(&builder, ", IsQryControl=%+v", d.IsQryControl)
+	fmt.Fprintf(&builder, ", LoginRemark=%+v", d.LoginRemark)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 登录信息
 type CThostFtdcLogoutAllField struct {
 	// 前置编号
@@ -1367,6 +2546,20 @@ type CThostFtdcLogoutAllField struct {
 	SessionID types.TThostFtdcSessionIDType
 	// 系统名称
 	SystemName types.TThostFtdcSystemNameType
+}
+
+func (d CThostFtdcLogoutAllField) String() string {
+	var builder strings.Builder
+	builder.Grow(80)
+
+	builder.WriteString("CThostFtdcLogoutAllField{")
+	fmt.Fprintf(&builder, "FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", SystemName=%+v", d.SystemName)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 前置状态
@@ -1381,6 +2574,21 @@ type CThostFtdcFrontStatusField struct {
 	IsActive types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcFrontStatusField) String() string {
+	var builder strings.Builder
+	builder.Grow(109)
+
+	builder.WriteString("CThostFtdcFrontStatusField{")
+	fmt.Fprintf(&builder, "FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", LastReportDate=%+v", d.LastReportDate)
+	fmt.Fprintf(&builder, ", LastReportTime=%+v", d.LastReportTime)
+	fmt.Fprintf(&builder, ", IsActive=%+v", d.IsActive)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 用户口令变更
 type CThostFtdcUserPasswordUpdateField struct {
 	// 经纪公司代码
@@ -1391,6 +2599,21 @@ type CThostFtdcUserPasswordUpdateField struct {
 	OldPassword types.TThostFtdcPasswordType
 	// 新的口令
 	NewPassword types.TThostFtdcPasswordType
+}
+
+func (d CThostFtdcUserPasswordUpdateField) String() string {
+	var builder strings.Builder
+	builder.Grow(109)
+
+	builder.WriteString("CThostFtdcUserPasswordUpdateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", OldPassword=%+v", d.OldPassword)
+	fmt.Fprintf(&builder, ", NewPassword=%+v", d.NewPassword)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 输入报单
@@ -1459,6 +2682,49 @@ type CThostFtdcInputOrderField struct {
 	CustomOrderRef types.TThostFtdcCustomOrderRefType
 	// 报单标志
 	OrderFlag types.TThostFtdcOrderFlagType
+}
+
+func (d CThostFtdcInputOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(706)
+
+	builder.WriteString("CThostFtdcInputOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", OrderPriceType=%+v", d.OrderPriceType)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", CombOffsetFlag=%+v", d.CombOffsetFlag)
+	fmt.Fprintf(&builder, ", CombHedgeFlag=%+v", d.CombHedgeFlag)
+	fmt.Fprintf(&builder, ", LimitPrice=%+v", d.LimitPrice)
+	fmt.Fprintf(&builder, ", VolumeTotalOriginal=%+v", d.VolumeTotalOriginal)
+	fmt.Fprintf(&builder, ", TimeCondition=%+v", d.TimeCondition)
+	fmt.Fprintf(&builder, ", GTDDate=%+v", d.GTDDate)
+	fmt.Fprintf(&builder, ", VolumeCondition=%+v", d.VolumeCondition)
+	fmt.Fprintf(&builder, ", MinVolume=%+v", d.MinVolume)
+	fmt.Fprintf(&builder, ", ContingentCondition=%+v", d.ContingentCondition)
+	fmt.Fprintf(&builder, ", StopPrice=%+v", d.StopPrice)
+	fmt.Fprintf(&builder, ", ForceCloseReason=%+v", d.ForceCloseReason)
+	fmt.Fprintf(&builder, ", IsAutoSuspend=%+v", d.IsAutoSuspend)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", UserForceClose=%+v", d.UserForceClose)
+	fmt.Fprintf(&builder, ", IsSwapOrder=%+v", d.IsSwapOrder)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", CustomOrderRef=%+v", d.CustomOrderRef)
+	fmt.Fprintf(&builder, ", OrderFlag=%+v", d.OrderFlag)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 报单
@@ -1595,6 +2861,82 @@ type CThostFtdcOrderField struct {
 	TradeAvgPrice types.TThostFtdcPriceType
 }
 
+func (d CThostFtdcOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(1419)
+
+	builder.WriteString("CThostFtdcOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", OrderPriceType=%+v", d.OrderPriceType)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", CombOffsetFlag=%+v", d.CombOffsetFlag)
+	fmt.Fprintf(&builder, ", CombHedgeFlag=%+v", d.CombHedgeFlag)
+	fmt.Fprintf(&builder, ", LimitPrice=%+v", d.LimitPrice)
+	fmt.Fprintf(&builder, ", VolumeTotalOriginal=%+v", d.VolumeTotalOriginal)
+	fmt.Fprintf(&builder, ", TimeCondition=%+v", d.TimeCondition)
+	fmt.Fprintf(&builder, ", GTDDate=%+v", d.GTDDate)
+	fmt.Fprintf(&builder, ", VolumeCondition=%+v", d.VolumeCondition)
+	fmt.Fprintf(&builder, ", MinVolume=%+v", d.MinVolume)
+	fmt.Fprintf(&builder, ", ContingentCondition=%+v", d.ContingentCondition)
+	fmt.Fprintf(&builder, ", StopPrice=%+v", d.StopPrice)
+	fmt.Fprintf(&builder, ", ForceCloseReason=%+v", d.ForceCloseReason)
+	fmt.Fprintf(&builder, ", IsAutoSuspend=%+v", d.IsAutoSuspend)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderSubmitStatus=%+v", d.OrderSubmitStatus)
+	fmt.Fprintf(&builder, ", NotifySequence=%+v", d.NotifySequence)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", OrderSource=%+v", d.OrderSource)
+	fmt.Fprintf(&builder, ", OrderStatus=%+v", d.OrderStatus)
+	fmt.Fprintf(&builder, ", OrderType=%+v", d.OrderType)
+	fmt.Fprintf(&builder, ", VolumeTraded=%+v", d.VolumeTraded)
+	fmt.Fprintf(&builder, ", VolumeTotal=%+v", d.VolumeTotal)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+	fmt.Fprintf(&builder, ", InsertTime=%+v", d.InsertTime)
+	fmt.Fprintf(&builder, ", ActiveTime=%+v", d.ActiveTime)
+	fmt.Fprintf(&builder, ", SuspendTime=%+v", d.SuspendTime)
+	fmt.Fprintf(&builder, ", UpdateTime=%+v", d.UpdateTime)
+	fmt.Fprintf(&builder, ", CancelTime=%+v", d.CancelTime)
+	fmt.Fprintf(&builder, ", ActiveTraderID=%+v", d.ActiveTraderID)
+	fmt.Fprintf(&builder, ", ClearingPartID=%+v", d.ClearingPartID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", UserProductInfo=%+v", d.UserProductInfo)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", UserForceClose=%+v", d.UserForceClose)
+	fmt.Fprintf(&builder, ", ActiveUserID=%+v", d.ActiveUserID)
+	fmt.Fprintf(&builder, ", BrokerOrderSeq=%+v", d.BrokerOrderSeq)
+	fmt.Fprintf(&builder, ", RelativeOrderSysID=%+v", d.RelativeOrderSysID)
+	fmt.Fprintf(&builder, ", ZCETotalTradedVolume=%+v", d.ZCETotalTradedVolume)
+	fmt.Fprintf(&builder, ", IsSwapOrder=%+v", d.IsSwapOrder)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", CustomOrderRef=%+v", d.CustomOrderRef)
+	fmt.Fprintf(&builder, ", TradeAvgPrice=%+v", d.TradeAvgPrice)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所报单
 type CThostFtdcExchangeOrderField struct {
 	// 报单价格条件
@@ -1689,6 +3031,62 @@ type CThostFtdcExchangeOrderField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExchangeOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(996)
+
+	builder.WriteString("CThostFtdcExchangeOrderField{")
+	fmt.Fprintf(&builder, "OrderPriceType=%+v", d.OrderPriceType)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", CombOffsetFlag=%+v", d.CombOffsetFlag)
+	fmt.Fprintf(&builder, ", CombHedgeFlag=%+v", d.CombHedgeFlag)
+	fmt.Fprintf(&builder, ", LimitPrice=%+v", d.LimitPrice)
+	fmt.Fprintf(&builder, ", VolumeTotalOriginal=%+v", d.VolumeTotalOriginal)
+	fmt.Fprintf(&builder, ", TimeCondition=%+v", d.TimeCondition)
+	fmt.Fprintf(&builder, ", GTDDate=%+v", d.GTDDate)
+	fmt.Fprintf(&builder, ", VolumeCondition=%+v", d.VolumeCondition)
+	fmt.Fprintf(&builder, ", MinVolume=%+v", d.MinVolume)
+	fmt.Fprintf(&builder, ", ContingentCondition=%+v", d.ContingentCondition)
+	fmt.Fprintf(&builder, ", StopPrice=%+v", d.StopPrice)
+	fmt.Fprintf(&builder, ", ForceCloseReason=%+v", d.ForceCloseReason)
+	fmt.Fprintf(&builder, ", IsAutoSuspend=%+v", d.IsAutoSuspend)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderSubmitStatus=%+v", d.OrderSubmitStatus)
+	fmt.Fprintf(&builder, ", NotifySequence=%+v", d.NotifySequence)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", OrderSource=%+v", d.OrderSource)
+	fmt.Fprintf(&builder, ", OrderStatus=%+v", d.OrderStatus)
+	fmt.Fprintf(&builder, ", OrderType=%+v", d.OrderType)
+	fmt.Fprintf(&builder, ", VolumeTraded=%+v", d.VolumeTraded)
+	fmt.Fprintf(&builder, ", VolumeTotal=%+v", d.VolumeTotal)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+	fmt.Fprintf(&builder, ", InsertTime=%+v", d.InsertTime)
+	fmt.Fprintf(&builder, ", ActiveTime=%+v", d.ActiveTime)
+	fmt.Fprintf(&builder, ", SuspendTime=%+v", d.SuspendTime)
+	fmt.Fprintf(&builder, ", UpdateTime=%+v", d.UpdateTime)
+	fmt.Fprintf(&builder, ", CancelTime=%+v", d.CancelTime)
+	fmt.Fprintf(&builder, ", ActiveTraderID=%+v", d.ActiveTraderID)
+	fmt.Fprintf(&builder, ", ClearingPartID=%+v", d.ClearingPartID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所报单插入失败
 type CThostFtdcExchangeOrderInsertErrorField struct {
 	// 交易所代码
@@ -1705,6 +3103,24 @@ type CThostFtdcExchangeOrderInsertErrorField struct {
 	ErrorID types.TThostFtdcErrorIDType
 	// 错误信息
 	ErrorMsg types.TThostFtdcErrorMsgType
+}
+
+func (d CThostFtdcExchangeOrderInsertErrorField) String() string {
+	var builder strings.Builder
+	builder.Grow(176)
+
+	builder.WriteString("CThostFtdcExchangeOrderInsertErrorField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 输入报单操作
@@ -1745,6 +3161,34 @@ type CThostFtdcInputOrderActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcInputOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(367)
+
+	builder.WriteString("CThostFtdcInputOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OrderActionRef=%+v", d.OrderActionRef)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", LimitPrice=%+v", d.LimitPrice)
+	fmt.Fprintf(&builder, ", VolumeChange=%+v", d.VolumeChange)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 做市商输入报单操作
 type CThostFtdcMKInputOrderActionField struct {
 	// 经纪公司代码
@@ -1783,6 +3227,35 @@ type CThostFtdcMKInputOrderActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
+}
+
+func (d CThostFtdcMKInputOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(389)
+
+	builder.WriteString("CThostFtdcMKInputOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OrderActionRef=%+v", d.OrderActionRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", ActionMode=%+v", d.ActionMode)
+	fmt.Fprintf(&builder, ", LowerLimit=%+v", d.LowerLimit)
+	fmt.Fprintf(&builder, ", UpperLimit=%+v", d.UpperLimit)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", OrderStatus=%+v", d.OrderStatus)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 报单操作
@@ -1847,6 +3320,46 @@ type CThostFtdcOrderActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(611)
+
+	builder.WriteString("CThostFtdcOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OrderActionRef=%+v", d.OrderActionRef)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", LimitPrice=%+v", d.LimitPrice)
+	fmt.Fprintf(&builder, ", VolumeChange=%+v", d.VolumeChange)
+	fmt.Fprintf(&builder, ", ActionDate=%+v", d.ActionDate)
+	fmt.Fprintf(&builder, ", ActionTime=%+v", d.ActionTime)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所报单操作
 type CThostFtdcExchangeOrderActionField struct {
 	// 交易所代码
@@ -1889,6 +3402,36 @@ type CThostFtdcExchangeOrderActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExchangeOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(421)
+
+	builder.WriteString("CThostFtdcExchangeOrderActionField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", LimitPrice=%+v", d.LimitPrice)
+	fmt.Fprintf(&builder, ", VolumeChange=%+v", d.VolumeChange)
+	fmt.Fprintf(&builder, ", ActionDate=%+v", d.ActionDate)
+	fmt.Fprintf(&builder, ", ActionTime=%+v", d.ActionTime)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所报单操作失败
 type CThostFtdcExchangeOrderActionErrorField struct {
 	// 交易所代码
@@ -1907,6 +3450,25 @@ type CThostFtdcExchangeOrderActionErrorField struct {
 	ErrorID types.TThostFtdcErrorIDType
 	// 错误信息
 	ErrorMsg types.TThostFtdcErrorMsgType
+}
+
+func (d CThostFtdcExchangeOrderActionErrorField) String() string {
+	var builder strings.Builder
+	builder.Grow(196)
+
+	builder.WriteString("CThostFtdcExchangeOrderActionErrorField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所成交
@@ -1955,6 +3517,39 @@ type CThostFtdcExchangeTradeField struct {
 	SequenceNo types.TThostFtdcSequenceNoType
 	// 成交来源
 	TradeSource types.TThostFtdcTradeSourceType
+}
+
+func (d CThostFtdcExchangeTradeField) String() string {
+	var builder strings.Builder
+	builder.Grow(465)
+
+	builder.WriteString("CThostFtdcExchangeTradeField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TradeID=%+v", d.TradeID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", TradingRole=%+v", d.TradingRole)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", OffsetFlag=%+v", d.OffsetFlag)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", Price=%+v", d.Price)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", TradeType=%+v", d.TradeType)
+	fmt.Fprintf(&builder, ", PriceSource=%+v", d.PriceSource)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", ClearingPartID=%+v", d.ClearingPartID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", TradeSource=%+v", d.TradeSource)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 成交
@@ -2021,6 +3616,47 @@ type CThostFtdcTradeField struct {
 	TradeSource types.TThostFtdcTradeSourceType
 }
 
+func (d CThostFtdcTradeField) String() string {
+	var builder strings.Builder
+	builder.Grow(617)
+
+	builder.WriteString("CThostFtdcTradeField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TradeID=%+v", d.TradeID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", TradingRole=%+v", d.TradingRole)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", OffsetFlag=%+v", d.OffsetFlag)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", Price=%+v", d.Price)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", TradeType=%+v", d.TradeType)
+	fmt.Fprintf(&builder, ", PriceSource=%+v", d.PriceSource)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", ClearingPartID=%+v", d.ClearingPartID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", BrokerOrderSeq=%+v", d.BrokerOrderSeq)
+	fmt.Fprintf(&builder, ", TradeSource=%+v", d.TradeSource)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 用户会话
 type CThostFtdcUserSessionField struct {
 	// 前置编号
@@ -2049,6 +3685,29 @@ type CThostFtdcUserSessionField struct {
 	LoginRemark types.TThostFtdcLoginRemarkType
 }
 
+func (d CThostFtdcUserSessionField) String() string {
+	var builder strings.Builder
+	builder.Grow(271)
+
+	builder.WriteString("CThostFtdcUserSessionField{")
+	fmt.Fprintf(&builder, "FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", LoginDate=%+v", d.LoginDate)
+	fmt.Fprintf(&builder, ", LoginTime=%+v", d.LoginTime)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", UserProductInfo=%+v", d.UserProductInfo)
+	fmt.Fprintf(&builder, ", InterfaceProductInfo=%+v", d.InterfaceProductInfo)
+	fmt.Fprintf(&builder, ", ProtocolInfo=%+v", d.ProtocolInfo)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", LoginRemark=%+v", d.LoginRemark)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询最大报单数量
 type CThostFtdcQueryMaxOrderVolumeField struct {
 	// 经纪公司代码
@@ -2067,6 +3726,24 @@ type CThostFtdcQueryMaxOrderVolumeField struct {
 	MaxVolume types.TThostFtdcVolumeType
 }
 
+func (d CThostFtdcQueryMaxOrderVolumeField) String() string {
+	var builder strings.Builder
+	builder.Grow(171)
+
+	builder.WriteString("CThostFtdcQueryMaxOrderVolumeField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", OffsetFlag=%+v", d.OffsetFlag)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", MaxVolume=%+v", d.MaxVolume)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 投资者结算结果确认信息
 type CThostFtdcSettlementInfoConfirmField struct {
 	// 经纪公司代码
@@ -2077,6 +3754,21 @@ type CThostFtdcSettlementInfoConfirmField struct {
 	ConfirmDate types.TThostFtdcDateType
 	// 确认时间
 	ConfirmTime types.TThostFtdcTimeType
+}
+
+func (d CThostFtdcSettlementInfoConfirmField) String() string {
+	var builder strings.Builder
+	builder.Grow(116)
+
+	builder.WriteString("CThostFtdcSettlementInfoConfirmField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ConfirmDate=%+v", d.ConfirmDate)
+	fmt.Fprintf(&builder, ", ConfirmTime=%+v", d.ConfirmTime)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 出入金同步
@@ -2095,6 +3787,23 @@ type CThostFtdcSyncDepositField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcSyncDepositField) String() string {
+	var builder strings.Builder
+	builder.Grow(140)
+
+	builder.WriteString("CThostFtdcSyncDepositField{")
+	fmt.Fprintf(&builder, "DepositSeqNo=%+v", d.DepositSeqNo)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", Deposit=%+v", d.Deposit)
+	fmt.Fprintf(&builder, ", IsForce=%+v", d.IsForce)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 货币质押同步
 type CThostFtdcSyncFundMortgageField struct {
 	// 货币质押流水号
@@ -2109,6 +3818,23 @@ type CThostFtdcSyncFundMortgageField struct {
 	MortgageAmount types.TThostFtdcMoneyType
 	// 目标币种
 	ToCurrencyID types.TThostFtdcCurrencyIDType
+}
+
+func (d CThostFtdcSyncFundMortgageField) String() string {
+	var builder strings.Builder
+	builder.Grow(162)
+
+	builder.WriteString("CThostFtdcSyncFundMortgageField{")
+	fmt.Fprintf(&builder, "MortgageSeqNo=%+v", d.MortgageSeqNo)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", FromCurrencyID=%+v", d.FromCurrencyID)
+	fmt.Fprintf(&builder, ", MortgageAmount=%+v", d.MortgageAmount)
+	fmt.Fprintf(&builder, ", ToCurrencyID=%+v", d.ToCurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 核心间资金转移
@@ -2133,10 +3859,42 @@ type CThostFtdcTransFundField struct {
 	Amount types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcTransFundField) String() string {
+	var builder strings.Builder
+	builder.Grow(202)
+
+	builder.WriteString("CThostFtdcTransFundField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", DepositKernel=%+v", d.DepositKernel)
+	fmt.Fprintf(&builder, ", IncomingKernel=%+v", d.IncomingKernel)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", Amount=%+v", d.Amount)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 经纪公司同步
 type CThostFtdcBrokerSyncField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
+}
+
+func (d CThostFtdcBrokerSyncField) String() string {
+	var builder strings.Builder
+	builder.Grow(43)
+
+	builder.WriteString("CThostFtdcBrokerSyncField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 正在同步中的投资者
@@ -2169,6 +3927,30 @@ type CThostFtdcSyncingInvestorField struct {
 	MarginModelID types.TThostFtdcInvestorIDType
 }
 
+func (d CThostFtdcSyncingInvestorField) String() string {
+	var builder strings.Builder
+	builder.Grow(301)
+
+	builder.WriteString("CThostFtdcSyncingInvestorField{")
+	fmt.Fprintf(&builder, "InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorGroupID=%+v", d.InvestorGroupID)
+	fmt.Fprintf(&builder, ", InvestorName=%+v", d.InvestorName)
+	fmt.Fprintf(&builder, ", IdentifiedCardType=%+v", d.IdentifiedCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", IsActive=%+v", d.IsActive)
+	fmt.Fprintf(&builder, ", Telephone=%+v", d.Telephone)
+	fmt.Fprintf(&builder, ", Address=%+v", d.Address)
+	fmt.Fprintf(&builder, ", OpenDate=%+v", d.OpenDate)
+	fmt.Fprintf(&builder, ", Mobile=%+v", d.Mobile)
+	fmt.Fprintf(&builder, ", CommModelID=%+v", d.CommModelID)
+	fmt.Fprintf(&builder, ", MarginModelID=%+v", d.MarginModelID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 正在同步中的交易代码
 type CThostFtdcSyncingTradingCodeField struct {
 	// 投资者代码
@@ -2185,6 +3967,23 @@ type CThostFtdcSyncingTradingCodeField struct {
 	ClientIDType types.TThostFtdcClientIDTypeType
 }
 
+func (d CThostFtdcSyncingTradingCodeField) String() string {
+	var builder strings.Builder
+	builder.Grow(149)
+
+	builder.WriteString("CThostFtdcSyncingTradingCodeField{")
+	fmt.Fprintf(&builder, "InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", IsActive=%+v", d.IsActive)
+	fmt.Fprintf(&builder, ", ClientIDType=%+v", d.ClientIDType)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 正在同步中的投资者分组
 type CThostFtdcSyncingInvestorGroupField struct {
 	// 经纪公司代码
@@ -2193,6 +3992,20 @@ type CThostFtdcSyncingInvestorGroupField struct {
 	InvestorGroupID types.TThostFtdcInvestorIDType
 	// 投资者分组名称
 	InvestorGroupName types.TThostFtdcInvestorGroupNameType
+}
+
+func (d CThostFtdcSyncingInvestorGroupField) String() string {
+	var builder strings.Builder
+	builder.Grow(105)
+
+	builder.WriteString("CThostFtdcSyncingInvestorGroupField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorGroupID=%+v", d.InvestorGroupID)
+	fmt.Fprintf(&builder, ", InvestorGroupName=%+v", d.InvestorGroupName)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 正在同步中的交易账号
@@ -2291,6 +4104,63 @@ type CThostFtdcSyncingTradingAccountField struct {
 	SpecProductExchangeMargin types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcSyncingTradingAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(1123)
+
+	builder.WriteString("CThostFtdcSyncingTradingAccountField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", PreMortgage=%+v", d.PreMortgage)
+	fmt.Fprintf(&builder, ", PreCredit=%+v", d.PreCredit)
+	fmt.Fprintf(&builder, ", PreDeposit=%+v", d.PreDeposit)
+	fmt.Fprintf(&builder, ", PreBalance=%+v", d.PreBalance)
+	fmt.Fprintf(&builder, ", PreMargin=%+v", d.PreMargin)
+	fmt.Fprintf(&builder, ", InterestBase=%+v", d.InterestBase)
+	fmt.Fprintf(&builder, ", Interest=%+v", d.Interest)
+	fmt.Fprintf(&builder, ", Deposit=%+v", d.Deposit)
+	fmt.Fprintf(&builder, ", Withdraw=%+v", d.Withdraw)
+	fmt.Fprintf(&builder, ", FrozenMargin=%+v", d.FrozenMargin)
+	fmt.Fprintf(&builder, ", FrozenCash=%+v", d.FrozenCash)
+	fmt.Fprintf(&builder, ", FrozenCommission=%+v", d.FrozenCommission)
+	fmt.Fprintf(&builder, ", CurrMargin=%+v", d.CurrMargin)
+	fmt.Fprintf(&builder, ", CashIn=%+v", d.CashIn)
+	fmt.Fprintf(&builder, ", Commission=%+v", d.Commission)
+	fmt.Fprintf(&builder, ", CloseProfit=%+v", d.CloseProfit)
+	fmt.Fprintf(&builder, ", PositionProfit=%+v", d.PositionProfit)
+	fmt.Fprintf(&builder, ", Balance=%+v", d.Balance)
+	fmt.Fprintf(&builder, ", Available=%+v", d.Available)
+	fmt.Fprintf(&builder, ", WithdrawQuota=%+v", d.WithdrawQuota)
+	fmt.Fprintf(&builder, ", Reserve=%+v", d.Reserve)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", Credit=%+v", d.Credit)
+	fmt.Fprintf(&builder, ", Mortgage=%+v", d.Mortgage)
+	fmt.Fprintf(&builder, ", ExchangeMargin=%+v", d.ExchangeMargin)
+	fmt.Fprintf(&builder, ", DeliveryMargin=%+v", d.DeliveryMargin)
+	fmt.Fprintf(&builder, ", ExchangeDeliveryMargin=%+v", d.ExchangeDeliveryMargin)
+	fmt.Fprintf(&builder, ", ReserveBalance=%+v", d.ReserveBalance)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", PreFundMortgageIn=%+v", d.PreFundMortgageIn)
+	fmt.Fprintf(&builder, ", PreFundMortgageOut=%+v", d.PreFundMortgageOut)
+	fmt.Fprintf(&builder, ", FundMortgageIn=%+v", d.FundMortgageIn)
+	fmt.Fprintf(&builder, ", FundMortgageOut=%+v", d.FundMortgageOut)
+	fmt.Fprintf(&builder, ", FundMortgageAvailable=%+v", d.FundMortgageAvailable)
+	fmt.Fprintf(&builder, ", MortgageableFund=%+v", d.MortgageableFund)
+	fmt.Fprintf(&builder, ", SpecProductMargin=%+v", d.SpecProductMargin)
+	fmt.Fprintf(&builder, ", SpecProductFrozenMargin=%+v", d.SpecProductFrozenMargin)
+	fmt.Fprintf(&builder, ", SpecProductCommission=%+v", d.SpecProductCommission)
+	fmt.Fprintf(&builder, ", SpecProductFrozenCommission=%+v", d.SpecProductFrozenCommission)
+	fmt.Fprintf(&builder, ", SpecProductPositionProfit=%+v", d.SpecProductPositionProfit)
+	fmt.Fprintf(&builder, ", SpecProductCloseProfit=%+v", d.SpecProductCloseProfit)
+	fmt.Fprintf(&builder, ", SpecProductPositionProfitByAlg=%+v", d.SpecProductPositionProfitByAlg)
+	fmt.Fprintf(&builder, ", SpecProductExchangeMargin=%+v", d.SpecProductExchangeMargin)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 正在同步中的投资者持仓
 type CThostFtdcSyncingInvestorPositionField struct {
 	// 合约代码
@@ -2381,6 +4251,60 @@ type CThostFtdcSyncingInvestorPositionField struct {
 	AbandonFrozen types.TThostFtdcVolumeType
 }
 
+func (d CThostFtdcSyncingInvestorPositionField) String() string {
+	var builder strings.Builder
+	builder.Grow(999)
+
+	builder.WriteString("CThostFtdcSyncingInvestorPositionField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", PosiDirection=%+v", d.PosiDirection)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", PositionDate=%+v", d.PositionDate)
+	fmt.Fprintf(&builder, ", YdPosition=%+v", d.YdPosition)
+	fmt.Fprintf(&builder, ", Position=%+v", d.Position)
+	fmt.Fprintf(&builder, ", LongFrozen=%+v", d.LongFrozen)
+	fmt.Fprintf(&builder, ", ShortFrozen=%+v", d.ShortFrozen)
+	fmt.Fprintf(&builder, ", LongFrozenAmount=%+v", d.LongFrozenAmount)
+	fmt.Fprintf(&builder, ", ShortFrozenAmount=%+v", d.ShortFrozenAmount)
+	fmt.Fprintf(&builder, ", OpenVolume=%+v", d.OpenVolume)
+	fmt.Fprintf(&builder, ", CloseVolume=%+v", d.CloseVolume)
+	fmt.Fprintf(&builder, ", OpenAmount=%+v", d.OpenAmount)
+	fmt.Fprintf(&builder, ", CloseAmount=%+v", d.CloseAmount)
+	fmt.Fprintf(&builder, ", PositionCost=%+v", d.PositionCost)
+	fmt.Fprintf(&builder, ", PreMargin=%+v", d.PreMargin)
+	fmt.Fprintf(&builder, ", UseMargin=%+v", d.UseMargin)
+	fmt.Fprintf(&builder, ", FrozenMargin=%+v", d.FrozenMargin)
+	fmt.Fprintf(&builder, ", FrozenCash=%+v", d.FrozenCash)
+	fmt.Fprintf(&builder, ", FrozenCommission=%+v", d.FrozenCommission)
+	fmt.Fprintf(&builder, ", CashIn=%+v", d.CashIn)
+	fmt.Fprintf(&builder, ", Commission=%+v", d.Commission)
+	fmt.Fprintf(&builder, ", CloseProfit=%+v", d.CloseProfit)
+	fmt.Fprintf(&builder, ", PositionProfit=%+v", d.PositionProfit)
+	fmt.Fprintf(&builder, ", PreSettlementPrice=%+v", d.PreSettlementPrice)
+	fmt.Fprintf(&builder, ", SettlementPrice=%+v", d.SettlementPrice)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", OpenCost=%+v", d.OpenCost)
+	fmt.Fprintf(&builder, ", ExchangeMargin=%+v", d.ExchangeMargin)
+	fmt.Fprintf(&builder, ", CombPosition=%+v", d.CombPosition)
+	fmt.Fprintf(&builder, ", CombLongFrozen=%+v", d.CombLongFrozen)
+	fmt.Fprintf(&builder, ", CombShortFrozen=%+v", d.CombShortFrozen)
+	fmt.Fprintf(&builder, ", CloseProfitByDate=%+v", d.CloseProfitByDate)
+	fmt.Fprintf(&builder, ", CloseProfitByTrade=%+v", d.CloseProfitByTrade)
+	fmt.Fprintf(&builder, ", TodayPosition=%+v", d.TodayPosition)
+	fmt.Fprintf(&builder, ", MarginRateByMoney=%+v", d.MarginRateByMoney)
+	fmt.Fprintf(&builder, ", MarginRateByVolume=%+v", d.MarginRateByVolume)
+	fmt.Fprintf(&builder, ", StrikeFrozen=%+v", d.StrikeFrozen)
+	fmt.Fprintf(&builder, ", StrikeFrozenAmount=%+v", d.StrikeFrozenAmount)
+	fmt.Fprintf(&builder, ", AbandonFrozen=%+v", d.AbandonFrozen)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 正在同步中的合约保证金率
 type CThostFtdcSyncingInstrumentMarginRateField struct {
 	// 合约代码
@@ -2403,6 +4327,27 @@ type CThostFtdcSyncingInstrumentMarginRateField struct {
 	ShortMarginRatioByVolume types.TThostFtdcMoneyType
 	// 是否相对交易所收取
 	IsRelative types.TThostFtdcBoolType
+}
+
+func (d CThostFtdcSyncingInstrumentMarginRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(296)
+
+	builder.WriteString("CThostFtdcSyncingInstrumentMarginRateField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", LongMarginRatioByMoney=%+v", d.LongMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", LongMarginRatioByVolume=%+v", d.LongMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", ShortMarginRatioByMoney=%+v", d.ShortMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", ShortMarginRatioByVolume=%+v", d.ShortMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", IsRelative=%+v", d.IsRelative)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 正在同步中的合约手续费率
@@ -2429,6 +4374,27 @@ type CThostFtdcSyncingInstrumentCommissionRateField struct {
 	CloseTodayRatioByVolume types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcSyncingInstrumentCommissionRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(302)
+
+	builder.WriteString("CThostFtdcSyncingInstrumentCommissionRateField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OpenRatioByMoney=%+v", d.OpenRatioByMoney)
+	fmt.Fprintf(&builder, ", OpenRatioByVolume=%+v", d.OpenRatioByVolume)
+	fmt.Fprintf(&builder, ", CloseRatioByMoney=%+v", d.CloseRatioByMoney)
+	fmt.Fprintf(&builder, ", CloseRatioByVolume=%+v", d.CloseRatioByVolume)
+	fmt.Fprintf(&builder, ", CloseTodayRatioByMoney=%+v", d.CloseTodayRatioByMoney)
+	fmt.Fprintf(&builder, ", CloseTodayRatioByVolume=%+v", d.CloseTodayRatioByVolume)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 正在同步中的合约交易权限
 type CThostFtdcSyncingInstrumentTradingRightField struct {
 	// 合约代码
@@ -2441,6 +4407,22 @@ type CThostFtdcSyncingInstrumentTradingRightField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 交易权限
 	TradingRight types.TThostFtdcTradingRightType
+}
+
+func (d CThostFtdcSyncingInstrumentTradingRightField) String() string {
+	var builder strings.Builder
+	builder.Grow(149)
+
+	builder.WriteString("CThostFtdcSyncingInstrumentTradingRightField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", TradingRight=%+v", d.TradingRight)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询报单
@@ -2461,6 +4443,24 @@ type CThostFtdcQryOrderField struct {
 	InsertTimeEnd types.TThostFtdcTimeType
 }
 
+func (d CThostFtdcQryOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(171)
+
+	builder.WriteString("CThostFtdcQryOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", InsertTimeStart=%+v", d.InsertTimeStart)
+	fmt.Fprintf(&builder, ", InsertTimeEnd=%+v", d.InsertTimeEnd)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询成交
 type CThostFtdcQryTradeField struct {
 	// 经纪公司代码
@@ -2479,6 +4479,24 @@ type CThostFtdcQryTradeField struct {
 	TradeTimeEnd types.TThostFtdcTimeType
 }
 
+func (d CThostFtdcQryTradeField) String() string {
+	var builder strings.Builder
+	builder.Grow(166)
+
+	builder.WriteString("CThostFtdcQryTradeField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TradeID=%+v", d.TradeID)
+	fmt.Fprintf(&builder, ", TradeTimeStart=%+v", d.TradeTimeStart)
+	fmt.Fprintf(&builder, ", TradeTimeEnd=%+v", d.TradeTimeEnd)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询投资者持仓
 type CThostFtdcQryInvestorPositionField struct {
 	// 经纪公司代码
@@ -2487,6 +4505,20 @@ type CThostFtdcQryInvestorPositionField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryInvestorPositionField) String() string {
+	var builder strings.Builder
+	builder.Grow(94)
+
+	builder.WriteString("CThostFtdcQryInvestorPositionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询资金账户
@@ -2499,12 +4531,39 @@ type CThostFtdcQryTradingAccountField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcQryTradingAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(90)
+
+	builder.WriteString("CThostFtdcQryTradingAccountField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询投资者
 type CThostFtdcQryInvestorField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQryInvestorField) String() string {
+	var builder strings.Builder
+	builder.Grow(64)
+
+	builder.WriteString("CThostFtdcQryInvestorField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询交易编码
@@ -2521,10 +4580,38 @@ type CThostFtdcQryTradingCodeField struct {
 	ClientIDType types.TThostFtdcClientIDTypeType
 }
 
+func (d CThostFtdcQryTradingCodeField) String() string {
+	var builder strings.Builder
+	builder.Grow(127)
+
+	builder.WriteString("CThostFtdcQryTradingCodeField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ClientIDType=%+v", d.ClientIDType)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询投资者组
 type CThostFtdcQryInvestorGroupField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
+}
+
+func (d CThostFtdcQryInvestorGroupField) String() string {
+	var builder strings.Builder
+	builder.Grow(49)
+
+	builder.WriteString("CThostFtdcQryInvestorGroupField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询合约保证金率
@@ -2539,6 +4626,21 @@ type CThostFtdcQryInstrumentMarginRateField struct {
 	HedgeFlag types.TThostFtdcHedgeFlagType
 }
 
+func (d CThostFtdcQryInstrumentMarginRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(117)
+
+	builder.WriteString("CThostFtdcQryInstrumentMarginRateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询手续费率
 type CThostFtdcQryInstrumentCommissionRateField struct {
 	// 经纪公司代码
@@ -2547,6 +4649,20 @@ type CThostFtdcQryInstrumentCommissionRateField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryInstrumentCommissionRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(102)
+
+	builder.WriteString("CThostFtdcQryInstrumentCommissionRateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询合约交易权限
@@ -2559,10 +4675,36 @@ type CThostFtdcQryInstrumentTradingRightField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryInstrumentTradingRightField) String() string {
+	var builder strings.Builder
+	builder.Grow(100)
+
+	builder.WriteString("CThostFtdcQryInstrumentTradingRightField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询经纪公司
 type CThostFtdcQryBrokerField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
+}
+
+func (d CThostFtdcQryBrokerField) String() string {
+	var builder strings.Builder
+	builder.Grow(42)
+
+	builder.WriteString("CThostFtdcQryBrokerField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询交易员
@@ -2575,10 +4717,36 @@ type CThostFtdcQryTraderField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryTraderField) String() string {
+	var builder strings.Builder
+	builder.Grow(85)
+
+	builder.WriteString("CThostFtdcQryTraderField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询管理用户功能权限
 type CThostFtdcQrySuperUserFunctionField struct {
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
+}
+
+func (d CThostFtdcQrySuperUserFunctionField) String() string {
+	var builder strings.Builder
+	builder.Grow(51)
+
+	builder.WriteString("CThostFtdcQrySuperUserFunctionField{")
+	fmt.Fprintf(&builder, "UserID=%+v", d.UserID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询用户会话
@@ -2593,6 +4761,21 @@ type CThostFtdcQryUserSessionField struct {
 	UserID types.TThostFtdcUserIDType
 }
 
+func (d CThostFtdcQryUserSessionField) String() string {
+	var builder strings.Builder
+	builder.Grow(99)
+
+	builder.WriteString("CThostFtdcQryUserSessionField{")
+	fmt.Fprintf(&builder, "FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询经纪公司会员代码
 type CThostFtdcQryPartBrokerField struct {
 	// 交易所代码
@@ -2603,10 +4786,36 @@ type CThostFtdcQryPartBrokerField struct {
 	ParticipantID types.TThostFtdcParticipantIDType
 }
 
+func (d CThostFtdcQryPartBrokerField) String() string {
+	var builder strings.Builder
+	builder.Grow(89)
+
+	builder.WriteString("CThostFtdcQryPartBrokerField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询前置状态
 type CThostFtdcQryFrontStatusField struct {
 	// 前置编号
 	FrontID types.TThostFtdcFrontIDType
+}
+
+func (d CThostFtdcQryFrontStatusField) String() string {
+	var builder strings.Builder
+	builder.Grow(46)
+
+	builder.WriteString("CThostFtdcQryFrontStatusField{")
+	fmt.Fprintf(&builder, "FrontID=%+v", d.FrontID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询交易所报单
@@ -2623,6 +4832,22 @@ type CThostFtdcQryExchangeOrderField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryExchangeOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(134)
+
+	builder.WriteString("CThostFtdcQryExchangeOrderField{")
+	fmt.Fprintf(&builder, "ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询报单操作
 type CThostFtdcQryOrderActionField struct {
 	// 经纪公司代码
@@ -2631,6 +4856,20 @@ type CThostFtdcQryOrderActionField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
+}
+
+func (d CThostFtdcQryOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(87)
+
+	builder.WriteString("CThostFtdcQryOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询交易所报单操作
@@ -2645,10 +4884,37 @@ type CThostFtdcQryExchangeOrderActionField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryExchangeOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(116)
+
+	builder.WriteString("CThostFtdcQryExchangeOrderActionField{")
+	fmt.Fprintf(&builder, "ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询管理用户
 type CThostFtdcQrySuperUserField struct {
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
+}
+
+func (d CThostFtdcQrySuperUserField) String() string {
+	var builder strings.Builder
+	builder.Grow(43)
+
+	builder.WriteString("CThostFtdcQrySuperUserField{")
+	fmt.Fprintf(&builder, "UserID=%+v", d.UserID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询交易所
@@ -2657,12 +4923,37 @@ type CThostFtdcQryExchangeField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 }
 
+func (d CThostFtdcQryExchangeField) String() string {
+	var builder strings.Builder
+	builder.Grow(46)
+
+	builder.WriteString("CThostFtdcQryExchangeField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询产品
 type CThostFtdcQryProductField struct {
 	// 产品代码
 	ProductID types.TThostFtdcInstrumentIDType
 	// 产品类型
 	ProductClass types.TThostFtdcProductClassType
+}
+
+func (d CThostFtdcQryProductField) String() string {
+	var builder strings.Builder
+	builder.Grow(66)
+
+	builder.WriteString("CThostFtdcQryProductField{")
+	fmt.Fprintf(&builder, "ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", ProductClass=%+v", d.ProductClass)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询合约
@@ -2677,12 +4968,40 @@ type CThostFtdcQryInstrumentField struct {
 	ProductID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryInstrumentField) String() string {
+	var builder strings.Builder
+	builder.Grow(113)
+
+	builder.WriteString("CThostFtdcQryInstrumentField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", ProductID=%+v", d.ProductID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询申请组合合约
 type CThostFtdcQryCombInstrumentField struct {
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 产品代码
 	ProductID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryCombInstrumentField) String() string {
+	var builder strings.Builder
+	builder.Grow(71)
+
+	builder.WriteString("CThostFtdcQryCombInstrumentField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ProductID=%+v", d.ProductID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询投资者RCAMS组合保证金
@@ -2695,6 +5014,20 @@ type CThostFtdcQryRCAMSInvestorProdMarginField struct {
 	CombProductID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryRCAMSInvestorProdMarginField) String() string {
+	var builder strings.Builder
+	builder.Grow(102)
+
+	builder.WriteString("CThostFtdcQryRCAMSInvestorProdMarginField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", CombProductID=%+v", d.CombProductID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询RCAMS策略组合持仓
 type CThostFtdcQryRCAMSInvestorCombPositionField struct {
 	// 经纪公司代码
@@ -2705,10 +5038,36 @@ type CThostFtdcQryRCAMSInvestorCombPositionField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryRCAMSInvestorCombPositionField) String() string {
+	var builder strings.Builder
+	builder.Grow(103)
+
+	builder.WriteString("CThostFtdcQryRCAMSInvestorCombPositionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询行情
 type CThostFtdcQryDepthMarketDataField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryDepthMarketDataField) String() string {
+	var builder strings.Builder
+	builder.Grow(55)
+
+	builder.WriteString("CThostFtdcQryDepthMarketDataField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询经纪公司用户
@@ -2719,12 +5078,38 @@ type CThostFtdcQryBrokerUserField struct {
 	UserID types.TThostFtdcUserIDType
 }
 
+func (d CThostFtdcQryBrokerUserField) String() string {
+	var builder strings.Builder
+	builder.Grow(62)
+
+	builder.WriteString("CThostFtdcQryBrokerUserField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询经纪公司用户
 type CThostFtdcQryControlParamField struct {
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
 	// 开关代码
 	ControlParamID types.TThostFtdcControlParamIDType
+}
+
+func (d CThostFtdcQryControlParamField) String() string {
+	var builder strings.Builder
+	builder.Grow(74)
+
+	builder.WriteString("CThostFtdcQryControlParamField{")
+	fmt.Fprintf(&builder, "InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ControlParamID=%+v", d.ControlParamID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询经纪公司用户权限
@@ -2735,6 +5120,19 @@ type CThostFtdcQryBrokerUserFunctionField struct {
 	UserID types.TThostFtdcUserIDType
 }
 
+func (d CThostFtdcQryBrokerUserFunctionField) String() string {
+	var builder strings.Builder
+	builder.Grow(70)
+
+	builder.WriteString("CThostFtdcQryBrokerUserFunctionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询交易员报盘机
 type CThostFtdcQryTraderOfferField struct {
 	// 交易所代码
@@ -2743,12 +5141,38 @@ type CThostFtdcQryTraderOfferField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryTraderOfferField) String() string {
+	var builder strings.Builder
+	builder.Grow(67)
+
+	builder.WriteString("CThostFtdcQryTraderOfferField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询出入金流水
 type CThostFtdcQrySyncDepositField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 出入金流水号
 	DepositSeqNo types.TThostFtdcDepositSeqNoType
+}
+
+func (d CThostFtdcQrySyncDepositField) String() string {
+	var builder strings.Builder
+	builder.Grow(69)
+
+	builder.WriteString("CThostFtdcQrySyncDepositField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", DepositSeqNo=%+v", d.DepositSeqNo)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询投资者结算结果
@@ -2761,6 +5185,20 @@ type CThostFtdcQrySettlementInfoField struct {
 	TradingDay types.TThostFtdcDateType
 }
 
+func (d CThostFtdcQrySettlementInfoField) String() string {
+	var builder strings.Builder
+	builder.Grow(90)
+
+	builder.WriteString("CThostFtdcQrySettlementInfoField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询交易所保证金率
 type CThostFtdcQryExchangeMarginRateField struct {
 	// 经纪公司代码
@@ -2769,6 +5207,20 @@ type CThostFtdcQryExchangeMarginRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// 投机套保标志
 	HedgeFlag types.TThostFtdcHedgeFlagType
+}
+
+func (d CThostFtdcQryExchangeMarginRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(95)
+
+	builder.WriteString("CThostFtdcQryExchangeMarginRateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询交易所调整保证金率
@@ -2781,6 +5233,20 @@ type CThostFtdcQryExchangeMarginRateAdjustField struct {
 	HedgeFlag types.TThostFtdcHedgeFlagType
 }
 
+func (d CThostFtdcQryExchangeMarginRateAdjustField) String() string {
+	var builder strings.Builder
+	builder.Grow(101)
+
+	builder.WriteString("CThostFtdcQryExchangeMarginRateAdjustField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询汇率
 type CThostFtdcQryExchangeRateField struct {
 	// 经纪公司代码
@@ -2791,12 +5257,39 @@ type CThostFtdcQryExchangeRateField struct {
 	ToCurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcQryExchangeRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(94)
+
+	builder.WriteString("CThostFtdcQryExchangeRateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", FromCurrencyID=%+v", d.FromCurrencyID)
+	fmt.Fprintf(&builder, ", ToCurrencyID=%+v", d.ToCurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询货币质押流水
 type CThostFtdcQrySyncFundMortgageField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 货币质押流水号
 	MortgageSeqNo types.TThostFtdcDepositSeqNoType
+}
+
+func (d CThostFtdcQrySyncFundMortgageField) String() string {
+	var builder strings.Builder
+	builder.Grow(75)
+
+	builder.WriteString("CThostFtdcQrySyncFundMortgageField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", MortgageSeqNo=%+v", d.MortgageSeqNo)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询报单
@@ -2821,6 +5314,26 @@ type CThostFtdcQryHisOrderField struct {
 	SettlementID types.TThostFtdcSettlementIDType
 }
 
+func (d CThostFtdcQryHisOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(216)
+
+	builder.WriteString("CThostFtdcQryHisOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", InsertTimeStart=%+v", d.InsertTimeStart)
+	fmt.Fprintf(&builder, ", InsertTimeEnd=%+v", d.InsertTimeEnd)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 当前期权合约最小保证金
 type CThostFtdcOptionInstrMiniMarginField struct {
 	// 合约代码
@@ -2837,6 +5350,24 @@ type CThostFtdcOptionInstrMiniMarginField struct {
 	ValueMethod types.TThostFtdcValueMethodType
 	// 是否跟随交易所收取
 	IsRelative types.TThostFtdcBoolType
+}
+
+func (d CThostFtdcOptionInstrMiniMarginField) String() string {
+	var builder strings.Builder
+	builder.Grow(179)
+
+	builder.WriteString("CThostFtdcOptionInstrMiniMarginField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", MinMargin=%+v", d.MinMargin)
+	fmt.Fprintf(&builder, ", ValueMethod=%+v", d.ValueMethod)
+	fmt.Fprintf(&builder, ", IsRelative=%+v", d.IsRelative)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 当前期权合约保证金调整系数
@@ -2869,6 +5400,30 @@ type CThostFtdcOptionInstrMarginAdjustField struct {
 	MShortMarginRatioByVolume types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcOptionInstrMarginAdjustField) String() string {
+	var builder strings.Builder
+	builder.Grow(417)
+
+	builder.WriteString("CThostFtdcOptionInstrMarginAdjustField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", SShortMarginRatioByMoney=%+v", d.SShortMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", SShortMarginRatioByVolume=%+v", d.SShortMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", HShortMarginRatioByMoney=%+v", d.HShortMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", HShortMarginRatioByVolume=%+v", d.HShortMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", AShortMarginRatioByMoney=%+v", d.AShortMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", AShortMarginRatioByVolume=%+v", d.AShortMarginRatioByVolume)
+	fmt.Fprintf(&builder, ", IsRelative=%+v", d.IsRelative)
+	fmt.Fprintf(&builder, ", MShortMarginRatioByMoney=%+v", d.MShortMarginRatioByMoney)
+	fmt.Fprintf(&builder, ", MShortMarginRatioByVolume=%+v", d.MShortMarginRatioByVolume)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 当前期权合约手续费的详细内容
 type CThostFtdcOptionInstrCommRateField struct {
 	// 合约代码
@@ -2897,6 +5452,29 @@ type CThostFtdcOptionInstrCommRateField struct {
 	StrikeRatioByVolume types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcOptionInstrCommRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(347)
+
+	builder.WriteString("CThostFtdcOptionInstrCommRateField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OpenRatioByMoney=%+v", d.OpenRatioByMoney)
+	fmt.Fprintf(&builder, ", OpenRatioByVolume=%+v", d.OpenRatioByVolume)
+	fmt.Fprintf(&builder, ", CloseRatioByMoney=%+v", d.CloseRatioByMoney)
+	fmt.Fprintf(&builder, ", CloseRatioByVolume=%+v", d.CloseRatioByVolume)
+	fmt.Fprintf(&builder, ", CloseTodayRatioByMoney=%+v", d.CloseTodayRatioByMoney)
+	fmt.Fprintf(&builder, ", CloseTodayRatioByVolume=%+v", d.CloseTodayRatioByVolume)
+	fmt.Fprintf(&builder, ", StrikeRatioByMoney=%+v", d.StrikeRatioByMoney)
+	fmt.Fprintf(&builder, ", StrikeRatioByVolume=%+v", d.StrikeRatioByVolume)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 期权交易成本
 type CThostFtdcOptionInstrTradeCostField struct {
 	// 经纪公司代码
@@ -2919,6 +5497,26 @@ type CThostFtdcOptionInstrTradeCostField struct {
 	ExchMiniMargin types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcOptionInstrTradeCostField) String() string {
+	var builder strings.Builder
+	builder.Grow(221)
+
+	builder.WriteString("CThostFtdcOptionInstrTradeCostField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", FixedMargin=%+v", d.FixedMargin)
+	fmt.Fprintf(&builder, ", MiniMargin=%+v", d.MiniMargin)
+	fmt.Fprintf(&builder, ", Royalty=%+v", d.Royalty)
+	fmt.Fprintf(&builder, ", ExchFixedMargin=%+v", d.ExchFixedMargin)
+	fmt.Fprintf(&builder, ", ExchMiniMargin=%+v", d.ExchMiniMargin)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 期权交易成本查询
 type CThostFtdcQryOptionInstrTradeCostField struct {
 	// 经纪公司代码
@@ -2935,6 +5533,23 @@ type CThostFtdcQryOptionInstrTradeCostField struct {
 	UnderlyingPrice types.TThostFtdcPriceType
 }
 
+func (d CThostFtdcQryOptionInstrTradeCostField) String() string {
+	var builder strings.Builder
+	builder.Grow(162)
+
+	builder.WriteString("CThostFtdcQryOptionInstrTradeCostField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", InputPrice=%+v", d.InputPrice)
+	fmt.Fprintf(&builder, ", UnderlyingPrice=%+v", d.UnderlyingPrice)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 期权手续费率查询
 type CThostFtdcQryOptionInstrCommRateField struct {
 	// 经纪公司代码
@@ -2945,6 +5560,20 @@ type CThostFtdcQryOptionInstrCommRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryOptionInstrCommRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(97)
+
+	builder.WriteString("CThostFtdcQryOptionInstrCommRateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 股指现货指数
 type CThostFtdcIndexPriceField struct {
 	// 经纪公司代码
@@ -2953,6 +5582,20 @@ type CThostFtdcIndexPriceField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// 指数现货收盘价
 	ClosePrice types.TThostFtdcPriceType
+}
+
+func (d CThostFtdcIndexPriceField) String() string {
+	var builder strings.Builder
+	builder.Grow(85)
+
+	builder.WriteString("CThostFtdcIndexPriceField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ClosePrice=%+v", d.ClosePrice)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 输入的执行宣告
@@ -3001,6 +5644,38 @@ type CThostFtdcInputExecOrderField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcInputExecOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(452)
+
+	builder.WriteString("CThostFtdcInputExecOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExecOrderRef=%+v", d.ExecOrderRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OffsetFlag=%+v", d.OffsetFlag)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", ActionType=%+v", d.ActionType)
+	fmt.Fprintf(&builder, ", PosiDirection=%+v", d.PosiDirection)
+	fmt.Fprintf(&builder, ", ReservePositionFlag=%+v", d.ReservePositionFlag)
+	fmt.Fprintf(&builder, ", CloseFlag=%+v", d.CloseFlag)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 输入执行宣告操作
 type CThostFtdcInputExecOrderActionField struct {
 	// 经纪公司代码
@@ -3033,6 +5708,32 @@ type CThostFtdcInputExecOrderActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
+}
+
+func (d CThostFtdcInputExecOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(341)
+
+	builder.WriteString("CThostFtdcInputExecOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ExecOrderActionRef=%+v", d.ExecOrderActionRef)
+	fmt.Fprintf(&builder, ", ExecOrderRef=%+v", d.ExecOrderRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ExecOrderSysID=%+v", d.ExecOrderSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 执行宣告
@@ -3127,6 +5828,61 @@ type CThostFtdcExecOrderField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExecOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(946)
+
+	builder.WriteString("CThostFtdcExecOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExecOrderRef=%+v", d.ExecOrderRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OffsetFlag=%+v", d.OffsetFlag)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", ActionType=%+v", d.ActionType)
+	fmt.Fprintf(&builder, ", PosiDirection=%+v", d.PosiDirection)
+	fmt.Fprintf(&builder, ", ReservePositionFlag=%+v", d.ReservePositionFlag)
+	fmt.Fprintf(&builder, ", CloseFlag=%+v", d.CloseFlag)
+	fmt.Fprintf(&builder, ", ExecOrderLocalID=%+v", d.ExecOrderLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderSubmitStatus=%+v", d.OrderSubmitStatus)
+	fmt.Fprintf(&builder, ", NotifySequence=%+v", d.NotifySequence)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", ExecOrderSysID=%+v", d.ExecOrderSysID)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+	fmt.Fprintf(&builder, ", InsertTime=%+v", d.InsertTime)
+	fmt.Fprintf(&builder, ", CancelTime=%+v", d.CancelTime)
+	fmt.Fprintf(&builder, ", ExecResult=%+v", d.ExecResult)
+	fmt.Fprintf(&builder, ", ClearingPartID=%+v", d.ClearingPartID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", UserProductInfo=%+v", d.UserProductInfo)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", ActiveUserID=%+v", d.ActiveUserID)
+	fmt.Fprintf(&builder, ", BrokerExecOrderSeq=%+v", d.BrokerExecOrderSeq)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 执行宣告操作
 type CThostFtdcExecOrderActionField struct {
 	// 经纪公司代码
@@ -3187,6 +5943,45 @@ type CThostFtdcExecOrderActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExecOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(609)
+
+	builder.WriteString("CThostFtdcExecOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ExecOrderActionRef=%+v", d.ExecOrderActionRef)
+	fmt.Fprintf(&builder, ", ExecOrderRef=%+v", d.ExecOrderRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ExecOrderSysID=%+v", d.ExecOrderSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", ActionDate=%+v", d.ActionDate)
+	fmt.Fprintf(&builder, ", ActionTime=%+v", d.ActionTime)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", ExecOrderLocalID=%+v", d.ExecOrderLocalID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", ActionType=%+v", d.ActionType)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 执行宣告查询
 type CThostFtdcQryExecOrderField struct {
 	// 经纪公司代码
@@ -3203,6 +5998,24 @@ type CThostFtdcQryExecOrderField struct {
 	InsertTimeStart types.TThostFtdcTimeType
 	// 结束时间
 	InsertTimeEnd types.TThostFtdcTimeType
+}
+
+func (d CThostFtdcQryExecOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(179)
+
+	builder.WriteString("CThostFtdcQryExecOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ExecOrderSysID=%+v", d.ExecOrderSysID)
+	fmt.Fprintf(&builder, ", InsertTimeStart=%+v", d.InsertTimeStart)
+	fmt.Fprintf(&builder, ", InsertTimeEnd=%+v", d.InsertTimeEnd)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所执行宣告信息
@@ -3269,6 +6082,47 @@ type CThostFtdcExchangeExecOrderField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExchangeExecOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(665)
+
+	builder.WriteString("CThostFtdcExchangeExecOrderField{")
+	fmt.Fprintf(&builder, "Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OffsetFlag=%+v", d.OffsetFlag)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", ActionType=%+v", d.ActionType)
+	fmt.Fprintf(&builder, ", PosiDirection=%+v", d.PosiDirection)
+	fmt.Fprintf(&builder, ", ReservePositionFlag=%+v", d.ReservePositionFlag)
+	fmt.Fprintf(&builder, ", CloseFlag=%+v", d.CloseFlag)
+	fmt.Fprintf(&builder, ", ExecOrderLocalID=%+v", d.ExecOrderLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderSubmitStatus=%+v", d.OrderSubmitStatus)
+	fmt.Fprintf(&builder, ", NotifySequence=%+v", d.NotifySequence)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", ExecOrderSysID=%+v", d.ExecOrderSysID)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+	fmt.Fprintf(&builder, ", InsertTime=%+v", d.InsertTime)
+	fmt.Fprintf(&builder, ", CancelTime=%+v", d.CancelTime)
+	fmt.Fprintf(&builder, ", ExecResult=%+v", d.ExecResult)
+	fmt.Fprintf(&builder, ", ClearingPartID=%+v", d.ClearingPartID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所执行宣告查询
 type CThostFtdcQryExchangeExecOrderField struct {
 	// 会员代码
@@ -3283,6 +6137,22 @@ type CThostFtdcQryExchangeExecOrderField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryExchangeExecOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(138)
+
+	builder.WriteString("CThostFtdcQryExchangeExecOrderField{")
+	fmt.Fprintf(&builder, "ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 执行宣告操作查询
 type CThostFtdcQryExecOrderActionField struct {
 	// 经纪公司代码
@@ -3291,6 +6161,20 @@ type CThostFtdcQryExecOrderActionField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
+}
+
+func (d CThostFtdcQryExecOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(91)
+
+	builder.WriteString("CThostFtdcQryExecOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所执行宣告操作
@@ -3333,6 +6217,35 @@ type CThostFtdcExchangeExecOrderActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExchangeExecOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(411)
+
+	builder.WriteString("CThostFtdcExchangeExecOrderActionField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ExecOrderSysID=%+v", d.ExecOrderSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", ActionDate=%+v", d.ActionDate)
+	fmt.Fprintf(&builder, ", ActionTime=%+v", d.ActionTime)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", ExecOrderLocalID=%+v", d.ExecOrderLocalID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", ActionType=%+v", d.ActionType)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所执行宣告操作查询
 type CThostFtdcQryExchangeExecOrderActionField struct {
 	// 会员代码
@@ -3343,6 +6256,21 @@ type CThostFtdcQryExchangeExecOrderActionField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 交易所交易员代码
 	TraderID types.TThostFtdcTraderIDType
+}
+
+func (d CThostFtdcQryExchangeExecOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(120)
+
+	builder.WriteString("CThostFtdcQryExchangeExecOrderActionField{")
+	fmt.Fprintf(&builder, "ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 错误执行宣告
@@ -3395,12 +6323,59 @@ type CThostFtdcErrExecOrderField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcErrExecOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(485)
+
+	builder.WriteString("CThostFtdcErrExecOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExecOrderRef=%+v", d.ExecOrderRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OffsetFlag=%+v", d.OffsetFlag)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", ActionType=%+v", d.ActionType)
+	fmt.Fprintf(&builder, ", PosiDirection=%+v", d.PosiDirection)
+	fmt.Fprintf(&builder, ", ReservePositionFlag=%+v", d.ReservePositionFlag)
+	fmt.Fprintf(&builder, ", CloseFlag=%+v", d.CloseFlag)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询错误执行宣告
 type CThostFtdcQryErrExecOrderField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQryErrExecOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(68)
+
+	builder.WriteString("CThostFtdcQryErrExecOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 错误执行宣告操作
@@ -3441,12 +6416,53 @@ type CThostFtdcErrExecOrderActionField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcErrExecOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(374)
+
+	builder.WriteString("CThostFtdcErrExecOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ExecOrderActionRef=%+v", d.ExecOrderActionRef)
+	fmt.Fprintf(&builder, ", ExecOrderRef=%+v", d.ExecOrderRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ExecOrderSysID=%+v", d.ExecOrderSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询错误执行宣告操作
 type CThostFtdcQryErrExecOrderActionField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQryErrExecOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(74)
+
+	builder.WriteString("CThostFtdcQryErrExecOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 投资者期权合约交易权限
@@ -3465,6 +6481,23 @@ type CThostFtdcOptionInstrTradingRightField struct {
 	TradingRight types.TThostFtdcTradingRightType
 }
 
+func (d CThostFtdcOptionInstrTradingRightField) String() string {
+	var builder strings.Builder
+	builder.Grow(162)
+
+	builder.WriteString("CThostFtdcOptionInstrTradingRightField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", TradingRight=%+v", d.TradingRight)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询期权合约交易权限
 type CThostFtdcQryOptionInstrTradingRightField struct {
 	// 经纪公司代码
@@ -3475,6 +6508,21 @@ type CThostFtdcQryOptionInstrTradingRightField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// 买卖方向
 	Direction types.TThostFtdcDirectionType
+}
+
+func (d CThostFtdcQryOptionInstrTradingRightField) String() string {
+	var builder strings.Builder
+	builder.Grow(120)
+
+	builder.WriteString("CThostFtdcQryOptionInstrTradingRightField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 输入的询价
@@ -3499,6 +6547,27 @@ type CThostFtdcInputForQuoteField struct {
 	MacAddress types.TThostFtdcMacAddressType
 	// 业务单元
 	BusinessUnit types.TThostFtdcBusinessUnitType
+}
+
+func (d CThostFtdcInputForQuoteField) String() string {
+	var builder strings.Builder
+	builder.Grow(228)
+
+	builder.WriteString("CThostFtdcInputForQuoteField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ForQuoteRef=%+v", d.ForQuoteRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 询价
@@ -3553,6 +6622,41 @@ type CThostFtdcForQuoteField struct {
 	BusinessUnit types.TThostFtdcBusinessUnitType
 }
 
+func (d CThostFtdcForQuoteField) String() string {
+	var builder strings.Builder
+	builder.Grow(517)
+
+	builder.WriteString("CThostFtdcForQuoteField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ForQuoteRef=%+v", d.ForQuoteRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", ForQuoteLocalID=%+v", d.ForQuoteLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+	fmt.Fprintf(&builder, ", InsertTime=%+v", d.InsertTime)
+	fmt.Fprintf(&builder, ", ForQuoteStatus=%+v", d.ForQuoteStatus)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", ActiveUserID=%+v", d.ActiveUserID)
+	fmt.Fprintf(&builder, ", BrokerForQutoSeq=%+v", d.BrokerForQutoSeq)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 询价查询
 type CThostFtdcQryForQuoteField struct {
 	// 经纪公司代码
@@ -3567,6 +6671,23 @@ type CThostFtdcQryForQuoteField struct {
 	InsertTimeStart types.TThostFtdcTimeType
 	// 结束时间
 	InsertTimeEnd types.TThostFtdcTimeType
+}
+
+func (d CThostFtdcQryForQuoteField) String() string {
+	var builder strings.Builder
+	builder.Grow(154)
+
+	builder.WriteString("CThostFtdcQryForQuoteField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InsertTimeStart=%+v", d.InsertTimeStart)
+	fmt.Fprintf(&builder, ", InsertTimeEnd=%+v", d.InsertTimeEnd)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所询价信息
@@ -3597,6 +6718,29 @@ type CThostFtdcExchangeForQuoteField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExchangeForQuoteField) String() string {
+	var builder strings.Builder
+	builder.Grow(281)
+
+	builder.WriteString("CThostFtdcExchangeForQuoteField{")
+	fmt.Fprintf(&builder, "ForQuoteLocalID=%+v", d.ForQuoteLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+	fmt.Fprintf(&builder, ", InsertTime=%+v", d.InsertTime)
+	fmt.Fprintf(&builder, ", ForQuoteStatus=%+v", d.ForQuoteStatus)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所询价查询
 type CThostFtdcQryExchangeForQuoteField struct {
 	// 会员代码
@@ -3609,6 +6753,22 @@ type CThostFtdcQryExchangeForQuoteField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 交易所交易员代码
 	TraderID types.TThostFtdcTraderIDType
+}
+
+func (d CThostFtdcQryExchangeForQuoteField) String() string {
+	var builder strings.Builder
+	builder.Grow(137)
+
+	builder.WriteString("CThostFtdcQryExchangeForQuoteField{")
+	fmt.Fprintf(&builder, "ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 输入的报价
@@ -3667,6 +6827,43 @@ type CThostFtdcInputQuoteField struct {
 	TimeCondition types.TThostFtdcTimeConditionType
 }
 
+func (d CThostFtdcInputQuoteField) String() string {
+	var builder strings.Builder
+	builder.Grow(557)
+
+	builder.WriteString("CThostFtdcInputQuoteField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", QuoteRef=%+v", d.QuoteRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", AskPrice=%+v", d.AskPrice)
+	fmt.Fprintf(&builder, ", BidPrice=%+v", d.BidPrice)
+	fmt.Fprintf(&builder, ", AskVolume=%+v", d.AskVolume)
+	fmt.Fprintf(&builder, ", BidVolume=%+v", d.BidVolume)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", AskOffsetFlag=%+v", d.AskOffsetFlag)
+	fmt.Fprintf(&builder, ", BidOffsetFlag=%+v", d.BidOffsetFlag)
+	fmt.Fprintf(&builder, ", AskHedgeFlag=%+v", d.AskHedgeFlag)
+	fmt.Fprintf(&builder, ", BidHedgeFlag=%+v", d.BidHedgeFlag)
+	fmt.Fprintf(&builder, ", AskOrderRef=%+v", d.AskOrderRef)
+	fmt.Fprintf(&builder, ", BidOrderRef=%+v", d.BidOrderRef)
+	fmt.Fprintf(&builder, ", ForQuoteSysID=%+v", d.ForQuoteSysID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", ReplaceSysID=%+v", d.ReplaceSysID)
+	fmt.Fprintf(&builder, ", CustomQuoteRef=%+v", d.CustomQuoteRef)
+	fmt.Fprintf(&builder, ", TimeCondition=%+v", d.TimeCondition)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 输入报价操作
 type CThostFtdcInputQuoteActionField struct {
 	// 经纪公司代码
@@ -3701,6 +6898,33 @@ type CThostFtdcInputQuoteActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
+}
+
+func (d CThostFtdcInputQuoteActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(343)
+
+	builder.WriteString("CThostFtdcInputQuoteActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", QuoteActionRef=%+v", d.QuoteActionRef)
+	fmt.Fprintf(&builder, ", QuoteRef=%+v", d.QuoteRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", QuoteSysID=%+v", d.QuoteSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 报价
@@ -3813,6 +7037,70 @@ type CThostFtdcQuoteField struct {
 	TimeCondition types.TThostFtdcTimeConditionType
 }
 
+func (d CThostFtdcQuoteField) String() string {
+	var builder strings.Builder
+	builder.Grow(1125)
+
+	builder.WriteString("CThostFtdcQuoteField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", QuoteRef=%+v", d.QuoteRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", AskPrice=%+v", d.AskPrice)
+	fmt.Fprintf(&builder, ", BidPrice=%+v", d.BidPrice)
+	fmt.Fprintf(&builder, ", AskVolume=%+v", d.AskVolume)
+	fmt.Fprintf(&builder, ", BidVolume=%+v", d.BidVolume)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", AskOffsetFlag=%+v", d.AskOffsetFlag)
+	fmt.Fprintf(&builder, ", BidOffsetFlag=%+v", d.BidOffsetFlag)
+	fmt.Fprintf(&builder, ", AskHedgeFlag=%+v", d.AskHedgeFlag)
+	fmt.Fprintf(&builder, ", BidHedgeFlag=%+v", d.BidHedgeFlag)
+	fmt.Fprintf(&builder, ", QuoteLocalID=%+v", d.QuoteLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", NotifySequence=%+v", d.NotifySequence)
+	fmt.Fprintf(&builder, ", OrderSubmitStatus=%+v", d.OrderSubmitStatus)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", QuoteSysID=%+v", d.QuoteSysID)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+	fmt.Fprintf(&builder, ", InsertTime=%+v", d.InsertTime)
+	fmt.Fprintf(&builder, ", CancelTime=%+v", d.CancelTime)
+	fmt.Fprintf(&builder, ", QuoteStatus=%+v", d.QuoteStatus)
+	fmt.Fprintf(&builder, ", ClearingPartID=%+v", d.ClearingPartID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", AskOrderSysID=%+v", d.AskOrderSysID)
+	fmt.Fprintf(&builder, ", BidOrderSysID=%+v", d.BidOrderSysID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", UserProductInfo=%+v", d.UserProductInfo)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", ActiveUserID=%+v", d.ActiveUserID)
+	fmt.Fprintf(&builder, ", BrokerQuoteSeq=%+v", d.BrokerQuoteSeq)
+	fmt.Fprintf(&builder, ", AskOrderRef=%+v", d.AskOrderRef)
+	fmt.Fprintf(&builder, ", BidOrderRef=%+v", d.BidOrderRef)
+	fmt.Fprintf(&builder, ", ForQuoteSysID=%+v", d.ForQuoteSysID)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", ReplaceSysID=%+v", d.ReplaceSysID)
+	fmt.Fprintf(&builder, ", CustomQuoteRef=%+v", d.CustomQuoteRef)
+	fmt.Fprintf(&builder, ", TimeCondition=%+v", d.TimeCondition)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 报价操作
 type CThostFtdcQuoteActionField struct {
 	// 经纪公司代码
@@ -3871,6 +7159,44 @@ type CThostFtdcQuoteActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcQuoteActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(569)
+
+	builder.WriteString("CThostFtdcQuoteActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", QuoteActionRef=%+v", d.QuoteActionRef)
+	fmt.Fprintf(&builder, ", QuoteRef=%+v", d.QuoteRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", QuoteSysID=%+v", d.QuoteSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", ActionDate=%+v", d.ActionDate)
+	fmt.Fprintf(&builder, ", ActionTime=%+v", d.ActionTime)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", QuoteLocalID=%+v", d.QuoteLocalID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 报价查询
 type CThostFtdcQryQuoteField struct {
 	// 经纪公司代码
@@ -3887,6 +7213,24 @@ type CThostFtdcQryQuoteField struct {
 	InsertTimeStart types.TThostFtdcTimeType
 	// 结束时间
 	InsertTimeEnd types.TThostFtdcTimeType
+}
+
+func (d CThostFtdcQryQuoteField) String() string {
+	var builder strings.Builder
+	builder.Grow(171)
+
+	builder.WriteString("CThostFtdcQryQuoteField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", QuoteSysID=%+v", d.QuoteSysID)
+	fmt.Fprintf(&builder, ", InsertTimeStart=%+v", d.InsertTimeStart)
+	fmt.Fprintf(&builder, ", InsertTimeEnd=%+v", d.InsertTimeEnd)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所报价信息
@@ -3961,6 +7305,51 @@ type CThostFtdcExchangeQuoteField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExchangeQuoteField) String() string {
+	var builder strings.Builder
+	builder.Grow(741)
+
+	builder.WriteString("CThostFtdcExchangeQuoteField{")
+	fmt.Fprintf(&builder, "AskPrice=%+v", d.AskPrice)
+	fmt.Fprintf(&builder, ", BidPrice=%+v", d.BidPrice)
+	fmt.Fprintf(&builder, ", AskVolume=%+v", d.AskVolume)
+	fmt.Fprintf(&builder, ", BidVolume=%+v", d.BidVolume)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", AskOffsetFlag=%+v", d.AskOffsetFlag)
+	fmt.Fprintf(&builder, ", BidOffsetFlag=%+v", d.BidOffsetFlag)
+	fmt.Fprintf(&builder, ", AskHedgeFlag=%+v", d.AskHedgeFlag)
+	fmt.Fprintf(&builder, ", BidHedgeFlag=%+v", d.BidHedgeFlag)
+	fmt.Fprintf(&builder, ", QuoteLocalID=%+v", d.QuoteLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", NotifySequence=%+v", d.NotifySequence)
+	fmt.Fprintf(&builder, ", OrderSubmitStatus=%+v", d.OrderSubmitStatus)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", QuoteSysID=%+v", d.QuoteSysID)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+	fmt.Fprintf(&builder, ", InsertTime=%+v", d.InsertTime)
+	fmt.Fprintf(&builder, ", CancelTime=%+v", d.CancelTime)
+	fmt.Fprintf(&builder, ", QuoteStatus=%+v", d.QuoteStatus)
+	fmt.Fprintf(&builder, ", ClearingPartID=%+v", d.ClearingPartID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", AskOrderSysID=%+v", d.AskOrderSysID)
+	fmt.Fprintf(&builder, ", BidOrderSysID=%+v", d.BidOrderSysID)
+	fmt.Fprintf(&builder, ", ForQuoteSysID=%+v", d.ForQuoteSysID)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所报价查询
 type CThostFtdcQryExchangeQuoteField struct {
 	// 会员代码
@@ -3975,6 +7364,22 @@ type CThostFtdcQryExchangeQuoteField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryExchangeQuoteField) String() string {
+	var builder strings.Builder
+	builder.Grow(134)
+
+	builder.WriteString("CThostFtdcQryExchangeQuoteField{")
+	fmt.Fprintf(&builder, "ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 报价操作查询
 type CThostFtdcQryQuoteActionField struct {
 	// 经纪公司代码
@@ -3983,6 +7388,20 @@ type CThostFtdcQryQuoteActionField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
+}
+
+func (d CThostFtdcQryQuoteActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(87)
+
+	builder.WriteString("CThostFtdcQryQuoteActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所报价操作
@@ -4021,6 +7440,33 @@ type CThostFtdcExchangeQuoteActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExchangeQuoteActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(361)
+
+	builder.WriteString("CThostFtdcExchangeQuoteActionField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", QuoteSysID=%+v", d.QuoteSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", ActionDate=%+v", d.ActionDate)
+	fmt.Fprintf(&builder, ", ActionTime=%+v", d.ActionTime)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", QuoteLocalID=%+v", d.QuoteLocalID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所报价操作查询
 type CThostFtdcQryExchangeQuoteActionField struct {
 	// 会员代码
@@ -4031,6 +7477,21 @@ type CThostFtdcQryExchangeQuoteActionField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 交易所交易员代码
 	TraderID types.TThostFtdcTraderIDType
+}
+
+func (d CThostFtdcQryExchangeQuoteActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(116)
+
+	builder.WriteString("CThostFtdcQryExchangeQuoteActionField{")
+	fmt.Fprintf(&builder, "ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 期权合约delta值
@@ -4045,6 +7506,22 @@ type CThostFtdcOptionInstrDeltaField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// Delta值
 	Delta types.TThostFtdcRatioType
+}
+
+func (d CThostFtdcOptionInstrDeltaField) String() string {
+	var builder strings.Builder
+	builder.Grow(129)
+
+	builder.WriteString("CThostFtdcOptionInstrDeltaField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", Delta=%+v", d.Delta)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 发给做市商的询价请求
@@ -4063,6 +7540,23 @@ type CThostFtdcForQuoteRspField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 }
 
+func (d CThostFtdcForQuoteRspField) String() string {
+	var builder strings.Builder
+	builder.Grow(152)
+
+	builder.WriteString("CThostFtdcForQuoteRspField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ForQuoteSysID=%+v", d.ForQuoteSysID)
+	fmt.Fprintf(&builder, ", ForQuoteTime=%+v", d.ForQuoteTime)
+	fmt.Fprintf(&builder, ", ActionDay=%+v", d.ActionDay)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 当前期权合约执行偏移值的详细内容
 type CThostFtdcStrikeOffsetField struct {
 	// 合约代码
@@ -4079,6 +7573,23 @@ type CThostFtdcStrikeOffsetField struct {
 	OffsetType types.TThostFtdcStrikeOffsetTypeType
 }
 
+func (d CThostFtdcStrikeOffsetField) String() string {
+	var builder strings.Builder
+	builder.Grow(146)
+
+	builder.WriteString("CThostFtdcStrikeOffsetField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", Offset=%+v", d.Offset)
+	fmt.Fprintf(&builder, ", OffsetType=%+v", d.OffsetType)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 期权执行偏移值查询
 type CThostFtdcQryStrikeOffsetField struct {
 	// 经纪公司代码
@@ -4087,6 +7598,20 @@ type CThostFtdcQryStrikeOffsetField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryStrikeOffsetField) String() string {
+	var builder strings.Builder
+	builder.Grow(90)
+
+	builder.WriteString("CThostFtdcQryStrikeOffsetField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 输入批量报单操作
@@ -4113,6 +7638,28 @@ type CThostFtdcInputBatchOrderActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
+}
+
+func (d CThostFtdcInputBatchOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(250)
+
+	builder.WriteString("CThostFtdcInputBatchOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OrderActionRef=%+v", d.OrderActionRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 批量报单操作
@@ -4161,6 +7708,38 @@ type CThostFtdcBatchOrderActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcBatchOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(454)
+
+	builder.WriteString("CThostFtdcBatchOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OrderActionRef=%+v", d.OrderActionRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ActionDate=%+v", d.ActionDate)
+	fmt.Fprintf(&builder, ", ActionTime=%+v", d.ActionTime)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所批量报单操作
 type CThostFtdcExchangeBatchOrderActionField struct {
 	// 交易所代码
@@ -4191,6 +7770,30 @@ type CThostFtdcExchangeBatchOrderActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExchangeBatchOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(304)
+
+	builder.WriteString("CThostFtdcExchangeBatchOrderActionField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ActionDate=%+v", d.ActionDate)
+	fmt.Fprintf(&builder, ", ActionTime=%+v", d.ActionTime)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询批量报单操作
 type CThostFtdcQryBatchOrderActionField struct {
 	// 经纪公司代码
@@ -4199,6 +7802,20 @@ type CThostFtdcQryBatchOrderActionField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
+}
+
+func (d CThostFtdcQryBatchOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(92)
+
+	builder.WriteString("CThostFtdcQryBatchOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 输入的期权自对冲
@@ -4239,6 +7856,34 @@ type CThostFtdcInputOptionSelfCloseField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcInputOptionSelfCloseField) String() string {
+	var builder strings.Builder
+	builder.Grow(379)
+
+	builder.WriteString("CThostFtdcInputOptionSelfCloseField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", OptionSelfCloseRef=%+v", d.OptionSelfCloseRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", OptSelfCloseFlag=%+v", d.OptSelfCloseFlag)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 输入期权自对冲操作
 type CThostFtdcInputOptionSelfCloseActionField struct {
 	// 经纪公司代码
@@ -4271,6 +7916,32 @@ type CThostFtdcInputOptionSelfCloseActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
+}
+
+func (d CThostFtdcInputOptionSelfCloseActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(365)
+
+	builder.WriteString("CThostFtdcInputOptionSelfCloseActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OptionSelfCloseActionRef=%+v", d.OptionSelfCloseActionRef)
+	fmt.Fprintf(&builder, ", OptionSelfCloseRef=%+v", d.OptionSelfCloseRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OptionSelfCloseSysID=%+v", d.OptionSelfCloseSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 期权自对冲
@@ -4357,6 +8028,57 @@ type CThostFtdcOptionSelfCloseField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcOptionSelfCloseField) String() string {
+	var builder strings.Builder
+	builder.Grow(891)
+
+	builder.WriteString("CThostFtdcOptionSelfCloseField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", OptionSelfCloseRef=%+v", d.OptionSelfCloseRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", OptSelfCloseFlag=%+v", d.OptSelfCloseFlag)
+	fmt.Fprintf(&builder, ", OptionSelfCloseLocalID=%+v", d.OptionSelfCloseLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderSubmitStatus=%+v", d.OrderSubmitStatus)
+	fmt.Fprintf(&builder, ", NotifySequence=%+v", d.NotifySequence)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", OptionSelfCloseSysID=%+v", d.OptionSelfCloseSysID)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+	fmt.Fprintf(&builder, ", InsertTime=%+v", d.InsertTime)
+	fmt.Fprintf(&builder, ", CancelTime=%+v", d.CancelTime)
+	fmt.Fprintf(&builder, ", ExecResult=%+v", d.ExecResult)
+	fmt.Fprintf(&builder, ", ClearingPartID=%+v", d.ClearingPartID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", UserProductInfo=%+v", d.UserProductInfo)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", ActiveUserID=%+v", d.ActiveUserID)
+	fmt.Fprintf(&builder, ", BrokerOptionSelfCloseSeq=%+v", d.BrokerOptionSelfCloseSeq)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 期权自对冲操作
 type CThostFtdcOptionSelfCloseActionField struct {
 	// 经纪公司代码
@@ -4415,6 +8137,44 @@ type CThostFtdcOptionSelfCloseActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcOptionSelfCloseActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(619)
+
+	builder.WriteString("CThostFtdcOptionSelfCloseActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OptionSelfCloseActionRef=%+v", d.OptionSelfCloseActionRef)
+	fmt.Fprintf(&builder, ", OptionSelfCloseRef=%+v", d.OptionSelfCloseRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OptionSelfCloseSysID=%+v", d.OptionSelfCloseSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", ActionDate=%+v", d.ActionDate)
+	fmt.Fprintf(&builder, ", ActionTime=%+v", d.ActionTime)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OptionSelfCloseLocalID=%+v", d.OptionSelfCloseLocalID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 期权自对冲查询
 type CThostFtdcQryOptionSelfCloseField struct {
 	// 经纪公司代码
@@ -4431,6 +8191,24 @@ type CThostFtdcQryOptionSelfCloseField struct {
 	InsertTimeStart types.TThostFtdcTimeType
 	// 结束时间
 	InsertTimeEnd types.TThostFtdcTimeType
+}
+
+func (d CThostFtdcQryOptionSelfCloseField) String() string {
+	var builder strings.Builder
+	builder.Grow(191)
+
+	builder.WriteString("CThostFtdcQryOptionSelfCloseField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OptionSelfCloseSysID=%+v", d.OptionSelfCloseSysID)
+	fmt.Fprintf(&builder, ", InsertTimeStart=%+v", d.InsertTimeStart)
+	fmt.Fprintf(&builder, ", InsertTimeEnd=%+v", d.InsertTimeEnd)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所期权自对冲信息
@@ -4489,6 +8267,43 @@ type CThostFtdcExchangeOptionSelfCloseField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExchangeOptionSelfCloseField) String() string {
+	var builder strings.Builder
+	builder.Grow(598)
+
+	builder.WriteString("CThostFtdcExchangeOptionSelfCloseField{")
+	fmt.Fprintf(&builder, "Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", OptSelfCloseFlag=%+v", d.OptSelfCloseFlag)
+	fmt.Fprintf(&builder, ", OptionSelfCloseLocalID=%+v", d.OptionSelfCloseLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderSubmitStatus=%+v", d.OrderSubmitStatus)
+	fmt.Fprintf(&builder, ", NotifySequence=%+v", d.NotifySequence)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", OptionSelfCloseSysID=%+v", d.OptionSelfCloseSysID)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+	fmt.Fprintf(&builder, ", InsertTime=%+v", d.InsertTime)
+	fmt.Fprintf(&builder, ", CancelTime=%+v", d.CancelTime)
+	fmt.Fprintf(&builder, ", ExecResult=%+v", d.ExecResult)
+	fmt.Fprintf(&builder, ", ClearingPartID=%+v", d.ClearingPartID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 期权自对冲操作查询
 type CThostFtdcQryOptionSelfCloseActionField struct {
 	// 经纪公司代码
@@ -4497,6 +8312,20 @@ type CThostFtdcQryOptionSelfCloseActionField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
+}
+
+func (d CThostFtdcQryOptionSelfCloseActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(97)
+
+	builder.WriteString("CThostFtdcQryOptionSelfCloseActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所期权自对冲操作
@@ -4537,6 +8366,34 @@ type CThostFtdcExchangeOptionSelfCloseActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExchangeOptionSelfCloseActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(409)
+
+	builder.WriteString("CThostFtdcExchangeOptionSelfCloseActionField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OptionSelfCloseSysID=%+v", d.OptionSelfCloseSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", ActionDate=%+v", d.ActionDate)
+	fmt.Fprintf(&builder, ", ActionTime=%+v", d.ActionTime)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OptionSelfCloseLocalID=%+v", d.OptionSelfCloseLocalID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 组合合约安全系数
 type CThostFtdcCombInstrumentGuardField struct {
 	// 经纪公司代码
@@ -4546,12 +8403,39 @@ type CThostFtdcCombInstrumentGuardField struct {
 	GuarantRatio types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcCombInstrumentGuardField) String() string {
+	var builder strings.Builder
+	builder.Grow(96)
+
+	builder.WriteString("CThostFtdcCombInstrumentGuardField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", GuarantRatio=%+v", d.GuarantRatio)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 组合合约安全系数查询
 type CThostFtdcQryCombInstrumentGuardField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryCombInstrumentGuardField) String() string {
+	var builder strings.Builder
+	builder.Grow(77)
+
+	builder.WriteString("CThostFtdcQryCombInstrumentGuardField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 输入的套利套保确认请求
@@ -4590,6 +8474,33 @@ type CThostFtdcInputHedgeConfirmField struct {
 	SessionID types.TThostFtdcSessionIDType
 }
 
+func (d CThostFtdcInputHedgeConfirmField) String() string {
+	var builder strings.Builder
+	builder.Grow(345)
+
+	builder.WriteString("CThostFtdcInputHedgeConfirmField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", RequestType=%+v", d.RequestType)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", SecondLeg=%+v", d.SecondLeg)
+	fmt.Fprintf(&builder, ", CombinationType=%+v", d.CombinationType)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 输入套利套保确认操作
 type CThostFtdcInputHedgeConfirmActionField struct {
 	// 经纪公司代码
@@ -4624,6 +8535,33 @@ type CThostFtdcInputHedgeConfirmActionField struct {
 	IPAddress types.TThostFtdcIPAddressType
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
+}
+
+func (d CThostFtdcInputHedgeConfirmActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(353)
+
+	builder.WriteString("CThostFtdcInputHedgeConfirmActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OrderActionRef=%+v", d.OrderActionRef)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", RequestType=%+v", d.RequestType)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 套利套保确认
@@ -4678,6 +8616,42 @@ type CThostFtdcHedgeConfirmField struct {
 	CombinationType types.TThostFtdcCzceCombinationTypeType
 	// 报单日期
 	InsertDate types.TThostFtdcDateType
+}
+
+func (d CThostFtdcHedgeConfirmField) String() string {
+	var builder strings.Builder
+	builder.Grow(529)
+
+	builder.WriteString("CThostFtdcHedgeConfirmField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", RequestType=%+v", d.RequestType)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", SecondLeg=%+v", d.SecondLeg)
+	fmt.Fprintf(&builder, ", RequestStatus=%+v", d.RequestStatus)
+	fmt.Fprintf(&builder, ", CombInstrumentID=%+v", d.CombInstrumentID)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", CombinationType=%+v", d.CombinationType)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 套利套保确认撤销
@@ -4740,6 +8714,45 @@ type CThostFtdcHedgeConfirmActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcHedgeConfirmActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(602)
+
+	builder.WriteString("CThostFtdcHedgeConfirmActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OrderActionRef=%+v", d.OrderActionRef)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", RequestType=%+v", d.RequestType)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", SecondLeg=%+v", d.SecondLeg)
+	fmt.Fprintf(&builder, ", CombInstrumentID=%+v", d.CombInstrumentID)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 输入的申请组合
 type CThostFtdcInputCombActionField struct {
 	// 经纪公司代码
@@ -4774,6 +8787,33 @@ type CThostFtdcInputCombActionField struct {
 	FrontID types.TThostFtdcFrontIDType
 	// 会话编号
 	SessionID types.TThostFtdcSessionIDType
+}
+
+func (d CThostFtdcInputCombActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(345)
+
+	builder.WriteString("CThostFtdcInputCombActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", CombActionRef=%+v", d.CombActionRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", CombDirection=%+v", d.CombDirection)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 申请组合
@@ -4838,6 +8878,46 @@ type CThostFtdcCombActionField struct {
 	ComTradeID types.TThostFtdcTradeIDType
 }
 
+func (d CThostFtdcCombActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(615)
+
+	builder.WriteString("CThostFtdcCombActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", CombActionRef=%+v", d.CombActionRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", CombDirection=%+v", d.CombDirection)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", ActionStatus=%+v", d.ActionStatus)
+	fmt.Fprintf(&builder, ", NotifySequence=%+v", d.NotifySequence)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", UserProductInfo=%+v", d.UserProductInfo)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", ComTradeID=%+v", d.ComTradeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 组合单腿汇总
 type CThostFtdcInvestorPositionForCombField struct {
 	// 交易所代码
@@ -4872,6 +8952,32 @@ type CThostFtdcInvestorPositionForCombField struct {
 	TradeID types.TThostFtdcTradeIDType
 }
 
+func (d CThostFtdcInvestorPositionForCombField) String() string {
+	var builder strings.Builder
+	builder.Grow(350)
+
+	builder.WriteString("CThostFtdcInvestorPositionForCombField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", LegInstrumentID=%+v", d.LegInstrumentID)
+	fmt.Fprintf(&builder, ", LegHedgeFlag=%+v", d.LegHedgeFlag)
+	fmt.Fprintf(&builder, ", LegDirection=%+v", d.LegDirection)
+	fmt.Fprintf(&builder, ", TotalAmt=%+v", d.TotalAmt)
+	fmt.Fprintf(&builder, ", LegID=%+v", d.LegID)
+	fmt.Fprintf(&builder, ", TradeGroupID=%+v", d.TradeGroupID)
+	fmt.Fprintf(&builder, ", CombInstrumentID=%+v", d.CombInstrumentID)
+	fmt.Fprintf(&builder, ", CombHedgeFlag=%+v", d.CombHedgeFlag)
+	fmt.Fprintf(&builder, ", CombinationType=%+v", d.CombinationType)
+	fmt.Fprintf(&builder, ", CombTradeID=%+v", d.CombTradeID)
+	fmt.Fprintf(&builder, ", OpenDate=%+v", d.OpenDate)
+	fmt.Fprintf(&builder, ", TradeID=%+v", d.TradeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 申请组合查询
 type CThostFtdcQryCombActionField struct {
 	// 经纪公司代码
@@ -4882,6 +8988,21 @@ type CThostFtdcQryCombActionField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
+}
+
+func (d CThostFtdcQryCombActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(108)
+
+	builder.WriteString("CThostFtdcQryCombActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 套利套保确认查询
@@ -4896,6 +9017,21 @@ type CThostFtdcQryHedgeConfirmField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 }
 
+func (d CThostFtdcQryHedgeConfirmField) String() string {
+	var builder strings.Builder
+	builder.Grow(110)
+
+	builder.WriteString("CThostFtdcQryHedgeConfirmField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 申请组合单腿汇总查询
 type CThostFtdcQryInvestorPositionForCombField struct {
 	// 交易所代码
@@ -4906,6 +9042,21 @@ type CThostFtdcQryInvestorPositionForCombField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 单腿合约代码
 	LegInstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryInvestorPositionForCombField) String() string {
+	var builder strings.Builder
+	builder.Grow(124)
+
+	builder.WriteString("CThostFtdcQryInvestorPositionForCombField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", LegInstrumentID=%+v", d.LegInstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所申请组合信息
@@ -4948,6 +9099,35 @@ type CThostFtdcExchangeCombActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcExchangeCombActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(402)
+
+	builder.WriteString("CThostFtdcExchangeCombActionField{")
+	fmt.Fprintf(&builder, "Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", CombDirection=%+v", d.CombDirection)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", ActionStatus=%+v", d.ActionStatus)
+	fmt.Fprintf(&builder, ", NotifySequence=%+v", d.NotifySequence)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易所申请组合查询
 type CThostFtdcQryExchangeCombActionField struct {
 	// 会员代码
@@ -4962,6 +9142,22 @@ type CThostFtdcQryExchangeCombActionField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryExchangeCombActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(139)
+
+	builder.WriteString("CThostFtdcQryExchangeCombActionField{")
+	fmt.Fprintf(&builder, "ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 产品报价汇率
 type CThostFtdcProductExchRateField struct {
 	// 产品代码
@@ -4972,10 +9168,36 @@ type CThostFtdcProductExchRateField struct {
 	ExchangeRate types.TThostFtdcExchangeRateType
 }
 
+func (d CThostFtdcProductExchRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(96)
+
+	builder.WriteString("CThostFtdcProductExchRateField{")
+	fmt.Fprintf(&builder, "ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", QuoteCurrencyID=%+v", d.QuoteCurrencyID)
+	fmt.Fprintf(&builder, ", ExchangeRate=%+v", d.ExchangeRate)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 产品报价汇率查询
 type CThostFtdcQryProductExchRateField struct {
 	// 产品代码
 	ProductID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryProductExchRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(52)
+
+	builder.WriteString("CThostFtdcQryProductExchRateField{")
+	fmt.Fprintf(&builder, "ProductID=%+v", d.ProductID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询询价价差
@@ -4986,6 +9208,20 @@ type CThostFtdcQryForQuoteParamField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
+}
+
+func (d CThostFtdcQryForQuoteParamField) String() string {
+	var builder strings.Builder
+	builder.Grow(91)
+
+	builder.WriteString("CThostFtdcQryForQuoteParamField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询SPBM品种明细
@@ -5000,6 +9236,21 @@ type CThostFtdcQryInvestorProdSPBMDetailField struct {
 	ProdFamilyCode types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryInvestorProdSPBMDetailField) String() string {
+	var builder strings.Builder
+	builder.Grow(122)
+
+	builder.WriteString("CThostFtdcQryInvestorProdSPBMDetailField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ProdFamilyCode=%+v", d.ProdFamilyCode)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询SPMM商品群明细
 type CThostFtdcQrySPMMInvestorCommodityGroupMarginField struct {
 	// 经纪公司代码
@@ -5008,6 +9259,20 @@ type CThostFtdcQrySPMMInvestorCommodityGroupMarginField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 商品群代码
 	CommodityGroupID types.TThostFtdcSPMMProductIDType
+}
+
+func (d CThostFtdcQrySPMMInvestorCommodityGroupMarginField) String() string {
+	var builder strings.Builder
+	builder.Grow(114)
+
+	builder.WriteString("CThostFtdcQrySPMMInvestorCommodityGroupMarginField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", CommodityGroupID=%+v", d.CommodityGroupID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询RULE产品保证金
@@ -5024,6 +9289,22 @@ type CThostFtdcQryRULEInvestorProdMarginField struct {
 	CommodityGroupID types.TThostFtdcRULECommodityGroupIDType
 }
 
+func (d CThostFtdcQryRULEInvestorProdMarginField) String() string {
+	var builder strings.Builder
+	builder.Grow(148)
+
+	builder.WriteString("CThostFtdcQryRULEInvestorProdMarginField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ProdFamilyCode=%+v", d.ProdFamilyCode)
+	fmt.Fprintf(&builder, ", CommodityGroupID=%+v", d.CommodityGroupID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 询价价差
 type CThostFtdcForQuoteParamField struct {
 	// 经纪公司代码
@@ -5036,6 +9317,22 @@ type CThostFtdcForQuoteParamField struct {
 	LastPrice types.TThostFtdcPriceType
 	// 价差
 	PriceInterval types.TThostFtdcPriceType
+}
+
+func (d CThostFtdcForQuoteParamField) String() string {
+	var builder strings.Builder
+	builder.Grow(130)
+
+	builder.WriteString("CThostFtdcForQuoteParamField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", LastPrice=%+v", d.LastPrice)
+	fmt.Fprintf(&builder, ", PriceInterval=%+v", d.PriceInterval)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 当前做市商期权合约手续费的详细内容
@@ -5066,6 +9363,29 @@ type CThostFtdcMMOptionInstrCommRateField struct {
 	StrikeRatioByVolume types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcMMOptionInstrCommRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(349)
+
+	builder.WriteString("CThostFtdcMMOptionInstrCommRateField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OpenRatioByMoney=%+v", d.OpenRatioByMoney)
+	fmt.Fprintf(&builder, ", OpenRatioByVolume=%+v", d.OpenRatioByVolume)
+	fmt.Fprintf(&builder, ", CloseRatioByMoney=%+v", d.CloseRatioByMoney)
+	fmt.Fprintf(&builder, ", CloseRatioByVolume=%+v", d.CloseRatioByVolume)
+	fmt.Fprintf(&builder, ", CloseTodayRatioByMoney=%+v", d.CloseTodayRatioByMoney)
+	fmt.Fprintf(&builder, ", CloseTodayRatioByVolume=%+v", d.CloseTodayRatioByVolume)
+	fmt.Fprintf(&builder, ", StrikeRatioByMoney=%+v", d.StrikeRatioByMoney)
+	fmt.Fprintf(&builder, ", StrikeRatioByVolume=%+v", d.StrikeRatioByVolume)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 做市商期权手续费率查询
 type CThostFtdcQryMMOptionInstrCommRateField struct {
 	// 经纪公司代码
@@ -5074,6 +9394,20 @@ type CThostFtdcQryMMOptionInstrCommRateField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryMMOptionInstrCommRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(99)
+
+	builder.WriteString("CThostFtdcQryMMOptionInstrCommRateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 做市商合约手续费率
@@ -5100,6 +9434,27 @@ type CThostFtdcMMInstrumentCommissionRateField struct {
 	CloseTodayRatioByVolume types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcMMInstrumentCommissionRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(297)
+
+	builder.WriteString("CThostFtdcMMInstrumentCommissionRateField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OpenRatioByMoney=%+v", d.OpenRatioByMoney)
+	fmt.Fprintf(&builder, ", OpenRatioByVolume=%+v", d.OpenRatioByVolume)
+	fmt.Fprintf(&builder, ", CloseRatioByMoney=%+v", d.CloseRatioByMoney)
+	fmt.Fprintf(&builder, ", CloseRatioByVolume=%+v", d.CloseRatioByVolume)
+	fmt.Fprintf(&builder, ", CloseTodayRatioByMoney=%+v", d.CloseTodayRatioByMoney)
+	fmt.Fprintf(&builder, ", CloseTodayRatioByVolume=%+v", d.CloseTodayRatioByVolume)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询做市商合约手续费率
 type CThostFtdcQryMMInstrumentCommissionRateField struct {
 	// 经纪公司代码
@@ -5108,6 +9463,20 @@ type CThostFtdcQryMMInstrumentCommissionRateField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryMMInstrumentCommissionRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(104)
+
+	builder.WriteString("CThostFtdcQryMMInstrumentCommissionRateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 当前报单手续费的详细内容
@@ -5128,6 +9497,24 @@ type CThostFtdcInstrumentOrderCommRateField struct {
 	OrderActionCommByVolume types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcInstrumentOrderCommRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(200)
+
+	builder.WriteString("CThostFtdcInstrumentOrderCommRateField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", OrderCommByVolume=%+v", d.OrderCommByVolume)
+	fmt.Fprintf(&builder, ", OrderActionCommByVolume=%+v", d.OrderActionCommByVolume)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 申报费率查询
 type CThostFtdcQryInstrumentOrderCommRateField struct {
 	// 经纪公司代码
@@ -5138,6 +9525,21 @@ type CThostFtdcQryInstrumentOrderCommRateField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// 投机套保标志
 	HedgeFlag types.TThostFtdcHedgeFlagType
+}
+
+func (d CThostFtdcQryInstrumentOrderCommRateField) String() string {
+	var builder strings.Builder
+	builder.Grow(120)
+
+	builder.WriteString("CThostFtdcQryInstrumentOrderCommRateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 市场行情
@@ -5190,6 +9592,40 @@ type CThostFtdcMarketDataField struct {
 	ActionDay types.TThostFtdcDateType
 }
 
+func (d CThostFtdcMarketDataField) String() string {
+	var builder strings.Builder
+	builder.Grow(519)
+
+	builder.WriteString("CThostFtdcMarketDataField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", LastPrice=%+v", d.LastPrice)
+	fmt.Fprintf(&builder, ", PreSettlementPrice=%+v", d.PreSettlementPrice)
+	fmt.Fprintf(&builder, ", PreClosePrice=%+v", d.PreClosePrice)
+	fmt.Fprintf(&builder, ", PreOpenInterest=%+v", d.PreOpenInterest)
+	fmt.Fprintf(&builder, ", OpenPrice=%+v", d.OpenPrice)
+	fmt.Fprintf(&builder, ", HighestPrice=%+v", d.HighestPrice)
+	fmt.Fprintf(&builder, ", LowestPrice=%+v", d.LowestPrice)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", Turnover=%+v", d.Turnover)
+	fmt.Fprintf(&builder, ", OpenInterest=%+v", d.OpenInterest)
+	fmt.Fprintf(&builder, ", ClosePrice=%+v", d.ClosePrice)
+	fmt.Fprintf(&builder, ", SettlementPrice=%+v", d.SettlementPrice)
+	fmt.Fprintf(&builder, ", UpperLimitPrice=%+v", d.UpperLimitPrice)
+	fmt.Fprintf(&builder, ", LowerLimitPrice=%+v", d.LowerLimitPrice)
+	fmt.Fprintf(&builder, ", PreDelta=%+v", d.PreDelta)
+	fmt.Fprintf(&builder, ", CurrDelta=%+v", d.CurrDelta)
+	fmt.Fprintf(&builder, ", UpdateTime=%+v", d.UpdateTime)
+	fmt.Fprintf(&builder, ", UpdateMillisec=%+v", d.UpdateMillisec)
+	fmt.Fprintf(&builder, ", ActionDay=%+v", d.ActionDay)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 行情基础属性
 type CThostFtdcMarketDataBaseField struct {
 	// 交易日
@@ -5202,6 +9638,22 @@ type CThostFtdcMarketDataBaseField struct {
 	PreOpenInterest types.TThostFtdcLargeVolumeType
 	// 昨虚实度
 	PreDelta types.TThostFtdcRatioType
+}
+
+func (d CThostFtdcMarketDataBaseField) String() string {
+	var builder strings.Builder
+	builder.Grow(143)
+
+	builder.WriteString("CThostFtdcMarketDataBaseField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PreSettlementPrice=%+v", d.PreSettlementPrice)
+	fmt.Fprintf(&builder, ", PreClosePrice=%+v", d.PreClosePrice)
+	fmt.Fprintf(&builder, ", PreOpenInterest=%+v", d.PreOpenInterest)
+	fmt.Fprintf(&builder, ", PreDelta=%+v", d.PreDelta)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 行情静态属性
@@ -5224,6 +9676,25 @@ type CThostFtdcMarketDataStaticField struct {
 	CurrDelta types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcMarketDataStaticField) String() string {
+	var builder strings.Builder
+	builder.Grow(207)
+
+	builder.WriteString("CThostFtdcMarketDataStaticField{")
+	fmt.Fprintf(&builder, "OpenPrice=%+v", d.OpenPrice)
+	fmt.Fprintf(&builder, ", HighestPrice=%+v", d.HighestPrice)
+	fmt.Fprintf(&builder, ", LowestPrice=%+v", d.LowestPrice)
+	fmt.Fprintf(&builder, ", ClosePrice=%+v", d.ClosePrice)
+	fmt.Fprintf(&builder, ", UpperLimitPrice=%+v", d.UpperLimitPrice)
+	fmt.Fprintf(&builder, ", LowerLimitPrice=%+v", d.LowerLimitPrice)
+	fmt.Fprintf(&builder, ", SettlementPrice=%+v", d.SettlementPrice)
+	fmt.Fprintf(&builder, ", CurrDelta=%+v", d.CurrDelta)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 行情最新成交属性
 type CThostFtdcMarketDataLastMatchField struct {
 	// 最新价
@@ -5234,6 +9705,21 @@ type CThostFtdcMarketDataLastMatchField struct {
 	Turnover types.TThostFtdcMoneyType
 	// 持仓量
 	OpenInterest types.TThostFtdcLargeVolumeType
+}
+
+func (d CThostFtdcMarketDataLastMatchField) String() string {
+	var builder strings.Builder
+	builder.Grow(109)
+
+	builder.WriteString("CThostFtdcMarketDataLastMatchField{")
+	fmt.Fprintf(&builder, "LastPrice=%+v", d.LastPrice)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", Turnover=%+v", d.Turnover)
+	fmt.Fprintf(&builder, ", OpenInterest=%+v", d.OpenInterest)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 行情最优价属性
@@ -5248,6 +9734,21 @@ type CThostFtdcMarketDataBestPriceField struct {
 	AskVolume1 types.TThostFtdcVolumeType
 }
 
+func (d CThostFtdcMarketDataBestPriceField) String() string {
+	var builder strings.Builder
+	builder.Grow(112)
+
+	builder.WriteString("CThostFtdcMarketDataBestPriceField{")
+	fmt.Fprintf(&builder, "BidPrice1=%+v", d.BidPrice1)
+	fmt.Fprintf(&builder, ", BidVolume1=%+v", d.BidVolume1)
+	fmt.Fprintf(&builder, ", AskPrice1=%+v", d.AskPrice1)
+	fmt.Fprintf(&builder, ", AskVolume1=%+v", d.AskVolume1)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 行情申买二、三属性
 type CThostFtdcMarketDataBid23Field struct {
 	// 申买价二
@@ -5258,6 +9759,21 @@ type CThostFtdcMarketDataBid23Field struct {
 	BidPrice3 types.TThostFtdcPriceType
 	// 申买量三
 	BidVolume3 types.TThostFtdcVolumeType
+}
+
+func (d CThostFtdcMarketDataBid23Field) String() string {
+	var builder strings.Builder
+	builder.Grow(108)
+
+	builder.WriteString("CThostFtdcMarketDataBid23Field{")
+	fmt.Fprintf(&builder, "BidPrice2=%+v", d.BidPrice2)
+	fmt.Fprintf(&builder, ", BidVolume2=%+v", d.BidVolume2)
+	fmt.Fprintf(&builder, ", BidPrice3=%+v", d.BidPrice3)
+	fmt.Fprintf(&builder, ", BidVolume3=%+v", d.BidVolume3)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 行情申卖二、三属性
@@ -5272,6 +9788,21 @@ type CThostFtdcMarketDataAsk23Field struct {
 	AskVolume3 types.TThostFtdcVolumeType
 }
 
+func (d CThostFtdcMarketDataAsk23Field) String() string {
+	var builder strings.Builder
+	builder.Grow(108)
+
+	builder.WriteString("CThostFtdcMarketDataAsk23Field{")
+	fmt.Fprintf(&builder, "AskPrice2=%+v", d.AskPrice2)
+	fmt.Fprintf(&builder, ", AskVolume2=%+v", d.AskVolume2)
+	fmt.Fprintf(&builder, ", AskPrice3=%+v", d.AskPrice3)
+	fmt.Fprintf(&builder, ", AskVolume3=%+v", d.AskVolume3)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 行情申买四、五属性
 type CThostFtdcMarketDataBid45Field struct {
 	// 申买价四
@@ -5282,6 +9813,21 @@ type CThostFtdcMarketDataBid45Field struct {
 	BidPrice5 types.TThostFtdcPriceType
 	// 申买量五
 	BidVolume5 types.TThostFtdcVolumeType
+}
+
+func (d CThostFtdcMarketDataBid45Field) String() string {
+	var builder strings.Builder
+	builder.Grow(108)
+
+	builder.WriteString("CThostFtdcMarketDataBid45Field{")
+	fmt.Fprintf(&builder, "BidPrice4=%+v", d.BidPrice4)
+	fmt.Fprintf(&builder, ", BidVolume4=%+v", d.BidVolume4)
+	fmt.Fprintf(&builder, ", BidPrice5=%+v", d.BidPrice5)
+	fmt.Fprintf(&builder, ", BidVolume5=%+v", d.BidVolume5)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 行情申卖四、五属性
@@ -5296,6 +9842,21 @@ type CThostFtdcMarketDataAsk45Field struct {
 	AskVolume5 types.TThostFtdcVolumeType
 }
 
+func (d CThostFtdcMarketDataAsk45Field) String() string {
+	var builder strings.Builder
+	builder.Grow(108)
+
+	builder.WriteString("CThostFtdcMarketDataAsk45Field{")
+	fmt.Fprintf(&builder, "AskPrice4=%+v", d.AskPrice4)
+	fmt.Fprintf(&builder, ", AskVolume4=%+v", d.AskVolume4)
+	fmt.Fprintf(&builder, ", AskPrice5=%+v", d.AskPrice5)
+	fmt.Fprintf(&builder, ", AskVolume5=%+v", d.AskVolume5)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 行情更新时间属性
 type CThostFtdcMarketDataUpdateTimeField struct {
 	// 合约代码
@@ -5308,16 +9869,55 @@ type CThostFtdcMarketDataUpdateTimeField struct {
 	ActionDay types.TThostFtdcDateType
 }
 
+func (d CThostFtdcMarketDataUpdateTimeField) String() string {
+	var builder strings.Builder
+	builder.Grow(120)
+
+	builder.WriteString("CThostFtdcMarketDataUpdateTimeField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", UpdateTime=%+v", d.UpdateTime)
+	fmt.Fprintf(&builder, ", UpdateMillisec=%+v", d.UpdateMillisec)
+	fmt.Fprintf(&builder, ", ActionDay=%+v", d.ActionDay)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 行情交易所代码属性
 type CThostFtdcMarketDataExchangeField struct {
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
 }
 
+func (d CThostFtdcMarketDataExchangeField) String() string {
+	var builder strings.Builder
+	builder.Grow(53)
+
+	builder.WriteString("CThostFtdcMarketDataExchangeField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 指定的合约
 type CThostFtdcSpecificInstrumentField struct {
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcSpecificInstrumentField) String() string {
+	var builder strings.Builder
+	builder.Grow(55)
+
+	builder.WriteString("CThostFtdcSpecificInstrumentField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 合约状态
@@ -5340,12 +9940,44 @@ type CThostFtdcInstrumentStatusField struct {
 	EnterReason types.TThostFtdcInstStatusEnterReasonType
 }
 
+func (d CThostFtdcInstrumentStatusField) String() string {
+	var builder strings.Builder
+	builder.Grow(216)
+
+	builder.WriteString("CThostFtdcInstrumentStatusField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", SettlementGroupID=%+v", d.SettlementGroupID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", InstrumentStatus=%+v", d.InstrumentStatus)
+	fmt.Fprintf(&builder, ", TradingSegmentSN=%+v", d.TradingSegmentSN)
+	fmt.Fprintf(&builder, ", EnterTime=%+v", d.EnterTime)
+	fmt.Fprintf(&builder, ", EnterReason=%+v", d.EnterReason)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询合约状态
 type CThostFtdcQryInstrumentStatusField struct {
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 合约在交易所的代码
 	ExchangeInstID types.TThostFtdcExchangeInstIDType
+}
+
+func (d CThostFtdcQryInstrumentStatusField) String() string {
+	var builder strings.Builder
+	builder.Grow(78)
+
+	builder.WriteString("CThostFtdcQryInstrumentStatusField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 投资者账户
@@ -5358,6 +9990,21 @@ type CThostFtdcInvestorAccountField struct {
 	AccountID types.TThostFtdcAccountIDType
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
+}
+
+func (d CThostFtdcInvestorAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(107)
+
+	builder.WriteString("CThostFtdcInvestorAccountField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 浮动盈亏算法
@@ -5374,6 +10021,22 @@ type CThostFtdcPositionProfitAlgorithmField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcPositionProfitAlgorithmField) String() string {
+	var builder strings.Builder
+	builder.Grow(128)
+
+	builder.WriteString("CThostFtdcPositionProfitAlgorithmField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Algorithm=%+v", d.Algorithm)
+	fmt.Fprintf(&builder, ", Memo=%+v", d.Memo)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 会员资金折扣
 type CThostFtdcDiscountField struct {
 	// 经纪公司代码
@@ -5386,12 +10049,40 @@ type CThostFtdcDiscountField struct {
 	Discount types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcDiscountField) String() string {
+	var builder strings.Builder
+	builder.Grow(102)
+
+	builder.WriteString("CThostFtdcDiscountField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", Discount=%+v", d.Discount)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询转帐银行
 type CThostFtdcQryTransferBankField struct {
 	// 银行代码
 	BankID types.TThostFtdcBankIDType
 	// 银行分中心代码
 	BankBrchID types.TThostFtdcBankBrchIDType
+}
+
+func (d CThostFtdcQryTransferBankField) String() string {
+	var builder strings.Builder
+	builder.Grow(66)
+
+	builder.WriteString("CThostFtdcQryTransferBankField{")
+	fmt.Fprintf(&builder, "BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBrchID=%+v", d.BankBrchID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 转帐银行
@@ -5406,6 +10097,21 @@ type CThostFtdcTransferBankField struct {
 	IsActive types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcTransferBankField) String() string {
+	var builder strings.Builder
+	builder.Grow(99)
+
+	builder.WriteString("CThostFtdcTransferBankField{")
+	fmt.Fprintf(&builder, "BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBrchID=%+v", d.BankBrchID)
+	fmt.Fprintf(&builder, ", BankName=%+v", d.BankName)
+	fmt.Fprintf(&builder, ", IsActive=%+v", d.IsActive)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询投资者持仓明细
 type CThostFtdcQryInvestorPositionDetailField struct {
 	// 经纪公司代码
@@ -5414,6 +10120,20 @@ type CThostFtdcQryInvestorPositionDetailField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryInvestorPositionDetailField) String() string {
+	var builder strings.Builder
+	builder.Grow(100)
+
+	builder.WriteString("CThostFtdcQryInvestorPositionDetailField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 投资者持仓明细
@@ -5472,6 +10192,43 @@ type CThostFtdcInvestorPositionDetailField struct {
 	CloseAmount types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcInvestorPositionDetailField) String() string {
+	var builder strings.Builder
+	builder.Grow(615)
+
+	builder.WriteString("CThostFtdcInvestorPositionDetailField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", OpenDate=%+v", d.OpenDate)
+	fmt.Fprintf(&builder, ", TradeID=%+v", d.TradeID)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", OpenPrice=%+v", d.OpenPrice)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", TradeType=%+v", d.TradeType)
+	fmt.Fprintf(&builder, ", CombInstrumentID=%+v", d.CombInstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", CloseProfitByDate=%+v", d.CloseProfitByDate)
+	fmt.Fprintf(&builder, ", CloseProfitByTrade=%+v", d.CloseProfitByTrade)
+	fmt.Fprintf(&builder, ", PositionProfitByDate=%+v", d.PositionProfitByDate)
+	fmt.Fprintf(&builder, ", PositionProfitByTrade=%+v", d.PositionProfitByTrade)
+	fmt.Fprintf(&builder, ", Margin=%+v", d.Margin)
+	fmt.Fprintf(&builder, ", ExchMargin=%+v", d.ExchMargin)
+	fmt.Fprintf(&builder, ", MarginRateByMoney=%+v", d.MarginRateByMoney)
+	fmt.Fprintf(&builder, ", MarginRateByVolume=%+v", d.MarginRateByVolume)
+	fmt.Fprintf(&builder, ", LastSettlementPrice=%+v", d.LastSettlementPrice)
+	fmt.Fprintf(&builder, ", SettlementPrice=%+v", d.SettlementPrice)
+	fmt.Fprintf(&builder, ", CloseVolume=%+v", d.CloseVolume)
+	fmt.Fprintf(&builder, ", CloseAmount=%+v", d.CloseAmount)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 资金账户口令域
 type CThostFtdcTradingAccountPasswordField struct {
 	// 经纪公司代码
@@ -5482,6 +10239,21 @@ type CThostFtdcTradingAccountPasswordField struct {
 	Password types.TThostFtdcPasswordType
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
+}
+
+func (d CThostFtdcTradingAccountPasswordField) String() string {
+	var builder strings.Builder
+	builder.Grow(112)
+
+	builder.WriteString("CThostFtdcTradingAccountPasswordField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所行情报盘机
@@ -5526,6 +10298,36 @@ type CThostFtdcMDTraderOfferField struct {
 	MaxOrderMessageReference types.TThostFtdcReturnCodeType
 }
 
+func (d CThostFtdcMDTraderOfferField) String() string {
+	var builder strings.Builder
+	builder.Grow(453)
+
+	builder.WriteString("CThostFtdcMDTraderOfferField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", TraderConnectStatus=%+v", d.TraderConnectStatus)
+	fmt.Fprintf(&builder, ", ConnectRequestDate=%+v", d.ConnectRequestDate)
+	fmt.Fprintf(&builder, ", ConnectRequestTime=%+v", d.ConnectRequestTime)
+	fmt.Fprintf(&builder, ", LastReportDate=%+v", d.LastReportDate)
+	fmt.Fprintf(&builder, ", LastReportTime=%+v", d.LastReportTime)
+	fmt.Fprintf(&builder, ", ConnectDate=%+v", d.ConnectDate)
+	fmt.Fprintf(&builder, ", ConnectTime=%+v", d.ConnectTime)
+	fmt.Fprintf(&builder, ", StartDate=%+v", d.StartDate)
+	fmt.Fprintf(&builder, ", StartTime=%+v", d.StartTime)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", MaxTradeID=%+v", d.MaxTradeID)
+	fmt.Fprintf(&builder, ", MaxOrderMessageReference=%+v", d.MaxOrderMessageReference)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询行情报盘机
 type CThostFtdcQryMDTraderOfferField struct {
 	// 交易所代码
@@ -5536,10 +10338,36 @@ type CThostFtdcQryMDTraderOfferField struct {
 	TraderID types.TThostFtdcTraderIDType
 }
 
+func (d CThostFtdcQryMDTraderOfferField) String() string {
+	var builder strings.Builder
+	builder.Grow(92)
+
+	builder.WriteString("CThostFtdcQryMDTraderOfferField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询客户通知
 type CThostFtdcQryNoticeField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
+}
+
+func (d CThostFtdcQryNoticeField) String() string {
+	var builder strings.Builder
+	builder.Grow(42)
+
+	builder.WriteString("CThostFtdcQryNoticeField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 客户通知
@@ -5550,6 +10378,20 @@ type CThostFtdcNoticeField struct {
 	Content types.TThostFtdcContentType
 	// 经纪公司通知内容序列号
 	SequenceLabel types.TThostFtdcSequenceLabelType
+}
+
+func (d CThostFtdcNoticeField) String() string {
+	var builder strings.Builder
+	builder.Grow(79)
+
+	builder.WriteString("CThostFtdcNoticeField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", Content=%+v", d.Content)
+	fmt.Fprintf(&builder, ", SequenceLabel=%+v", d.SequenceLabel)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 用户权限
@@ -5564,6 +10406,21 @@ type CThostFtdcUserRightField struct {
 	IsForbidden types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcUserRightField) String() string {
+	var builder strings.Builder
+	builder.Grow(102)
+
+	builder.WriteString("CThostFtdcUserRightField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", UserRightType=%+v", d.UserRightType)
+	fmt.Fprintf(&builder, ", IsForbidden=%+v", d.IsForbidden)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询结算信息确认域
 type CThostFtdcQrySettlementInfoConfirmField struct {
 	// 经纪公司代码
@@ -5572,10 +10429,35 @@ type CThostFtdcQrySettlementInfoConfirmField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 }
 
+func (d CThostFtdcQrySettlementInfoConfirmField) String() string {
+	var builder strings.Builder
+	builder.Grow(77)
+
+	builder.WriteString("CThostFtdcQrySettlementInfoConfirmField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 装载结算信息
 type CThostFtdcLoadSettlementInfoField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
+}
+
+func (d CThostFtdcLoadSettlementInfoField) String() string {
+	var builder strings.Builder
+	builder.Grow(51)
+
+	builder.WriteString("CThostFtdcLoadSettlementInfoField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 经纪公司可提资金算法表
@@ -5602,6 +10484,27 @@ type CThostFtdcBrokerWithdrawAlgorithmField struct {
 	BalanceAlgorithm types.TThostFtdcBalanceAlgorithmType
 }
 
+func (d CThostFtdcBrokerWithdrawAlgorithmField) String() string {
+	var builder strings.Builder
+	builder.Grow(289)
+
+	builder.WriteString("CThostFtdcBrokerWithdrawAlgorithmField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", WithdrawAlgorithm=%+v", d.WithdrawAlgorithm)
+	fmt.Fprintf(&builder, ", UsingRatio=%+v", d.UsingRatio)
+	fmt.Fprintf(&builder, ", IncludeCloseProfit=%+v", d.IncludeCloseProfit)
+	fmt.Fprintf(&builder, ", AllWithoutTrade=%+v", d.AllWithoutTrade)
+	fmt.Fprintf(&builder, ", AvailIncludeCloseProfit=%+v", d.AvailIncludeCloseProfit)
+	fmt.Fprintf(&builder, ", IsBrokerUserEvent=%+v", d.IsBrokerUserEvent)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", FundMortgageRatio=%+v", d.FundMortgageRatio)
+	fmt.Fprintf(&builder, ", BalanceAlgorithm=%+v", d.BalanceAlgorithm)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 资金账户口令变更域
 type CThostFtdcTradingAccountPasswordUpdateV1Field struct {
 	// 经纪公司代码
@@ -5612,6 +10515,21 @@ type CThostFtdcTradingAccountPasswordUpdateV1Field struct {
 	OldPassword types.TThostFtdcPasswordType
 	// 新的口令
 	NewPassword types.TThostFtdcPasswordType
+}
+
+func (d CThostFtdcTradingAccountPasswordUpdateV1Field) String() string {
+	var builder strings.Builder
+	builder.Grow(125)
+
+	builder.WriteString("CThostFtdcTradingAccountPasswordUpdateV1Field{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OldPassword=%+v", d.OldPassword)
+	fmt.Fprintf(&builder, ", NewPassword=%+v", d.NewPassword)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 资金账户口令变更域
@@ -5628,6 +10546,22 @@ type CThostFtdcTradingAccountPasswordUpdateField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcTradingAccountPasswordUpdateField) String() string {
+	var builder strings.Builder
+	builder.Grow(142)
+
+	builder.WriteString("CThostFtdcTradingAccountPasswordUpdateField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", OldPassword=%+v", d.OldPassword)
+	fmt.Fprintf(&builder, ", NewPassword=%+v", d.NewPassword)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询组合合约分腿
 type CThostFtdcQryCombinationLegField struct {
 	// 组合合约代码
@@ -5638,10 +10572,36 @@ type CThostFtdcQryCombinationLegField struct {
 	LegInstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryCombinationLegField) String() string {
+	var builder strings.Builder
+	builder.Grow(98)
+
+	builder.WriteString("CThostFtdcQryCombinationLegField{")
+	fmt.Fprintf(&builder, "CombInstrumentID=%+v", d.CombInstrumentID)
+	fmt.Fprintf(&builder, ", LegID=%+v", d.LegID)
+	fmt.Fprintf(&builder, ", LegInstrumentID=%+v", d.LegInstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询组合合约分腿
 type CThostFtdcQrySyncStatusField struct {
 	// 交易日
 	TradingDay types.TThostFtdcDateType
+}
+
+func (d CThostFtdcQrySyncStatusField) String() string {
+	var builder strings.Builder
+	builder.Grow(48)
+
+	builder.WriteString("CThostFtdcQrySyncStatusField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 组合交易合约的单腿
@@ -5660,6 +10620,23 @@ type CThostFtdcCombinationLegField struct {
 	ImplyLevel types.TThostFtdcImplyLevelType
 }
 
+func (d CThostFtdcCombinationLegField) String() string {
+	var builder strings.Builder
+	builder.Grow(155)
+
+	builder.WriteString("CThostFtdcCombinationLegField{")
+	fmt.Fprintf(&builder, "CombInstrumentID=%+v", d.CombInstrumentID)
+	fmt.Fprintf(&builder, ", LegID=%+v", d.LegID)
+	fmt.Fprintf(&builder, ", LegInstrumentID=%+v", d.LegInstrumentID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", LegMultiple=%+v", d.LegMultiple)
+	fmt.Fprintf(&builder, ", ImplyLevel=%+v", d.ImplyLevel)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 数据同步状态
 type CThostFtdcSyncStatusField struct {
 	// 交易日
@@ -5668,12 +10645,38 @@ type CThostFtdcSyncStatusField struct {
 	DataSyncStatus types.TThostFtdcDataSyncStatusType
 }
 
+func (d CThostFtdcSyncStatusField) String() string {
+	var builder strings.Builder
+	builder.Grow(69)
+
+	builder.WriteString("CThostFtdcSyncStatusField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", DataSyncStatus=%+v", d.DataSyncStatus)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询联系人
 type CThostFtdcQryLinkManField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQryLinkManField) String() string {
+	var builder strings.Builder
+	builder.Grow(63)
+
+	builder.WriteString("CThostFtdcQryLinkManField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 联系人
@@ -5704,6 +10707,29 @@ type CThostFtdcLinkManField struct {
 	PersonFullName types.TThostFtdcInvestorFullNameType
 }
 
+func (d CThostFtdcLinkManField) String() string {
+	var builder strings.Builder
+	builder.Grow(269)
+
+	builder.WriteString("CThostFtdcLinkManField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", PersonType=%+v", d.PersonType)
+	fmt.Fprintf(&builder, ", IdentifiedCardType=%+v", d.IdentifiedCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", PersonName=%+v", d.PersonName)
+	fmt.Fprintf(&builder, ", Telephone=%+v", d.Telephone)
+	fmt.Fprintf(&builder, ", Address=%+v", d.Address)
+	fmt.Fprintf(&builder, ", ZipCode=%+v", d.ZipCode)
+	fmt.Fprintf(&builder, ", Priority=%+v", d.Priority)
+	fmt.Fprintf(&builder, ", UOAZipCode=%+v", d.UOAZipCode)
+	fmt.Fprintf(&builder, ", PersonFullName=%+v", d.PersonFullName)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询经纪公司用户事件
 type CThostFtdcQryBrokerUserEventField struct {
 	// 经纪公司代码
@@ -5712,6 +10738,20 @@ type CThostFtdcQryBrokerUserEventField struct {
 	UserID types.TThostFtdcUserIDType
 	// 用户事件类型
 	UserEventType types.TThostFtdcUserEventTypeType
+}
+
+func (d CThostFtdcQryBrokerUserEventField) String() string {
+	var builder strings.Builder
+	builder.Grow(90)
+
+	builder.WriteString("CThostFtdcQryBrokerUserEventField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", UserEventType=%+v", d.UserEventType)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询经纪公司用户事件
@@ -5736,6 +10776,26 @@ type CThostFtdcBrokerUserEventField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcBrokerUserEventField) String() string {
+	var builder strings.Builder
+	builder.Grow(215)
+
+	builder.WriteString("CThostFtdcBrokerUserEventField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", UserEventType=%+v", d.UserEventType)
+	fmt.Fprintf(&builder, ", EventSequenceNo=%+v", d.EventSequenceNo)
+	fmt.Fprintf(&builder, ", EventDate=%+v", d.EventDate)
+	fmt.Fprintf(&builder, ", EventTime=%+v", d.EventTime)
+	fmt.Fprintf(&builder, ", UserEventInfo=%+v", d.UserEventInfo)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询签约银行请求
 type CThostFtdcQryContractBankField struct {
 	// 经纪公司代码
@@ -5744,6 +10804,20 @@ type CThostFtdcQryContractBankField struct {
 	BankID types.TThostFtdcBankIDType
 	// 银行分中心代码
 	BankBrchID types.TThostFtdcBankBrchIDType
+}
+
+func (d CThostFtdcQryContractBankField) String() string {
+	var builder strings.Builder
+	builder.Grow(84)
+
+	builder.WriteString("CThostFtdcQryContractBankField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBrchID=%+v", d.BankBrchID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询签约银行响应
@@ -5756,6 +10830,21 @@ type CThostFtdcContractBankField struct {
 	BankBrchID types.TThostFtdcBankBrchIDType
 	// 银行名称
 	BankName types.TThostFtdcBankNameType
+}
+
+func (d CThostFtdcContractBankField) String() string {
+	var builder strings.Builder
+	builder.Grow(99)
+
+	builder.WriteString("CThostFtdcContractBankField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBrchID=%+v", d.BankBrchID)
+	fmt.Fprintf(&builder, ", BankName=%+v", d.BankName)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 投资者组合持仓明细
@@ -5800,6 +10889,37 @@ type CThostFtdcInvestorPositionCombineDetailField struct {
 	CombInstrumentID types.TThostFtdcInstrumentIDType
 	// 成交组号
 	TradeGroupID types.TThostFtdcTradeGroupIDType
+}
+
+func (d CThostFtdcInvestorPositionCombineDetailField) String() string {
+	var builder strings.Builder
+	builder.Grow(452)
+
+	builder.WriteString("CThostFtdcInvestorPositionCombineDetailField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", OpenDate=%+v", d.OpenDate)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ComTradeID=%+v", d.ComTradeID)
+	fmt.Fprintf(&builder, ", TradeID=%+v", d.TradeID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", TotalAmt=%+v", d.TotalAmt)
+	fmt.Fprintf(&builder, ", Margin=%+v", d.Margin)
+	fmt.Fprintf(&builder, ", ExchMargin=%+v", d.ExchMargin)
+	fmt.Fprintf(&builder, ", MarginRateByMoney=%+v", d.MarginRateByMoney)
+	fmt.Fprintf(&builder, ", MarginRateByVolume=%+v", d.MarginRateByVolume)
+	fmt.Fprintf(&builder, ", LegID=%+v", d.LegID)
+	fmt.Fprintf(&builder, ", LegMultiple=%+v", d.LegMultiple)
+	fmt.Fprintf(&builder, ", CombInstrumentID=%+v", d.CombInstrumentID)
+	fmt.Fprintf(&builder, ", TradeGroupID=%+v", d.TradeGroupID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 预埋单
@@ -5876,6 +10996,52 @@ type CThostFtdcParkedOrderField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcParkedOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(756)
+
+	builder.WriteString("CThostFtdcParkedOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", OrderPriceType=%+v", d.OrderPriceType)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", CombOffsetFlag=%+v", d.CombOffsetFlag)
+	fmt.Fprintf(&builder, ", CombHedgeFlag=%+v", d.CombHedgeFlag)
+	fmt.Fprintf(&builder, ", LimitPrice=%+v", d.LimitPrice)
+	fmt.Fprintf(&builder, ", VolumeTotalOriginal=%+v", d.VolumeTotalOriginal)
+	fmt.Fprintf(&builder, ", TimeCondition=%+v", d.TimeCondition)
+	fmt.Fprintf(&builder, ", GTDDate=%+v", d.GTDDate)
+	fmt.Fprintf(&builder, ", VolumeCondition=%+v", d.VolumeCondition)
+	fmt.Fprintf(&builder, ", MinVolume=%+v", d.MinVolume)
+	fmt.Fprintf(&builder, ", ContingentCondition=%+v", d.ContingentCondition)
+	fmt.Fprintf(&builder, ", StopPrice=%+v", d.StopPrice)
+	fmt.Fprintf(&builder, ", ForceCloseReason=%+v", d.ForceCloseReason)
+	fmt.Fprintf(&builder, ", IsAutoSuspend=%+v", d.IsAutoSuspend)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", UserForceClose=%+v", d.UserForceClose)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParkedOrderID=%+v", d.ParkedOrderID)
+	fmt.Fprintf(&builder, ", UserType=%+v", d.UserType)
+	fmt.Fprintf(&builder, ", Status=%+v", d.Status)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+	fmt.Fprintf(&builder, ", IsSwapOrder=%+v", d.IsSwapOrder)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 输入预埋单操作
 type CThostFtdcParkedOrderActionField struct {
 	// 经纪公司代码
@@ -5924,6 +11090,39 @@ type CThostFtdcParkedOrderActionField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcParkedOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(466)
+
+	builder.WriteString("CThostFtdcParkedOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OrderActionRef=%+v", d.OrderActionRef)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", LimitPrice=%+v", d.LimitPrice)
+	fmt.Fprintf(&builder, ", VolumeChange=%+v", d.VolumeChange)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ParkedOrderActionID=%+v", d.ParkedOrderActionID)
+	fmt.Fprintf(&builder, ", UserType=%+v", d.UserType)
+	fmt.Fprintf(&builder, ", Status=%+v", d.Status)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询预埋单
 type CThostFtdcQryParkedOrderField struct {
 	// 经纪公司代码
@@ -5934,6 +11133,21 @@ type CThostFtdcQryParkedOrderField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
+}
+
+func (d CThostFtdcQryParkedOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(109)
+
+	builder.WriteString("CThostFtdcQryParkedOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询预埋撤单
@@ -5948,6 +11162,21 @@ type CThostFtdcQryParkedOrderActionField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 }
 
+func (d CThostFtdcQryParkedOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(115)
+
+	builder.WriteString("CThostFtdcQryParkedOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 删除预埋单
 type CThostFtdcRemoveParkedOrderField struct {
 	// 经纪公司代码
@@ -5958,6 +11187,20 @@ type CThostFtdcRemoveParkedOrderField struct {
 	ParkedOrderID types.TThostFtdcParkedOrderIDType
 }
 
+func (d CThostFtdcRemoveParkedOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(93)
+
+	builder.WriteString("CThostFtdcRemoveParkedOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ParkedOrderID=%+v", d.ParkedOrderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 删除预埋撤单
 type CThostFtdcRemoveParkedOrderActionField struct {
 	// 经纪公司代码
@@ -5966,6 +11209,20 @@ type CThostFtdcRemoveParkedOrderActionField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 预埋撤单编号
 	ParkedOrderActionID types.TThostFtdcParkedOrderActionIDType
+}
+
+func (d CThostFtdcRemoveParkedOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(105)
+
+	builder.WriteString("CThostFtdcRemoveParkedOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ParkedOrderActionID=%+v", d.ParkedOrderActionID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 经纪公司可提资金算法表
@@ -5984,6 +11241,23 @@ type CThostFtdcInvestorWithdrawAlgorithmField struct {
 	FundMortgageRatio types.TThostFtdcRatioType
 }
 
+func (d CThostFtdcInvestorWithdrawAlgorithmField) String() string {
+	var builder strings.Builder
+	builder.Grow(168)
+
+	builder.WriteString("CThostFtdcInvestorWithdrawAlgorithmField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", UsingRatio=%+v", d.UsingRatio)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", FundMortgageRatio=%+v", d.FundMortgageRatio)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询组合持仓明细
 type CThostFtdcQryInvestorPositionCombineDetailField struct {
 	// 经纪公司代码
@@ -5994,10 +11268,36 @@ type CThostFtdcQryInvestorPositionCombineDetailField struct {
 	CombInstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryInvestorPositionCombineDetailField) String() string {
+	var builder strings.Builder
+	builder.Grow(111)
+
+	builder.WriteString("CThostFtdcQryInvestorPositionCombineDetailField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", CombInstrumentID=%+v", d.CombInstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 成交均价
 type CThostFtdcMarketDataAveragePriceField struct {
 	// 当日均价
 	AveragePrice types.TThostFtdcPriceType
+}
+
+func (d CThostFtdcMarketDataAveragePriceField) String() string {
+	var builder strings.Builder
+	builder.Grow(59)
+
+	builder.WriteString("CThostFtdcMarketDataAveragePriceField{")
+	fmt.Fprintf(&builder, "AveragePrice=%+v", d.AveragePrice)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 校验投资者密码
@@ -6008,6 +11308,20 @@ type CThostFtdcVerifyInvestorPasswordField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 密码
 	Password types.TThostFtdcPasswordType
+}
+
+func (d CThostFtdcVerifyInvestorPasswordField) String() string {
+	var builder strings.Builder
+	builder.Grow(93)
+
+	builder.WriteString("CThostFtdcVerifyInvestorPasswordField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 用户IP
@@ -6024,6 +11338,22 @@ type CThostFtdcUserIPField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcUserIPField) String() string {
+	var builder strings.Builder
+	builder.Grow(110)
+
+	builder.WriteString("CThostFtdcUserIPField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", IPMask=%+v", d.IPMask)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 用户事件通知信息
 type CThostFtdcTradingNoticeInfoField struct {
 	// 经纪公司代码
@@ -6038,6 +11368,23 @@ type CThostFtdcTradingNoticeInfoField struct {
 	SequenceSeries types.TThostFtdcSequenceSeriesType
 	// 序列号
 	SequenceNo types.TThostFtdcSequenceNoType
+}
+
+func (d CThostFtdcTradingNoticeInfoField) String() string {
+	var builder strings.Builder
+	builder.Grow(154)
+
+	builder.WriteString("CThostFtdcTradingNoticeInfoField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", SendTime=%+v", d.SendTime)
+	fmt.Fprintf(&builder, ", FieldContent=%+v", d.FieldContent)
+	fmt.Fprintf(&builder, ", SequenceSeries=%+v", d.SequenceSeries)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 用户事件通知
@@ -6060,6 +11407,25 @@ type CThostFtdcTradingNoticeField struct {
 	FieldContent types.TThostFtdcContentType
 }
 
+func (d CThostFtdcTradingNoticeField) String() string {
+	var builder strings.Builder
+	builder.Grow(189)
+
+	builder.WriteString("CThostFtdcTradingNoticeField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorRange=%+v", d.InvestorRange)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", SequenceSeries=%+v", d.SequenceSeries)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", SendTime=%+v", d.SendTime)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", FieldContent=%+v", d.FieldContent)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询交易事件通知
 type CThostFtdcQryTradingNoticeField struct {
 	// 经纪公司代码
@@ -6068,12 +11434,38 @@ type CThostFtdcQryTradingNoticeField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 }
 
+func (d CThostFtdcQryTradingNoticeField) String() string {
+	var builder strings.Builder
+	builder.Grow(69)
+
+	builder.WriteString("CThostFtdcQryTradingNoticeField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询错误报单
 type CThostFtdcQryErrOrderField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQryErrOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(64)
+
+	builder.WriteString("CThostFtdcQryErrOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 错误报单
@@ -6142,6 +11534,49 @@ type CThostFtdcErrOrderField struct {
 	IPAddress types.TThostFtdcIPAddressType
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
+}
+
+func (d CThostFtdcErrOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(696)
+
+	builder.WriteString("CThostFtdcErrOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", OrderPriceType=%+v", d.OrderPriceType)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", CombOffsetFlag=%+v", d.CombOffsetFlag)
+	fmt.Fprintf(&builder, ", CombHedgeFlag=%+v", d.CombHedgeFlag)
+	fmt.Fprintf(&builder, ", LimitPrice=%+v", d.LimitPrice)
+	fmt.Fprintf(&builder, ", VolumeTotalOriginal=%+v", d.VolumeTotalOriginal)
+	fmt.Fprintf(&builder, ", TimeCondition=%+v", d.TimeCondition)
+	fmt.Fprintf(&builder, ", GTDDate=%+v", d.GTDDate)
+	fmt.Fprintf(&builder, ", VolumeCondition=%+v", d.VolumeCondition)
+	fmt.Fprintf(&builder, ", MinVolume=%+v", d.MinVolume)
+	fmt.Fprintf(&builder, ", ContingentCondition=%+v", d.ContingentCondition)
+	fmt.Fprintf(&builder, ", StopPrice=%+v", d.StopPrice)
+	fmt.Fprintf(&builder, ", ForceCloseReason=%+v", d.ForceCloseReason)
+	fmt.Fprintf(&builder, ", IsAutoSuspend=%+v", d.IsAutoSuspend)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", UserForceClose=%+v", d.UserForceClose)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+	fmt.Fprintf(&builder, ", IsSwapOrder=%+v", d.IsSwapOrder)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询错误报单操作
@@ -6278,12 +11713,101 @@ type CThostFtdcErrorConditionalOrderField struct {
 	MacAddress types.TThostFtdcMacAddressType
 }
 
+func (d CThostFtdcErrorConditionalOrderField) String() string {
+	var builder strings.Builder
+	builder.Grow(1423)
+
+	builder.WriteString("CThostFtdcErrorConditionalOrderField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", OrderPriceType=%+v", d.OrderPriceType)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", CombOffsetFlag=%+v", d.CombOffsetFlag)
+	fmt.Fprintf(&builder, ", CombHedgeFlag=%+v", d.CombHedgeFlag)
+	fmt.Fprintf(&builder, ", LimitPrice=%+v", d.LimitPrice)
+	fmt.Fprintf(&builder, ", VolumeTotalOriginal=%+v", d.VolumeTotalOriginal)
+	fmt.Fprintf(&builder, ", TimeCondition=%+v", d.TimeCondition)
+	fmt.Fprintf(&builder, ", GTDDate=%+v", d.GTDDate)
+	fmt.Fprintf(&builder, ", VolumeCondition=%+v", d.VolumeCondition)
+	fmt.Fprintf(&builder, ", MinVolume=%+v", d.MinVolume)
+	fmt.Fprintf(&builder, ", ContingentCondition=%+v", d.ContingentCondition)
+	fmt.Fprintf(&builder, ", StopPrice=%+v", d.StopPrice)
+	fmt.Fprintf(&builder, ", ForceCloseReason=%+v", d.ForceCloseReason)
+	fmt.Fprintf(&builder, ", IsAutoSuspend=%+v", d.IsAutoSuspend)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderSubmitStatus=%+v", d.OrderSubmitStatus)
+	fmt.Fprintf(&builder, ", NotifySequence=%+v", d.NotifySequence)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", OrderSource=%+v", d.OrderSource)
+	fmt.Fprintf(&builder, ", OrderStatus=%+v", d.OrderStatus)
+	fmt.Fprintf(&builder, ", OrderType=%+v", d.OrderType)
+	fmt.Fprintf(&builder, ", VolumeTraded=%+v", d.VolumeTraded)
+	fmt.Fprintf(&builder, ", VolumeTotal=%+v", d.VolumeTotal)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+	fmt.Fprintf(&builder, ", InsertTime=%+v", d.InsertTime)
+	fmt.Fprintf(&builder, ", ActiveTime=%+v", d.ActiveTime)
+	fmt.Fprintf(&builder, ", SuspendTime=%+v", d.SuspendTime)
+	fmt.Fprintf(&builder, ", UpdateTime=%+v", d.UpdateTime)
+	fmt.Fprintf(&builder, ", CancelTime=%+v", d.CancelTime)
+	fmt.Fprintf(&builder, ", ActiveTraderID=%+v", d.ActiveTraderID)
+	fmt.Fprintf(&builder, ", ClearingPartID=%+v", d.ClearingPartID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", UserProductInfo=%+v", d.UserProductInfo)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", UserForceClose=%+v", d.UserForceClose)
+	fmt.Fprintf(&builder, ", ActiveUserID=%+v", d.ActiveUserID)
+	fmt.Fprintf(&builder, ", BrokerOrderSeq=%+v", d.BrokerOrderSeq)
+	fmt.Fprintf(&builder, ", RelativeOrderSysID=%+v", d.RelativeOrderSysID)
+	fmt.Fprintf(&builder, ", ZCETotalTradedVolume=%+v", d.ZCETotalTradedVolume)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+	fmt.Fprintf(&builder, ", IsSwapOrder=%+v", d.IsSwapOrder)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询错误报单操作
 type CThostFtdcQryErrOrderActionField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQryErrOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(70)
+
+	builder.WriteString("CThostFtdcQryErrOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 错误报单操作
@@ -6352,10 +11876,64 @@ type CThostFtdcErrOrderActionField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcErrOrderActionField) String() string {
+	var builder strings.Builder
+	builder.Grow(649)
+
+	builder.WriteString("CThostFtdcErrOrderActionField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", OrderActionRef=%+v", d.OrderActionRef)
+	fmt.Fprintf(&builder, ", OrderRef=%+v", d.OrderRef)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", OrderSysID=%+v", d.OrderSysID)
+	fmt.Fprintf(&builder, ", ActionFlag=%+v", d.ActionFlag)
+	fmt.Fprintf(&builder, ", LimitPrice=%+v", d.LimitPrice)
+	fmt.Fprintf(&builder, ", VolumeChange=%+v", d.VolumeChange)
+	fmt.Fprintf(&builder, ", ActionDate=%+v", d.ActionDate)
+	fmt.Fprintf(&builder, ", ActionTime=%+v", d.ActionTime)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderLocalID=%+v", d.OrderLocalID)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", BranchID=%+v", d.BranchID)
+	fmt.Fprintf(&builder, ", InvestUnitID=%+v", d.InvestUnitID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询交易所状态
 type CThostFtdcQryExchangeSequenceField struct {
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
+}
+
+func (d CThostFtdcQryExchangeSequenceField) String() string {
+	var builder strings.Builder
+	builder.Grow(54)
+
+	builder.WriteString("CThostFtdcQryExchangeSequenceField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所状态
@@ -6366,6 +11944,20 @@ type CThostFtdcExchangeSequenceField struct {
 	SequenceNo types.TThostFtdcSequenceNoType
 	// 合约交易状态
 	MarketStatus types.TThostFtdcInstrumentStatusType
+}
+
+func (d CThostFtdcExchangeSequenceField) String() string {
+	var builder strings.Builder
+	builder.Grow(93)
+
+	builder.WriteString("CThostFtdcExchangeSequenceField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", MarketStatus=%+v", d.MarketStatus)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 根据价格查询最大报单数量
@@ -6388,6 +11980,25 @@ type CThostFtdcQueryMaxOrderVolumeWithPriceField struct {
 	Price types.TThostFtdcPriceType
 }
 
+func (d CThostFtdcQueryMaxOrderVolumeWithPriceField) String() string {
+	var builder strings.Builder
+	builder.Grow(195)
+
+	builder.WriteString("CThostFtdcQueryMaxOrderVolumeWithPriceField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", OffsetFlag=%+v", d.OffsetFlag)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", MaxVolume=%+v", d.MaxVolume)
+	fmt.Fprintf(&builder, ", Price=%+v", d.Price)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询经纪公司交易参数
 type CThostFtdcQryBrokerTradingParamsField struct {
 	// 经纪公司代码
@@ -6396,6 +12007,20 @@ type CThostFtdcQryBrokerTradingParamsField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
+}
+
+func (d CThostFtdcQryBrokerTradingParamsField) String() string {
+	var builder strings.Builder
+	builder.Grow(95)
+
+	builder.WriteString("CThostFtdcQryBrokerTradingParamsField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 经纪公司交易参数
@@ -6416,6 +12041,24 @@ type CThostFtdcBrokerTradingParamsField struct {
 	OptionRoyaltyPriceType types.TThostFtdcOptionRoyaltyPriceTypeType
 }
 
+func (d CThostFtdcBrokerTradingParamsField) String() string {
+	var builder strings.Builder
+	builder.Grow(201)
+
+	builder.WriteString("CThostFtdcBrokerTradingParamsField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", MarginPriceType=%+v", d.MarginPriceType)
+	fmt.Fprintf(&builder, ", Algorithm=%+v", d.Algorithm)
+	fmt.Fprintf(&builder, ", AvailIncludeCloseProfit=%+v", d.AvailIncludeCloseProfit)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", OptionRoyaltyPriceType=%+v", d.OptionRoyaltyPriceType)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询经纪公司交易算法
 type CThostFtdcQryBrokerTradingAlgosField struct {
 	// 经纪公司代码
@@ -6424,6 +12067,20 @@ type CThostFtdcQryBrokerTradingAlgosField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 合约代码
 	InstrumentID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcQryBrokerTradingAlgosField) String() string {
+	var builder strings.Builder
+	builder.Grow(96)
+
+	builder.WriteString("CThostFtdcQryBrokerTradingAlgosField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 经纪公司交易算法
@@ -6442,12 +12099,42 @@ type CThostFtdcBrokerTradingAlgosField struct {
 	HandleTradingAccountAlgoID types.TThostFtdcHandleTradingAccountAlgoIDType
 }
 
+func (d CThostFtdcBrokerTradingAlgosField) String() string {
+	var builder strings.Builder
+	builder.Grow(189)
+
+	builder.WriteString("CThostFtdcBrokerTradingAlgosField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", HandlePositionAlgoID=%+v", d.HandlePositionAlgoID)
+	fmt.Fprintf(&builder, ", FindMarginRateAlgoID=%+v", d.FindMarginRateAlgoID)
+	fmt.Fprintf(&builder, ", HandleTradingAccountAlgoID=%+v", d.HandleTradingAccountAlgoID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询经纪公司资金
 type CThostFtdcQueryBrokerDepositField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
+}
+
+func (d CThostFtdcQueryBrokerDepositField) String() string {
+	var builder strings.Builder
+	builder.Grow(71)
+
+	builder.WriteString("CThostFtdcQueryBrokerDepositField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 经纪公司资金
@@ -6480,10 +12167,46 @@ type CThostFtdcBrokerDepositField struct {
 	FrozenMargin types.TThostFtdcMoneyType
 }
 
+func (d CThostFtdcBrokerDepositField) String() string {
+	var builder strings.Builder
+	builder.Grow(280)
+
+	builder.WriteString("CThostFtdcBrokerDepositField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", PreBalance=%+v", d.PreBalance)
+	fmt.Fprintf(&builder, ", CurrMargin=%+v", d.CurrMargin)
+	fmt.Fprintf(&builder, ", CloseProfit=%+v", d.CloseProfit)
+	fmt.Fprintf(&builder, ", Balance=%+v", d.Balance)
+	fmt.Fprintf(&builder, ", Deposit=%+v", d.Deposit)
+	fmt.Fprintf(&builder, ", Withdraw=%+v", d.Withdraw)
+	fmt.Fprintf(&builder, ", Available=%+v", d.Available)
+	fmt.Fprintf(&builder, ", Reserve=%+v", d.Reserve)
+	fmt.Fprintf(&builder, ", FrozenMargin=%+v", d.FrozenMargin)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询保证金监管系统经纪公司密钥
 type CThostFtdcQryCFMMCBrokerKeyField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
+}
+
+func (d CThostFtdcQryCFMMCBrokerKeyField) String() string {
+	var builder strings.Builder
+	builder.Grow(50)
+
+	builder.WriteString("CThostFtdcQryCFMMCBrokerKeyField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 保证金监管系统经纪公司密钥
@@ -6504,6 +12227,24 @@ type CThostFtdcCFMMCBrokerKeyField struct {
 	KeyKind types.TThostFtdcCFMMCKeyKindType
 }
 
+func (d CThostFtdcCFMMCBrokerKeyField) String() string {
+	var builder strings.Builder
+	builder.Grow(162)
+
+	builder.WriteString("CThostFtdcCFMMCBrokerKeyField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", CreateDate=%+v", d.CreateDate)
+	fmt.Fprintf(&builder, ", CreateTime=%+v", d.CreateTime)
+	fmt.Fprintf(&builder, ", KeyID=%+v", d.KeyID)
+	fmt.Fprintf(&builder, ", CurrentKey=%+v", d.CurrentKey)
+	fmt.Fprintf(&builder, ", KeyKind=%+v", d.KeyKind)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 保证金监管系统经纪公司资金账户密钥
 type CThostFtdcCFMMCTradingAccountKeyField struct {
 	// 经纪公司代码
@@ -6518,12 +12259,41 @@ type CThostFtdcCFMMCTradingAccountKeyField struct {
 	CurrentKey types.TThostFtdcCFMMCKeyType
 }
 
+func (d CThostFtdcCFMMCTradingAccountKeyField) String() string {
+	var builder strings.Builder
+	builder.Grow(132)
+
+	builder.WriteString("CThostFtdcCFMMCTradingAccountKeyField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", KeyID=%+v", d.KeyID)
+	fmt.Fprintf(&builder, ", CurrentKey=%+v", d.CurrentKey)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 请求查询保证金监管系统经纪公司资金账户密钥
 type CThostFtdcQryCFMMCTradingAccountKeyField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQryCFMMCTradingAccountKeyField) String() string {
+	var builder strings.Builder
+	builder.Grow(78)
+
+	builder.WriteString("CThostFtdcQryCFMMCTradingAccountKeyField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 用户动态令牌参数
@@ -6546,6 +12316,25 @@ type CThostFtdcBrokerUserOTPParamField struct {
 	OTPType types.TThostFtdcOTPTypeType
 }
 
+func (d CThostFtdcBrokerUserOTPParamField) String() string {
+	var builder strings.Builder
+	builder.Grow(185)
+
+	builder.WriteString("CThostFtdcBrokerUserOTPParamField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", OTPVendorsID=%+v", d.OTPVendorsID)
+	fmt.Fprintf(&builder, ", SerialNumber=%+v", d.SerialNumber)
+	fmt.Fprintf(&builder, ", AuthKey=%+v", d.AuthKey)
+	fmt.Fprintf(&builder, ", LastDrift=%+v", d.LastDrift)
+	fmt.Fprintf(&builder, ", LastSuccess=%+v", d.LastSuccess)
+	fmt.Fprintf(&builder, ", OTPType=%+v", d.OTPType)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 手工同步用户动态令牌
 type CThostFtdcManualSyncBrokerUserOTPField struct {
 	// 经纪公司代码
@@ -6560,6 +12349,22 @@ type CThostFtdcManualSyncBrokerUserOTPField struct {
 	SecondOTP types.TThostFtdcPasswordType
 }
 
+func (d CThostFtdcManualSyncBrokerUserOTPField) String() string {
+	var builder strings.Builder
+	builder.Grow(126)
+
+	builder.WriteString("CThostFtdcManualSyncBrokerUserOTPField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", OTPType=%+v", d.OTPType)
+	fmt.Fprintf(&builder, ", FirstOTP=%+v", d.FirstOTP)
+	fmt.Fprintf(&builder, ", SecondOTP=%+v", d.SecondOTP)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 投资者手续费率模板
 type CThostFtdcCommRateModelField struct {
 	// 经纪公司代码
@@ -6570,12 +12375,39 @@ type CThostFtdcCommRateModelField struct {
 	CommModelName types.TThostFtdcCommModelNameType
 }
 
+func (d CThostFtdcCommRateModelField) String() string {
+	var builder strings.Builder
+	builder.Grow(90)
+
+	builder.WriteString("CThostFtdcCommRateModelField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", CommModelID=%+v", d.CommModelID)
+	fmt.Fprintf(&builder, ", CommModelName=%+v", d.CommModelName)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 请求查询投资者手续费率模板
 type CThostFtdcQryCommRateModelField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 手续费率模板代码
 	CommModelID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQryCommRateModelField) String() string {
+	var builder strings.Builder
+	builder.Grow(70)
+
+	builder.WriteString("CThostFtdcQryCommRateModelField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", CommModelID=%+v", d.CommModelID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 投资者保证金率模板
@@ -6588,12 +12420,39 @@ type CThostFtdcMarginModelField struct {
 	MarginModelName types.TThostFtdcCommModelNameType
 }
 
+func (d CThostFtdcMarginModelField) String() string {
+	var builder strings.Builder
+	builder.Grow(92)
+
+	builder.WriteString("CThostFtdcMarginModelField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", MarginModelID=%+v", d.MarginModelID)
+	fmt.Fprintf(&builder, ", MarginModelName=%+v", d.MarginModelName)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 请求查询投资者保证金率模板
 type CThostFtdcQryMarginModelField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 保证金率模板代码
 	MarginModelID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQryMarginModelField) String() string {
+	var builder strings.Builder
+	builder.Grow(70)
+
+	builder.WriteString("CThostFtdcQryMarginModelField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", MarginModelID=%+v", d.MarginModelID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 仓单折抵信息
@@ -6616,6 +12475,25 @@ type CThostFtdcEWarrantOffsetField struct {
 	Volume types.TThostFtdcVolumeType
 }
 
+func (d CThostFtdcEWarrantOffsetField) String() string {
+	var builder strings.Builder
+	builder.Grow(183)
+
+	builder.WriteString("CThostFtdcEWarrantOffsetField{")
+	fmt.Fprintf(&builder, "TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询仓单折抵信息
 type CThostFtdcQryEWarrantOffsetField struct {
 	// 经纪公司代码
@@ -6628,6 +12506,21 @@ type CThostFtdcQryEWarrantOffsetField struct {
 	InstrumentID types.TThostFtdcInstrumentIDType
 }
 
+func (d CThostFtdcQryEWarrantOffsetField) String() string {
+	var builder strings.Builder
+	builder.Grow(112)
+
+	builder.WriteString("CThostFtdcQryEWarrantOffsetField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询投资者品种跨品种保证金
 type CThostFtdcQryInvestorProductGroupMarginField struct {
 	// 经纪公司代码
@@ -6638,6 +12531,21 @@ type CThostFtdcQryInvestorProductGroupMarginField struct {
 	ProductGroupID types.TThostFtdcInstrumentIDType
 	// 投机套保标志
 	HedgeFlag types.TThostFtdcHedgeFlagType
+}
+
+func (d CThostFtdcQryInvestorProductGroupMarginField) String() string {
+	var builder strings.Builder
+	builder.Grow(125)
+
+	builder.WriteString("CThostFtdcQryInvestorProductGroupMarginField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ProductGroupID=%+v", d.ProductGroupID)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 投资者品种跨品种保证金
@@ -6698,12 +12606,63 @@ type CThostFtdcInvestorProductGroupMarginField struct {
 	HedgeFlag types.TThostFtdcHedgeFlagType
 }
 
+func (d CThostFtdcInvestorProductGroupMarginField) String() string {
+	var builder strings.Builder
+	builder.Grow(663)
+
+	builder.WriteString("CThostFtdcInvestorProductGroupMarginField{")
+	fmt.Fprintf(&builder, "ProductGroupID=%+v", d.ProductGroupID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", FrozenMargin=%+v", d.FrozenMargin)
+	fmt.Fprintf(&builder, ", LongFrozenMargin=%+v", d.LongFrozenMargin)
+	fmt.Fprintf(&builder, ", ShortFrozenMargin=%+v", d.ShortFrozenMargin)
+	fmt.Fprintf(&builder, ", UseMargin=%+v", d.UseMargin)
+	fmt.Fprintf(&builder, ", LongUseMargin=%+v", d.LongUseMargin)
+	fmt.Fprintf(&builder, ", ShortUseMargin=%+v", d.ShortUseMargin)
+	fmt.Fprintf(&builder, ", ExchMargin=%+v", d.ExchMargin)
+	fmt.Fprintf(&builder, ", LongExchMargin=%+v", d.LongExchMargin)
+	fmt.Fprintf(&builder, ", ShortExchMargin=%+v", d.ShortExchMargin)
+	fmt.Fprintf(&builder, ", CloseProfit=%+v", d.CloseProfit)
+	fmt.Fprintf(&builder, ", FrozenCommission=%+v", d.FrozenCommission)
+	fmt.Fprintf(&builder, ", Commission=%+v", d.Commission)
+	fmt.Fprintf(&builder, ", FrozenCash=%+v", d.FrozenCash)
+	fmt.Fprintf(&builder, ", CashIn=%+v", d.CashIn)
+	fmt.Fprintf(&builder, ", PositionProfit=%+v", d.PositionProfit)
+	fmt.Fprintf(&builder, ", OffsetAmount=%+v", d.OffsetAmount)
+	fmt.Fprintf(&builder, ", LongOffsetAmount=%+v", d.LongOffsetAmount)
+	fmt.Fprintf(&builder, ", ShortOffsetAmount=%+v", d.ShortOffsetAmount)
+	fmt.Fprintf(&builder, ", ExchOffsetAmount=%+v", d.ExchOffsetAmount)
+	fmt.Fprintf(&builder, ", LongExchOffsetAmount=%+v", d.LongExchOffsetAmount)
+	fmt.Fprintf(&builder, ", ShortExchOffsetAmount=%+v", d.ShortExchOffsetAmount)
+	fmt.Fprintf(&builder, ", HedgeFlag=%+v", d.HedgeFlag)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询监控中心用户令牌
 type CThostFtdcQueryCFMMCTradingAccountTokenField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 投资者代码
 	InvestorID types.TThostFtdcInvestorIDType
+}
+
+func (d CThostFtdcQueryCFMMCTradingAccountTokenField) String() string {
+	var builder strings.Builder
+	builder.Grow(82)
+
+	builder.WriteString("CThostFtdcQueryCFMMCTradingAccountTokenField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 监控中心用户令牌
@@ -6720,12 +12679,41 @@ type CThostFtdcCFMMCTradingAccountTokenField struct {
 	Token types.TThostFtdcCFMMCTokenType
 }
 
+func (d CThostFtdcCFMMCTradingAccountTokenField) String() string {
+	var builder strings.Builder
+	builder.Grow(129)
+
+	builder.WriteString("CThostFtdcCFMMCTradingAccountTokenField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", KeyID=%+v", d.KeyID)
+	fmt.Fprintf(&builder, ", Token=%+v", d.Token)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询产品组
 type CThostFtdcQryProductGroupField struct {
 	// 产品代码
 	ProductID types.TThostFtdcInstrumentIDType
 	// 交易所代码
 	ExchangeID types.TThostFtdcExchangeIDType
+}
+
+func (d CThostFtdcQryProductGroupField) String() string {
+	var builder strings.Builder
+	builder.Grow(69)
+
+	builder.WriteString("CThostFtdcQryProductGroupField{")
+	fmt.Fprintf(&builder, "ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 投资者品种跨品种保证金产品组
@@ -6736,6 +12724,20 @@ type CThostFtdcProductGroupField struct {
 	ExchangeID types.TThostFtdcExchangeIDType
 	// 产品组代码
 	ProductGroupID types.TThostFtdcInstrumentIDType
+}
+
+func (d CThostFtdcProductGroupField) String() string {
+	var builder strings.Builder
+	builder.Grow(90)
+
+	builder.WriteString("CThostFtdcProductGroupField{")
+	fmt.Fprintf(&builder, "ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", ProductGroupID=%+v", d.ProductGroupID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易所公告
@@ -6766,6 +12768,29 @@ type CThostFtdcBulletinField struct {
 	MarketID types.TThostFtdcMarketIDType
 }
 
+func (d CThostFtdcBulletinField) String() string {
+	var builder strings.Builder
+	builder.Grow(248)
+
+	builder.WriteString("CThostFtdcBulletinField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", BulletinID=%+v", d.BulletinID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", NewsType=%+v", d.NewsType)
+	fmt.Fprintf(&builder, ", NewsUrgency=%+v", d.NewsUrgency)
+	fmt.Fprintf(&builder, ", SendTime=%+v", d.SendTime)
+	fmt.Fprintf(&builder, ", Abstract=%+v", d.Abstract)
+	fmt.Fprintf(&builder, ", ComeFrom=%+v", d.ComeFrom)
+	fmt.Fprintf(&builder, ", Content=%+v", d.Content)
+	fmt.Fprintf(&builder, ", URLLink=%+v", d.URLLink)
+	fmt.Fprintf(&builder, ", MarketID=%+v", d.MarketID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询交易所公告
 type CThostFtdcQryBulletinField struct {
 	// 交易所代码
@@ -6778,6 +12803,22 @@ type CThostFtdcQryBulletinField struct {
 	NewsType types.TThostFtdcNewsTypeType
 	// 紧急程度
 	NewsUrgency types.TThostFtdcNewsUrgencyType
+}
+
+func (d CThostFtdcQryBulletinField) String() string {
+	var builder strings.Builder
+	builder.Grow(125)
+
+	builder.WriteString("CThostFtdcQryBulletinField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BulletinID=%+v", d.BulletinID)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", NewsType=%+v", d.NewsType)
+	fmt.Fprintf(&builder, ", NewsUrgency=%+v", d.NewsUrgency)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 转帐开户请求
@@ -6872,6 +12913,61 @@ type CThostFtdcReqOpenAccountField struct {
 	UserID types.TThostFtdcUserIDType
 }
 
+func (d CThostFtdcReqOpenAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(904)
+
+	builder.WriteString("CThostFtdcReqOpenAccountField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", Gender=%+v", d.Gender)
+	fmt.Fprintf(&builder, ", CountryCode=%+v", d.CountryCode)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", Address=%+v", d.Address)
+	fmt.Fprintf(&builder, ", ZipCode=%+v", d.ZipCode)
+	fmt.Fprintf(&builder, ", Telephone=%+v", d.Telephone)
+	fmt.Fprintf(&builder, ", MobilePhone=%+v", d.MobilePhone)
+	fmt.Fprintf(&builder, ", Fax=%+v", d.Fax)
+	fmt.Fprintf(&builder, ", EMail=%+v", d.EMail)
+	fmt.Fprintf(&builder, ", MoneyAccountStatus=%+v", d.MoneyAccountStatus)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", CashExchangeCode=%+v", d.CashExchangeCode)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BankSecuAccType=%+v", d.BankSecuAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankSecuAcc=%+v", d.BankSecuAcc)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 转帐销户请求
 type CThostFtdcReqCancelAccountField struct {
 	// 业务功能码
@@ -6964,6 +13060,61 @@ type CThostFtdcReqCancelAccountField struct {
 	UserID types.TThostFtdcUserIDType
 }
 
+func (d CThostFtdcReqCancelAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(906)
+
+	builder.WriteString("CThostFtdcReqCancelAccountField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", Gender=%+v", d.Gender)
+	fmt.Fprintf(&builder, ", CountryCode=%+v", d.CountryCode)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", Address=%+v", d.Address)
+	fmt.Fprintf(&builder, ", ZipCode=%+v", d.ZipCode)
+	fmt.Fprintf(&builder, ", Telephone=%+v", d.Telephone)
+	fmt.Fprintf(&builder, ", MobilePhone=%+v", d.MobilePhone)
+	fmt.Fprintf(&builder, ", Fax=%+v", d.Fax)
+	fmt.Fprintf(&builder, ", EMail=%+v", d.EMail)
+	fmt.Fprintf(&builder, ", MoneyAccountStatus=%+v", d.MoneyAccountStatus)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", CashExchangeCode=%+v", d.CashExchangeCode)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BankSecuAccType=%+v", d.BankSecuAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankSecuAcc=%+v", d.BankSecuAcc)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 变更银行账户请求
 type CThostFtdcReqChangeAccountField struct {
 	// 业务功能码
@@ -7046,6 +13197,57 @@ type CThostFtdcReqChangeAccountField struct {
 	TID types.TThostFtdcTIDType
 	// 摘要
 	Digest types.TThostFtdcDigestType
+}
+
+func (d CThostFtdcReqChangeAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(833)
+
+	builder.WriteString("CThostFtdcReqChangeAccountField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", Gender=%+v", d.Gender)
+	fmt.Fprintf(&builder, ", CountryCode=%+v", d.CountryCode)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", Address=%+v", d.Address)
+	fmt.Fprintf(&builder, ", ZipCode=%+v", d.ZipCode)
+	fmt.Fprintf(&builder, ", Telephone=%+v", d.Telephone)
+	fmt.Fprintf(&builder, ", MobilePhone=%+v", d.MobilePhone)
+	fmt.Fprintf(&builder, ", Fax=%+v", d.Fax)
+	fmt.Fprintf(&builder, ", EMail=%+v", d.EMail)
+	fmt.Fprintf(&builder, ", MoneyAccountStatus=%+v", d.MoneyAccountStatus)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", NewBankAccount=%+v", d.NewBankAccount)
+	fmt.Fprintf(&builder, ", NewBankPassWord=%+v", d.NewBankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 转账请求
@@ -7136,6 +13338,60 @@ type CThostFtdcReqTransferField struct {
 	TID types.TThostFtdcTIDType
 	// 转账交易状态
 	TransferStatus types.TThostFtdcTransferStatusType
+}
+
+func (d CThostFtdcReqTransferField) String() string {
+	var builder strings.Builder
+	builder.Grow(894)
+
+	builder.WriteString("CThostFtdcReqTransferField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", FutureSerial=%+v", d.FutureSerial)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", TradeAmount=%+v", d.TradeAmount)
+	fmt.Fprintf(&builder, ", FutureFetchAmount=%+v", d.FutureFetchAmount)
+	fmt.Fprintf(&builder, ", FeePayFlag=%+v", d.FeePayFlag)
+	fmt.Fprintf(&builder, ", CustFee=%+v", d.CustFee)
+	fmt.Fprintf(&builder, ", BrokerFee=%+v", d.BrokerFee)
+	fmt.Fprintf(&builder, ", Message=%+v", d.Message)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BankSecuAccType=%+v", d.BankSecuAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankSecuAcc=%+v", d.BankSecuAcc)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", TransferStatus=%+v", d.TransferStatus)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 银行发起银行资金转期货响应
@@ -7230,6 +13486,62 @@ type CThostFtdcRspTransferField struct {
 	ErrorID types.TThostFtdcErrorIDType
 	// 错误信息
 	ErrorMsg types.TThostFtdcErrorMsgType
+}
+
+func (d CThostFtdcRspTransferField) String() string {
+	var builder strings.Builder
+	builder.Grow(929)
+
+	builder.WriteString("CThostFtdcRspTransferField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", FutureSerial=%+v", d.FutureSerial)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", TradeAmount=%+v", d.TradeAmount)
+	fmt.Fprintf(&builder, ", FutureFetchAmount=%+v", d.FutureFetchAmount)
+	fmt.Fprintf(&builder, ", FeePayFlag=%+v", d.FeePayFlag)
+	fmt.Fprintf(&builder, ", CustFee=%+v", d.CustFee)
+	fmt.Fprintf(&builder, ", BrokerFee=%+v", d.BrokerFee)
+	fmt.Fprintf(&builder, ", Message=%+v", d.Message)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BankSecuAccType=%+v", d.BankSecuAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankSecuAcc=%+v", d.BankSecuAcc)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", TransferStatus=%+v", d.TransferStatus)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 冲正请求
@@ -7334,6 +13646,67 @@ type CThostFtdcReqRepealField struct {
 	TID types.TThostFtdcTIDType
 	// 转账交易状态
 	TransferStatus types.TThostFtdcTransferStatusType
+}
+
+func (d CThostFtdcReqRepealField) String() string {
+	var builder strings.Builder
+	builder.Grow(1074)
+
+	builder.WriteString("CThostFtdcReqRepealField{")
+	fmt.Fprintf(&builder, "RepealTimeInterval=%+v", d.RepealTimeInterval)
+	fmt.Fprintf(&builder, ", RepealedTimes=%+v", d.RepealedTimes)
+	fmt.Fprintf(&builder, ", BankRepealFlag=%+v", d.BankRepealFlag)
+	fmt.Fprintf(&builder, ", BrokerRepealFlag=%+v", d.BrokerRepealFlag)
+	fmt.Fprintf(&builder, ", PlateRepealSerial=%+v", d.PlateRepealSerial)
+	fmt.Fprintf(&builder, ", BankRepealSerial=%+v", d.BankRepealSerial)
+	fmt.Fprintf(&builder, ", FutureRepealSerial=%+v", d.FutureRepealSerial)
+	fmt.Fprintf(&builder, ", TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", FutureSerial=%+v", d.FutureSerial)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", TradeAmount=%+v", d.TradeAmount)
+	fmt.Fprintf(&builder, ", FutureFetchAmount=%+v", d.FutureFetchAmount)
+	fmt.Fprintf(&builder, ", FeePayFlag=%+v", d.FeePayFlag)
+	fmt.Fprintf(&builder, ", CustFee=%+v", d.CustFee)
+	fmt.Fprintf(&builder, ", BrokerFee=%+v", d.BrokerFee)
+	fmt.Fprintf(&builder, ", Message=%+v", d.Message)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BankSecuAccType=%+v", d.BankSecuAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankSecuAcc=%+v", d.BankSecuAcc)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", TransferStatus=%+v", d.TransferStatus)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 冲正响应
@@ -7444,6 +13817,69 @@ type CThostFtdcRspRepealField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcRspRepealField) String() string {
+	var builder strings.Builder
+	builder.Grow(1109)
+
+	builder.WriteString("CThostFtdcRspRepealField{")
+	fmt.Fprintf(&builder, "RepealTimeInterval=%+v", d.RepealTimeInterval)
+	fmt.Fprintf(&builder, ", RepealedTimes=%+v", d.RepealedTimes)
+	fmt.Fprintf(&builder, ", BankRepealFlag=%+v", d.BankRepealFlag)
+	fmt.Fprintf(&builder, ", BrokerRepealFlag=%+v", d.BrokerRepealFlag)
+	fmt.Fprintf(&builder, ", PlateRepealSerial=%+v", d.PlateRepealSerial)
+	fmt.Fprintf(&builder, ", BankRepealSerial=%+v", d.BankRepealSerial)
+	fmt.Fprintf(&builder, ", FutureRepealSerial=%+v", d.FutureRepealSerial)
+	fmt.Fprintf(&builder, ", TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", FutureSerial=%+v", d.FutureSerial)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", TradeAmount=%+v", d.TradeAmount)
+	fmt.Fprintf(&builder, ", FutureFetchAmount=%+v", d.FutureFetchAmount)
+	fmt.Fprintf(&builder, ", FeePayFlag=%+v", d.FeePayFlag)
+	fmt.Fprintf(&builder, ", CustFee=%+v", d.CustFee)
+	fmt.Fprintf(&builder, ", BrokerFee=%+v", d.BrokerFee)
+	fmt.Fprintf(&builder, ", Message=%+v", d.Message)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BankSecuAccType=%+v", d.BankSecuAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankSecuAcc=%+v", d.BankSecuAcc)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", TransferStatus=%+v", d.TransferStatus)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询账户信息请求
 type CThostFtdcReqQueryAccountField struct {
 	// 业务功能码
@@ -7518,6 +13954,53 @@ type CThostFtdcReqQueryAccountField struct {
 	RequestID types.TThostFtdcRequestIDType
 	// 交易ID
 	TID types.TThostFtdcTIDType
+}
+
+func (d CThostFtdcReqQueryAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(753)
+
+	builder.WriteString("CThostFtdcReqQueryAccountField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", FutureSerial=%+v", d.FutureSerial)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BankSecuAccType=%+v", d.BankSecuAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankSecuAcc=%+v", d.BankSecuAcc)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询账户信息响应
@@ -7600,6 +14083,55 @@ type CThostFtdcRspQueryAccountField struct {
 	BankFetchAmount types.TThostFtdcTradeAmountType
 }
 
+func (d CThostFtdcRspQueryAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(801)
+
+	builder.WriteString("CThostFtdcRspQueryAccountField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", FutureSerial=%+v", d.FutureSerial)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BankSecuAccType=%+v", d.BankSecuAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankSecuAcc=%+v", d.BankSecuAcc)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", BankUseAmount=%+v", d.BankUseAmount)
+	fmt.Fprintf(&builder, ", BankFetchAmount=%+v", d.BankFetchAmount)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 期商签到签退
 type CThostFtdcFutureSignIOField struct {
 	// 业务功能码
@@ -7644,6 +14176,38 @@ type CThostFtdcFutureSignIOField struct {
 	RequestID types.TThostFtdcRequestIDType
 	// 交易ID
 	TID types.TThostFtdcTIDType
+}
+
+func (d CThostFtdcFutureSignIOField) String() string {
+	var builder strings.Builder
+	builder.Grow(427)
+
+	builder.WriteString("CThostFtdcFutureSignIOField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 期商签到响应
@@ -7700,6 +14264,42 @@ type CThostFtdcRspFutureSignInField struct {
 	MacKey types.TThostFtdcPasswordKeyType
 }
 
+func (d CThostFtdcRspFutureSignInField) String() string {
+	var builder strings.Builder
+	builder.Grow(497)
+
+	builder.WriteString("CThostFtdcRspFutureSignInField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+	fmt.Fprintf(&builder, ", PinKey=%+v", d.PinKey)
+	fmt.Fprintf(&builder, ", MacKey=%+v", d.MacKey)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 期商签退请求
 type CThostFtdcReqFutureSignOutField struct {
 	// 业务功能码
@@ -7744,6 +14344,38 @@ type CThostFtdcReqFutureSignOutField struct {
 	RequestID types.TThostFtdcRequestIDType
 	// 交易ID
 	TID types.TThostFtdcTIDType
+}
+
+func (d CThostFtdcReqFutureSignOutField) String() string {
+	var builder strings.Builder
+	builder.Grow(431)
+
+	builder.WriteString("CThostFtdcReqFutureSignOutField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 期商签退响应
@@ -7794,6 +14426,40 @@ type CThostFtdcRspFutureSignOutField struct {
 	ErrorID types.TThostFtdcErrorIDType
 	// 错误信息
 	ErrorMsg types.TThostFtdcErrorMsgType
+}
+
+func (d CThostFtdcRspFutureSignOutField) String() string {
+	var builder strings.Builder
+	builder.Grow(466)
+
+	builder.WriteString("CThostFtdcRspFutureSignOutField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询指定流水号的交易结果请求
@@ -7852,6 +14518,43 @@ type CThostFtdcReqQueryTradeResultBySerialField struct {
 	Digest types.TThostFtdcDigestType
 }
 
+func (d CThostFtdcReqQueryTradeResultBySerialField) String() string {
+	var builder strings.Builder
+	builder.Grow(575)
+
+	builder.WriteString("CThostFtdcReqQueryTradeResultBySerialField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", Reference=%+v", d.Reference)
+	fmt.Fprintf(&builder, ", RefrenceIssureType=%+v", d.RefrenceIssureType)
+	fmt.Fprintf(&builder, ", RefrenceIssure=%+v", d.RefrenceIssure)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", TradeAmount=%+v", d.TradeAmount)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询指定流水号的交易结果响应
 type CThostFtdcRspQueryTradeResultBySerialField struct {
 	// 业务功能码
@@ -7908,6 +14611,43 @@ type CThostFtdcRspQueryTradeResultBySerialField struct {
 	Digest types.TThostFtdcDigestType
 }
 
+func (d CThostFtdcRspQueryTradeResultBySerialField) String() string {
+	var builder strings.Builder
+	builder.Grow(588)
+
+	builder.WriteString("CThostFtdcRspQueryTradeResultBySerialField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+	fmt.Fprintf(&builder, ", Reference=%+v", d.Reference)
+	fmt.Fprintf(&builder, ", RefrenceIssureType=%+v", d.RefrenceIssureType)
+	fmt.Fprintf(&builder, ", RefrenceIssure=%+v", d.RefrenceIssure)
+	fmt.Fprintf(&builder, ", OriginReturnCode=%+v", d.OriginReturnCode)
+	fmt.Fprintf(&builder, ", OriginDescrInfoForReturnCode=%+v", d.OriginDescrInfoForReturnCode)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", TradeAmount=%+v", d.TradeAmount)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 日终文件就绪请求
 type CThostFtdcReqDayEndFileReadyField struct {
 	// 业务功能码
@@ -7940,12 +14680,50 @@ type CThostFtdcReqDayEndFileReadyField struct {
 	Digest types.TThostFtdcDigestType
 }
 
+func (d CThostFtdcReqDayEndFileReadyField) String() string {
+	var builder strings.Builder
+	builder.Grow(314)
+
+	builder.WriteString("CThostFtdcReqDayEndFileReadyField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", FileBusinessCode=%+v", d.FileBusinessCode)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 返回结果
 type CThostFtdcReturnResultField struct {
 	// 返回代码
 	ReturnCode types.TThostFtdcReturnCodeType
 	// 返回码描述
 	DescrInfoForReturnCode types.TThostFtdcDescrInfoForReturnCodeType
+}
+
+func (d CThostFtdcReturnResultField) String() string {
+	var builder strings.Builder
+	builder.Grow(79)
+
+	builder.WriteString("CThostFtdcReturnResultField{")
+	fmt.Fprintf(&builder, "ReturnCode=%+v", d.ReturnCode)
+	fmt.Fprintf(&builder, ", DescrInfoForReturnCode=%+v", d.DescrInfoForReturnCode)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 验证期货资金密码
@@ -7990,6 +14768,36 @@ type CThostFtdcVerifyFuturePasswordField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcVerifyFuturePasswordField) String() string {
+	var builder strings.Builder
+	builder.Grow(406)
+
+	builder.WriteString("CThostFtdcVerifyFuturePasswordField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 验证客户信息
 type CThostFtdcVerifyCustInfoField struct {
 	// 客户姓名
@@ -8000,6 +14808,21 @@ type CThostFtdcVerifyCustInfoField struct {
 	IdentifiedCardNo types.TThostFtdcIdentifiedCardNoType
 	// 客户类型
 	CustType types.TThostFtdcCustTypeType
+}
+
+func (d CThostFtdcVerifyCustInfoField) String() string {
+	var builder strings.Builder
+	builder.Grow(115)
+
+	builder.WriteString("CThostFtdcVerifyCustInfoField{")
+	fmt.Fprintf(&builder, "CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 验证期货资金密码和客户信息
@@ -8020,6 +14843,24 @@ type CThostFtdcVerifyFuturePasswordAndCustInfoField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcVerifyFuturePasswordAndCustInfoField) String() string {
+	var builder strings.Builder
+	builder.Grow(189)
+
+	builder.WriteString("CThostFtdcVerifyFuturePasswordAndCustInfoField{")
+	fmt.Fprintf(&builder, "CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 验证期货资金密码和客户信息
 type CThostFtdcDepositResultInformField struct {
 	// 出入金流水号，该流水号为银期报盘返回的流水号
@@ -8036,6 +14877,24 @@ type CThostFtdcDepositResultInformField struct {
 	ReturnCode types.TThostFtdcReturnCodeType
 	// 返回码描述
 	DescrInfoForReturnCode types.TThostFtdcDescrInfoForReturnCodeType
+}
+
+func (d CThostFtdcDepositResultInformField) String() string {
+	var builder strings.Builder
+	builder.Grow(182)
+
+	builder.WriteString("CThostFtdcDepositResultInformField{")
+	fmt.Fprintf(&builder, "DepositSeqNo=%+v", d.DepositSeqNo)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", Deposit=%+v", d.Deposit)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", ReturnCode=%+v", d.ReturnCode)
+	fmt.Fprintf(&builder, ", DescrInfoForReturnCode=%+v", d.DescrInfoForReturnCode)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易核心向银期报盘发出密钥同步请求
@@ -8080,6 +14939,37 @@ type CThostFtdcReqSyncKeyField struct {
 	RequestID types.TThostFtdcRequestIDType
 	// 交易ID
 	TID types.TThostFtdcTIDType
+}
+
+func (d CThostFtdcReqSyncKeyField) String() string {
+	var builder strings.Builder
+	builder.Grow(406)
+
+	builder.WriteString("CThostFtdcReqSyncKeyField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Message=%+v", d.Message)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 交易核心向银期报盘发出密钥同步响应
@@ -8128,6 +15018,39 @@ type CThostFtdcRspSyncKeyField struct {
 	ErrorID types.TThostFtdcErrorIDType
 	// 错误信息
 	ErrorMsg types.TThostFtdcErrorMsgType
+}
+
+func (d CThostFtdcRspSyncKeyField) String() string {
+	var builder strings.Builder
+	builder.Grow(441)
+
+	builder.WriteString("CThostFtdcRspSyncKeyField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Message=%+v", d.Message)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询账户信息通知
@@ -8214,6 +15137,57 @@ type CThostFtdcNotifyQueryAccountField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcNotifyQueryAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(839)
+
+	builder.WriteString("CThostFtdcNotifyQueryAccountField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", FutureSerial=%+v", d.FutureSerial)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BankSecuAccType=%+v", d.BankSecuAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankSecuAcc=%+v", d.BankSecuAcc)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", BankUseAmount=%+v", d.BankUseAmount)
+	fmt.Fprintf(&builder, ", BankFetchAmount=%+v", d.BankFetchAmount)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 银期转账交易流水表
 type CThostFtdcTransferSerialField struct {
 	// 平台流水号
@@ -8274,6 +15248,45 @@ type CThostFtdcTransferSerialField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcTransferSerialField) String() string {
+	var builder strings.Builder
+	builder.Grow(602)
+
+	builder.WriteString("CThostFtdcTransferSerialField{")
+	fmt.Fprintf(&builder, "PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", FutureAccType=%+v", d.FutureAccType)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", FutureSerial=%+v", d.FutureSerial)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", TradeAmount=%+v", d.TradeAmount)
+	fmt.Fprintf(&builder, ", CustFee=%+v", d.CustFee)
+	fmt.Fprintf(&builder, ", BrokerFee=%+v", d.BrokerFee)
+	fmt.Fprintf(&builder, ", AvailabilityFlag=%+v", d.AvailabilityFlag)
+	fmt.Fprintf(&builder, ", OperatorCode=%+v", d.OperatorCode)
+	fmt.Fprintf(&builder, ", BankNewAccount=%+v", d.BankNewAccount)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 请求查询转帐流水
 type CThostFtdcQryTransferSerialField struct {
 	// 经纪公司代码
@@ -8284,6 +15297,21 @@ type CThostFtdcQryTransferSerialField struct {
 	BankID types.TThostFtdcBankIDType
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
+}
+
+func (d CThostFtdcQryTransferSerialField) String() string {
+	var builder strings.Builder
+	builder.Grow(105)
+
+	builder.WriteString("CThostFtdcQryTransferSerialField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 期商签到通知
@@ -8340,6 +15368,42 @@ type CThostFtdcNotifyFutureSignInField struct {
 	MacKey types.TThostFtdcPasswordKeyType
 }
 
+func (d CThostFtdcNotifyFutureSignInField) String() string {
+	var builder strings.Builder
+	builder.Grow(500)
+
+	builder.WriteString("CThostFtdcNotifyFutureSignInField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+	fmt.Fprintf(&builder, ", PinKey=%+v", d.PinKey)
+	fmt.Fprintf(&builder, ", MacKey=%+v", d.MacKey)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 期商签退通知
 type CThostFtdcNotifyFutureSignOutField struct {
 	// 业务功能码
@@ -8390,6 +15454,40 @@ type CThostFtdcNotifyFutureSignOutField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcNotifyFutureSignOutField) String() string {
+	var builder strings.Builder
+	builder.Grow(469)
+
+	builder.WriteString("CThostFtdcNotifyFutureSignOutField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 交易核心向银期报盘发出密钥同步处理结果的通知
 type CThostFtdcNotifySyncKeyField struct {
 	// 业务功能码
@@ -8438,6 +15536,39 @@ type CThostFtdcNotifySyncKeyField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcNotifySyncKeyField) String() string {
+	var builder strings.Builder
+	builder.Grow(444)
+
+	builder.WriteString("CThostFtdcNotifySyncKeyField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Message=%+v", d.Message)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 请求查询银期签约关系
 type CThostFtdcQryAccountregisterField struct {
 	// 经纪公司代码
@@ -8450,6 +15581,22 @@ type CThostFtdcQryAccountregisterField struct {
 	BankBranchID types.TThostFtdcBankBrchIDType
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
+}
+
+func (d CThostFtdcQryAccountregisterField) String() string {
+	var builder strings.Builder
+	builder.Grow(128)
+
+	builder.WriteString("CThostFtdcQryAccountregisterField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 客户开销户信息表
@@ -8488,6 +15635,34 @@ type CThostFtdcAccountregisterField struct {
 	CustType types.TThostFtdcCustTypeType
 	// 银行帐号类型
 	BankAccType types.TThostFtdcBankAccTypeType
+}
+
+func (d CThostFtdcAccountregisterField) String() string {
+	var builder strings.Builder
+	builder.Grow(365)
+
+	builder.WriteString("CThostFtdcAccountregisterField{")
+	fmt.Fprintf(&builder, "TradeDay=%+v", d.TradeDay)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", OpenOrDestroy=%+v", d.OpenOrDestroy)
+	fmt.Fprintf(&builder, ", RegDate=%+v", d.RegDate)
+	fmt.Fprintf(&builder, ", OutDate=%+v", d.OutDate)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 银期开户信息
@@ -8586,6 +15761,63 @@ type CThostFtdcOpenAccountField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcOpenAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(936)
+
+	builder.WriteString("CThostFtdcOpenAccountField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", Gender=%+v", d.Gender)
+	fmt.Fprintf(&builder, ", CountryCode=%+v", d.CountryCode)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", Address=%+v", d.Address)
+	fmt.Fprintf(&builder, ", ZipCode=%+v", d.ZipCode)
+	fmt.Fprintf(&builder, ", Telephone=%+v", d.Telephone)
+	fmt.Fprintf(&builder, ", MobilePhone=%+v", d.MobilePhone)
+	fmt.Fprintf(&builder, ", Fax=%+v", d.Fax)
+	fmt.Fprintf(&builder, ", EMail=%+v", d.EMail)
+	fmt.Fprintf(&builder, ", MoneyAccountStatus=%+v", d.MoneyAccountStatus)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", CashExchangeCode=%+v", d.CashExchangeCode)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BankSecuAccType=%+v", d.BankSecuAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankSecuAcc=%+v", d.BankSecuAcc)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 银期销户信息
 type CThostFtdcCancelAccountField struct {
 	// 业务功能码
@@ -8682,6 +15914,63 @@ type CThostFtdcCancelAccountField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcCancelAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(938)
+
+	builder.WriteString("CThostFtdcCancelAccountField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", Gender=%+v", d.Gender)
+	fmt.Fprintf(&builder, ", CountryCode=%+v", d.CountryCode)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", Address=%+v", d.Address)
+	fmt.Fprintf(&builder, ", ZipCode=%+v", d.ZipCode)
+	fmt.Fprintf(&builder, ", Telephone=%+v", d.Telephone)
+	fmt.Fprintf(&builder, ", MobilePhone=%+v", d.MobilePhone)
+	fmt.Fprintf(&builder, ", Fax=%+v", d.Fax)
+	fmt.Fprintf(&builder, ", EMail=%+v", d.EMail)
+	fmt.Fprintf(&builder, ", MoneyAccountStatus=%+v", d.MoneyAccountStatus)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", CashExchangeCode=%+v", d.CashExchangeCode)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", DeviceID=%+v", d.DeviceID)
+	fmt.Fprintf(&builder, ", BankSecuAccType=%+v", d.BankSecuAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankSecuAcc=%+v", d.BankSecuAcc)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", OperNo=%+v", d.OperNo)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 银期变更银行账号信息
 type CThostFtdcChangeAccountField struct {
 	// 业务功能码
@@ -8770,6 +16059,59 @@ type CThostFtdcChangeAccountField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcChangeAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(865)
+
+	builder.WriteString("CThostFtdcChangeAccountField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", Gender=%+v", d.Gender)
+	fmt.Fprintf(&builder, ", CountryCode=%+v", d.CountryCode)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", Address=%+v", d.Address)
+	fmt.Fprintf(&builder, ", ZipCode=%+v", d.ZipCode)
+	fmt.Fprintf(&builder, ", Telephone=%+v", d.Telephone)
+	fmt.Fprintf(&builder, ", MobilePhone=%+v", d.MobilePhone)
+	fmt.Fprintf(&builder, ", Fax=%+v", d.Fax)
+	fmt.Fprintf(&builder, ", EMail=%+v", d.EMail)
+	fmt.Fprintf(&builder, ", MoneyAccountStatus=%+v", d.MoneyAccountStatus)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", NewBankAccount=%+v", d.NewBankAccount)
+	fmt.Fprintf(&builder, ", NewBankPassWord=%+v", d.NewBankPassWord)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", BankPwdFlag=%+v", d.BankPwdFlag)
+	fmt.Fprintf(&builder, ", SecuPwdFlag=%+v", d.SecuPwdFlag)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 二级代理操作员银期权限
 type CThostFtdcSecAgentACIDMapField struct {
 	// 经纪公司代码
@@ -8784,6 +16126,22 @@ type CThostFtdcSecAgentACIDMapField struct {
 	BrokerSecAgentID types.TThostFtdcAccountIDType
 }
 
+func (d CThostFtdcSecAgentACIDMapField) String() string {
+	var builder strings.Builder
+	builder.Grow(129)
+
+	builder.WriteString("CThostFtdcSecAgentACIDMapField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", BrokerSecAgentID=%+v", d.BrokerSecAgentID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 二级代理操作员银期权限查询
 type CThostFtdcQrySecAgentACIDMapField struct {
 	// 经纪公司代码
@@ -8796,6 +16154,21 @@ type CThostFtdcQrySecAgentACIDMapField struct {
 	CurrencyID types.TThostFtdcCurrencyIDType
 }
 
+func (d CThostFtdcQrySecAgentACIDMapField) String() string {
+	var builder strings.Builder
+	builder.Grow(106)
+
+	builder.WriteString("CThostFtdcQrySecAgentACIDMapField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 灾备中心交易权限
 type CThostFtdcUserRightsAssignField struct {
 	// 应用单元代码
@@ -8806,6 +16179,20 @@ type CThostFtdcUserRightsAssignField struct {
 	DRIdentityID types.TThostFtdcDRIdentityIDType
 }
 
+func (d CThostFtdcUserRightsAssignField) String() string {
+	var builder strings.Builder
+	builder.Grow(87)
+
+	builder.WriteString("CThostFtdcUserRightsAssignField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", DRIdentityID=%+v", d.DRIdentityID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 经济公司是否有在本标示的交易权限
 type CThostFtdcBrokerUserRightAssignField struct {
 	// 应用单元代码
@@ -8814,6 +16201,20 @@ type CThostFtdcBrokerUserRightAssignField struct {
 	DRIdentityID types.TThostFtdcDRIdentityIDType
 	// 能否交易
 	Tradeable types.TThostFtdcBoolType
+}
+
+func (d CThostFtdcBrokerUserRightAssignField) String() string {
+	var builder strings.Builder
+	builder.Grow(95)
+
+	builder.WriteString("CThostFtdcBrokerUserRightAssignField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", DRIdentityID=%+v", d.DRIdentityID)
+	fmt.Fprintf(&builder, ", Tradeable=%+v", d.Tradeable)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 灾备交易转换报文
@@ -8828,6 +16229,21 @@ type CThostFtdcDRTransferField struct {
 	DestBrokerID types.TThostFtdcBrokerIDType
 }
 
+func (d CThostFtdcDRTransferField) String() string {
+	var builder strings.Builder
+	builder.Grow(121)
+
+	builder.WriteString("CThostFtdcDRTransferField{")
+	fmt.Fprintf(&builder, "OrigDRIdentityID=%+v", d.OrigDRIdentityID)
+	fmt.Fprintf(&builder, ", DestDRIdentityID=%+v", d.DestDRIdentityID)
+	fmt.Fprintf(&builder, ", OrigBrokerID=%+v", d.OrigBrokerID)
+	fmt.Fprintf(&builder, ", DestBrokerID=%+v", d.DestBrokerID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // Fens用户信息
 type CThostFtdcFensUserInfoField struct {
 	// 经纪公司代码
@@ -8838,10 +16254,36 @@ type CThostFtdcFensUserInfoField struct {
 	LoginMode types.TThostFtdcLoginModeType
 }
 
+func (d CThostFtdcFensUserInfoField) String() string {
+	var builder strings.Builder
+	builder.Grow(80)
+
+	builder.WriteString("CThostFtdcFensUserInfoField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", LoginMode=%+v", d.LoginMode)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 当前银期所属交易中心
 type CThostFtdcCurrTransferIdentityField struct {
 	// 交易中心代码
 	IdentityID types.TThostFtdcDRIdentityIDType
+}
+
+func (d CThostFtdcCurrTransferIdentityField) String() string {
+	var builder strings.Builder
+	builder.Grow(55)
+
+	builder.WriteString("CThostFtdcCurrTransferIdentityField{")
+	fmt.Fprintf(&builder, "IdentityID=%+v", d.IdentityID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 禁止登录用户
@@ -8854,12 +16296,39 @@ type CThostFtdcLoginForbiddenUserField struct {
 	IPAddress types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcLoginForbiddenUserField) String() string {
+	var builder strings.Builder
+	builder.Grow(86)
+
+	builder.WriteString("CThostFtdcLoginForbiddenUserField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询禁止登录用户
 type CThostFtdcQryLoginForbiddenUserField struct {
 	// 经纪公司代码
 	BrokerID types.TThostFtdcBrokerIDType
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
+}
+
+func (d CThostFtdcQryLoginForbiddenUserField) String() string {
+	var builder strings.Builder
+	builder.Grow(70)
+
+	builder.WriteString("CThostFtdcQryLoginForbiddenUserField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // UDP组播组信息
@@ -8872,6 +16341,20 @@ type CThostFtdcMulticastGroupInfoField struct {
 	SourceIP types.TThostFtdcIPAddressType
 }
 
+func (d CThostFtdcMulticastGroupInfoField) String() string {
+	var builder strings.Builder
+	builder.Grow(87)
+
+	builder.WriteString("CThostFtdcMulticastGroupInfoField{")
+	fmt.Fprintf(&builder, "GroupIP=%+v", d.GroupIP)
+	fmt.Fprintf(&builder, ", GroupPort=%+v", d.GroupPort)
+	fmt.Fprintf(&builder, ", SourceIP=%+v", d.SourceIP)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 资金账户基本准备金
 type CThostFtdcTradingAccountReserveField struct {
 	// 经纪公司代码
@@ -8882,6 +16365,21 @@ type CThostFtdcTradingAccountReserveField struct {
 	Reserve types.TThostFtdcMoneyType
 	// 币种代码
 	CurrencyID types.TThostFtdcCurrencyIDType
+}
+
+func (d CThostFtdcTradingAccountReserveField) String() string {
+	var builder strings.Builder
+	builder.Grow(110)
+
+	builder.WriteString("CThostFtdcTradingAccountReserveField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Reserve=%+v", d.Reserve)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 银期预约开户确认请求
@@ -8970,6 +16468,58 @@ type CThostFtdcReserveOpenAccountConfirmField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcReserveOpenAccountConfirmField) String() string {
+	var builder strings.Builder
+	builder.Grow(849)
+
+	builder.WriteString("CThostFtdcReserveOpenAccountConfirmField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", Gender=%+v", d.Gender)
+	fmt.Fprintf(&builder, ", CountryCode=%+v", d.CountryCode)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", Address=%+v", d.Address)
+	fmt.Fprintf(&builder, ", ZipCode=%+v", d.ZipCode)
+	fmt.Fprintf(&builder, ", Telephone=%+v", d.Telephone)
+	fmt.Fprintf(&builder, ", MobilePhone=%+v", d.MobilePhone)
+	fmt.Fprintf(&builder, ", Fax=%+v", d.Fax)
+	fmt.Fprintf(&builder, ", EMail=%+v", d.EMail)
+	fmt.Fprintf(&builder, ", MoneyAccountStatus=%+v", d.MoneyAccountStatus)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", AccountID=%+v", d.AccountID)
+	fmt.Fprintf(&builder, ", Password=%+v", d.Password)
+	fmt.Fprintf(&builder, ", BankReserveOpenSeq=%+v", d.BankReserveOpenSeq)
+	fmt.Fprintf(&builder, ", BookDate=%+v", d.BookDate)
+	fmt.Fprintf(&builder, ", BookPsw=%+v", d.BookPsw)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 银期预约开户
 type CThostFtdcReserveOpenAccountField struct {
 	// 业务功能码
@@ -9048,6 +16598,54 @@ type CThostFtdcReserveOpenAccountField struct {
 	ErrorMsg types.TThostFtdcErrorMsgType
 }
 
+func (d CThostFtdcReserveOpenAccountField) String() string {
+	var builder strings.Builder
+	builder.Grow(770)
+
+	builder.WriteString("CThostFtdcReserveOpenAccountField{")
+	fmt.Fprintf(&builder, "TradeCode=%+v", d.TradeCode)
+	fmt.Fprintf(&builder, ", BankID=%+v", d.BankID)
+	fmt.Fprintf(&builder, ", BankBranchID=%+v", d.BankBranchID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", BrokerBranchID=%+v", d.BrokerBranchID)
+	fmt.Fprintf(&builder, ", TradeDate=%+v", d.TradeDate)
+	fmt.Fprintf(&builder, ", TradeTime=%+v", d.TradeTime)
+	fmt.Fprintf(&builder, ", BankSerial=%+v", d.BankSerial)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", PlateSerial=%+v", d.PlateSerial)
+	fmt.Fprintf(&builder, ", LastFragment=%+v", d.LastFragment)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", CustomerName=%+v", d.CustomerName)
+	fmt.Fprintf(&builder, ", IdCardType=%+v", d.IdCardType)
+	fmt.Fprintf(&builder, ", IdentifiedCardNo=%+v", d.IdentifiedCardNo)
+	fmt.Fprintf(&builder, ", Gender=%+v", d.Gender)
+	fmt.Fprintf(&builder, ", CountryCode=%+v", d.CountryCode)
+	fmt.Fprintf(&builder, ", CustType=%+v", d.CustType)
+	fmt.Fprintf(&builder, ", Address=%+v", d.Address)
+	fmt.Fprintf(&builder, ", ZipCode=%+v", d.ZipCode)
+	fmt.Fprintf(&builder, ", Telephone=%+v", d.Telephone)
+	fmt.Fprintf(&builder, ", MobilePhone=%+v", d.MobilePhone)
+	fmt.Fprintf(&builder, ", Fax=%+v", d.Fax)
+	fmt.Fprintf(&builder, ", EMail=%+v", d.EMail)
+	fmt.Fprintf(&builder, ", MoneyAccountStatus=%+v", d.MoneyAccountStatus)
+	fmt.Fprintf(&builder, ", BankAccount=%+v", d.BankAccount)
+	fmt.Fprintf(&builder, ", BankPassWord=%+v", d.BankPassWord)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", VerifyCertNoFlag=%+v", d.VerifyCertNoFlag)
+	fmt.Fprintf(&builder, ", CurrencyID=%+v", d.CurrencyID)
+	fmt.Fprintf(&builder, ", Digest=%+v", d.Digest)
+	fmt.Fprintf(&builder, ", BankAccType=%+v", d.BankAccType)
+	fmt.Fprintf(&builder, ", BrokerIDByBank=%+v", d.BrokerIDByBank)
+	fmt.Fprintf(&builder, ", TID=%+v", d.TID)
+	fmt.Fprintf(&builder, ", ReserveOpenAccStas=%+v", d.ReserveOpenAccStas)
+	fmt.Fprintf(&builder, ", ErrorID=%+v", d.ErrorID)
+	fmt.Fprintf(&builder, ", ErrorMsg=%+v", d.ErrorMsg)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 分价表
 type CThostFtdcMBLMarketDataField struct {
 	// 合约代码
@@ -9060,6 +16658,22 @@ type CThostFtdcMBLMarketDataField struct {
 	Price types.TThostFtdcPriceType
 	// 数量
 	Volume types.TThostFtdcVolumeType
+}
+
+func (d CThostFtdcMBLMarketDataField) String() string {
+	var builder strings.Builder
+	builder.Grow(120)
+
+	builder.WriteString("CThostFtdcMBLMarketDataField{")
+	fmt.Fprintf(&builder, "InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", Direction=%+v", d.Direction)
+	fmt.Fprintf(&builder, ", Price=%+v", d.Price)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 用户系统信息
@@ -9082,10 +16696,41 @@ type CThostFtdcUserSystemInfoField struct {
 	ClientAppID types.TThostFtdcClientAppIDType
 }
 
+func (d CThostFtdcUserSystemInfoField) String() string {
+	var builder strings.Builder
+	builder.Grow(210)
+
+	builder.WriteString("CThostFtdcUserSystemInfoField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", ClientSystemInfoLen=%+v", d.ClientSystemInfoLen)
+	fmt.Fprintf(&builder, ", ClientSystemInfo=%+v", d.ClientSystemInfo)
+	fmt.Fprintf(&builder, ", ClientPublicIP=%+v", d.ClientPublicIP)
+	fmt.Fprintf(&builder, ", ClientIPPort=%+v", d.ClientIPPort)
+	fmt.Fprintf(&builder, ", ClientLoginTime=%+v", d.ClientLoginTime)
+	fmt.Fprintf(&builder, ", ClientAppID=%+v", d.ClientAppID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 指定的席位
 type CThostFtdcSpecificTraderField struct {
 	// 席位代码
 	TraderID types.TThostFtdcTraderIDType
+}
+
+func (d CThostFtdcSpecificTraderField) String() string {
+	var builder strings.Builder
+	builder.Grow(47)
+
+	builder.WriteString("CThostFtdcSpecificTraderField{")
+	fmt.Fprintf(&builder, "TraderID=%+v", d.TraderID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 流控警告通知
@@ -9100,10 +16745,37 @@ type CThostFtdcFlowCtrlWarningField struct {
 	CurPkgCnt uint32
 }
 
+func (d CThostFtdcFlowCtrlWarningField) String() string {
+	var builder strings.Builder
+	builder.Grow(102)
+
+	builder.WriteString("CThostFtdcFlowCtrlWarningField{")
+	fmt.Fprintf(&builder, "TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", TriggerTime=%+v", d.TriggerTime)
+	fmt.Fprintf(&builder, ", Tgid=%+v", d.Tgid)
+	fmt.Fprintf(&builder, ", CurPkgCnt=%+v", d.CurPkgCnt)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 订阅资金变动应答
 type CThostFtdcRequestIDEntityField struct {
 	// 席位代码
 	RequestID types.TThostFtdcRequestIDType
+}
+
+func (d CThostFtdcRequestIDEntityField) String() string {
+	var builder strings.Builder
+	builder.Grow(49)
+
+	builder.WriteString("CThostFtdcRequestIDEntityField{")
+	fmt.Fprintf(&builder, "RequestID=%+v", d.RequestID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 查询投资者申报费相关设置
@@ -9114,6 +16786,20 @@ type CThostFtdcQryInvestorInfoCntSettingField struct {
 	InvestorID types.TThostFtdcInvestorIDType
 	// 产品代码
 	ProductID types.TThostFtdcProductIDType
+}
+
+func (d CThostFtdcQryInvestorInfoCntSettingField) String() string {
+	var builder strings.Builder
+	builder.Grow(99)
+
+	builder.WriteString("CThostFtdcQryInvestorInfoCntSettingField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ProductID=%+v", d.ProductID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 投资者申报费相关设置
@@ -9134,6 +16820,24 @@ type CThostFtdcInvestorInfoCntSettingField struct {
 	InfoMaxLimit types.TThostFtdcVolumeType
 }
 
+func (d CThostFtdcInvestorInfoCntSettingField) String() string {
+	var builder strings.Builder
+	builder.Grow(183)
+
+	builder.WriteString("CThostFtdcInvestorInfoCntSettingField{")
+	fmt.Fprintf(&builder, "ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", IsCalInfoComm=%+v", d.IsCalInfoComm)
+	fmt.Fprintf(&builder, ", IsLimitInfoMax=%+v", d.IsLimitInfoMax)
+	fmt.Fprintf(&builder, ", InfoMaxLimit=%+v", d.InfoMaxLimit)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 新风控支持临时关闭或开启交易权限
 type CThostFtdcUpdRiskForbiddenRightField struct {
 	// 经纪公司代码
@@ -9148,6 +16852,23 @@ type CThostFtdcUpdRiskForbiddenRightField struct {
 	EventType types.TThostFtdcOperateType
 	// 交易权限
 	TradingRight types.TThostFtdcTradingRightType
+}
+
+func (d CThostFtdcUpdRiskForbiddenRightField) String() string {
+	var builder strings.Builder
+	builder.Grow(153)
+
+	builder.WriteString("CThostFtdcUpdRiskForbiddenRightField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", EventType=%+v", d.EventType)
+	fmt.Fprintf(&builder, ", TradingRight=%+v", d.TradingRight)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 输入的对冲设置
@@ -9180,6 +16901,31 @@ type CThostFtdcInputOffsetSettingField struct {
 	IPAddress types.TThostFtdcIPAddressType
 	// Mac地址
 	MacAddress types.TThostFtdcMacAddressType
+}
+
+func (d CThostFtdcInputOffsetSettingField) String() string {
+	var builder strings.Builder
+	builder.Grow(309)
+
+	builder.WriteString("CThostFtdcInputOffsetSettingField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", UnderlyingInstrID=%+v", d.UnderlyingInstrID)
+	fmt.Fprintf(&builder, ", ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", OffsetType=%+v", d.OffsetType)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", IsOffset=%+v", d.IsOffset)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // 对冲设置
@@ -9256,6 +17002,52 @@ type CThostFtdcOffsetSettingField struct {
 	ApplySrc types.TThostFtdcApplySrcType
 }
 
+func (d CThostFtdcOffsetSettingField) String() string {
+	var builder strings.Builder
+	builder.Grow(755)
+
+	builder.WriteString("CThostFtdcOffsetSettingField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", UnderlyingInstrID=%+v", d.UnderlyingInstrID)
+	fmt.Fprintf(&builder, ", ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", OffsetType=%+v", d.OffsetType)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", IsOffset=%+v", d.IsOffset)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", BusinessUnit=%+v", d.BusinessUnit)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", ExchangeSerialNo=%+v", d.ExchangeSerialNo)
+	fmt.Fprintf(&builder, ", ExchangeProductID=%+v", d.ExchangeProductID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", OrderSubmitStatus=%+v", d.OrderSubmitStatus)
+	fmt.Fprintf(&builder, ", TradingDay=%+v", d.TradingDay)
+	fmt.Fprintf(&builder, ", SettlementID=%+v", d.SettlementID)
+	fmt.Fprintf(&builder, ", InsertDate=%+v", d.InsertDate)
+	fmt.Fprintf(&builder, ", InsertTime=%+v", d.InsertTime)
+	fmt.Fprintf(&builder, ", CancelTime=%+v", d.CancelTime)
+	fmt.Fprintf(&builder, ", ExecResult=%+v", d.ExecResult)
+	fmt.Fprintf(&builder, ", SequenceNo=%+v", d.SequenceNo)
+	fmt.Fprintf(&builder, ", FrontID=%+v", d.FrontID)
+	fmt.Fprintf(&builder, ", SessionID=%+v", d.SessionID)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", ActiveUserID=%+v", d.ActiveUserID)
+	fmt.Fprintf(&builder, ", BrokerOffsetSettingSeq=%+v", d.BrokerOffsetSettingSeq)
+	fmt.Fprintf(&builder, ", ApplySrc=%+v", d.ApplySrc)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 撤销对冲设置
 type CThostFtdcCancelOffsetSettingField struct {
 	// 经纪公司代码
@@ -9310,6 +17102,42 @@ type CThostFtdcCancelOffsetSettingField struct {
 	ActionTime types.TThostFtdcTimeType
 }
 
+func (d CThostFtdcCancelOffsetSettingField) String() string {
+	var builder strings.Builder
+	builder.Grow(552)
+
+	builder.WriteString("CThostFtdcCancelOffsetSettingField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", InstrumentID=%+v", d.InstrumentID)
+	fmt.Fprintf(&builder, ", UnderlyingInstrID=%+v", d.UnderlyingInstrID)
+	fmt.Fprintf(&builder, ", ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", OffsetType=%+v", d.OffsetType)
+	fmt.Fprintf(&builder, ", Volume=%+v", d.Volume)
+	fmt.Fprintf(&builder, ", IsOffset=%+v", d.IsOffset)
+	fmt.Fprintf(&builder, ", RequestID=%+v", d.RequestID)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", ExchangeID=%+v", d.ExchangeID)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", MacAddress=%+v", d.MacAddress)
+	fmt.Fprintf(&builder, ", ExchangeInstID=%+v", d.ExchangeInstID)
+	fmt.Fprintf(&builder, ", ExchangeSerialNo=%+v", d.ExchangeSerialNo)
+	fmt.Fprintf(&builder, ", ExchangeProductID=%+v", d.ExchangeProductID)
+	fmt.Fprintf(&builder, ", TraderID=%+v", d.TraderID)
+	fmt.Fprintf(&builder, ", InstallID=%+v", d.InstallID)
+	fmt.Fprintf(&builder, ", ParticipantID=%+v", d.ParticipantID)
+	fmt.Fprintf(&builder, ", ClientID=%+v", d.ClientID)
+	fmt.Fprintf(&builder, ", OrderActionStatus=%+v", d.OrderActionStatus)
+	fmt.Fprintf(&builder, ", StatusMsg=%+v", d.StatusMsg)
+	fmt.Fprintf(&builder, ", ActionLocalID=%+v", d.ActionLocalID)
+	fmt.Fprintf(&builder, ", ActionDate=%+v", d.ActionDate)
+	fmt.Fprintf(&builder, ", ActionTime=%+v", d.ActionTime)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询对冲设置
 type CThostFtdcQryOffsetSettingField struct {
 	// 经纪公司代码
@@ -9322,6 +17150,21 @@ type CThostFtdcQryOffsetSettingField struct {
 	OffsetType types.TThostFtdcOffsetTypeType
 }
 
+func (d CThostFtdcQryOffsetSettingField) String() string {
+	var builder strings.Builder
+	builder.Grow(108)
+
+	builder.WriteString("CThostFtdcQryOffsetSettingField{")
+	fmt.Fprintf(&builder, "BrokerID=%+v", d.BrokerID)
+	fmt.Fprintf(&builder, ", InvestorID=%+v", d.InvestorID)
+	fmt.Fprintf(&builder, ", ProductID=%+v", d.ProductID)
+	fmt.Fprintf(&builder, ", OffsetType=%+v", d.OffsetType)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 查询IP接入控制
 type CThostFtdcQryIPUserACLField struct {
 	// 校验模式
@@ -9330,6 +17173,20 @@ type CThostFtdcQryIPUserACLField struct {
 	IPAddress types.TThostFtdcIPAddressType
 	// 用户代码
 	UserID types.TThostFtdcUserIDType
+}
+
+func (d CThostFtdcQryIPUserACLField) String() string {
+	var builder strings.Builder
+	builder.Grow(76)
+
+	builder.WriteString("CThostFtdcQryIPUserACLField{")
+	fmt.Fprintf(&builder, "Mode=%+v", d.Mode)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
 
 // IP接入控制的查询结果
@@ -9348,6 +17205,23 @@ type CThostFtdcIPUserACLField struct {
 	IsForbidden types.TThostFtdcBoolType
 }
 
+func (d CThostFtdcIPUserACLField) String() string {
+	var builder strings.Builder
+	builder.Grow(128)
+
+	builder.WriteString("CThostFtdcIPUserACLField{")
+	fmt.Fprintf(&builder, "Mode=%+v", d.Mode)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Threshold=%+v", d.Threshold)
+	fmt.Fprintf(&builder, ", Count=%+v", d.Count)
+	fmt.Fprintf(&builder, ", IsForbidden=%+v", d.IsForbidden)
+
+	builder.WriteByte('}')
+
+	return builder.String()
+}
+
 // 更新IP接入控制
 type CThostFtdcUpdIPUserACLField struct {
 	// 校验模式
@@ -9362,4 +17236,21 @@ type CThostFtdcUpdIPUserACLField struct {
 	EventType types.TThostFtdcOperateType
 	// 是否写入文件
 	IsSave types.TThostFtdcBoolType
+}
+
+func (d CThostFtdcUpdIPUserACLField) String() string {
+	var builder strings.Builder
+	builder.Grow(130)
+
+	builder.WriteString("CThostFtdcUpdIPUserACLField{")
+	fmt.Fprintf(&builder, "Mode=%+v", d.Mode)
+	fmt.Fprintf(&builder, ", IPAddress=%+v", d.IPAddress)
+	fmt.Fprintf(&builder, ", UserID=%+v", d.UserID)
+	fmt.Fprintf(&builder, ", Threshold=%+v", d.Threshold)
+	fmt.Fprintf(&builder, ", EventType=%+v", d.EventType)
+	fmt.Fprintf(&builder, ", IsSave=%+v", d.IsSave)
+
+	builder.WriteByte('}')
+
+	return builder.String()
 }
