@@ -31,20 +31,20 @@ type Data interface {
 	GetFieldByte(string, ...int) (byte, error)
 }
 
-type dataPtr[T thost.ThostData] interface {
+type DataPtr[T thost.ThostData] interface {
 	ctp4go.PtrConstraint[T]
 
 	thost.ThostData
 }
 
-type dataCfg[T thost.ThostData, Ptr dataPtr[T]] struct {
+type dataCfg[T thost.ThostData, Ptr DataPtr[T]] struct {
 	dataMerger func(dst Ptr, src Ptr) error
 
 	idtKeys map[string]func(Ptr) string
 	fields  map[string]reflect.StructField
 }
 
-type DataContainer[T thost.ThostData, Ptr dataPtr[T]] struct {
+type DataContainer[T thost.ThostData, Ptr DataPtr[T]] struct {
 	dataCfg[T, Ptr]
 
 	lock    sync.RWMutex
@@ -52,9 +52,9 @@ type DataContainer[T thost.ThostData, Ptr dataPtr[T]] struct {
 	basePtr uintptr
 }
 
-type dataOpt[T thost.ThostData, Ptr dataPtr[T]] func(*dataCfg[T, Ptr]) error
+type dataOpt[T thost.ThostData, Ptr DataPtr[T]] func(*dataCfg[T, Ptr]) error
 
-func WithIdentifier[T thost.ThostData, Ptr dataPtr[T]](
+func WithIdentifier[T thost.ThostData, Ptr DataPtr[T]](
 	name string, fn func(Ptr) string,
 ) dataOpt[T, Ptr] {
 	return func(wc *dataCfg[T, Ptr]) error {
@@ -76,7 +76,7 @@ func WithIdentifier[T thost.ThostData, Ptr dataPtr[T]](
 	}
 }
 
-func WithMerger[T thost.ThostData, Ptr dataPtr[T]](
+func WithMerger[T thost.ThostData, Ptr DataPtr[T]](
 	fn func(Ptr, Ptr) error,
 ) dataOpt[T, Ptr] {
 	return func(wc *dataCfg[T, Ptr]) error {
@@ -89,7 +89,7 @@ func WithMerger[T thost.ThostData, Ptr dataPtr[T]](
 	}
 }
 
-func ContainerMaker[T thost.ThostData, Ptr dataPtr[T]](
+func ContainerMaker[T thost.ThostData, Ptr DataPtr[T]](
 	options ...dataOpt[T, Ptr],
 ) (*dataCfg[T, Ptr], func(Ptr) *DataContainer[T, Ptr], error) {
 	ptrType := reflect.TypeFor[Ptr]()
@@ -367,7 +367,7 @@ func (w *DataContainer[T, Ptr]) GetFieldByte(
 	}
 }
 
-type DataCache[T thost.ThostData, Ptr dataPtr[T]] struct {
+type DataCache[T thost.ThostData, Ptr DataPtr[T]] struct {
 	lock sync.RWMutex
 
 	cfg       *dataCfg[T, Ptr]
@@ -376,7 +376,7 @@ type DataCache[T thost.ThostData, Ptr dataPtr[T]] struct {
 	dataMaker func(Ptr) *DataContainer[T, Ptr]
 }
 
-func NewDataCache[T thost.ThostData, Ptr dataPtr[T]](
+func NewDataCache[T thost.ThostData, Ptr DataPtr[T]](
 	options ...dataOpt[T, Ptr],
 ) (*DataCache[T, Ptr], error) {
 	cfg, maker, err := ContainerMaker(options...)

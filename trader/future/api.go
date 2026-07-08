@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 	"runtime"
 	"sync"
-	"sync/atomic"
 
 	"github.com/frozenpine/ctp4go/state"
 	"github.com/frozenpine/ctp4go/thost"
@@ -29,10 +28,12 @@ type TraderApi struct {
 	initOpts  []traderOpt
 	finalOnce sync.Once
 
-	state *state.FlagResponsor[traderState]
+	state       *state.FlagResponsor[traderState]
+	instruments *state.DataCache[
+		future.CThostFtdcInstrumentField,
+		*future.CThostFtdcInstrumentField]
 
-	api       future.TraderApi
-	requestID atomic.Int32
+	requests *state.RequestFactory[future.TraderApi]
 }
 
 func NewTraderApi(
@@ -112,10 +113,21 @@ func (td *TraderApi) createApi() error {
 
 	td.state = state.NewFlagResponsor[traderState]("state")
 	td.apiCtx, td.apiCancel = context.WithCancel(td.rootCtx)
-	td.api = api
-	td.requestID.Store(0)
+
+	td.requests = state.NewRequestFactory(api)
 
 	return td.state.SetFlag(Created)
+}
+
+func (td *TraderApi) migrateState(v traderState) error {
+	err := td.state.SetFlag(v)
+	if err != nil {
+		td.Error(
+			"migrate state failed",
+			slog.Any("error", err),
+		)
+	}
+	return err
 }
 
 func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
@@ -134,7 +146,7 @@ func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 
 		td.initOpts = options
 
-		td.api.RegisterSpi(td)
+		td.requests.Api.RegisterSpi(td)
 
 		td.Info(
 			"initializing connection params",
@@ -144,8 +156,10 @@ func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 			slog.Any("name_svrs", td.cfg.nameSvrs),
 		)
 
-		td.api.SubscribePrivateTopic(int(td.cfg.flowMode), td.cfg.flowSeq)
-		td.api.SubscribePublicTopic(int(td.cfg.flowMode))
+		td.requests.Api.SubscribePrivateTopic(
+			int(td.cfg.flowMode), td.cfg.flowSeq,
+		)
+		td.requests.Api.SubscribePublicTopic(int(td.cfg.flowMode))
 
 		if len(td.cfg.nameSvrs) > 0 {
 			fens := future.CThostFtdcFensUserInfoField{
@@ -154,10 +168,10 @@ func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 			fens.BrokerID.SetString(td.cfg.brokerID)
 			fens.UserID.SetString(td.cfg.userID)
 
-			td.api.RegisterFensUserInfo(&fens)
+			td.requests.Api.RegisterFensUserInfo(&fens)
 
 			for _, v := range td.cfg.nameSvrs {
-				td.api.RegisterNameServer(v)
+				td.requests.Api.RegisterNameServer(v)
 			}
 		} else if len(td.cfg.frontAddrs) < 1 {
 			err = fmt.Errorf(
@@ -167,10 +181,10 @@ func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 		}
 
 		for _, v := range td.cfg.frontAddrs {
-			td.api.RegisterFront(v)
+			td.requests.Api.RegisterFront(v)
 		}
 
-		td.api.Init()
+		td.requests.Api.Init()
 
 		err = td.state.SetFlag(Initialized)
 	})
@@ -180,7 +194,7 @@ func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 
 func (td *TraderApi) Finalize() (err error) {
 	td.finalOnce.Do(func() {
-		defer td.api.Release()
+		defer td.requests.Api.Release()
 
 		td.Info("finalizing trader api")
 
@@ -217,9 +231,12 @@ func (td *TraderApi) Authenticate() error {
 	auth.AppID.SetString(td.cfg.appID)
 	auth.AuthCode.SetString(td.cfg.authCode)
 
-	rtn := td.api.ReqAuthenticate(&auth, int(td.requestID.Add(1)))
+	req, err := state.MakeRequest(td.requests, &auth)
+	if err != nil {
+		return err
+	}
 
-	return thost.Rtn{Code: rtn}.Error()
+	return td.requests.DoRequest(req)
 }
 
 func (td *TraderApi) Login() error {
@@ -228,26 +245,30 @@ func (td *TraderApi) Login() error {
 	login.UserID.SetString(td.cfg.userID)
 	login.Password.SetString(td.cfg.userPass)
 
-	rtn := td.api.ReqUserLogin(&login, int(td.requestID.Add(1)))
+	req, err := state.MakeRequest(td.requests, &login)
+	if err != nil {
+		return err
+	}
 
-	return thost.Rtn{Code: rtn}.Error()
+	return td.requests.DoRequest(req)
 }
 
-func (td *TraderApi) migrateState(v traderState) error {
-	err := td.state.SetFlag(v)
+func (td *TraderApi) QueryInstruments() error {
+	qry := future.CThostFtdcQryInstrumentField{}
+
+	req, err := state.MakeRequest(td.requests, &qry)
 	if err != nil {
-		td.Error(
-			"migrate state failed",
-			slog.Any("error", err),
-		)
+		return err
 	}
-	return err
+
+	return td.requests.DoRequest(req)
 }
 
 func (td *TraderApi) OnFrontConnected() {
+	td.requests.Reset()
 	defer td.migrateState(Connected)
 
-	td.api.GetFrontInfo(&td.FrontInfo)
+	td.requests.Api.GetFrontInfo(&td.FrontInfo)
 
 	td.ThostLogSpi.OnFrontConnected()
 }
@@ -263,6 +284,8 @@ func (td *TraderApi) OnRspAuthenticate(
 	pRspInfo *future.CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
 ) {
+	td.requests.Complete(int64(nRequestID))
+
 	defer func() {
 		if pRspInfo.ErrorID == 0 {
 			td.migrateState(AuthSuccess)
@@ -281,6 +304,8 @@ func (td *TraderApi) OnRspUserLogin(
 	pRspInfo *future.CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
 ) {
+	td.requests.Complete(int64(nRequestID))
+
 	defer func() {
 		if pRspInfo.ErrorID == 0 {
 			td.migrateState(LoginSuccess)

@@ -63,10 +63,7 @@ func TestTraderApi(t *testing.T) {
 
 			// 	return nil
 			// }),
-			future.WithStateResponsor(future.LoginSuccess, func() error {
-				close(done)
-				return nil
-			}),
+			future.WithStateResponsor(future.LoginSuccess, td.QueryInstruments),
 			future.WithStateResponsor(future.LoginFailed, func() error {
 				close(done)
 				return nil
