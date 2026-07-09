@@ -32,6 +32,26 @@ type TraderApi struct {
 	front future.CThostFtdcFrontInfoField
 	state *state.FlagResponsor[traderState]
 
+	investors *state.DataCache[
+		future.CThostFtdcInvestorField,
+		*future.CThostFtdcInvestorField,
+	]
+	accounts *state.DataCache[
+		future.CThostFtdcInvestorAccountField,
+		*future.CThostFtdcInvestorAccountField,
+	]
+	orders *state.DataCache[
+		future.CThostFtdcOrderField,
+		*future.CThostFtdcOrderField,
+	]
+	trades *state.DataCache[
+		future.CThostFtdcTradeField,
+		*future.CThostFtdcTradeField,
+	]
+	positions *state.DataCache[
+		future.CThostFtdcInvestorPositionField,
+		*future.CThostFtdcInvestorPositionField,
+	]
 	instruments *state.DataCache[
 		future.CThostFtdcInstrumentField,
 		*future.CThostFtdcInstrumentField]
@@ -74,7 +94,6 @@ func NewTraderApi(
 		},
 		cfg: traderCfg{
 			libPath:  libPath,
-			flowMode: types.THOST_TERT_QUICK,
 			flowPath: "./flow/",
 		},
 	}
@@ -118,6 +137,115 @@ func (td *TraderApi) createApi() error {
 
 	td.state = state.NewFlagResponsor[traderState]("state")
 	td.apiCtx, td.apiCancel = context.WithCancel(td.rootCtx)
+	td.caches = make(map[string]state.Cache)
+
+	if td.investors, err = state.NewDataCache(
+		state.WithIdentifier(
+			"Investor", func(inv *future.CThostFtdcInvestorField) string {
+				return inv.String()
+			},
+		),
+	); err != nil {
+		return err
+	} else {
+		td.caches["investors"], _ = state.NewReadOnlyCache(td.investors)
+	}
+
+	if td.accounts, err = state.NewDataCache(
+		state.WithIdentifier(
+			"Account", func(acct *future.CThostFtdcInvestorAccountField) string {
+				return acct.AccountID.String()
+			},
+		),
+	); err != nil {
+		return err
+	} else {
+		td.caches["accounts"], _ = state.NewReadOnlyCache(td.accounts)
+	}
+
+	if td.orders, err = state.NewDataCache(
+		state.WithIdentifier(
+			"Order", func(ord *future.CThostFtdcOrderField) string {
+				return ord.OrderSysID.String()
+			},
+		),
+		state.WithIdentifier(
+			"Ref", func(ord *future.CThostFtdcOrderField) string {
+				return fmt.Sprintf(
+					"%s@%d.%d",
+					ord.OrderRef.String(), ord.FrontID, ord.SessionID,
+				)
+			},
+		),
+		state.WithMerger(func(
+			dst, src *future.CThostFtdcOrderField,
+		) error {
+			if src.OrderSysID != dst.OrderSysID {
+				return fmt.Errorf(
+					"%w: dst[%s] src[%s]",
+					state.ErrCacheDataMismatch,
+					dst.OrderSysID.String(),
+					src.OrderSysID.String(),
+				)
+			}
+
+			switch dst.OrderStatus {
+			case types.THOST_FTDC_OST_AllTraded,
+				types.THOST_FTDC_OST_PartTradedNotQueueing,
+				types.THOST_FTDC_OST_NoTradeNotQueueing,
+				types.THOST_FTDC_OST_Canceled:
+				slog.Warn(
+					"cached order already in final state",
+					slog.Any("order", dst),
+				)
+				return nil
+			}
+
+			dst.OrderStatus = src.OrderStatus
+			dst.VolumeTotal = src.VolumeTotal
+			dst.VolumeTraded = src.VolumeTraded
+			dst.ForceCloseReason = src.ForceCloseReason
+			dst.OrderSource = src.OrderSource
+			dst.CancelTime = src.CancelTime
+			dst.ActiveTraderID = src.ActiveTraderID
+			dst.ActiveUserID = src.ActiveUserID
+			dst.ZCETotalTradedVolume = src.ZCETotalTradedVolume
+
+			return nil
+		}),
+	); err != nil {
+		return err
+	} else {
+		td.caches["orders"], _ = state.NewReadOnlyCache(td.orders)
+	}
+
+	if td.trades, err = state.NewDataCache(
+		state.WithIdentifier(
+			"Trade", func(td *future.CThostFtdcTradeField) string {
+				return td.TradeID.String()
+			},
+		),
+	); err != nil {
+		return err
+	} else {
+		td.caches["trades"], _ = state.NewReadOnlyCache(td.trades)
+	}
+
+	if td.positions, err = state.NewDataCache(
+		state.WithIdentifier(
+			"Position", func(pos *future.CThostFtdcInvestorPositionField) string {
+				return fmt.Sprintf(
+					"%s.%s.%s.%s",
+					pos.ExchangeID.String(), pos.InstrumentID.String(),
+					pos.PosiDirection.String(), pos.HedgeFlag.String(),
+				)
+			},
+		),
+	); err != nil {
+		return err
+	} else {
+		td.caches["positions"], _ = state.NewReadOnlyCache(td.positions)
+	}
 
 	if td.instruments, err = state.NewDataCache(
 		state.WithIdentifier(
@@ -180,7 +308,7 @@ func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 		td.requests.Api.SubscribePrivateTopic(
 			int(td.cfg.flowMode), td.cfg.flowSeq,
 		)
-		td.requests.Api.SubscribePublicTopic(int(td.cfg.flowMode))
+		td.requests.Api.SubscribePublicTopic(int(types.THOST_TERT_QUICK))
 
 		if len(td.cfg.nameSvrs) > 0 {
 			fens := future.CThostFtdcFensUserInfoField{
@@ -321,6 +449,8 @@ func (td *TraderApi) OnFrontConnected() {
 
 	td.requests.Api.GetFrontInfo(&td.front)
 	td.Info("thost trader front", slog.Any("front", td.front))
+	// 设置查询流控
+	td.requests.SetQryLimit(int(td.front.QryFreq))
 
 	td.ThostLogSpi.OnFrontConnected()
 }

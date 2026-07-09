@@ -19,21 +19,21 @@ var (
 	ErrInvalidFieldType = errors.New("invalid field type")
 	ErrInvalidOffset    = errors.New("invalid offset")
 
-	ErrCacheEmpty       = errors.New("cache is nil")
-	ErrCacheMismatch    = errors.New("cache miss match")
-	ErrCacheDataMissing = errors.New("data not found")
+	ErrCacheEmpty        = errors.New("cache is nil")
+	ErrCacheMismatch     = errors.New("cache miss match")
+	ErrCacheDataMissing  = errors.New("data not found")
+	ErrCacheDataMismatch = errors.New("cache merge data mismatch")
 )
 
 type Data interface {
 	thost.ThostData
-
-	RawPtr() any
 
 	GetFieldString(string) (string, error)
 	GetFieldInt(string) (int64, error)
 	GetFieldUInt(string) (uint64, error)
 	GetFieldFloat(string) (float64, error)
 	GetFieldBool(string) (bool, error)
+	// GetFieldByte 获取字段的指定字节, 默认获取0偏移字节
 	GetFieldByte(string, ...int) (byte, error)
 }
 
@@ -157,14 +157,12 @@ func (w *DataContainer[T, Ptr]) Merge(v Ptr) {
 	w.dataMerger(w.data, v)
 }
 
-func (w *DataContainer[T, Ptr]) RawPtr() any {
-	return w.data
-}
-
 func (w *DataContainer[T, Ptr]) Data() Ptr {
 	return w.data
 }
 
+// GetFieldString 获取字段string值
+// 支持字段类型: 字符串, 字节数组，字节切片
 func (w *DataContainer[T, Ptr]) GetFieldString(name string) (string, error) {
 	f, exist := w.fields[name]
 	if !exist {
@@ -193,6 +191,8 @@ func (w *DataContainer[T, Ptr]) GetFieldString(name string) (string, error) {
 	}
 }
 
+// GetFieldInt 获取字段int64值
+// 支持字段类型：所有符号整形，64位以下无符号整型
 func (w *DataContainer[T, Ptr]) GetFieldInt(name string) (int64, error) {
 	f, exist := w.fields[name]
 	if !exist {
@@ -228,6 +228,8 @@ func (w *DataContainer[T, Ptr]) GetFieldInt(name string) (int64, error) {
 	}
 }
 
+// GetFieldUInt 获取字段uint64值
+// 支持字段类型：所有无符号整形
 func (w *DataContainer[T, Ptr]) GetFieldUInt(name string) (uint64, error) {
 	f, exist := w.fields[name]
 	if !exist {
@@ -257,6 +259,8 @@ func (w *DataContainer[T, Ptr]) GetFieldUInt(name string) (uint64, error) {
 	}
 }
 
+// GetFieldBool 获取字段bool值
+// 支持字段类型：bool, 所有整形非0为真
 func (w *DataContainer[T, Ptr]) GetFieldBool(name string) (bool, error) {
 	f, exist := w.fields[name]
 	if !exist {
@@ -288,6 +292,8 @@ func (w *DataContainer[T, Ptr]) GetFieldBool(name string) (bool, error) {
 		return *(*int)(unsafe.Pointer(ptr)) != 0, nil
 	case reflect.Uint:
 		return *(*uint)(unsafe.Pointer(ptr)) != 0, nil
+	case reflect.Bool:
+		return *(*bool)(unsafe.Pointer(ptr)), nil
 	default:
 		return false, fmt.Errorf(
 			"%w: cannot convert %s to int64",
@@ -296,6 +302,8 @@ func (w *DataContainer[T, Ptr]) GetFieldBool(name string) (bool, error) {
 	}
 }
 
+// GetFieldFloat 获取字段float64值
+// 支持所有浮点型，有符号整型，64位以下无符号整型
 func (w *DataContainer[T, Ptr]) GetFieldFloat(name string) (float64, error) {
 	f, exist := w.fields[name]
 	if !exist {
@@ -335,6 +343,8 @@ func (w *DataContainer[T, Ptr]) GetFieldFloat(name string) (float64, error) {
 	}
 }
 
+// GetFieldByte 获取字段字节值，默认获取0偏移位置字节
+// 支持字段类型：字节型，字节数组，字符串
 func (w *DataContainer[T, Ptr]) GetFieldByte(
 	name string, offset ...int,
 ) (byte, error) {
@@ -429,8 +439,8 @@ func (c *DataCache[T, Ptr]) AddOrUpdate(v Ptr) int {
 		merged bool
 	)
 
-	for _, identifier := range c.cfg.idtKeys {
-		idt := identifier(v)
+	for name, identifier := range c.cfg.idtKeys {
+		idt := fmt.Sprintf("%s:%s", name, identifier(v))
 
 		var (
 			exist  bool

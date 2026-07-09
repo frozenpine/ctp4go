@@ -15,8 +15,10 @@ import (
 )
 
 const (
-	DEFAULT_INFLIGHT_REQUESTS = 1
-	DEFAULT_RETRY_SUSPEND     = time.Second
+	DEFAULT_QRY_INFLIGHT_REQUESTS = 1
+
+	DEFAULT_FAIL_ATTEMPTS = 1
+	DEFAULT_RETRY_SUSPEND = time.Second
 )
 
 var (
@@ -110,73 +112,135 @@ func (w *reqWait) Wait(timeout time.Duration) error {
 }
 
 type RequestCache struct {
-	lock sync.RWMutex
-
+	lock       sync.RWMutex
 	reqRootCtx context.Context
-	inflights  map[int]*reqWait
-	cache      []Request
+
+	cache     []Request
+	inflights map[int]*reqWait
+
+	lastQry          time.Time
+	qryInflightCount int
+	qryLimit         int
+	qryLimitCount    int
+	qryInflightReq   map[int]struct{}
 }
 
 type reqCfg struct {
-	inflight int
 	attempts int
-	maxFail  int
 	suspend  time.Duration
+	preExec  []func()
+	postExec []func()
 }
 
-type reqOpt func(*reqCfg) error
+type reqOpt func(*reqCfg)
 
 type ReqOptions []reqOpt
 
-func (c *RequestCache) DoRequestAndWait(
-	r Request, options ...reqOpt,
-) (*reqWait, error) {
-	cfg := reqCfg{
-		inflight: DEFAULT_INFLIGHT_REQUESTS,
-		attempts: 1,
-		suspend:  DEFAULT_RETRY_SUSPEND,
+func WithReqAttempts(v int) reqOpt {
+	return func(rc *reqCfg) {
+		rc.attempts = max(v, DEFAULT_FAIL_ATTEMPTS)
 	}
+}
+
+func WithRetrySuspend(dur time.Duration) reqOpt {
+	return func(rc *reqCfg) {
+		rc.suspend = max(dur, DEFAULT_RETRY_SUSPEND)
+	}
+}
+
+func withPreExec(fn func()) reqOpt {
+	return func(rc *reqCfg) {
+		if fn != nil {
+			rc.preExec = append(rc.preExec, fn)
+		}
+	}
+}
+
+func withPostExec(fn func()) reqOpt {
+	return func(rc *reqCfg) {
+		if fn != nil {
+			rc.postExec = append(rc.postExec, fn)
+		}
+	}
+}
+
+func (c *RequestCache) checkQryInflight() *reqWait {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	if len(c.qryInflightReq) >= c.qryInflightCount {
+		// 在途查询超限，返回查询等待
+		for req := range c.qryInflightReq {
+			return c.inflights[req]
+		}
+	}
+
+	return nil
+}
+
+func (c *RequestCache) checkQryFlux() {
+	now := time.Now()
+	if now.Truncate(time.Second).After(c.lastQry) {
+		// 已进入下一周期，查询计数清零
+		c.qryLimitCount = 0
+	} else if c.qryLimitCount >= c.qryLimit {
+		// 查询流控超限，等待下一个周期
+		<-time.After(
+			now.Add(time.Second).
+				Truncate(time.Second).
+				Sub(now),
+		)
+	}
+}
+
+func (c *RequestCache) prepareQry(options ReqOptions) ReqOptions {
+	if req := c.checkQryInflight(); req != nil {
+		req.Wait(-1)
+	}
+
+	return append(
+		options,
+		withPreExec(c.checkQryFlux),
+		withPostExec(func() {
+			c.lastQry = time.Now().Truncate(time.Second)
+			c.qryLimitCount++
+		}),
+	)
+}
+
+func (c *RequestCache) doRequest(r Request, options ...reqOpt) (err error) {
+	c.lock.Lock()
+	defer c.lock.Unlock()
+
+	var cfg reqCfg
 
 	for _, opt := range options {
 		if opt == nil {
 			continue
 		}
 
-		if err := opt(&cfg); err != nil {
-			return nil, err
-		}
+		opt(&cfg)
 	}
 
-	c.lock.RLock()
-	if len(c.inflights) >= cfg.inflight {
-		defer c.lock.RUnlock()
-
-		return nil, errors.New("inflight request execeeded")
+	for _, pre := range cfg.preExec {
+		pre()
 	}
-	c.lock.RUnlock()
 
-	c.lock.Lock()
-	defer c.lock.Unlock()
-
-	var (
-		failCount int
-		err       error
-	)
-
-	for range cfg.attempts {
-		if failCount > cfg.maxFail {
-			break
-		}
-
+	for range cfg.attempts + 1 {
 		c.cache = append(c.cache, r)
 		seq := len(c.cache)
 
 		if err = r.Execute(seq); err == nil {
 			var wait reqWait
-			context.WithCancelCause(c.reqRootCtx)
+
 			wait.ctx, wait.cancel = context.WithCancel(c.reqRootCtx)
 			c.inflights[seq] = &wait
-			return &wait, nil
+
+			for _, post := range cfg.postExec {
+				post()
+			}
+
+			return nil
 		}
 
 		slog.Error(
@@ -185,17 +249,37 @@ func (c *RequestCache) DoRequestAndWait(
 			slog.Int("seq", seq),
 			slog.String("executor", r.Executor()),
 		)
-		failCount++
 
-		<-time.After(cfg.suspend)
+		if cfg.suspend > 0 {
+			<-time.After(cfg.suspend)
+		}
 	}
 
-	return nil, err
+	return err
+}
+
+func (c *RequestCache) DoRequestAndWait(
+	r Request, options ...reqOpt,
+) (*reqWait, error) {
+	if strings.HasPrefix(r.Executor(), "ReqQry") {
+		options = c.prepareQry(options)
+	}
+
+	var wait *reqWait
+
+	options = append(options, withPostExec(func() {
+		wait = c.inflights[len(c.cache)]
+	}))
+
+	return wait, c.doRequest(r, options...)
 }
 
 func (c *RequestCache) DoRequest(r Request, options ...reqOpt) error {
-	_, err := c.DoRequestAndWait(r, options...)
-	return err
+	if strings.HasPrefix(r.Executor(), "ReqQry") {
+		options = c.prepareQry(options)
+	}
+
+	return c.doRequest(r, options...)
 }
 
 func (c *RequestCache) Wait(seq int, timeout time.Duration) error {
@@ -204,6 +288,13 @@ func (c *RequestCache) Wait(seq int, timeout time.Duration) error {
 	}
 
 	return fmt.Errorf("%w: request[%d] completed", ErrInflightNotFound, seq)
+}
+
+func (c *RequestCache) SetQryLimit(v int) {
+	c.lock.Lock()
+	defer c.lock.Unlock()
+
+	c.qryLimit = max(v, 1)
 }
 
 func (c *RequestCache) getInflight(seq int) *reqWait {
@@ -225,6 +316,7 @@ func (c *RequestCache) Complete(seq int, err error) {
 	defer c.lock.Unlock()
 
 	delete(c.inflights, seq)
+	delete(c.qryInflightReq, seq)
 }
 
 func (c *RequestCache) Reset() {
@@ -246,6 +338,10 @@ type RequestFactory[API any] struct {
 func NewRequestFactory[API any](ctx context.Context, api API) *RequestFactory[API] {
 	factory := RequestFactory[API]{
 		RequestCache: RequestCache{
+			qryInflightCount: DEFAULT_QRY_INFLIGHT_REQUESTS,
+			// 设置默认每秒1笔查询
+			// 避免查询流控检查永远被延迟1s执行
+			qryLimit:  1,
 			inflights: map[int]*reqWait{},
 		},
 		Api:       api,
