@@ -47,9 +47,12 @@ const(
 )
     {{ end }}
     {{- if eq .Underlying.Name "Double" }}
+func (t {{ .Name }}) IsValid() bool {
+    return float64(t) != math.MaxFloat64
+}
+
 func (t {{ .Name }}) String() string {
-    v := float64(t)
-    if v != math.MaxFloat64 {
+    if t.IsValid() {
         return strconv.FormatFloat(float64(t), 'f', 6, 64)
     } else {
         return "DBL_MAX"

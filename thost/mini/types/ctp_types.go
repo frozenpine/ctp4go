@@ -1045,9 +1045,12 @@ type TThostFtdcBoolType int32
 // TFtdcPriceType是一个价格类型
 type TThostFtdcPriceType float64
 
+func (t TThostFtdcPriceType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcPriceType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -1075,9 +1078,12 @@ func (t *TThostFtdcCombHedgeFlagType) SetString(v string) int {
 // TFtdcRatioType是一个比率类型
 type TThostFtdcRatioType float64
 
+func (t TThostFtdcRatioType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcRatioType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -1087,9 +1093,12 @@ func (t TThostFtdcRatioType) String() string {
 // TFtdcMoneyType是一个资金类型
 type TThostFtdcMoneyType float64
 
+func (t TThostFtdcMoneyType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcMoneyType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -1099,9 +1108,12 @@ func (t TThostFtdcMoneyType) String() string {
 // TFtdcLargeVolumeType是一个大额数量类型
 type TThostFtdcLargeVolumeType float64
 
+func (t TThostFtdcLargeVolumeType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcLargeVolumeType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -1126,9 +1138,12 @@ func (t *TThostFtdcSequenceLabelType) SetString(v string) int {
 // TFtdcUnderlyingMultipleType是一个基础商品乘数类型
 type TThostFtdcUnderlyingMultipleType float64
 
+func (t TThostFtdcUnderlyingMultipleType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcUnderlyingMultipleType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -2935,9 +2950,12 @@ func (t *TThostFtdcAMLTradeModelType) SetString(v string) int {
 // TFtdcAMLOpParamValueType是一个业务参数代码值类型
 type TThostFtdcAMLOpParamValueType float64
 
+func (t TThostFtdcAMLOpParamValueType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcAMLOpParamValueType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -3109,9 +3127,12 @@ func (t *TThostFtdcAMLFileNameType) SetString(v string) int {
 // TFtdcAMLMoneyType是一个反洗钱资金类型
 type TThostFtdcAMLMoneyType float64
 
+func (t TThostFtdcAMLMoneyType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcAMLMoneyType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -3569,9 +3590,12 @@ type TThostFtdcTIDType int32
 // TFtdcTradeAmountType是一个交易金额（元）类型
 type TThostFtdcTradeAmountType float64
 
+func (t TThostFtdcTradeAmountType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcTradeAmountType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -3581,9 +3605,12 @@ func (t TThostFtdcTradeAmountType) String() string {
 // TFtdcCustFeeType是一个应收客户费用（元）类型
 type TThostFtdcCustFeeType float64
 
+func (t TThostFtdcCustFeeType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcCustFeeType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -3593,9 +3620,12 @@ func (t TThostFtdcCustFeeType) String() string {
 // TFtdcFutureFeeType是一个应收期货公司费用（元）类型
 type TThostFtdcFutureFeeType float64
 
+func (t TThostFtdcFutureFeeType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcFutureFeeType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -3605,9 +3635,12 @@ func (t TThostFtdcFutureFeeType) String() string {
 // TFtdcSingleMaxAmtType是一个单笔最高限额类型
 type TThostFtdcSingleMaxAmtType float64
 
+func (t TThostFtdcSingleMaxAmtType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcSingleMaxAmtType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -3617,9 +3650,12 @@ func (t TThostFtdcSingleMaxAmtType) String() string {
 // TFtdcSingleMinAmtType是一个单笔最低限额类型
 type TThostFtdcSingleMinAmtType float64
 
+func (t TThostFtdcSingleMinAmtType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcSingleMinAmtType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -3629,9 +3665,12 @@ func (t TThostFtdcSingleMinAmtType) String() string {
 // TFtdcTotalAmtType是一个每日累计转帐额度类型
 type TThostFtdcTotalAmtType float64
 
+func (t TThostFtdcTotalAmtType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcTotalAmtType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -4258,9 +4297,12 @@ func (t *TThostFtdcFBEBankAccountNameType) SetString(v string) int {
 // TFtdcFBEAmtType是一个各种换汇金额类型
 type TThostFtdcFBEAmtType float64
 
+func (t TThostFtdcFBEAmtType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcFBEAmtType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -4297,9 +4339,12 @@ func (t *TThostFtdcFBERemarkType) SetString(v string) int {
 // TFtdcExRateType是一个换汇汇率类型
 type TThostFtdcExRateType float64
 
+func (t TThostFtdcExRateType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcExRateType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -5352,9 +5397,12 @@ func (t *TThostFtdcIsSettlementType) SetString(v string) int {
 // TFtdcCSRCMoneyType是一个资金类型
 type TThostFtdcCSRCMoneyType float64
 
+func (t TThostFtdcCSRCMoneyType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcCSRCMoneyType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -5364,9 +5412,12 @@ func (t TThostFtdcCSRCMoneyType) String() string {
 // TFtdcCSRCPriceType是一个价格类型
 type TThostFtdcCSRCPriceType float64
 
+func (t TThostFtdcCSRCPriceType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcCSRCPriceType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -5385,9 +5436,12 @@ func (t *TThostFtdcCSRCOptionsTypeType) SetString(v string) int {
 // TFtdcCSRCStrikePriceType是一个执行价类型
 type TThostFtdcCSRCStrikePriceType float64
 
+func (t TThostFtdcCSRCStrikePriceType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcCSRCStrikePriceType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -5964,9 +6018,12 @@ const (
 // TFtdcCurrencyUnitType是一个币种单位数量类型
 type TThostFtdcCurrencyUnitType float64
 
+func (t TThostFtdcCurrencyUnitType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcCurrencyUnitType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -5976,9 +6033,12 @@ func (t TThostFtdcCurrencyUnitType) String() string {
 // TFtdcExchangeRateType是一个汇率类型
 type TThostFtdcExchangeRateType float64
 
+func (t TThostFtdcExchangeRateType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcExchangeRateType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
@@ -6554,9 +6614,12 @@ const (
 // TFtdcBigMoneyType是一个资金类型
 type TThostFtdcBigMoneyType float64
 
+func (t TThostFtdcBigMoneyType) IsValid() bool {
+	return float64(t) != math.MaxFloat64
+}
+
 func (t TThostFtdcBigMoneyType) String() string {
-	v := float64(t)
-	if v != math.MaxFloat64 {
+	if t.IsValid() {
 		return strconv.FormatFloat(float64(t), 'f', 6, 64)
 	} else {
 		return "DBL_MAX"
