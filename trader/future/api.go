@@ -284,7 +284,7 @@ func (td *TraderApi) OnRspAuthenticate(
 	pRspInfo *future.CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
 ) {
-	td.requests.Complete(int64(nRequestID))
+	td.requests.Complete(nRequestID)
 
 	defer func() {
 		if pRspInfo.ErrorID == 0 {
@@ -304,7 +304,7 @@ func (td *TraderApi) OnRspUserLogin(
 	pRspInfo *future.CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
 ) {
-	td.requests.Complete(int64(nRequestID))
+	td.requests.Complete(nRequestID)
 
 	defer func() {
 		if pRspInfo.ErrorID == 0 {

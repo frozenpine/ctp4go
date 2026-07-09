@@ -8,8 +8,6 @@ CLEAN_SUBMODULES = $(addprefix clean-, $(SUB_MODULES))
 
 export VERSION PLATFORM
 
-.PHONY: all clean $(SUB_MODULES) $(CLEAN_SUBMODULES)
-
 all: $(SUB_MODULES)
 
 $(SUB_MODULES):
@@ -19,3 +17,5 @@ $(CLEAN_SUBMODULES):
 	$(MAKE) -C $(patsubst clean-%,%,$@) clean
 
 clean: $(CLEAN_SUBMODULES)
+
+.PHONY: all clean $(SUB_MODULES) $(CLEAN_SUBMODULES)
