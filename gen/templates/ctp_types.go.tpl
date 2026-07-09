@@ -2,6 +2,7 @@ package types
 
 import (
     "strconv"
+    "math"
 
 	"github.com/frozenpine/ctp4go"
 )
@@ -47,7 +48,12 @@ const(
     {{ end }}
     {{- if eq .Underlying.Name "Double" }}
 func (t {{ .Name }}) String() string {
-    return strconv.FormatFloat(float64(t), 'f', 6, 64)
+    v := float64(t)
+    if v != math.MaxFloat64 {
+        return strconv.FormatFloat(float64(t), 'f', 6, 64)
+    } else {
+        return "DBL_MAX"
+    }
 }
     {{ end }}
     {{- if and (eq .Underlying.Name "Char_S") (gt .Underlying.Size 0) }}

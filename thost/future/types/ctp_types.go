@@ -1,6 +1,7 @@
 package types
 
 import (
+	"math"
 	"strconv"
 
 	"github.com/frozenpine/ctp4go"
@@ -1093,7 +1094,12 @@ type TThostFtdcBoolType int32
 type TThostFtdcPriceType float64
 
 func (t TThostFtdcPriceType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcCombOffsetFlagType是一个组合开平标志类型
@@ -1118,21 +1124,36 @@ func (t *TThostFtdcCombHedgeFlagType) SetString(v string) int {
 type TThostFtdcRatioType float64
 
 func (t TThostFtdcRatioType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcMoneyType是一个资金类型
 type TThostFtdcMoneyType float64
 
 func (t TThostFtdcMoneyType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcLargeVolumeType是一个大额数量类型
 type TThostFtdcLargeVolumeType float64
 
 func (t TThostFtdcLargeVolumeType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcSequenceSeriesType是一个序列系列号类型
@@ -1154,7 +1175,12 @@ func (t *TThostFtdcSequenceLabelType) SetString(v string) int {
 type TThostFtdcUnderlyingMultipleType float64
 
 func (t TThostFtdcUnderlyingMultipleType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcPriorityType是一个优先级类型
@@ -2978,7 +3004,12 @@ func (t *TThostFtdcAMLTradeModelType) SetString(v string) int {
 type TThostFtdcAMLOpParamValueType float64
 
 func (t TThostFtdcAMLOpParamValueType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcAMLCustomerCardTypeType是一个客户身份证件证明文件类型类型
@@ -3147,7 +3178,12 @@ func (t *TThostFtdcAMLFileNameType) SetString(v string) int {
 type TThostFtdcAMLMoneyType float64
 
 func (t TThostFtdcAMLMoneyType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcAMLFileAmountType是一个反洗钱资金类型
@@ -3602,42 +3638,72 @@ type TThostFtdcTIDType int32
 type TThostFtdcTradeAmountType float64
 
 func (t TThostFtdcTradeAmountType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcCustFeeType是一个应收客户费用（元）类型
 type TThostFtdcCustFeeType float64
 
 func (t TThostFtdcCustFeeType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcFutureFeeType是一个应收期货公司费用（元）类型
 type TThostFtdcFutureFeeType float64
 
 func (t TThostFtdcFutureFeeType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcSingleMaxAmtType是一个单笔最高限额类型
 type TThostFtdcSingleMaxAmtType float64
 
 func (t TThostFtdcSingleMaxAmtType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcSingleMinAmtType是一个单笔最低限额类型
 type TThostFtdcSingleMinAmtType float64
 
 func (t TThostFtdcSingleMinAmtType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcTotalAmtType是一个每日累计转帐额度类型
 type TThostFtdcTotalAmtType float64
 
 func (t TThostFtdcTotalAmtType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcCertificationTypeType是一个证件类型类型
@@ -4261,7 +4327,12 @@ func (t *TThostFtdcFBEBankAccountNameType) SetString(v string) int {
 type TThostFtdcFBEAmtType float64
 
 func (t TThostFtdcFBEAmtType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcFBEBusinessTypeType是一个换汇业务类型类型
@@ -4295,7 +4366,12 @@ func (t *TThostFtdcFBERemarkType) SetString(v string) int {
 type TThostFtdcExRateType float64
 
 func (t TThostFtdcExRateType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcFBEResultFlagType是一个换汇成功标志类型
@@ -5336,14 +5412,24 @@ func (t *TThostFtdcIsSettlementType) SetString(v string) int {
 type TThostFtdcCSRCMoneyType float64
 
 func (t TThostFtdcCSRCMoneyType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcCSRCPriceType是一个价格类型
 type TThostFtdcCSRCPriceType float64
 
 func (t TThostFtdcCSRCPriceType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcCSRCOptionsTypeType是一个期权类型类型
@@ -5359,7 +5445,12 @@ func (t *TThostFtdcCSRCOptionsTypeType) SetString(v string) int {
 type TThostFtdcCSRCStrikePriceType float64
 
 func (t TThostFtdcCSRCStrikePriceType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcCSRCTargetProductIDType是一个标的品种类型
@@ -5938,14 +6029,24 @@ const (
 type TThostFtdcCurrencyUnitType float64
 
 func (t TThostFtdcCurrencyUnitType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcExchangeRateType是一个汇率类型
 type TThostFtdcExchangeRateType float64
 
 func (t TThostFtdcExchangeRateType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcSpecProductTypeType是一个特殊产品类型类型
@@ -6518,7 +6619,12 @@ const (
 type TThostFtdcBigMoneyType float64
 
 func (t TThostFtdcBigMoneyType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcMaxMarginSideAlgorithmType是一个大额单边保证金算法类型
@@ -7230,7 +7336,12 @@ func (t *TThostFtdcOTCTraderIDType) SetString(v string) int {
 type TThostFtdcRiskValueType float64
 
 func (t TThostFtdcRiskValueType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcIDBNameType是一个握手数据内容类型
@@ -7246,7 +7357,12 @@ func (t *TThostFtdcIDBNameType) SetString(v string) int {
 type TThostFtdcDiscountRatioType float64
 
 func (t TThostFtdcDiscountRatioType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcAuthTypeType是一个用户终端认证方式类型
@@ -7359,7 +7475,12 @@ const (
 type TThostFtdcDeltaType float64
 
 func (t TThostFtdcDeltaType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcSpreadIdType是一个抵扣组优先级类型
@@ -7413,7 +7534,12 @@ type TThostFtdcThostFunctionCodeType int32
 type TThostFtdcSPMMDiscountRatioType float64
 
 func (t TThostFtdcSPMMDiscountRatioType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcSPMMModelDescType是一个SPMM模板描述类型
@@ -7466,7 +7592,12 @@ func (t *TThostFtdcProductIDType) SetString(v string) int {
 type TThostFtdcHedgeRateType float64
 
 func (t TThostFtdcHedgeRateType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcRCAMSPriorityType是一个优先级类型
@@ -7476,7 +7607,12 @@ type TThostFtdcRCAMSPriorityType int32
 type TThostFtdcAdjustValueType float64
 
 func (t TThostFtdcAdjustValueType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcRCAMSCombinationTypeType是一个RCAMS组合类型类型
@@ -7526,7 +7662,12 @@ type TThostFtdcCommodityGroupIDType int32
 type TThostFtdcStdPositionType float64
 
 func (t TThostFtdcStdPositionType) String() string {
-	return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	v := float64(t)
+	if v != math.MaxFloat64 {
+		return strconv.FormatFloat(float64(t), 'f', 6, 64)
+	} else {
+		return "DBL_MAX"
+	}
 }
 
 // TFtdcProdChangeFlagType是一个品种记录改变状态类型
