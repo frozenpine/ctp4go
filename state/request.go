@@ -19,7 +19,7 @@ type Request interface {
 	Type() string
 	WithPayload(any) Request
 
-	do(*RequestCache) error
+	Do(int64) error
 }
 
 type request[API any, D thost.ThostData, PTR DataPtr[D]] struct {
@@ -42,10 +42,7 @@ func (r *request[API, D, PTR]) WithPayload(v any) Request {
 	return nil
 }
 
-func (r *request[API, D, DATA]) do(cache *RequestCache) error {
-	seq := cache.seq + 1
-	cache.inflight[seq] = r
-
+func (r *request[API, D, DATA]) Do(seq int64) error {
 	return thost.Rtn{
 		Code: r.handler(r.api, r.payload, int(seq)),
 	}.Error()
@@ -54,7 +51,7 @@ func (r *request[API, D, DATA]) do(cache *RequestCache) error {
 type RequestCache struct {
 	lock     sync.RWMutex
 	seq      int64
-	inflight map[int64]Request
+	inflight map[int64]struct{}
 }
 
 func (c *RequestCache) DoRequest(r Request) error {
@@ -69,7 +66,10 @@ func (c *RequestCache) DoRequest(r Request) error {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 
-	return r.do(c)
+	seq := c.seq + 1
+	c.inflight[seq] = struct{}{}
+
+	return r.Do(seq)
 }
 
 func (c *RequestCache) Complete(seq int64) {
@@ -84,30 +84,24 @@ func (c *RequestCache) Reset() {
 	defer c.lock.Unlock()
 
 	c.seq = 0
-	c.inflight = make(map[int64]Request)
+	c.inflight = make(map[int64]struct{})
 }
 
 type RequestFactory[API any] struct {
 	RequestCache
 
 	Api       API
-	reqMapper map[string]struct {
-		fn      reflect.Method
-		payload reflect.Type
-	}
+	reqMapper map[reflect.Type]reflect.Method
 	preBuilds map[string]Request
 }
 
 func NewRequestFactory[API any](api API) *RequestFactory[API] {
 	factory := RequestFactory[API]{
 		RequestCache: RequestCache{
-			inflight: map[int64]Request{},
+			inflight: map[int64]struct{}{},
 		},
-		Api: api,
-		reqMapper: make(map[string]struct {
-			fn      reflect.Method
-			payload reflect.Type
-		}),
+		Api:       api,
+		reqMapper: make(map[reflect.Type]reflect.Method),
 		preBuilds: make(map[string]Request),
 	}
 
@@ -118,15 +112,9 @@ func NewRequestFactory[API any](api API) *RequestFactory[API] {
 			continue
 		}
 
-		dataType := fn.Type.In(0).Elem()
+		dataType := fn.Type.In(0)
 
-		factory.reqMapper[dataType.Name()] = struct {
-			fn      reflect.Method
-			payload reflect.Type
-		}{
-			fn:      fn,
-			payload: dataType,
-		}
+		factory.reqMapper[dataType] = fn
 	}
 
 	return &factory
@@ -142,6 +130,8 @@ func (fac *RequestFactory[API]) GetPrebuild(name string) Request {
 func MakeRequest[
 	API any, D thost.ThostData, PTR DataPtr[D],
 ](factory *RequestFactory[API], v PTR) (Request, error) {
+	dataType := reflect.TypeFor[PTR]()
+
 	factory.lock.RLock()
 	if req := factory.GetPrebuild(v.Type()); req != nil {
 		req = req.WithPayload(v)
@@ -152,28 +142,22 @@ func MakeRequest[
 		}
 	}
 
-	mapper, ok := factory.reqMapper[v.Type()]
+	fn, ok := factory.reqMapper[dataType]
 	if !ok {
 		return nil, fmt.Errorf(
-			"%w: no request method for %s",
-			ErrMethodNotFound, v.Type(),
+			"%w: no request method for %+v",
+			ErrMethodNotFound, dataType,
 		)
 	}
 
-	if mapper.payload != reflect.TypeFor[D]() {
-		return nil, fmt.Errorf(
-			"%w: method payload[%+v] mismatch with %+v",
-			ErrMethodArgMissmatch, mapper.payload, v.Type(),
-		)
-	}
 	factory.lock.RUnlock()
 
-	req := request[API, D, PTR]{api: factory.Api}
+	req := request[API, D, PTR]{api: factory.Api, payload: v}
 
 	reflect.ValueOf(&req.handler).Elem().Set(reflect.MakeFunc(
 		reflect.TypeOf(req.handler),
 		func(args []reflect.Value) (results []reflect.Value) {
-			fnImpl := args[0].Method(mapper.fn.Index)
+			fnImpl := args[0].Method(fn.Index)
 			return fnImpl.Call(args[1:])
 		},
 	))
