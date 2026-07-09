@@ -12,7 +12,7 @@ import (
 func TestReqFactory(t *testing.T) {
 	var api future.TraderApi = new(v6_7_13.ThostFtdcTraderApi)
 
-	factory := state.NewRequestFactory(api)
+	factory := state.NewRequestFactory(t.Context(), api)
 
 	t.Logf("%+v", factory)
 
