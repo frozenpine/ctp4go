@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"iter"
 	"log/slog"
 	"os"
 	"path/filepath"
@@ -28,10 +29,14 @@ type TraderApi struct {
 	initOpts  []traderOpt
 	finalOnce sync.Once
 
-	state       *state.FlagResponsor[traderState]
+	front future.CThostFtdcFrontInfoField
+	state *state.FlagResponsor[traderState]
+
 	instruments *state.DataCache[
 		future.CThostFtdcInstrumentField,
 		*future.CThostFtdcInstrumentField]
+
+	caches map[string]state.Cache
 
 	requests *state.RequestFactory[future.TraderApi]
 }
@@ -114,7 +119,23 @@ func (td *TraderApi) createApi() error {
 	td.state = state.NewFlagResponsor[traderState]("state")
 	td.apiCtx, td.apiCancel = context.WithCancel(td.rootCtx)
 
-	td.requests = state.NewRequestFactory(api)
+	if td.instruments, err = state.NewDataCache(
+		state.WithIdentifier(
+			"Symbol", func(ins *future.CThostFtdcInstrumentField) string {
+				return fmt.Sprintf(
+					"%s.%s",
+					ins.ExchangeID.String(),
+					ins.InstrumentID.String(),
+				)
+			},
+		),
+	); err != nil {
+		return err
+	} else {
+		td.caches["instruments"], _ = state.NewReadOnlyCache(td.instruments)
+	}
+
+	td.requests = state.NewRequestFactory(td.apiCtx, api)
 
 	return td.state.SetFlag(Created)
 }
@@ -264,11 +285,42 @@ func (td *TraderApi) QueryInstruments() error {
 	return td.requests.DoRequest(req)
 }
 
+func (td *TraderApi) GetInstrument(idt string) (
+	*state.DataContainer[
+		future.CThostFtdcInstrumentField,
+		*future.CThostFtdcInstrumentField,
+	], error,
+) {
+	return td.instruments.GetByKey(idt)
+}
+
+func (td *TraderApi) IterInstruments(
+	filters ...func(*state.DataContainer[
+		future.CThostFtdcInstrumentField,
+		*future.CThostFtdcInstrumentField,
+	]) bool,
+) iter.Seq2[int, *state.DataContainer[
+	future.CThostFtdcInstrumentField,
+	*future.CThostFtdcInstrumentField,
+]] {
+	return func(yield func(int, *state.DataContainer[
+		future.CThostFtdcInstrumentField,
+		*future.CThostFtdcInstrumentField,
+	]) bool) {
+		for idx, v := range td.instruments.Iter(filters...) {
+			if !yield(idx, v) {
+				return
+			}
+		}
+	}
+}
+
 func (td *TraderApi) OnFrontConnected() {
 	td.requests.Reset()
 	defer td.migrateState(Connected)
 
-	td.requests.Api.GetFrontInfo(&td.FrontInfo)
+	td.requests.Api.GetFrontInfo(&td.front)
+	td.Info("thost trader front", slog.Any("front", td.front))
 
 	td.ThostLogSpi.OnFrontConnected()
 }
@@ -276,6 +328,7 @@ func (td *TraderApi) OnFrontConnected() {
 func (td *TraderApi) OnFrontDisconnected(nReason int) {
 	defer td.migrateState(Disconnected)
 
+	td.Info("thost trader front", slog.Any("front", td.front))
 	td.ThostLogSpi.OnFrontDisconnected(nReason)
 }
 
@@ -284,9 +337,9 @@ func (td *TraderApi) OnRspAuthenticate(
 	pRspInfo *future.CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
 ) {
-	td.requests.Complete(nRequestID)
-
 	defer func() {
+		td.requests.Complete(nRequestID, td.CheckRsp(pRspInfo))
+
 		if pRspInfo.ErrorID == 0 {
 			td.migrateState(AuthSuccess)
 		} else {
@@ -304,9 +357,9 @@ func (td *TraderApi) OnRspUserLogin(
 	pRspInfo *future.CThostFtdcRspInfoField,
 	nRequestID int, bIsLast bool,
 ) {
-	td.requests.Complete(nRequestID)
-
 	defer func() {
+		td.requests.Complete(nRequestID, td.CheckRsp(pRspInfo))
+
 		if pRspInfo.ErrorID == 0 {
 			td.migrateState(LoginSuccess)
 		} else {
@@ -317,4 +370,20 @@ func (td *TraderApi) OnRspUserLogin(
 	td.ThostLogSpi.OnRspUserLogin(
 		pRspUserLogin, pRspInfo, nRequestID, bIsLast,
 	)
+}
+
+func (td *TraderApi) OnRspQryInstrument(
+	pInstrument *future.CThostFtdcInstrumentField,
+	pRspInfo *future.CThostFtdcRspInfoField,
+	nRequestID int, bIsLast bool,
+) {
+	td.ThostLogSpi.OnRspQryInstrument(
+		pInstrument, pRspInfo, nRequestID, bIsLast,
+	)
+
+	td.instruments.AddOrUpdate(pInstrument)
+
+	if bIsLast {
+		td.requests.Complete(nRequestID, td.CheckRsp(pRspInfo))
+	}
 }

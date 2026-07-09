@@ -15,8 +15,6 @@ var (
 
 type ThostLogSpi struct {
 	*slog.Logger
-
-	FrontInfo CThostFtdcFrontInfoField
 }
 
 func (spi *ThostLogSpi) CheckRsp(rsp *CThostFtdcRspInfoField) error {
@@ -38,16 +36,12 @@ func (spi *ThostLogSpi) OnFrontConnected() {
 		spi.Logger = slog.Default()
 	}
 
-	spi.Info(
-		"thost [OnFrontConnected]",
-		slog.Any("front", spi.FrontInfo),
-	)
+	spi.Info("thost [OnFrontConnected]")
 }
 
 func (spi *ThostLogSpi) OnFrontDisconnected(nReason int) {
 	spi.Info(
 		"thost [OnFrontDisconnected]",
-		slog.Any("front", spi.FrontInfo),
 		slog.Int("reason", nReason),
 	)
 }
@@ -55,7 +49,6 @@ func (spi *ThostLogSpi) OnFrontDisconnected(nReason int) {
 func (spi *ThostLogSpi) OnHeartBeatWarning(nTimeLapse int) {
 	spi.Info(
 		"thost [OnHeartBeatWarning]",
-		slog.Any("front", spi.FrontInfo),
 		slog.Int("time_lapse", nTimeLapse),
 	)
 }
@@ -348,7 +341,8 @@ func (spi *ThostLogSpi) OnRspQryMaxOrderVolume(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryMaxOrderVolume] succeeded",
 		slog.Any("data", pQryMaxOrderVolume),
 	)
@@ -634,7 +628,8 @@ func (spi *ThostLogSpi) OnRspQryOrder(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryOrder] succeeded",
 		slog.Any("data", pOrder),
 	)
@@ -656,7 +651,8 @@ func (spi *ThostLogSpi) OnRspQryTrade(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryTrade] succeeded",
 		slog.Any("data", pTrade),
 	)
@@ -678,7 +674,8 @@ func (spi *ThostLogSpi) OnRspQryInvestorPosition(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryInvestorPosition] succeeded",
 		slog.Any("data", pInvestorPosition),
 	)
@@ -700,7 +697,8 @@ func (spi *ThostLogSpi) OnRspQryTradingAccount(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryTradingAccount] succeeded",
 		slog.Any("data", pTradingAccount),
 	)
@@ -722,7 +720,8 @@ func (spi *ThostLogSpi) OnRspQryInvestor(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryInvestor] succeeded",
 		slog.Any("data", pInvestor),
 	)
@@ -744,7 +743,8 @@ func (spi *ThostLogSpi) OnRspQryTradingCode(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryTradingCode] succeeded",
 		slog.Any("data", pTradingCode),
 	)
@@ -766,7 +766,8 @@ func (spi *ThostLogSpi) OnRspQryInstrumentMarginRate(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryInstrumentMarginRate] succeeded",
 		slog.Any("data", pInstrumentMarginRate),
 	)
@@ -788,7 +789,8 @@ func (spi *ThostLogSpi) OnRspQryInstrumentCommissionRate(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryInstrumentCommissionRate] succeeded",
 		slog.Any("data", pInstrumentCommissionRate),
 	)
@@ -810,7 +812,8 @@ func (spi *ThostLogSpi) OnRspQryUserSession(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryUserSession] succeeded",
 		slog.Any("data", pUserSession),
 	)
@@ -832,7 +835,8 @@ func (spi *ThostLogSpi) OnRspQryExchange(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryExchange] succeeded",
 		slog.Any("data", pExchange),
 	)
@@ -854,7 +858,8 @@ func (spi *ThostLogSpi) OnRspQryProduct(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryProduct] succeeded",
 		slog.Any("data", pProduct),
 	)
@@ -876,7 +881,8 @@ func (spi *ThostLogSpi) OnRspQryInstrument(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryInstrument] succeeded",
 		slog.Any("data", pInstrument),
 	)
@@ -898,7 +904,8 @@ func (spi *ThostLogSpi) OnRspQryDepthMarketData(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryDepthMarketData] succeeded",
 		slog.Any("data", pDepthMarketData),
 	)
@@ -920,7 +927,8 @@ func (spi *ThostLogSpi) OnRspQryTraderOffer(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryTraderOffer] succeeded",
 		slog.Any("data", pTraderOffer),
 	)
@@ -964,7 +972,8 @@ func (spi *ThostLogSpi) OnRspQryTransferBank(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryTransferBank] succeeded",
 		slog.Any("data", pTransferBank),
 	)
@@ -986,7 +995,8 @@ func (spi *ThostLogSpi) OnRspQryInvestorPositionDetail(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryInvestorPositionDetail] succeeded",
 		slog.Any("data", pInvestorPositionDetail),
 	)
@@ -1008,7 +1018,8 @@ func (spi *ThostLogSpi) OnRspQryNotice(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryNotice] succeeded",
 		slog.Any("data", pNotice),
 	)
@@ -1052,7 +1063,8 @@ func (spi *ThostLogSpi) OnRspQryInvestorPositionCombineDetail(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryInvestorPositionCombineDetail] succeeded",
 		slog.Any("data", pInvestorPositionCombineDetail),
 	)
@@ -1074,7 +1086,8 @@ func (spi *ThostLogSpi) OnRspQryCFMMCTradingAccountKey(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryCFMMCTradingAccountKey] succeeded",
 		slog.Any("data", pCFMMCTradingAccountKey),
 	)
@@ -1096,7 +1109,8 @@ func (spi *ThostLogSpi) OnRspQryEWarrantOffset(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryEWarrantOffset] succeeded",
 		slog.Any("data", pEWarrantOffset),
 	)
@@ -1118,7 +1132,8 @@ func (spi *ThostLogSpi) OnRspQryInvestorProductGroupMargin(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryInvestorProductGroupMargin] succeeded",
 		slog.Any("data", pInvestorProductGroupMargin),
 	)
@@ -1140,7 +1155,8 @@ func (spi *ThostLogSpi) OnRspQryExchangeMarginRate(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryExchangeMarginRate] succeeded",
 		slog.Any("data", pExchangeMarginRate),
 	)
@@ -1162,7 +1178,8 @@ func (spi *ThostLogSpi) OnRspQryExchangeMarginRateAdjust(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryExchangeMarginRateAdjust] succeeded",
 		slog.Any("data", pExchangeMarginRateAdjust),
 	)
@@ -1184,7 +1201,8 @@ func (spi *ThostLogSpi) OnRspQryExchangeRate(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryExchangeRate] succeeded",
 		slog.Any("data", pExchangeRate),
 	)
@@ -1206,7 +1224,8 @@ func (spi *ThostLogSpi) OnRspQrySecAgentACIDMap(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQrySecAgentACIDMap] succeeded",
 		slog.Any("data", pSecAgentACIDMap),
 	)
@@ -1228,7 +1247,8 @@ func (spi *ThostLogSpi) OnRspQryProductExchRate(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryProductExchRate] succeeded",
 		slog.Any("data", pProductExchRate),
 	)
@@ -3093,7 +3113,8 @@ func (spi *ThostLogSpi) OnRspQrySpdApply(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQrySpdApply] succeeded",
 		slog.Any("data", pSpdApply),
 	)
@@ -3187,7 +3208,8 @@ func (spi *ThostLogSpi) OnRspQryHedgeCfm(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost trader [OnRspQryHedgeCfm] succeeded",
 		slog.Any("data", pHedgeCfm),
 	)
@@ -3237,7 +3259,8 @@ func (spi *ThostLogSpi) OnRspQryMulticastInstrument(
 		return
 	}
 
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost mduser [OnRspQryMulticastInstrument] succeeded",
 		slog.Any("data", pMulticastInstrument),
 	)
@@ -3334,7 +3357,8 @@ func (spi *ThostLogSpi) OnRspUnSubForQuoteRsp(
 func (spi *ThostLogSpi) OnRtnDepthMarketData(
 	pDepthMarketData *CThostFtdcDepthMarketDataField,
 ) {
-	spi.Info(
+	spi.Log(
+		context.Background(), slog.LevelDebug-2,
 		"thost mduser [OnRtnDepthMarketData] succeeded",
 		slog.Any("data", pDepthMarketData),
 	)

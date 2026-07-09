@@ -3,8 +3,10 @@ package state
 import (
 	"errors"
 	"fmt"
+	"iter"
 	"math"
 	"reflect"
+	"slices"
 	"sync"
 	"unsafe"
 
@@ -17,11 +19,15 @@ var (
 	ErrInvalidFieldType = errors.New("invalid field type")
 	ErrInvalidOffset    = errors.New("invalid offset")
 
+	ErrCacheEmpty       = errors.New("cache is nil")
+	ErrCacheMismatch    = errors.New("cache miss match")
 	ErrCacheDataMissing = errors.New("data not found")
 )
 
 type Data interface {
 	thost.ThostData
+
+	RawPtr() any
 
 	GetFieldString(string) (string, error)
 	GetFieldInt(string) (int64, error)
@@ -29,6 +35,13 @@ type Data interface {
 	GetFieldFloat(string) (float64, error)
 	GetFieldBool(string) (bool, error)
 	GetFieldByte(string, ...int) (byte, error)
+}
+
+type Cache interface {
+	Size() int
+	GetByKey(string) (Data, error)
+	GetByIdx(int) (Data, error)
+	Iter(...func(Data) bool) iter.Seq2[int, Data]
 }
 
 type DataPtr[T thost.ThostData] interface {
@@ -100,6 +113,10 @@ func ContainerMaker[T thost.ThostData, Ptr DataPtr[T]](
 	}
 
 	cfg := dataCfg[T, Ptr]{
+		dataMerger: func(dst, src Ptr) error {
+			*dst = *src
+			return nil
+		},
 		idtKeys: make(map[string]func(Ptr) string),
 		fields:  make(map[string]reflect.StructField),
 	}
@@ -112,10 +129,6 @@ func ContainerMaker[T thost.ThostData, Ptr DataPtr[T]](
 		if err := opt(&cfg); err != nil {
 			return nil, nil, err
 		}
-	}
-
-	if cfg.dataMerger == nil {
-		return nil, nil, errors.New("no merger specified")
 	}
 
 	for f := range dType.Fields() {
@@ -142,6 +155,14 @@ func (w *DataContainer[T, Ptr]) Merge(v Ptr) {
 	defer w.lock.Unlock()
 
 	w.dataMerger(w.data, v)
+}
+
+func (w *DataContainer[T, Ptr]) RawPtr() any {
+	return w.data
+}
+
+func (w *DataContainer[T, Ptr]) Data() Ptr {
+	return w.data
 }
 
 func (w *DataContainer[T, Ptr]) GetFieldString(name string) (string, error) {
@@ -393,10 +414,14 @@ func NewDataCache[T thost.ThostData, Ptr DataPtr[T]](
 }
 
 func (c *DataCache[T, Ptr]) AddOrUpdate(v Ptr) int {
-	c.lock.Lock()
-	defer c.lock.Unlock()
+	if v == nil {
+		return -1
+	}
 
 	data := c.dataMaker(v)
+
+	c.lock.Lock()
+	defer c.lock.Unlock()
 
 	var (
 		idx    int = -1
@@ -467,4 +492,100 @@ func (c *DataCache[T, Ptr]) GetByIdx(idx int) (*DataContainer[T, Ptr], error) {
 	}
 
 	return c.cache[idx], nil
+}
+
+func (c *DataCache[T, Ptr]) Size() int {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	return len(c.cache)
+}
+
+func (c *DataCache[T, Ptr]) Iter(
+	filters ...func(*DataContainer[T, Ptr]) bool,
+) iter.Seq2[int, *DataContainer[T, Ptr]] {
+	shortCircuit := func(v *DataContainer[T, Ptr]) bool {
+		for _, f := range filters {
+			if !f(v) {
+				return false
+			}
+		}
+
+		return true
+	}
+
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	snap := slices.Clone(c.cache)
+
+	return func(yield func(int, *DataContainer[T, Ptr]) bool) {
+		for idx, v := range snap {
+			if !shortCircuit(v) {
+				continue
+			}
+
+			if !yield(idx, v) {
+				return
+			}
+		}
+	}
+}
+
+type ReadOnlyCache[T thost.ThostData, Ptr DataPtr[T]] struct {
+	cache *DataCache[T, Ptr]
+}
+
+func NewReadOnlyCache[T thost.ThostData, Ptr DataPtr[T]](
+	c *DataCache[T, Ptr],
+) (Cache, error) {
+	if c == nil {
+		return nil, fmt.Errorf("%w: data cache empty", ErrCacheEmpty)
+	}
+	return ReadOnlyCache[T, Ptr]{c}, nil
+}
+
+func CastDataCache[T thost.ThostData, Ptr DataPtr[T]](
+	c Cache,
+) (*DataCache[T, Ptr], error) {
+	if c == nil {
+		return nil, fmt.Errorf("%w: cache interface empty", ErrCacheEmpty)
+	}
+
+	if v, ok := c.(*ReadOnlyCache[T, Ptr]); ok {
+		return v.cache, nil
+	}
+
+	return nil, fmt.Errorf(
+		"%w: cache is not a readonly cache", ErrCacheMismatch,
+	)
+}
+
+func (r ReadOnlyCache[T, Ptr]) Size() int { return r.Size() }
+
+func (r ReadOnlyCache[T, Ptr]) GetByKey(k string) (Data, error) {
+	return r.cache.GetByKey(k)
+}
+
+func (r ReadOnlyCache[T, Ptr]) GetByIdx(idx int) (Data, error) {
+	return r.cache.GetByIdx(idx)
+}
+
+func (r ReadOnlyCache[T, Ptr]) Iter(
+	filters ...func(Data) bool,
+) iter.Seq2[int, Data] {
+	bridgeFilters := make([]func(*DataContainer[T, Ptr]) bool, len(filters))
+	for idx, fn := range filters {
+		bridgeFilters[idx] = func(dc *DataContainer[T, Ptr]) bool {
+			return fn(dc)
+		}
+	}
+
+	return func(yield func(int, Data) bool) {
+		for idx, v := range r.cache.Iter(bridgeFilters...) {
+			if !yield(idx, v) {
+				return
+			}
+		}
+	}
 }

@@ -1,15 +1,16 @@
 package future_test
 
 import (
-	"log/slog"
 	"testing"
 	"time"
 
+	"github.com/frozenpine/ctp4go/state"
+	thost_futer "github.com/frozenpine/ctp4go/thost/future"
 	"github.com/frozenpine/ctp4go/trader/future"
 )
 
 func TestTraderApi(t *testing.T) {
-	slog.SetLogLoggerLevel(slog.LevelDebug - 2)
+	// slog.SetLogLoggerLevel(slog.LevelDebug - 2)
 
 	libPath := "../../dependencies/future/v6.7.13/thosttraderapi_se.dll"
 	// libPath := "../../dependencies/future/v6.7.13/thosttraderapi_se.so"
@@ -80,5 +81,18 @@ func TestTraderApi(t *testing.T) {
 	select {
 	case <-done:
 	case <-time.After(time.Second * 20):
+	}
+
+	t.Log(td.GetInstrument("SHFE.zn2611P21600"))
+
+	for idx, v := range td.IterInstruments(
+		func(cfif *state.DataContainer[
+			thost_futer.CThostFtdcInstrumentField,
+			*thost_futer.CThostFtdcInstrumentField,
+		]) bool {
+			return cfif.Data().ProductClass.String() == "ag"
+		},
+	) {
+		t.Log(idx, v)
 	}
 }
