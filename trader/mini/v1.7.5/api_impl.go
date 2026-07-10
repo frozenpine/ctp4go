@@ -135,7 +135,18 @@ func (api *ThostFtdcTraderApi) GetApiVersion() string {
 }
 
 func (api *ThostFtdcTraderApi) Release() {
-	slog.Info("executing thost trader api Release")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "Release"),
+		)
+		return
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "Release"),
+	)
 
 	defer func() {
 		if api.spiPtr != nil {
@@ -151,12 +162,26 @@ func (api *ThostFtdcTraderApi) Release() {
 		unsafe.Pointer(api.apiPtr),
 	)
 
-	slog.Info("thost trader api Release executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "Release"),
+	)
 
 }
 
 func (api *ThostFtdcTraderApi) Init(Continuous bool) {
-	slog.Info("executing thost trader api Init")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "Init"),
+		)
+		return
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "Init"),
+	)
 
 	C.CallInit(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_Init,
@@ -164,38 +189,81 @@ func (api *ThostFtdcTraderApi) Init(Continuous bool) {
 		C.bool(Continuous),
 	)
 
-	slog.Info("thost trader api Init executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "Init"),
+	)
 
 }
 
 func (api *ThostFtdcTraderApi) Join() int {
-	slog.Info("executing thost trader api Join")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "Join"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "Join"),
+	)
 
 	rtn := C.CallJoin(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_Join,
 		unsafe.Pointer(api.apiPtr),
 	)
 
-	slog.Info("thost trader api Join executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "Join"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) GetTradingDay() string {
-	slog.Info("executing thost trader api GetTradingDay")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "GetTradingDay"),
+		)
+		var dummy string
+		return dummy
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "GetTradingDay"),
+	)
 
 	rtn := C.CallGetTradingDay(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_GetTradingDay,
 		unsafe.Pointer(api.apiPtr),
 	)
 
-	slog.Info("thost trader api GetTradingDay executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "GetTradingDay"),
+	)
 
 	return C.GoString(rtn)
 }
 
 func (api *ThostFtdcTraderApi) RegisterFront(FrontAddress string) {
-	slog.Info("executing thost trader api RegisterFront")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "RegisterFront"),
+		)
+		return
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "RegisterFront"),
+	)
 
 	pszFrontAddress := C.CString(FrontAddress)
 	defer C.free(unsafe.Pointer(pszFrontAddress))
@@ -206,12 +274,26 @@ func (api *ThostFtdcTraderApi) RegisterFront(FrontAddress string) {
 		pszFrontAddress,
 	)
 
-	slog.Info("thost trader api RegisterFront executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "RegisterFront"),
+	)
 
 }
 
 func (api *ThostFtdcTraderApi) RegisterSpi(Spi mini.TraderSpi) {
-	slog.Info("executing thost trader api RegisterSpi")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "RegisterSpi"),
+		)
+		return
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "RegisterSpi"),
+	)
 
 	api.spiPtr = new(ThostFtdcTraderSpi)
 	api.spiPtr.callback = Spi
@@ -235,12 +317,26 @@ func (api *ThostFtdcTraderApi) RegisterSpi(Spi mini.TraderSpi) {
 		unsafe.Pointer(pSpi),
 	)
 
-	slog.Info("thost trader api RegisterSpi executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "RegisterSpi"),
+	)
 
 }
 
 func (api *ThostFtdcTraderApi) SubscribePrivateTopic(ResumeType int) {
-	slog.Info("executing thost trader api SubscribePrivateTopic")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "SubscribePrivateTopic"),
+		)
+		return
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "SubscribePrivateTopic"),
+	)
 
 	C.CallSubscribePrivateTopic(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_SubscribePrivateTopic,
@@ -248,12 +344,26 @@ func (api *ThostFtdcTraderApi) SubscribePrivateTopic(ResumeType int) {
 		C.int(ResumeType),
 	)
 
-	slog.Info("thost trader api SubscribePrivateTopic executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "SubscribePrivateTopic"),
+	)
 
 }
 
 func (api *ThostFtdcTraderApi) SubscribePublicTopic(ResumeType int) {
-	slog.Info("executing thost trader api SubscribePublicTopic")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "SubscribePublicTopic"),
+		)
+		return
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "SubscribePublicTopic"),
+	)
 
 	C.CallSubscribePublicTopic(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_SubscribePublicTopic,
@@ -261,12 +371,26 @@ func (api *ThostFtdcTraderApi) SubscribePublicTopic(ResumeType int) {
 		C.int(ResumeType),
 	)
 
-	slog.Info("thost trader api SubscribePublicTopic executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "SubscribePublicTopic"),
+	)
 
 }
 
 func (api *ThostFtdcTraderApi) SubscribeFlowCtrlWarning(TraderID ...string) int {
-	slog.Info("executing thost trader api SubscribeFlowCtrlWarning")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "SubscribeFlowCtrlWarning"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "SubscribeFlowCtrlWarning"),
+	)
 
 	ppTraderID := make([]*C.char, len(TraderID))
 	for idx, v := range TraderID {
@@ -280,13 +404,27 @@ func (api *ThostFtdcTraderApi) SubscribeFlowCtrlWarning(TraderID ...string) int 
 		(**C.char)(unsafe.Pointer(&ppTraderID[0])), C.int(len(TraderID)),
 	)
 
-	slog.Info("thost trader api SubscribeFlowCtrlWarning executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "SubscribeFlowCtrlWarning"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) UnSubscribeFlowCtrlWarning(TraderID ...string) int {
-	slog.Info("executing thost trader api UnSubscribeFlowCtrlWarning")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "UnSubscribeFlowCtrlWarning"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "UnSubscribeFlowCtrlWarning"),
+	)
 
 	ppTraderID := make([]*C.char, len(TraderID))
 	for idx, v := range TraderID {
@@ -300,13 +438,27 @@ func (api *ThostFtdcTraderApi) UnSubscribeFlowCtrlWarning(TraderID ...string) in
 		(**C.char)(unsafe.Pointer(&ppTraderID[0])), C.int(len(TraderID)),
 	)
 
-	slog.Info("thost trader api UnSubscribeFlowCtrlWarning executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "UnSubscribeFlowCtrlWarning"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqAuthenticate(ReqAuthenticateField *mini.CThostFtdcReqAuthenticateField, RequestID int) int {
-	slog.Info("executing thost trader api ReqAuthenticate")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqAuthenticate"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqAuthenticate"),
+	)
 
 	rtn := C.CallReqAuthenticate(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqAuthenticate,
@@ -314,13 +466,27 @@ func (api *ThostFtdcTraderApi) ReqAuthenticate(ReqAuthenticateField *mini.CThost
 		(*C.struct_CThostFtdcReqAuthenticateField)(unsafe.Pointer(ReqAuthenticateField)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqAuthenticate executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqAuthenticate"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqUserLogin(ReqUserLoginField *mini.CThostFtdcReqUserLoginField, RequestID int) int {
-	slog.Info("executing thost trader api ReqUserLogin")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqUserLogin"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqUserLogin"),
+	)
 
 	rtn := C.CallReqUserLogin(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqUserLogin,
@@ -328,13 +494,27 @@ func (api *ThostFtdcTraderApi) ReqUserLogin(ReqUserLoginField *mini.CThostFtdcRe
 		(*C.struct_CThostFtdcReqUserLoginField)(unsafe.Pointer(ReqUserLoginField)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqUserLogin executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqUserLogin"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqUserLoginEncrypt(ReqUserLoginField *mini.CThostFtdcReqUserLoginField, RequestID int) int {
-	slog.Info("executing thost trader api ReqUserLoginEncrypt")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqUserLoginEncrypt"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqUserLoginEncrypt"),
+	)
 
 	rtn := C.CallReqUserLoginEncrypt(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqUserLoginEncrypt,
@@ -342,13 +522,27 @@ func (api *ThostFtdcTraderApi) ReqUserLoginEncrypt(ReqUserLoginField *mini.CThos
 		(*C.struct_CThostFtdcReqUserLoginField)(unsafe.Pointer(ReqUserLoginField)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqUserLoginEncrypt executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqUserLoginEncrypt"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqUserLogout(UserLogout *mini.CThostFtdcUserLogoutField, RequestID int) int {
-	slog.Info("executing thost trader api ReqUserLogout")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqUserLogout"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqUserLogout"),
+	)
 
 	rtn := C.CallReqUserLogout(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqUserLogout,
@@ -356,13 +550,27 @@ func (api *ThostFtdcTraderApi) ReqUserLogout(UserLogout *mini.CThostFtdcUserLogo
 		(*C.struct_CThostFtdcUserLogoutField)(unsafe.Pointer(UserLogout)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqUserLogout executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqUserLogout"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqOrderInsert(InputOrder *mini.CThostFtdcInputOrderField, RequestID int) int {
-	slog.Info("executing thost trader api ReqOrderInsert")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqOrderInsert"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqOrderInsert"),
+	)
 
 	rtn := C.CallReqOrderInsert(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqOrderInsert,
@@ -370,13 +578,27 @@ func (api *ThostFtdcTraderApi) ReqOrderInsert(InputOrder *mini.CThostFtdcInputOr
 		(*C.struct_CThostFtdcInputOrderField)(unsafe.Pointer(InputOrder)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqOrderInsert executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqOrderInsert"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqOrderAction(InputOrderAction *mini.CThostFtdcInputOrderActionField, RequestID int) int {
-	slog.Info("executing thost trader api ReqOrderAction")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqOrderAction"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqOrderAction"),
+	)
 
 	rtn := C.CallReqOrderAction(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqOrderAction,
@@ -384,13 +606,27 @@ func (api *ThostFtdcTraderApi) ReqOrderAction(InputOrderAction *mini.CThostFtdcI
 		(*C.struct_CThostFtdcInputOrderActionField)(unsafe.Pointer(InputOrderAction)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqOrderAction executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqOrderAction"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqMKBatchOrderAction(MKInputOrderAction *mini.CThostFtdcMKInputOrderActionField, RequestID int) int {
-	slog.Info("executing thost trader api ReqMKBatchOrderAction")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqMKBatchOrderAction"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqMKBatchOrderAction"),
+	)
 
 	rtn := C.CallReqMKBatchOrderAction(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqMKBatchOrderAction,
@@ -398,13 +634,27 @@ func (api *ThostFtdcTraderApi) ReqMKBatchOrderAction(MKInputOrderAction *mini.CT
 		(*C.struct_CThostFtdcMKInputOrderActionField)(unsafe.Pointer(MKInputOrderAction)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqMKBatchOrderAction executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqMKBatchOrderAction"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqExecOrderInsert(InputExecOrder *mini.CThostFtdcInputExecOrderField, RequestID int) int {
-	slog.Info("executing thost trader api ReqExecOrderInsert")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqExecOrderInsert"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqExecOrderInsert"),
+	)
 
 	rtn := C.CallReqExecOrderInsert(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqExecOrderInsert,
@@ -412,13 +662,27 @@ func (api *ThostFtdcTraderApi) ReqExecOrderInsert(InputExecOrder *mini.CThostFtd
 		(*C.struct_CThostFtdcInputExecOrderField)(unsafe.Pointer(InputExecOrder)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqExecOrderInsert executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqExecOrderInsert"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqExecOrderAction(InputExecOrderAction *mini.CThostFtdcInputExecOrderActionField, RequestID int) int {
-	slog.Info("executing thost trader api ReqExecOrderAction")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqExecOrderAction"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqExecOrderAction"),
+	)
 
 	rtn := C.CallReqExecOrderAction(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqExecOrderAction,
@@ -426,13 +690,27 @@ func (api *ThostFtdcTraderApi) ReqExecOrderAction(InputExecOrderAction *mini.CTh
 		(*C.struct_CThostFtdcInputExecOrderActionField)(unsafe.Pointer(InputExecOrderAction)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqExecOrderAction executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqExecOrderAction"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqForQuoteInsert(InputForQuote *mini.CThostFtdcInputForQuoteField, RequestID int) int {
-	slog.Info("executing thost trader api ReqForQuoteInsert")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqForQuoteInsert"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqForQuoteInsert"),
+	)
 
 	rtn := C.CallReqForQuoteInsert(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqForQuoteInsert,
@@ -440,13 +718,27 @@ func (api *ThostFtdcTraderApi) ReqForQuoteInsert(InputForQuote *mini.CThostFtdcI
 		(*C.struct_CThostFtdcInputForQuoteField)(unsafe.Pointer(InputForQuote)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqForQuoteInsert executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqForQuoteInsert"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQuoteInsert(InputQuote *mini.CThostFtdcInputQuoteField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQuoteInsert")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQuoteInsert"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQuoteInsert"),
+	)
 
 	rtn := C.CallReqQuoteInsert(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQuoteInsert,
@@ -454,13 +746,27 @@ func (api *ThostFtdcTraderApi) ReqQuoteInsert(InputQuote *mini.CThostFtdcInputQu
 		(*C.struct_CThostFtdcInputQuoteField)(unsafe.Pointer(InputQuote)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQuoteInsert executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQuoteInsert"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQuoteAction(InputQuoteAction *mini.CThostFtdcInputQuoteActionField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQuoteAction")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQuoteAction"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQuoteAction"),
+	)
 
 	rtn := C.CallReqQuoteAction(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQuoteAction,
@@ -468,13 +774,27 @@ func (api *ThostFtdcTraderApi) ReqQuoteAction(InputQuoteAction *mini.CThostFtdcI
 		(*C.struct_CThostFtdcInputQuoteActionField)(unsafe.Pointer(InputQuoteAction)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQuoteAction executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQuoteAction"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqBatchOrderAction(InputBatchOrderAction *mini.CThostFtdcInputBatchOrderActionField, RequestID int) int {
-	slog.Info("executing thost trader api ReqBatchOrderAction")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqBatchOrderAction"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqBatchOrderAction"),
+	)
 
 	rtn := C.CallReqBatchOrderAction(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqBatchOrderAction,
@@ -482,13 +802,27 @@ func (api *ThostFtdcTraderApi) ReqBatchOrderAction(InputBatchOrderAction *mini.C
 		(*C.struct_CThostFtdcInputBatchOrderActionField)(unsafe.Pointer(InputBatchOrderAction)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqBatchOrderAction executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqBatchOrderAction"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqOptionSelfCloseInsert(InputOptionSelfClose *mini.CThostFtdcInputOptionSelfCloseField, RequestID int) int {
-	slog.Info("executing thost trader api ReqOptionSelfCloseInsert")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqOptionSelfCloseInsert"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqOptionSelfCloseInsert"),
+	)
 
 	rtn := C.CallReqOptionSelfCloseInsert(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqOptionSelfCloseInsert,
@@ -496,13 +830,27 @@ func (api *ThostFtdcTraderApi) ReqOptionSelfCloseInsert(InputOptionSelfClose *mi
 		(*C.struct_CThostFtdcInputOptionSelfCloseField)(unsafe.Pointer(InputOptionSelfClose)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqOptionSelfCloseInsert executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqOptionSelfCloseInsert"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqOptionSelfCloseAction(InputOptionSelfCloseAction *mini.CThostFtdcInputOptionSelfCloseActionField, RequestID int) int {
-	slog.Info("executing thost trader api ReqOptionSelfCloseAction")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqOptionSelfCloseAction"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqOptionSelfCloseAction"),
+	)
 
 	rtn := C.CallReqOptionSelfCloseAction(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqOptionSelfCloseAction,
@@ -510,13 +858,27 @@ func (api *ThostFtdcTraderApi) ReqOptionSelfCloseAction(InputOptionSelfCloseActi
 		(*C.struct_CThostFtdcInputOptionSelfCloseActionField)(unsafe.Pointer(InputOptionSelfCloseAction)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqOptionSelfCloseAction executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqOptionSelfCloseAction"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqCombActionInsert(InputCombAction *mini.CThostFtdcInputCombActionField, RequestID int) int {
-	slog.Info("executing thost trader api ReqCombActionInsert")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqCombActionInsert"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqCombActionInsert"),
+	)
 
 	rtn := C.CallReqCombActionInsert(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqCombActionInsert,
@@ -524,13 +886,27 @@ func (api *ThostFtdcTraderApi) ReqCombActionInsert(InputCombAction *mini.CThostF
 		(*C.struct_CThostFtdcInputCombActionField)(unsafe.Pointer(InputCombAction)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqCombActionInsert executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqCombActionInsert"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqSubscribeFundChange(RequestID int) int {
-	slog.Info("executing thost trader api ReqSubscribeFundChange")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqSubscribeFundChange"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqSubscribeFundChange"),
+	)
 
 	rtn := C.CallReqSubscribeFundChange(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqSubscribeFundChange,
@@ -538,13 +914,27 @@ func (api *ThostFtdcTraderApi) ReqSubscribeFundChange(RequestID int) int {
 		C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqSubscribeFundChange executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqSubscribeFundChange"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqUnSubscribeFundChange(RequestID int) int {
-	slog.Info("executing thost trader api ReqUnSubscribeFundChange")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqUnSubscribeFundChange"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqUnSubscribeFundChange"),
+	)
 
 	rtn := C.CallReqUnSubscribeFundChange(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqUnSubscribeFundChange,
@@ -552,13 +942,27 @@ func (api *ThostFtdcTraderApi) ReqUnSubscribeFundChange(RequestID int) int {
 		C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqUnSubscribeFundChange executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqUnSubscribeFundChange"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqOffsetSetting(InputOffsetSetting *mini.CThostFtdcInputOffsetSettingField, RequestID int) int {
-	slog.Info("executing thost trader api ReqOffsetSetting")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqOffsetSetting"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqOffsetSetting"),
+	)
 
 	rtn := C.CallReqOffsetSetting(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqOffsetSetting,
@@ -566,13 +970,27 @@ func (api *ThostFtdcTraderApi) ReqOffsetSetting(InputOffsetSetting *mini.CThostF
 		(*C.struct_CThostFtdcInputOffsetSettingField)(unsafe.Pointer(InputOffsetSetting)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqOffsetSetting executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqOffsetSetting"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqCancelOffsetSetting(InputOffsetSetting *mini.CThostFtdcInputOffsetSettingField, RequestID int) int {
-	slog.Info("executing thost trader api ReqCancelOffsetSetting")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqCancelOffsetSetting"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqCancelOffsetSetting"),
+	)
 
 	rtn := C.CallReqCancelOffsetSetting(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqCancelOffsetSetting,
@@ -580,13 +998,27 @@ func (api *ThostFtdcTraderApi) ReqCancelOffsetSetting(InputOffsetSetting *mini.C
 		(*C.struct_CThostFtdcInputOffsetSettingField)(unsafe.Pointer(InputOffsetSetting)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqCancelOffsetSetting executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqCancelOffsetSetting"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryOrder(QryOrder *mini.CThostFtdcQryOrderField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryOrder")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryOrder"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryOrder"),
+	)
 
 	rtn := C.CallReqQryOrder(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryOrder,
@@ -594,13 +1026,27 @@ func (api *ThostFtdcTraderApi) ReqQryOrder(QryOrder *mini.CThostFtdcQryOrderFiel
 		(*C.struct_CThostFtdcQryOrderField)(unsafe.Pointer(QryOrder)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryOrder executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryOrder"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryTrade(QryTrade *mini.CThostFtdcQryTradeField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryTrade")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryTrade"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryTrade"),
+	)
 
 	rtn := C.CallReqQryTrade(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryTrade,
@@ -608,13 +1054,27 @@ func (api *ThostFtdcTraderApi) ReqQryTrade(QryTrade *mini.CThostFtdcQryTradeFiel
 		(*C.struct_CThostFtdcQryTradeField)(unsafe.Pointer(QryTrade)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryTrade executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryTrade"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryInvestorPosition(QryInvestorPosition *mini.CThostFtdcQryInvestorPositionField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryInvestorPosition")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryInvestorPosition"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryInvestorPosition"),
+	)
 
 	rtn := C.CallReqQryInvestorPosition(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryInvestorPosition,
@@ -622,13 +1082,27 @@ func (api *ThostFtdcTraderApi) ReqQryInvestorPosition(QryInvestorPosition *mini.
 		(*C.struct_CThostFtdcQryInvestorPositionField)(unsafe.Pointer(QryInvestorPosition)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryInvestorPosition executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryInvestorPosition"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryTradingAccount(QryTradingAccount *mini.CThostFtdcQryTradingAccountField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryTradingAccount")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryTradingAccount"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryTradingAccount"),
+	)
 
 	rtn := C.CallReqQryTradingAccount(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryTradingAccount,
@@ -636,13 +1110,27 @@ func (api *ThostFtdcTraderApi) ReqQryTradingAccount(QryTradingAccount *mini.CTho
 		(*C.struct_CThostFtdcQryTradingAccountField)(unsafe.Pointer(QryTradingAccount)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryTradingAccount executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryTradingAccount"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryInvestor(QryInvestor *mini.CThostFtdcQryInvestorField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryInvestor")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryInvestor"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryInvestor"),
+	)
 
 	rtn := C.CallReqQryInvestor(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryInvestor,
@@ -650,13 +1138,27 @@ func (api *ThostFtdcTraderApi) ReqQryInvestor(QryInvestor *mini.CThostFtdcQryInv
 		(*C.struct_CThostFtdcQryInvestorField)(unsafe.Pointer(QryInvestor)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryInvestor executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryInvestor"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryTradingCode(QryTradingCode *mini.CThostFtdcQryTradingCodeField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryTradingCode")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryTradingCode"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryTradingCode"),
+	)
 
 	rtn := C.CallReqQryTradingCode(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryTradingCode,
@@ -664,13 +1166,27 @@ func (api *ThostFtdcTraderApi) ReqQryTradingCode(QryTradingCode *mini.CThostFtdc
 		(*C.struct_CThostFtdcQryTradingCodeField)(unsafe.Pointer(QryTradingCode)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryTradingCode executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryTradingCode"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryInstrumentMarginRate(QryInstrumentMarginRate *mini.CThostFtdcQryInstrumentMarginRateField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryInstrumentMarginRate")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryInstrumentMarginRate"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryInstrumentMarginRate"),
+	)
 
 	rtn := C.CallReqQryInstrumentMarginRate(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryInstrumentMarginRate,
@@ -678,13 +1194,27 @@ func (api *ThostFtdcTraderApi) ReqQryInstrumentMarginRate(QryInstrumentMarginRat
 		(*C.struct_CThostFtdcQryInstrumentMarginRateField)(unsafe.Pointer(QryInstrumentMarginRate)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryInstrumentMarginRate executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryInstrumentMarginRate"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryInstrumentCommissionRate(QryInstrumentCommissionRate *mini.CThostFtdcQryInstrumentCommissionRateField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryInstrumentCommissionRate")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryInstrumentCommissionRate"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryInstrumentCommissionRate"),
+	)
 
 	rtn := C.CallReqQryInstrumentCommissionRate(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryInstrumentCommissionRate,
@@ -692,13 +1222,27 @@ func (api *ThostFtdcTraderApi) ReqQryInstrumentCommissionRate(QryInstrumentCommi
 		(*C.struct_CThostFtdcQryInstrumentCommissionRateField)(unsafe.Pointer(QryInstrumentCommissionRate)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryInstrumentCommissionRate executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryInstrumentCommissionRate"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryExchange(QryExchange *mini.CThostFtdcQryExchangeField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryExchange")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryExchange"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryExchange"),
+	)
 
 	rtn := C.CallReqQryExchange(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryExchange,
@@ -706,13 +1250,27 @@ func (api *ThostFtdcTraderApi) ReqQryExchange(QryExchange *mini.CThostFtdcQryExc
 		(*C.struct_CThostFtdcQryExchangeField)(unsafe.Pointer(QryExchange)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryExchange executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryExchange"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryProduct(QryProduct *mini.CThostFtdcQryProductField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryProduct")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryProduct"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryProduct"),
+	)
 
 	rtn := C.CallReqQryProduct(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryProduct,
@@ -720,13 +1278,27 @@ func (api *ThostFtdcTraderApi) ReqQryProduct(QryProduct *mini.CThostFtdcQryProdu
 		(*C.struct_CThostFtdcQryProductField)(unsafe.Pointer(QryProduct)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryProduct executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryProduct"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryInstrument(QryInstrument *mini.CThostFtdcQryInstrumentField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryInstrument")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryInstrument"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryInstrument"),
+	)
 
 	rtn := C.CallReqQryInstrument(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryInstrument,
@@ -734,13 +1306,27 @@ func (api *ThostFtdcTraderApi) ReqQryInstrument(QryInstrument *mini.CThostFtdcQr
 		(*C.struct_CThostFtdcQryInstrumentField)(unsafe.Pointer(QryInstrument)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryInstrument executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryInstrument"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryCombInstrument(QryCombInstrument *mini.CThostFtdcQryCombInstrumentField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryCombInstrument")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryCombInstrument"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryCombInstrument"),
+	)
 
 	rtn := C.CallReqQryCombInstrument(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryCombInstrument,
@@ -748,13 +1334,27 @@ func (api *ThostFtdcTraderApi) ReqQryCombInstrument(QryCombInstrument *mini.CTho
 		(*C.struct_CThostFtdcQryCombInstrumentField)(unsafe.Pointer(QryCombInstrument)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryCombInstrument executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryCombInstrument"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryRCAMSInvestorProdMargin(QryRCAMSInvestorProdMargin *mini.CThostFtdcQryRCAMSInvestorProdMarginField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryRCAMSInvestorProdMargin")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryRCAMSInvestorProdMargin"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryRCAMSInvestorProdMargin"),
+	)
 
 	rtn := C.CallReqQryRCAMSInvestorProdMargin(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryRCAMSInvestorProdMargin,
@@ -762,13 +1362,27 @@ func (api *ThostFtdcTraderApi) ReqQryRCAMSInvestorProdMargin(QryRCAMSInvestorPro
 		(*C.struct_CThostFtdcQryRCAMSInvestorProdMarginField)(unsafe.Pointer(QryRCAMSInvestorProdMargin)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryRCAMSInvestorProdMargin executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryRCAMSInvestorProdMargin"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryRCAMSInvestorCombPosition(QryRCAMSInvestorCombPosition *mini.CThostFtdcQryRCAMSInvestorCombPositionField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryRCAMSInvestorCombPosition")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryRCAMSInvestorCombPosition"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryRCAMSInvestorCombPosition"),
+	)
 
 	rtn := C.CallReqQryRCAMSInvestorCombPosition(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryRCAMSInvestorCombPosition,
@@ -776,13 +1390,27 @@ func (api *ThostFtdcTraderApi) ReqQryRCAMSInvestorCombPosition(QryRCAMSInvestorC
 		(*C.struct_CThostFtdcQryRCAMSInvestorCombPositionField)(unsafe.Pointer(QryRCAMSInvestorCombPosition)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryRCAMSInvestorCombPosition executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryRCAMSInvestorCombPosition"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryInvestorPositionForComb(QryIPForComb *mini.CThostFtdcQryInvestorPositionForCombField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryInvestorPositionForComb")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryInvestorPositionForComb"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryInvestorPositionForComb"),
+	)
 
 	rtn := C.CallReqQryInvestorPositionForComb(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryInvestorPositionForComb,
@@ -790,13 +1418,27 @@ func (api *ThostFtdcTraderApi) ReqQryInvestorPositionForComb(QryIPForComb *mini.
 		(*C.struct_CThostFtdcQryInvestorPositionForCombField)(unsafe.Pointer(QryIPForComb)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryInvestorPositionForComb executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryInvestorPositionForComb"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryCombAction(QryCombAction *mini.CThostFtdcQryCombActionField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryCombAction")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryCombAction"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryCombAction"),
+	)
 
 	rtn := C.CallReqQryCombAction(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryCombAction,
@@ -804,13 +1446,27 @@ func (api *ThostFtdcTraderApi) ReqQryCombAction(QryCombAction *mini.CThostFtdcQr
 		(*C.struct_CThostFtdcQryCombActionField)(unsafe.Pointer(QryCombAction)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryCombAction executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryCombAction"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryDepthMarketData(QryDepthMarketData *mini.CThostFtdcQryDepthMarketDataField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryDepthMarketData")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryDepthMarketData"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryDepthMarketData"),
+	)
 
 	rtn := C.CallReqQryDepthMarketData(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryDepthMarketData,
@@ -818,13 +1474,27 @@ func (api *ThostFtdcTraderApi) ReqQryDepthMarketData(QryDepthMarketData *mini.CT
 		(*C.struct_CThostFtdcQryDepthMarketDataField)(unsafe.Pointer(QryDepthMarketData)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryDepthMarketData executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryDepthMarketData"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryOptionSelfClose(QryOptionSelfClose *mini.CThostFtdcQryOptionSelfCloseField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryOptionSelfClose")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryOptionSelfClose"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryOptionSelfClose"),
+	)
 
 	rtn := C.CallReqQryOptionSelfClose(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryOptionSelfClose,
@@ -832,13 +1502,27 @@ func (api *ThostFtdcTraderApi) ReqQryOptionSelfClose(QryOptionSelfClose *mini.CT
 		(*C.struct_CThostFtdcQryOptionSelfCloseField)(unsafe.Pointer(QryOptionSelfClose)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryOptionSelfClose executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryOptionSelfClose"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryInstrumentStatus(QryInstrumentStatus *mini.CThostFtdcQryInstrumentStatusField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryInstrumentStatus")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryInstrumentStatus"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryInstrumentStatus"),
+	)
 
 	rtn := C.CallReqQryInstrumentStatus(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryInstrumentStatus,
@@ -846,13 +1530,27 @@ func (api *ThostFtdcTraderApi) ReqQryInstrumentStatus(QryInstrumentStatus *mini.
 		(*C.struct_CThostFtdcQryInstrumentStatusField)(unsafe.Pointer(QryInstrumentStatus)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryInstrumentStatus executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryInstrumentStatus"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryInvestorPositionDetail(QryInvestorPositionDetail *mini.CThostFtdcQryInvestorPositionDetailField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryInvestorPositionDetail")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryInvestorPositionDetail"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryInvestorPositionDetail"),
+	)
 
 	rtn := C.CallReqQryInvestorPositionDetail(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryInvestorPositionDetail,
@@ -860,13 +1558,27 @@ func (api *ThostFtdcTraderApi) ReqQryInvestorPositionDetail(QryInvestorPositionD
 		(*C.struct_CThostFtdcQryInvestorPositionDetailField)(unsafe.Pointer(QryInvestorPositionDetail)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryInvestorPositionDetail executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryInvestorPositionDetail"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryExchangeMarginRate(QryExchangeMarginRate *mini.CThostFtdcQryExchangeMarginRateField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryExchangeMarginRate")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryExchangeMarginRate"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryExchangeMarginRate"),
+	)
 
 	rtn := C.CallReqQryExchangeMarginRate(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryExchangeMarginRate,
@@ -874,13 +1586,27 @@ func (api *ThostFtdcTraderApi) ReqQryExchangeMarginRate(QryExchangeMarginRate *m
 		(*C.struct_CThostFtdcQryExchangeMarginRateField)(unsafe.Pointer(QryExchangeMarginRate)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryExchangeMarginRate executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryExchangeMarginRate"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryExchangeMarginRateAdjust(QryExchangeMarginRateAdjust *mini.CThostFtdcQryExchangeMarginRateAdjustField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryExchangeMarginRateAdjust")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryExchangeMarginRateAdjust"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryExchangeMarginRateAdjust"),
+	)
 
 	rtn := C.CallReqQryExchangeMarginRateAdjust(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryExchangeMarginRateAdjust,
@@ -888,13 +1614,27 @@ func (api *ThostFtdcTraderApi) ReqQryExchangeMarginRateAdjust(QryExchangeMarginR
 		(*C.struct_CThostFtdcQryExchangeMarginRateAdjustField)(unsafe.Pointer(QryExchangeMarginRateAdjust)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryExchangeMarginRateAdjust executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryExchangeMarginRateAdjust"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryOptionInstrTradeCost(QryOptionInstrTradeCost *mini.CThostFtdcQryOptionInstrTradeCostField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryOptionInstrTradeCost")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryOptionInstrTradeCost"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryOptionInstrTradeCost"),
+	)
 
 	rtn := C.CallReqQryOptionInstrTradeCost(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryOptionInstrTradeCost,
@@ -902,13 +1642,27 @@ func (api *ThostFtdcTraderApi) ReqQryOptionInstrTradeCost(QryOptionInstrTradeCos
 		(*C.struct_CThostFtdcQryOptionInstrTradeCostField)(unsafe.Pointer(QryOptionInstrTradeCost)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryOptionInstrTradeCost executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryOptionInstrTradeCost"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryOptionInstrCommRate(QryOptionInstrCommRate *mini.CThostFtdcQryOptionInstrCommRateField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryOptionInstrCommRate")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryOptionInstrCommRate"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryOptionInstrCommRate"),
+	)
 
 	rtn := C.CallReqQryOptionInstrCommRate(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryOptionInstrCommRate,
@@ -916,13 +1670,27 @@ func (api *ThostFtdcTraderApi) ReqQryOptionInstrCommRate(QryOptionInstrCommRate 
 		(*C.struct_CThostFtdcQryOptionInstrCommRateField)(unsafe.Pointer(QryOptionInstrCommRate)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryOptionInstrCommRate executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryOptionInstrCommRate"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryExecOrder(QryExecOrder *mini.CThostFtdcQryExecOrderField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryExecOrder")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryExecOrder"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryExecOrder"),
+	)
 
 	rtn := C.CallReqQryExecOrder(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryExecOrder,
@@ -930,13 +1698,27 @@ func (api *ThostFtdcTraderApi) ReqQryExecOrder(QryExecOrder *mini.CThostFtdcQryE
 		(*C.struct_CThostFtdcQryExecOrderField)(unsafe.Pointer(QryExecOrder)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryExecOrder executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryExecOrder"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryForQuote(QryForQuote *mini.CThostFtdcQryForQuoteField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryForQuote")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryForQuote"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryForQuote"),
+	)
 
 	rtn := C.CallReqQryForQuote(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryForQuote,
@@ -944,13 +1726,27 @@ func (api *ThostFtdcTraderApi) ReqQryForQuote(QryForQuote *mini.CThostFtdcQryFor
 		(*C.struct_CThostFtdcQryForQuoteField)(unsafe.Pointer(QryForQuote)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryForQuote executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryForQuote"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryQuote(QryQuote *mini.CThostFtdcQryQuoteField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryQuote")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryQuote"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryQuote"),
+	)
 
 	rtn := C.CallReqQryQuote(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryQuote,
@@ -958,13 +1754,27 @@ func (api *ThostFtdcTraderApi) ReqQryQuote(QryQuote *mini.CThostFtdcQryQuoteFiel
 		(*C.struct_CThostFtdcQryQuoteField)(unsafe.Pointer(QryQuote)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryQuote executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryQuote"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryInstrumentOrderCommRate(QryInstrumentOrderCommRate *mini.CThostFtdcQryInstrumentOrderCommRateField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryInstrumentOrderCommRate")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryInstrumentOrderCommRate"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryInstrumentOrderCommRate"),
+	)
 
 	rtn := C.CallReqQryInstrumentOrderCommRate(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryInstrumentOrderCommRate,
@@ -972,13 +1782,27 @@ func (api *ThostFtdcTraderApi) ReqQryInstrumentOrderCommRate(QryInstrumentOrderC
 		(*C.struct_CThostFtdcQryInstrumentOrderCommRateField)(unsafe.Pointer(QryInstrumentOrderCommRate)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryInstrumentOrderCommRate executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryInstrumentOrderCommRate"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryForQuoteParam(QryForQuoteParam *mini.CThostFtdcQryForQuoteParamField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryForQuoteParam")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryForQuoteParam"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryForQuoteParam"),
+	)
 
 	rtn := C.CallReqQryForQuoteParam(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryForQuoteParam,
@@ -986,13 +1810,27 @@ func (api *ThostFtdcTraderApi) ReqQryForQuoteParam(QryForQuoteParam *mini.CThost
 		(*C.struct_CThostFtdcQryForQuoteParamField)(unsafe.Pointer(QryForQuoteParam)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryForQuoteParam executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryForQuoteParam"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryTraderOffer(QryTraderOffer *mini.CThostFtdcQryTraderOfferField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryTraderOffer")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryTraderOffer"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryTraderOffer"),
+	)
 
 	rtn := C.CallReqQryTraderOffer(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryTraderOffer,
@@ -1000,13 +1838,27 @@ func (api *ThostFtdcTraderApi) ReqQryTraderOffer(QryTraderOffer *mini.CThostFtdc
 		(*C.struct_CThostFtdcQryTraderOfferField)(unsafe.Pointer(QryTraderOffer)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryTraderOffer executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryTraderOffer"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryInvestorProdSPBMDetail(QryInvestorProdSPBMDetail *mini.CThostFtdcQryInvestorProdSPBMDetailField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryInvestorProdSPBMDetail")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryInvestorProdSPBMDetail"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryInvestorProdSPBMDetail"),
+	)
 
 	rtn := C.CallReqQryInvestorProdSPBMDetail(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryInvestorProdSPBMDetail,
@@ -1014,13 +1866,27 @@ func (api *ThostFtdcTraderApi) ReqQryInvestorProdSPBMDetail(QryInvestorProdSPBMD
 		(*C.struct_CThostFtdcQryInvestorProdSPBMDetailField)(unsafe.Pointer(QryInvestorProdSPBMDetail)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryInvestorProdSPBMDetail executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryInvestorProdSPBMDetail"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQrySPMMInvestorCommodityGroupMargin(QrySPMMInvestorCommodityGroupMargin *mini.CThostFtdcQrySPMMInvestorCommodityGroupMarginField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQrySPMMInvestorCommodityGroupMargin")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQrySPMMInvestorCommodityGroupMargin"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQrySPMMInvestorCommodityGroupMargin"),
+	)
 
 	rtn := C.CallReqQrySPMMInvestorCommodityGroupMargin(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQrySPMMInvestorCommodityGroupMargin,
@@ -1028,13 +1894,27 @@ func (api *ThostFtdcTraderApi) ReqQrySPMMInvestorCommodityGroupMargin(QrySPMMInv
 		(*C.struct_CThostFtdcQrySPMMInvestorCommodityGroupMarginField)(unsafe.Pointer(QrySPMMInvestorCommodityGroupMargin)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQrySPMMInvestorCommodityGroupMargin executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQrySPMMInvestorCommodityGroupMargin"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryRULEInvestorProdMargin(QryRULEInvestorProdMargin *mini.CThostFtdcQryRULEInvestorProdMarginField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryRULEInvestorProdMargin")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryRULEInvestorProdMargin"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryRULEInvestorProdMargin"),
+	)
 
 	rtn := C.CallReqQryRULEInvestorProdMargin(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryRULEInvestorProdMargin,
@@ -1042,13 +1922,27 @@ func (api *ThostFtdcTraderApi) ReqQryRULEInvestorProdMargin(QryRULEInvestorProdM
 		(*C.struct_CThostFtdcQryRULEInvestorProdMarginField)(unsafe.Pointer(QryRULEInvestorProdMargin)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryRULEInvestorProdMargin executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryRULEInvestorProdMargin"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryControlParam(QryControlParam *mini.CThostFtdcQryControlParamField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryControlParam")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryControlParam"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryControlParam"),
+	)
 
 	rtn := C.CallReqQryControlParam(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryControlParam,
@@ -1056,13 +1950,27 @@ func (api *ThostFtdcTraderApi) ReqQryControlParam(QryControlParam *mini.CThostFt
 		(*C.struct_CThostFtdcQryControlParamField)(unsafe.Pointer(QryControlParam)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryControlParam executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryControlParam"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqQryOffsetSetting(QryOffsetSetting *mini.CThostFtdcQryOffsetSettingField, RequestID int) int {
-	slog.Info("executing thost trader api ReqQryOffsetSetting")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqQryOffsetSetting"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqQryOffsetSetting"),
+	)
 
 	rtn := C.CallReqQryOffsetSetting(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqQryOffsetSetting,
@@ -1070,13 +1978,27 @@ func (api *ThostFtdcTraderApi) ReqQryOffsetSetting(QryOffsetSetting *mini.CThost
 		(*C.struct_CThostFtdcQryOffsetSettingField)(unsafe.Pointer(QryOffsetSetting)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqQryOffsetSetting executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqQryOffsetSetting"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcTraderApi) ReqUserPasswordUpdate(UserPasswordUpdate *mini.CThostFtdcUserPasswordUpdateField, RequestID int) int {
-	slog.Info("executing thost trader api ReqUserPasswordUpdate")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost trader api not initialized",
+			slog.String("caller", "ReqUserPasswordUpdate"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost trader api",
+		slog.String("caller", "ReqUserPasswordUpdate"),
+	)
 
 	rtn := C.CallReqUserPasswordUpdate(
 		api.apiPtr.vtable.CThostFtdcTraderApiVTable_ReqUserPasswordUpdate,
@@ -1084,7 +2006,10 @@ func (api *ThostFtdcTraderApi) ReqUserPasswordUpdate(UserPasswordUpdate *mini.CT
 		(*C.struct_CThostFtdcUserPasswordUpdateField)(unsafe.Pointer(UserPasswordUpdate)), C.int(RequestID),
 	)
 
-	slog.Info("thost trader api ReqUserPasswordUpdate executed")
+	slog.Info(
+		"thost trader api executed",
+		slog.String("caller", "ReqUserPasswordUpdate"),
+	)
 
 	return int(rtn)
 }

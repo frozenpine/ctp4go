@@ -144,7 +144,27 @@ func (api *{{ $className | TrimPrefix "C" }}) GetApiVersion() string {
 
 {{ range .ApiClass.Methods }}
 func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ if eq .Type $sdk.SpiName }}{{ GoParamName . }} {{ $.Platform }}.{{ $sdk.SpiName | TrimPrefix "CThostFtdc" }}{{ else }}{{ $.Platform | GoCaller . }}{{end}},{{ end }}) {{ $.Platform | GoCaller .Rtn }} {
-	slog.Info("executing thost {{ $sdk.Name }} api {{ .Name }}")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost {{ $sdk.Name }} api not initialized",
+			slog.String("caller", "{{ .Name }}"),
+		)
+		{{- if .Rtn }}
+			{{- if eq .Rtn.Type "Int" }}
+		return -255
+			{{- else }}
+		var dummy {{ GoParamType .Rtn }}
+		return dummy
+			{{- end }}
+		{{- else }}
+		return
+		{{- end }}
+	}
+
+	slog.Info(
+		"executing thost {{ $sdk.Name }} api",
+		slog.String("caller", "{{ .Name }}"),
+	)
 
 	{{ if Contains .Name "Release" -}}defer func() {
 		if api.spiPtr != nil {
@@ -193,7 +213,10 @@ func (api *{{ $className | TrimPrefix "C" }}) {{ .Name }}({{ range .Params }}{{ 
 		{{ range .Params }}{{ if eq .Type $sdk.SpiName }}unsafe.Pointer({{ .Name }}){{ else }}{{ CgoCallee . }}{{ end }},{{ end }}
 	)
 
-	slog.Info("thost {{ $sdk.Name }} api {{ .Name }} executed")
+	slog.Info(
+		"thost {{ $sdk.Name }} api executed",
+		slog.String("caller", "{{ .Name }}"),
+	)
 
 	{{ if .Rtn }}return {{ GoCallee .Rtn }}{{ end }}
 }

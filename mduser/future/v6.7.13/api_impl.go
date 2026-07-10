@@ -135,7 +135,18 @@ func (api *ThostFtdcMdApi) GetApiVersion() string {
 }
 
 func (api *ThostFtdcMdApi) Release() {
-	slog.Info("executing thost mduser api Release")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "Release"),
+		)
+		return
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "Release"),
+	)
 
 	defer func() {
 		if api.spiPtr != nil {
@@ -151,50 +162,107 @@ func (api *ThostFtdcMdApi) Release() {
 		unsafe.Pointer(api.apiPtr),
 	)
 
-	slog.Info("thost mduser api Release executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "Release"),
+	)
 
 }
 
 func (api *ThostFtdcMdApi) Init() {
-	slog.Info("executing thost mduser api Init")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "Init"),
+		)
+		return
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "Init"),
+	)
 
 	C.CallInit(
 		api.apiPtr.vtable.CThostFtdcMdApiVTable_Init,
 		unsafe.Pointer(api.apiPtr),
 	)
 
-	slog.Info("thost mduser api Init executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "Init"),
+	)
 
 }
 
 func (api *ThostFtdcMdApi) Join() int {
-	slog.Info("executing thost mduser api Join")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "Join"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "Join"),
+	)
 
 	rtn := C.CallJoin(
 		api.apiPtr.vtable.CThostFtdcMdApiVTable_Join,
 		unsafe.Pointer(api.apiPtr),
 	)
 
-	slog.Info("thost mduser api Join executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "Join"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcMdApi) GetTradingDay() string {
-	slog.Info("executing thost mduser api GetTradingDay")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "GetTradingDay"),
+		)
+		var dummy string
+		return dummy
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "GetTradingDay"),
+	)
 
 	rtn := C.CallGetTradingDay(
 		api.apiPtr.vtable.CThostFtdcMdApiVTable_GetTradingDay,
 		unsafe.Pointer(api.apiPtr),
 	)
 
-	slog.Info("thost mduser api GetTradingDay executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "GetTradingDay"),
+	)
 
 	return C.GoString(rtn)
 }
 
 func (api *ThostFtdcMdApi) RegisterFront(FrontAddress string) {
-	slog.Info("executing thost mduser api RegisterFront")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "RegisterFront"),
+		)
+		return
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "RegisterFront"),
+	)
 
 	pszFrontAddress := C.CString(FrontAddress)
 	defer C.free(unsafe.Pointer(pszFrontAddress))
@@ -205,12 +273,26 @@ func (api *ThostFtdcMdApi) RegisterFront(FrontAddress string) {
 		pszFrontAddress,
 	)
 
-	slog.Info("thost mduser api RegisterFront executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "RegisterFront"),
+	)
 
 }
 
 func (api *ThostFtdcMdApi) RegisterNameServer(NsAddress string) {
-	slog.Info("executing thost mduser api RegisterNameServer")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "RegisterNameServer"),
+		)
+		return
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "RegisterNameServer"),
+	)
 
 	pszNsAddress := C.CString(NsAddress)
 	defer C.free(unsafe.Pointer(pszNsAddress))
@@ -221,12 +303,26 @@ func (api *ThostFtdcMdApi) RegisterNameServer(NsAddress string) {
 		pszNsAddress,
 	)
 
-	slog.Info("thost mduser api RegisterNameServer executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "RegisterNameServer"),
+	)
 
 }
 
 func (api *ThostFtdcMdApi) RegisterFensUserInfo(FensUserInfo *future.CThostFtdcFensUserInfoField) {
-	slog.Info("executing thost mduser api RegisterFensUserInfo")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "RegisterFensUserInfo"),
+		)
+		return
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "RegisterFensUserInfo"),
+	)
 
 	C.CallRegisterFensUserInfo(
 		api.apiPtr.vtable.CThostFtdcMdApiVTable_RegisterFensUserInfo,
@@ -234,12 +330,26 @@ func (api *ThostFtdcMdApi) RegisterFensUserInfo(FensUserInfo *future.CThostFtdcF
 		(*C.struct_CThostFtdcFensUserInfoField)(unsafe.Pointer(FensUserInfo)),
 	)
 
-	slog.Info("thost mduser api RegisterFensUserInfo executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "RegisterFensUserInfo"),
+	)
 
 }
 
 func (api *ThostFtdcMdApi) RegisterSpi(Spi future.MdSpi) {
-	slog.Info("executing thost mduser api RegisterSpi")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "RegisterSpi"),
+		)
+		return
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "RegisterSpi"),
+	)
 
 	api.spiPtr = new(ThostFtdcMdSpi)
 	api.spiPtr.callback = Spi
@@ -263,12 +373,26 @@ func (api *ThostFtdcMdApi) RegisterSpi(Spi future.MdSpi) {
 		unsafe.Pointer(pSpi),
 	)
 
-	slog.Info("thost mduser api RegisterSpi executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "RegisterSpi"),
+	)
 
 }
 
 func (api *ThostFtdcMdApi) SubscribeMarketData(InstrumentID ...string) int {
-	slog.Info("executing thost mduser api SubscribeMarketData")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "SubscribeMarketData"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "SubscribeMarketData"),
+	)
 
 	ppInstrumentID := make([]*C.char, len(InstrumentID))
 	for idx, v := range InstrumentID {
@@ -282,13 +406,27 @@ func (api *ThostFtdcMdApi) SubscribeMarketData(InstrumentID ...string) int {
 		(**C.char)(unsafe.Pointer(&ppInstrumentID[0])), C.int(len(InstrumentID)),
 	)
 
-	slog.Info("thost mduser api SubscribeMarketData executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "SubscribeMarketData"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcMdApi) UnSubscribeMarketData(InstrumentID ...string) int {
-	slog.Info("executing thost mduser api UnSubscribeMarketData")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "UnSubscribeMarketData"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "UnSubscribeMarketData"),
+	)
 
 	ppInstrumentID := make([]*C.char, len(InstrumentID))
 	for idx, v := range InstrumentID {
@@ -302,13 +440,27 @@ func (api *ThostFtdcMdApi) UnSubscribeMarketData(InstrumentID ...string) int {
 		(**C.char)(unsafe.Pointer(&ppInstrumentID[0])), C.int(len(InstrumentID)),
 	)
 
-	slog.Info("thost mduser api UnSubscribeMarketData executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "UnSubscribeMarketData"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcMdApi) SubscribeForQuoteRsp(InstrumentID ...string) int {
-	slog.Info("executing thost mduser api SubscribeForQuoteRsp")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "SubscribeForQuoteRsp"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "SubscribeForQuoteRsp"),
+	)
 
 	ppInstrumentID := make([]*C.char, len(InstrumentID))
 	for idx, v := range InstrumentID {
@@ -322,13 +474,27 @@ func (api *ThostFtdcMdApi) SubscribeForQuoteRsp(InstrumentID ...string) int {
 		(**C.char)(unsafe.Pointer(&ppInstrumentID[0])), C.int(len(InstrumentID)),
 	)
 
-	slog.Info("thost mduser api SubscribeForQuoteRsp executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "SubscribeForQuoteRsp"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcMdApi) UnSubscribeForQuoteRsp(InstrumentID ...string) int {
-	slog.Info("executing thost mduser api UnSubscribeForQuoteRsp")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "UnSubscribeForQuoteRsp"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "UnSubscribeForQuoteRsp"),
+	)
 
 	ppInstrumentID := make([]*C.char, len(InstrumentID))
 	for idx, v := range InstrumentID {
@@ -342,13 +508,27 @@ func (api *ThostFtdcMdApi) UnSubscribeForQuoteRsp(InstrumentID ...string) int {
 		(**C.char)(unsafe.Pointer(&ppInstrumentID[0])), C.int(len(InstrumentID)),
 	)
 
-	slog.Info("thost mduser api UnSubscribeForQuoteRsp executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "UnSubscribeForQuoteRsp"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcMdApi) ReqUserLogin(ReqUserLoginField *future.CThostFtdcReqUserLoginField, RequestID int) int {
-	slog.Info("executing thost mduser api ReqUserLogin")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "ReqUserLogin"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "ReqUserLogin"),
+	)
 
 	rtn := C.CallReqUserLogin(
 		api.apiPtr.vtable.CThostFtdcMdApiVTable_ReqUserLogin,
@@ -356,13 +536,27 @@ func (api *ThostFtdcMdApi) ReqUserLogin(ReqUserLoginField *future.CThostFtdcReqU
 		(*C.struct_CThostFtdcReqUserLoginField)(unsafe.Pointer(ReqUserLoginField)), C.int(RequestID),
 	)
 
-	slog.Info("thost mduser api ReqUserLogin executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "ReqUserLogin"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcMdApi) ReqUserLogout(UserLogout *future.CThostFtdcUserLogoutField, RequestID int) int {
-	slog.Info("executing thost mduser api ReqUserLogout")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "ReqUserLogout"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "ReqUserLogout"),
+	)
 
 	rtn := C.CallReqUserLogout(
 		api.apiPtr.vtable.CThostFtdcMdApiVTable_ReqUserLogout,
@@ -370,13 +564,27 @@ func (api *ThostFtdcMdApi) ReqUserLogout(UserLogout *future.CThostFtdcUserLogout
 		(*C.struct_CThostFtdcUserLogoutField)(unsafe.Pointer(UserLogout)), C.int(RequestID),
 	)
 
-	slog.Info("thost mduser api ReqUserLogout executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "ReqUserLogout"),
+	)
 
 	return int(rtn)
 }
 
 func (api *ThostFtdcMdApi) ReqQryMulticastInstrument(QryMulticastInstrument *future.CThostFtdcQryMulticastInstrumentField, RequestID int) int {
-	slog.Info("executing thost mduser api ReqQryMulticastInstrument")
+	if api.apiPtr == nil {
+		slog.Error(
+			"thost mduser api not initialized",
+			slog.String("caller", "ReqQryMulticastInstrument"),
+		)
+		return -255
+	}
+
+	slog.Info(
+		"executing thost mduser api",
+		slog.String("caller", "ReqQryMulticastInstrument"),
+	)
 
 	rtn := C.CallReqQryMulticastInstrument(
 		api.apiPtr.vtable.CThostFtdcMdApiVTable_ReqQryMulticastInstrument,
@@ -384,7 +592,10 @@ func (api *ThostFtdcMdApi) ReqQryMulticastInstrument(QryMulticastInstrument *fut
 		(*C.struct_CThostFtdcQryMulticastInstrumentField)(unsafe.Pointer(QryMulticastInstrument)), C.int(RequestID),
 	)
 
-	slog.Info("thost mduser api ReqQryMulticastInstrument executed")
+	slog.Info(
+		"thost mduser api executed",
+		slog.String("caller", "ReqQryMulticastInstrument"),
+	)
 
 	return int(rtn)
 }
