@@ -31,10 +31,12 @@ var (
 )
 
 type Request interface {
+	fmt.Stringer
+
 	Type() string
 	Executor() string
-	WithPayload(any) Request
 
+	WithPayload(any) Request
 	Execute(int) error
 }
 
@@ -91,6 +93,17 @@ func (r *request[API, D, DATA]) Execute(seq int) error {
 	return thost.Rtn{
 		Code: r.handler(r.api, r.payload, seq),
 	}.Error()
+}
+
+func (r *request[API, D, PTR]) String() string {
+	builder := strings.Builder{}
+
+	fmt.Fprintf(
+		&builder, "Request{Executor=%s, Payload=%+v}",
+		r.fnName, r.payload,
+	)
+
+	return builder.String()
 }
 
 type reqWait struct {
@@ -257,7 +270,7 @@ func (c *RequestCache) doRequest(r Request, options ...reqOpt) (err error) {
 			"request execute failed",
 			slog.Any("error", err),
 			slog.Int("seq", seq),
-			slog.String("executor", r.Executor()),
+			slog.Any("req", r),
 		)
 
 		if cfg.suspend > 0 {
