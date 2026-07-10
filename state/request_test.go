@@ -16,29 +16,23 @@ func TestReqFactory(t *testing.T) {
 
 	// t.Logf("%+v", factory)
 
-	_, err := state.MakeRequest(
-		factory, &future.CThostFtdcInstrumentField{},
-	)
+	_, err := state.MakeRequest(factory, &future.CThostFtdcInstrumentField{})
 	if err == nil {
 		t.Fatal("make request with invalid data failed")
 	} else {
 		t.Log(err)
 	}
 
-	req, err := state.MakeRequest(
-		factory, &future.CThostFtdcReqUserLoginField{
-			UserID: types.TThostFtdcUserIDType{'a'},
-		},
-	)
+	req, err := state.MakeRequest(factory, &future.CThostFtdcReqUserLoginField{
+		UserID: types.TThostFtdcUserIDType{'a'},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	req, err = state.MakeRequest(
-		factory, &future.CThostFtdcReqUserLoginField{
-			BrokerID: types.TThostFtdcBrokerIDType{'b'},
-		},
-	)
+	req, err = state.MakeRequest(factory, &future.CThostFtdcReqUserLoginField{
+		BrokerID: types.TThostFtdcBrokerIDType{'b'},
+	})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -48,8 +42,7 @@ func TestReqFactory(t *testing.T) {
 	}
 
 	qry, err := state.MakeRequest(
-		factory, &future.CThostFtdcQryInstrumentField{},
-	)
+		factory, &future.CThostFtdcQryInstrumentField{})
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -38,6 +38,7 @@ type Data interface {
 }
 
 type Cache interface {
+	Name() string
 	Size() int
 	GetByKey(string) (Data, error)
 	GetByIdx(int) (Data, error)
@@ -66,6 +67,8 @@ type DataContainer[T thost.ThostData, Ptr DataPtr[T]] struct {
 }
 
 type dataOpt[T thost.ThostData, Ptr DataPtr[T]] func(*dataCfg[T, Ptr]) error
+
+type DataOptions[T thost.ThostData, Ptr DataPtr[T]] []dataOpt[T, Ptr]
 
 func WithIdentifier[T thost.ThostData, Ptr DataPtr[T]](
 	name string, fn func(Ptr) string,
@@ -401,6 +404,7 @@ func (w *DataContainer[T, Ptr]) GetFieldByte(
 type DataCache[T thost.ThostData, Ptr DataPtr[T]] struct {
 	lock sync.RWMutex
 
+	name      string
 	cfg       *dataCfg[T, Ptr]
 	idtCache  map[string]int
 	cache     []*DataContainer[T, Ptr]
@@ -408,8 +412,12 @@ type DataCache[T thost.ThostData, Ptr DataPtr[T]] struct {
 }
 
 func NewDataCache[T thost.ThostData, Ptr DataPtr[T]](
-	options ...dataOpt[T, Ptr],
+	name string, options ...dataOpt[T, Ptr],
 ) (*DataCache[T, Ptr], error) {
+	if name == "" {
+		return nil, errors.New("cache name empty")
+	}
+
 	cfg, maker, err := ContainerMaker(options...)
 
 	if err != nil {
@@ -422,6 +430,8 @@ func NewDataCache[T thost.ThostData, Ptr DataPtr[T]](
 		dataMaker: maker,
 	}, nil
 }
+
+func (c *DataCache[T, Ptr]) Name() string { return c.name }
 
 func (c *DataCache[T, Ptr]) AddOrUpdate(v Ptr) int {
 	if v == nil {
@@ -542,8 +552,9 @@ func (c *DataCache[T, Ptr]) Iter(
 	}
 }
 
+// ReadOnlyCache 封装DataCache，并抹除数据相关接口的泛型化类型
 type ReadOnlyCache[T thost.ThostData, Ptr DataPtr[T]] struct {
-	cache *DataCache[T, Ptr]
+	*DataCache[T, Ptr]
 }
 
 func NewReadOnlyCache[T thost.ThostData, Ptr DataPtr[T]](
@@ -563,7 +574,7 @@ func CastDataCache[T thost.ThostData, Ptr DataPtr[T]](
 	}
 
 	if v, ok := c.(*ReadOnlyCache[T, Ptr]); ok {
-		return v.cache, nil
+		return v.DataCache, nil
 	}
 
 	return nil, fmt.Errorf(
@@ -571,14 +582,12 @@ func CastDataCache[T thost.ThostData, Ptr DataPtr[T]](
 	)
 }
 
-func (r ReadOnlyCache[T, Ptr]) Size() int { return r.Size() }
-
 func (r ReadOnlyCache[T, Ptr]) GetByKey(k string) (Data, error) {
-	return r.cache.GetByKey(k)
+	return r.DataCache.GetByKey(k)
 }
 
 func (r ReadOnlyCache[T, Ptr]) GetByIdx(idx int) (Data, error) {
-	return r.cache.GetByIdx(idx)
+	return r.DataCache.GetByIdx(idx)
 }
 
 func (r ReadOnlyCache[T, Ptr]) Iter(
@@ -592,7 +601,7 @@ func (r ReadOnlyCache[T, Ptr]) Iter(
 	}
 
 	return func(yield func(int, Data) bool) {
-		for idx, v := range r.cache.Iter(bridgeFilters...) {
+		for idx, v := range r.DataCache.Iter(bridgeFilters...) {
 			if !yield(idx, v) {
 				return
 			}

@@ -115,6 +115,166 @@ func NewTraderApi(
 	return &trader, nil
 }
 
+func makeCache[
+	T thost.ThostData, Ptr state.DataPtr[T],
+](
+	td *TraderApi, name string,
+	options state.DataOptions[T, Ptr],
+) (*state.DataCache[T, Ptr], error) {
+	cache, err := state.NewDataCache(name, options...)
+	if err != nil {
+		return nil, err
+	}
+
+	if _, exist := td.caches[name]; exist {
+		return nil, errors.New("cache name dumplicated")
+	}
+
+	if rd, err := state.NewReadOnlyCache(cache); err != nil {
+		return nil, err
+	} else {
+		td.caches[name] = rd
+		return cache, nil
+	}
+}
+
+func (td *TraderApi) makeInvestorCache(name string) (err error) {
+	td.investors, err = makeCache(
+		td, name, state.DataOptions[
+			future.CThostFtdcInvestorField,
+			*future.CThostFtdcInvestorField,
+		]{
+			state.WithIdentifier(
+				"Investor", func(inv *future.CThostFtdcInvestorField) string {
+					return inv.String()
+				},
+			),
+		},
+	)
+
+	return
+}
+
+func (td *TraderApi) makeOrderCache(name string) (err error) {
+	td.orders, err = makeCache(
+		td, name, state.DataOptions[
+			future.CThostFtdcOrderField,
+			*future.CThostFtdcOrderField,
+		]{
+			state.WithIdentifier(
+				"Order", func(ord *future.CThostFtdcOrderField) string {
+					return ord.OrderSysID.String()
+				},
+			),
+			state.WithIdentifier(
+				"Ref", func(ord *future.CThostFtdcOrderField) string {
+					return fmt.Sprintf(
+						"%s@%d.%d",
+						ord.OrderRef.String(), ord.FrontID, ord.SessionID,
+					)
+				},
+			),
+			state.WithMerger(func(
+				dst, src *future.CThostFtdcOrderField,
+			) error {
+				if src.OrderSysID != dst.OrderSysID {
+					return fmt.Errorf(
+						"%w: dst[%s] src[%s]",
+						state.ErrCacheDataMismatch,
+						dst.OrderSysID.String(),
+						src.OrderSysID.String(),
+					)
+				}
+
+				switch dst.OrderStatus {
+				case types.THOST_FTDC_OST_AllTraded,
+					types.THOST_FTDC_OST_PartTradedNotQueueing,
+					types.THOST_FTDC_OST_NoTradeNotQueueing,
+					types.THOST_FTDC_OST_Canceled:
+					slog.Warn(
+						"cached order already in final state",
+						slog.Any("order", dst),
+					)
+					return nil
+				}
+
+				dst.OrderStatus = src.OrderStatus
+				dst.VolumeTotal = src.VolumeTotal
+				dst.VolumeTraded = src.VolumeTraded
+				dst.ForceCloseReason = src.ForceCloseReason
+				dst.OrderSource = src.OrderSource
+				dst.CancelTime = src.CancelTime
+				dst.ActiveTraderID = src.ActiveTraderID
+				dst.ActiveUserID = src.ActiveUserID
+				dst.ZCETotalTradedVolume = src.ZCETotalTradedVolume
+
+				return nil
+			}),
+		},
+	)
+
+	return
+}
+
+func (td *TraderApi) makeTradeCache(name string) (err error) {
+	td.trades, err = makeCache(
+		td, name, state.DataOptions[
+			future.CThostFtdcTradeField,
+			*future.CThostFtdcTradeField,
+		]{
+			state.WithIdentifier(
+				"Trade", func(td *future.CThostFtdcTradeField) string {
+					return td.TradeID.String()
+				},
+			),
+		},
+	)
+
+	return
+}
+
+func (td *TraderApi) makePositionCache(name string) (err error) {
+	td.positions, err = makeCache(
+		td, name, state.DataOptions[
+			future.CThostFtdcInvestorPositionField,
+			*future.CThostFtdcInvestorPositionField,
+		]{
+			state.WithIdentifier(
+				"Position", func(pos *future.CThostFtdcInvestorPositionField) string {
+					return fmt.Sprintf(
+						"%s.%s.%s.%s",
+						pos.ExchangeID.String(), pos.InstrumentID.String(),
+						pos.PosiDirection.String(), pos.HedgeFlag.String(),
+					)
+				},
+			),
+		},
+	)
+
+	return
+}
+
+func (td *TraderApi) makeInstrumentCache(name string) (err error) {
+	td.instruments, err = makeCache(
+		td, name, state.DataOptions[
+			future.CThostFtdcInstrumentField,
+			*future.CThostFtdcInstrumentField,
+		]{
+			state.WithIdentifier(
+				"Symbol", func(ins *future.CThostFtdcInstrumentField) string {
+					return fmt.Sprintf(
+						"%s.%s",
+						ins.ExchangeID.String(),
+						ins.InstrumentID.String(),
+					)
+				},
+			),
+		},
+	)
+
+	return
+}
+
 func (td *TraderApi) createApi() error {
 	maker, err := thost.GetSdkMaker[future.TraderApi]("future", "trader")
 
@@ -139,128 +299,24 @@ func (td *TraderApi) createApi() error {
 	td.apiCtx, td.apiCancel = context.WithCancel(td.rootCtx)
 	td.caches = make(map[string]state.Cache)
 
-	if td.investors, err = state.NewDataCache(
-		state.WithIdentifier(
-			"Investor", func(inv *future.CThostFtdcInvestorField) string {
-				return inv.String()
-			},
-		),
-	); err != nil {
+	if err = td.makeInvestorCache("investors"); err != nil {
 		return err
-	} else {
-		td.caches["investors"], _ = state.NewReadOnlyCache(td.investors)
 	}
 
-	if td.accounts, err = state.NewDataCache(
-		state.WithIdentifier(
-			"Account", func(acct *future.CThostFtdcInvestorAccountField) string {
-				return acct.AccountID.String()
-			},
-		),
-	); err != nil {
+	if err = td.makeOrderCache("orders"); err != nil {
 		return err
-	} else {
-		td.caches["accounts"], _ = state.NewReadOnlyCache(td.accounts)
 	}
 
-	if td.orders, err = state.NewDataCache(
-		state.WithIdentifier(
-			"Order", func(ord *future.CThostFtdcOrderField) string {
-				return ord.OrderSysID.String()
-			},
-		),
-		state.WithIdentifier(
-			"Ref", func(ord *future.CThostFtdcOrderField) string {
-				return fmt.Sprintf(
-					"%s@%d.%d",
-					ord.OrderRef.String(), ord.FrontID, ord.SessionID,
-				)
-			},
-		),
-		state.WithMerger(func(
-			dst, src *future.CThostFtdcOrderField,
-		) error {
-			if src.OrderSysID != dst.OrderSysID {
-				return fmt.Errorf(
-					"%w: dst[%s] src[%s]",
-					state.ErrCacheDataMismatch,
-					dst.OrderSysID.String(),
-					src.OrderSysID.String(),
-				)
-			}
-
-			switch dst.OrderStatus {
-			case types.THOST_FTDC_OST_AllTraded,
-				types.THOST_FTDC_OST_PartTradedNotQueueing,
-				types.THOST_FTDC_OST_NoTradeNotQueueing,
-				types.THOST_FTDC_OST_Canceled:
-				slog.Warn(
-					"cached order already in final state",
-					slog.Any("order", dst),
-				)
-				return nil
-			}
-
-			dst.OrderStatus = src.OrderStatus
-			dst.VolumeTotal = src.VolumeTotal
-			dst.VolumeTraded = src.VolumeTraded
-			dst.ForceCloseReason = src.ForceCloseReason
-			dst.OrderSource = src.OrderSource
-			dst.CancelTime = src.CancelTime
-			dst.ActiveTraderID = src.ActiveTraderID
-			dst.ActiveUserID = src.ActiveUserID
-			dst.ZCETotalTradedVolume = src.ZCETotalTradedVolume
-
-			return nil
-		}),
-	); err != nil {
+	if err = td.makeTradeCache("trades"); err != nil {
 		return err
-	} else {
-		td.caches["orders"], _ = state.NewReadOnlyCache(td.orders)
 	}
 
-	if td.trades, err = state.NewDataCache(
-		state.WithIdentifier(
-			"Trade", func(td *future.CThostFtdcTradeField) string {
-				return td.TradeID.String()
-			},
-		),
-	); err != nil {
+	if err = td.makePositionCache("positions"); err != nil {
 		return err
-	} else {
-		td.caches["trades"], _ = state.NewReadOnlyCache(td.trades)
 	}
 
-	if td.positions, err = state.NewDataCache(
-		state.WithIdentifier(
-			"Position", func(pos *future.CThostFtdcInvestorPositionField) string {
-				return fmt.Sprintf(
-					"%s.%s.%s.%s",
-					pos.ExchangeID.String(), pos.InstrumentID.String(),
-					pos.PosiDirection.String(), pos.HedgeFlag.String(),
-				)
-			},
-		),
-	); err != nil {
+	if err = td.makeInstrumentCache("instruments"); err != nil {
 		return err
-	} else {
-		td.caches["positions"], _ = state.NewReadOnlyCache(td.positions)
-	}
-
-	if td.instruments, err = state.NewDataCache(
-		state.WithIdentifier(
-			"Symbol", func(ins *future.CThostFtdcInstrumentField) string {
-				return fmt.Sprintf(
-					"%s.%s",
-					ins.ExchangeID.String(),
-					ins.InstrumentID.String(),
-				)
-			},
-		),
-	); err != nil {
-		return err
-	} else {
-		td.caches["instruments"], _ = state.NewReadOnlyCache(td.instruments)
 	}
 
 	td.requests = state.NewRequestFactory(td.apiCtx, api)
@@ -468,7 +524,7 @@ func (td *TraderApi) OnRspAuthenticate(
 	nRequestID int, bIsLast bool,
 ) {
 	defer func() {
-		td.requests.Complete(nRequestID, td.CheckRsp(pRspInfo))
+		td.requests.Complete(nRequestID, nil, td.CheckRsp(pRspInfo))
 
 		if pRspInfo.ErrorID == 0 {
 			td.migrateState(AuthSuccess)
@@ -488,7 +544,7 @@ func (td *TraderApi) OnRspUserLogin(
 	nRequestID int, bIsLast bool,
 ) {
 	defer func() {
-		td.requests.Complete(nRequestID, td.CheckRsp(pRspInfo))
+		td.requests.Complete(nRequestID, nil, td.CheckRsp(pRspInfo))
 
 		if pRspInfo.ErrorID == 0 {
 			td.migrateState(LoginSuccess)
@@ -514,6 +570,10 @@ func (td *TraderApi) OnRspQryInstrument(
 	td.instruments.AddOrUpdate(pInstrument)
 
 	if bIsLast {
-		td.requests.Complete(nRequestID, td.CheckRsp(pRspInfo))
+		td.requests.Complete(
+			nRequestID,
+			td.caches["instruments"],
+			td.CheckRsp(pRspInfo),
+		)
 	}
 }

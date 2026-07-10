@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
-	"maps"
 	"reflect"
+	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -40,14 +40,14 @@ type Request interface {
 	Execute(int) error
 }
 
-func GetRequestData[
-	API any, D thost.ThostData, PTR DataPtr[D],
+func CastData[
+	D thost.ThostData, PTR DataPtr[D],
 ](r Request) (PTR, error) {
 	if r == nil {
 		return nil, errors.New("request is empty")
 	}
 
-	v, ok := r.(*request[API, D, PTR])
+	v, ok := r.(*request[D, PTR])
 	if !ok {
 		return nil, errors.New("unsupported request")
 	}
@@ -55,18 +55,17 @@ func GetRequestData[
 	return v.payload, nil
 }
 
-type request[API any, D thost.ThostData, PTR DataPtr[D]] struct {
+type request[D thost.ThostData, PTR DataPtr[D]] struct {
 	fnName  string
-	api     API
-	handler func(API, PTR, int) int
+	handler func(PTR, int) int
 	payload PTR
 }
 
-func (r *request[API, D, PTR]) Type() string { return r.payload.Type() }
+func (r *request[D, PTR]) Type() string { return r.payload.Type() }
 
-func (r *request[API, D, PTR]) Executor() string { return r.fnName }
+func (r *request[D, PTR]) Executor() string { return r.fnName }
 
-func (r *request[API, D, PTR]) WithPayload(v any) Request {
+func (r *request[D, PTR]) WithPayload(v any) Request {
 	if p, ok := v.(PTR); ok {
 		newReq := *r
 		newReq.payload = p
@@ -82,7 +81,7 @@ func (r *request[API, D, PTR]) WithPayload(v any) Request {
 	return nil
 }
 
-func (r *request[API, D, DATA]) Execute(seq int) error {
+func (r *request[D, DATA]) Execute(seq int) error {
 	slog.Info(
 		"start to execute request",
 		slog.Int("seq", seq),
@@ -91,11 +90,11 @@ func (r *request[API, D, DATA]) Execute(seq int) error {
 	)
 
 	return thost.Rtn{
-		Code: r.handler(r.api, r.payload, seq),
+		Code: r.handler(r.payload, seq),
 	}.Error()
 }
 
-func (r *request[API, D, PTR]) String() string {
+func (r *request[D, PTR]) String() string {
 	builder := strings.Builder{}
 
 	fmt.Fprintf(
@@ -107,9 +106,10 @@ func (r *request[API, D, PTR]) String() string {
 }
 
 type reqWait struct {
-	ctx    context.Context
-	cancel context.CancelFunc
-	err    error
+	ctx          context.Context
+	cancel       context.CancelFunc
+	err          error
+	completeExec []func(Cache, error)
 }
 
 func (w *reqWait) Wait(timeout time.Duration) error {
@@ -145,10 +145,11 @@ type RequestCache struct {
 }
 
 type reqCfg struct {
-	attempts int
-	suspend  time.Duration
-	preExec  []func()
-	postExec []func()
+	attempts     int
+	suspend      time.Duration
+	preExec      []func()
+	postExec     []func()
+	completeExec []func(Cache, error)
 }
 
 type reqOpt func(*reqCfg)
@@ -167,7 +168,7 @@ func WithRetrySuspend(dur time.Duration) reqOpt {
 	}
 }
 
-func withPreExec(fn func()) reqOpt {
+func WithPreExec(fn func()) reqOpt {
 	return func(rc *reqCfg) {
 		if fn != nil {
 			rc.preExec = append(rc.preExec, fn)
@@ -175,10 +176,18 @@ func withPreExec(fn func()) reqOpt {
 	}
 }
 
-func withPostExec(fn func()) reqOpt {
+func WithPostExec(fn func()) reqOpt {
 	return func(rc *reqCfg) {
 		if fn != nil {
 			rc.postExec = append(rc.postExec, fn)
+		}
+	}
+}
+
+func WithCompleteExec(fn func(Cache, error)) reqOpt {
+	return func(rc *reqCfg) {
+		if fn != nil {
+			rc.completeExec = append(rc.completeExec, fn)
 		}
 	}
 }
@@ -223,8 +232,8 @@ func (c *RequestCache) prepareQry(options ReqOptions) ReqOptions {
 
 	return append(
 		options,
-		withPreExec(c.checkQryFlux),
-		withPostExec(func() {
+		WithPreExec(c.checkQryFlux),
+		WithPostExec(func() {
 			c.lastQry = time.Now().Truncate(time.Second)
 			c.qryLimitCount++
 		}),
@@ -254,7 +263,9 @@ func (c *RequestCache) doRequest(r Request, options ...reqOpt) (err error) {
 		seq := len(c.cache)
 
 		if err = r.Execute(seq); err == nil {
-			var wait reqWait
+			wait := reqWait{
+				completeExec: cfg.completeExec,
+			}
 
 			wait.ctx, wait.cancel = context.WithCancel(c.reqRootCtx)
 			c.inflights[seq] = &wait
@@ -290,7 +301,7 @@ func (c *RequestCache) DoRequestAndWait(
 
 	var wait *reqWait
 
-	options = append(options, withPostExec(func() {
+	options = append(options, WithPostExec(func() {
 		wait = c.inflights[len(c.cache)]
 	}))
 
@@ -327,13 +338,19 @@ func (c *RequestCache) getInflight(seq int) *reqWait {
 	return c.inflights[seq]
 }
 
-func (c *RequestCache) Complete(seq int, err error) {
-	if wait := c.getInflight(seq); wait != nil {
-		wait.err = err
-		wait.cancel()
-	} else {
+func (c *RequestCache) Complete(seq int, data Cache, err error) {
+	wait := c.getInflight(seq)
+	if wait == nil {
 		return
 	}
+	defer func() {
+		wait.cancel()
+		for _, cb := range wait.completeExec {
+			cb(data, err)
+		}
+	}()
+
+	wait.err = err
 
 	c.lock.Lock()
 	defer c.lock.Unlock()
@@ -350,15 +367,34 @@ func (c *RequestCache) Reset() {
 	c.cache = c.cache[:0]
 }
 
+type Factory interface {
+	RLock()
+	RUnlock()
+	Lock()
+	Unlock()
+
+	GetReqMethod(string) *reflect.Value
+	GetPrebuild(string) Request
+
+	apiInstance() any
+	setPrebuilds(string, Request)
+}
+
+var (
+	_ Factory = (*RequestFactory[int])(nil)
+)
+
 type RequestFactory[API any] struct {
 	RequestCache
 
 	Api       API
-	reqMapper map[reflect.Type]*reflect.Method
+	reqMapper map[string]*reflect.Value
 	preBuilds map[string]Request
 }
 
-func NewRequestFactory[API any](ctx context.Context, api API) *RequestFactory[API] {
+func NewRequestFactory[API any](
+	ctx context.Context, api API,
+) *RequestFactory[API] {
 	factory := RequestFactory[API]{
 		RequestCache: RequestCache{
 			qryInflightCount: DEFAULT_QRY_INFLIGHT_REQUESTS,
@@ -368,41 +404,65 @@ func NewRequestFactory[API any](ctx context.Context, api API) *RequestFactory[AP
 			inflights: map[int]*reqWait{},
 		},
 		Api:       api,
-		reqMapper: make(map[reflect.Type]*reflect.Method),
+		reqMapper: make(map[string]*reflect.Value),
 		preBuilds: make(map[string]Request),
 	}
 
-	apiType := reflect.TypeFor[API]()
+	apiValue := reflect.ValueOf(api)
 
-	for fn := range apiType.Methods() {
+	for fn, ins := range apiValue.Methods() {
 		if !strings.HasPrefix(fn.Name, "Req") {
 			continue
 		}
 
-		dataType := fn.Type.In(0)
+		args := slices.Collect(fn.Type.Ins())
+		rtn := slices.Collect(fn.Type.Outs())
 
-		factory.reqMapper[dataType] = &fn
+		if len(args) != 3 || (args[1].Kind() != reflect.Pointer ||
+			args[1].Elem().Kind() != reflect.Struct) ||
+			args[2].Kind() != reflect.Int {
+			slog.Error(
+				"invalid request method args",
+				slog.String("executor", fn.Name),
+				slog.Any("args", args),
+			)
+			continue
+		}
+
+		if len(rtn) != 1 || rtn[0].Kind() != reflect.Int {
+			slog.Error(
+				"invalid request method rtn",
+				slog.String("executor", fn.Name),
+				slog.Any("rtn", rtn),
+			)
+			continue
+		}
+
+		slog.Info(
+			"request method found",
+			slog.String("executor", fn.Name),
+			slog.Any("args", args),
+			slog.Any("rtn", rtn[0]),
+		)
+
+		factory.reqMapper[args[1].Elem().Name()] = &ins
 	}
 
 	return &factory
 }
 
-func (fac *RequestFactory[API]) FilterReqFn(
-	filter func(*reflect.Method) bool,
-) []*reflect.Method {
-	if filter == nil {
-		return nil
-	}
+func (fac *RequestFactory[API]) Lock() { fac.lock.Lock() }
 
-	results := make([]*reflect.Method, 0, len(fac.reqMapper))
+func (fac *RequestFactory[API]) Unlock() { fac.lock.Unlock() }
 
-	for fn := range maps.Values(fac.reqMapper) {
-		if filter(fn) {
-			results = append(results, fn)
-		}
-	}
+func (fac *RequestFactory[API]) RLock() { fac.lock.RLock() }
 
-	return results
+func (fac *RequestFactory[API]) RUnlock() { fac.lock.RUnlock() }
+
+func (fac *RequestFactory[API]) GetReqMethod(
+	dataType string,
+) *reflect.Value {
+	return fac.reqMapper[dataType]
 }
 
 func (fac *RequestFactory[API]) GetPrebuild(name string) Request {
@@ -412,59 +472,69 @@ func (fac *RequestFactory[API]) GetPrebuild(name string) Request {
 	return fac.preBuilds[name]
 }
 
-func withFactoryRLock[API any, RTN any](
-	fac *RequestFactory[API], fn func() (RTN, error),
+func (fac *RequestFactory[API]) apiInstance() any {
+	return fac.Api
+}
+
+func (fac *RequestFactory[API]) setPrebuilds(typName string, r Request) {
+	fac.preBuilds[typName] = r
+}
+
+func withFactoryRLock[RTN any](
+	fac Factory, fn func() (RTN, error),
 ) (RTN, error) {
-	fac.lock.RLock()
-	defer fac.lock.RUnlock()
+	fac.RLock()
+	defer fac.RUnlock()
 
 	return fn()
 }
 
-func withFactoryLock[API any, RTN any](
-	fac *RequestFactory[API], fn func() (RTN, error),
+func withFactoryLock[RTN any](
+	fac Factory, fn func() (RTN, error),
 ) (RTN, error) {
-	fac.lock.Lock()
-	defer fac.lock.Unlock()
+	fac.Lock()
+	defer fac.Unlock()
 
 	return fn()
 }
 
 func MakeRequest[
-	API any, D thost.ThostData, PTR DataPtr[D],
-](factory *RequestFactory[API], v PTR) (Request, error) {
-	dataType := reflect.TypeFor[PTR]()
-
+	D thost.ThostData, PTR DataPtr[D],
+](factory Factory, data PTR) (Request, error) {
 	if req, _ := withFactoryRLock(factory, func() (r Request, e error) {
-		r = factory.GetPrebuild(v.Type())
+		r = factory.GetPrebuild(data.Type())
 		if r != nil {
-			r = r.WithPayload(v)
+			r = r.WithPayload(data)
 		}
 		return
 	}); req != nil {
 		return req, nil
 	}
 
-	fn, ok := factory.reqMapper[dataType]
-	if !ok {
+	fn := factory.GetReqMethod(data.Type())
+	if fn == nil || !fn.IsValid() {
 		return nil, fmt.Errorf(
 			"%w: no request method for %+v",
-			ErrMethodNotFound, dataType,
+			ErrMethodNotFound, data.Type(),
 		)
 	}
 
-	req := request[API, D, PTR]{api: factory.Api, payload: v, fnName: fn.Name}
+	req := request[D, PTR]{
+		payload: data,
+		fnName:  fn.Type().Name(),
+	}
 
-	reflect.ValueOf(&req.handler).Elem().Set(reflect.MakeFunc(
-		reflect.TypeOf(req.handler),
-		func(args []reflect.Value) (results []reflect.Value) {
-			fnImpl := args[0].Method(fn.Index)
-			return fnImpl.Call(args[1:])
-		},
-	))
+	var ok bool
+	req.handler, ok = fn.Interface().(func(PTR, int) int)
+	if !ok {
+		return nil, fmt.Errorf(
+			"%w: assert request method[%s] failed",
+			ErrMethodNotFound, fn.Type().Name(),
+		)
+	}
 
 	return withFactoryLock(factory, func() (Request, error) {
-		factory.preBuilds[v.Type()] = &req
+		factory.setPrebuilds(data.Type(), &req)
 		return &req, nil
 	})
 }
