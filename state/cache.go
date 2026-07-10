@@ -52,6 +52,7 @@ type DataPtr[T thost.ThostData] interface {
 }
 
 type dataCfg[T thost.ThostData, Ptr DataPtr[T]] struct {
+	buffSize   int
 	dataMerger func(dst Ptr, src Ptr) error
 
 	idtKeys map[string]func(Ptr) string
@@ -423,11 +424,15 @@ func NewDataCache[T thost.ThostData, Ptr DataPtr[T]](
 	if err != nil {
 		return nil, err
 	}
+	if cfg.buffSize <= 0 {
+		cfg.buffSize = 1 << 7
+	}
 
 	return &DataCache[T, Ptr]{
 		cfg:       cfg,
 		idtCache:  make(map[string]int),
 		dataMaker: maker,
+		cache:     make([]*DataContainer[T, Ptr], 0, cfg.buffSize),
 	}, nil
 }
 

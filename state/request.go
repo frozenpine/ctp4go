@@ -192,6 +192,14 @@ func WithCompleteExec(fn func(Cache, error)) reqOpt {
 	}
 }
 
+func (c *RequestCache) Lock() { c.lock.Lock() }
+
+func (c *RequestCache) Unlock() { c.lock.Unlock() }
+
+func (c *RequestCache) RLock() { c.lock.RLock() }
+
+func (c *RequestCache) RUnlock() { c.lock.RUnlock() }
+
 func (c *RequestCache) isQryReq(r Request) bool {
 	return strings.HasPrefix(r.Executor(), DEFAULT_QRY_REQ_PREFIX)
 }
@@ -367,11 +375,21 @@ func (c *RequestCache) Reset() {
 	c.cache = c.cache[:0]
 }
 
-type Factory interface {
+type RCache interface {
 	RLock()
 	RUnlock()
 	Lock()
 	Unlock()
+
+	DoRequestAndWait(Request, ...reqOpt) (*reqWait, error)
+	DoRequest(Request, ...reqOpt) error
+	Wait(seq int, timeout time.Duration) error
+	Complete(seq int, data Cache, err error)
+	Reset()
+}
+
+type RFactory interface {
+	RCache
 
 	GetReqMethod(string) *reflect.Value
 	GetPrebuild(string) Request
@@ -381,7 +399,7 @@ type Factory interface {
 }
 
 var (
-	_ Factory = (*RequestFactory[int])(nil)
+	_ RFactory = (*RequestFactory[int])(nil)
 )
 
 type RequestFactory[API any] struct {
@@ -451,14 +469,6 @@ func NewRequestFactory[API any](
 	return &factory
 }
 
-func (fac *RequestFactory[API]) Lock() { fac.lock.Lock() }
-
-func (fac *RequestFactory[API]) Unlock() { fac.lock.Unlock() }
-
-func (fac *RequestFactory[API]) RLock() { fac.lock.RLock() }
-
-func (fac *RequestFactory[API]) RUnlock() { fac.lock.RUnlock() }
-
 func (fac *RequestFactory[API]) GetReqMethod(
 	dataType string,
 ) *reflect.Value {
@@ -481,7 +491,7 @@ func (fac *RequestFactory[API]) setPrebuilds(typName string, r Request) {
 }
 
 func withFactoryRLock[RTN any](
-	fac Factory, fn func() (RTN, error),
+	fac RFactory, fn func() (RTN, error),
 ) (RTN, error) {
 	fac.RLock()
 	defer fac.RUnlock()
@@ -490,7 +500,7 @@ func withFactoryRLock[RTN any](
 }
 
 func withFactoryLock[RTN any](
-	fac Factory, fn func() (RTN, error),
+	fac RFactory, fn func() (RTN, error),
 ) (RTN, error) {
 	fac.Lock()
 	defer fac.Unlock()
@@ -500,7 +510,7 @@ func withFactoryLock[RTN any](
 
 func MakeRequest[
 	D thost.ThostData, PTR DataPtr[D],
-](factory Factory, data PTR) (Request, error) {
+](factory RFactory, data PTR) (Request, error) {
 	if req, _ := withFactoryRLock(factory, func() (r Request, e error) {
 		r = factory.GetPrebuild(data.Type())
 		if r != nil {

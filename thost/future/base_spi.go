@@ -2,19 +2,294 @@ package future
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"iter"
 	"log/slog"
 
 	"github.com/frozenpine/ctp4go"
+	"github.com/frozenpine/ctp4go/state"
+	"github.com/frozenpine/ctp4go/thost"
+	"github.com/frozenpine/ctp4go/thost/future/types"
 )
 
 var (
 	_ TraderSpi = &ThostLogSpi{}
 	_ MdSpi     = &ThostLogSpi{}
+
+	ErrCacheNotExist = errors.New("cache not exists")
+)
+
+type cacheName string
+
+const (
+	InvCache cacheName = "investors"   // 投资者缓存
+	OrdCache cacheName = "orders"      // 委托缓存
+	TrdCache cacheName = "trades"      // 成交缓存
+	PosCache cacheName = "positions"   // 持仓缓存
+	InsCache cacheName = "instruments" // 合约缓存
+)
+
+const (
+	DEFAULT_BUFF_SIZE = 10
 )
 
 type ThostLogSpi struct {
 	*slog.Logger
+
+	ctx      context.Context
+	requests state.RFactory
+
+	investors *state.DataCache[
+		CThostFtdcInvestorField,
+		*CThostFtdcInvestorField,
+	]
+	accounts *state.DataCache[
+		CThostFtdcInvestorAccountField,
+		*CThostFtdcInvestorAccountField,
+	]
+	orders *state.DataCache[
+		CThostFtdcOrderField,
+		*CThostFtdcOrderField,
+	]
+	trades *state.DataCache[
+		CThostFtdcTradeField,
+		*CThostFtdcTradeField,
+	]
+	positions *state.DataCache[
+		CThostFtdcInvestorPositionField,
+		*CThostFtdcInvestorPositionField,
+	]
+	instruments *state.DataCache[
+		CThostFtdcInstrumentField,
+		*CThostFtdcInstrumentField]
+
+	caches map[cacheName]state.Cache
+}
+
+func makeCache[
+	T thost.ThostData, Ptr state.DataPtr[T],
+](
+	spi *ThostLogSpi, name cacheName,
+	options state.DataOptions[T, Ptr],
+) (*state.DataCache[T, Ptr], error) {
+	cache, err := state.NewDataCache(string(name), options...)
+	if err != nil {
+		return nil, err
+	}
+
+	if _, exist := spi.caches[name]; exist {
+		return nil, errors.New("cache name dumplicated")
+	}
+
+	if rd, err := state.NewReadOnlyCache(cache); err != nil {
+		return nil, err
+	} else {
+		spi.caches[name] = rd
+		return cache, nil
+	}
+}
+
+func (spi *ThostLogSpi) makeInvestorCache(name cacheName) (err error) {
+	spi.investors, err = makeCache(
+		spi, name, state.DataOptions[
+			CThostFtdcInvestorField,
+			*CThostFtdcInvestorField,
+		]{
+			state.WithIdentifier(
+				"Investor", func(inv *CThostFtdcInvestorField) string {
+					return inv.String()
+				},
+			),
+		},
+	)
+
+	return
+}
+
+func (spi *ThostLogSpi) makeOrderCache(name cacheName) (err error) {
+	spi.orders, err = makeCache(
+		spi, name, state.DataOptions[
+			CThostFtdcOrderField,
+			*CThostFtdcOrderField,
+		]{
+			state.WithIdentifier(
+				"Order", func(ord *CThostFtdcOrderField) string {
+					return ord.OrderSysID.String()
+				},
+			),
+			state.WithIdentifier(
+				"Ref", func(ord *CThostFtdcOrderField) string {
+					return fmt.Sprintf(
+						"%s@%d.%d",
+						ord.OrderRef.String(), ord.FrontID, ord.SessionID,
+					)
+				},
+			),
+			state.WithMerger(func(
+				dst, src *CThostFtdcOrderField,
+			) error {
+				if src.OrderSysID != dst.OrderSysID {
+					return fmt.Errorf(
+						"%w: dst[%s] src[%s]",
+						state.ErrCacheDataMismatch,
+						dst.OrderSysID.String(),
+						src.OrderSysID.String(),
+					)
+				}
+
+				switch dst.OrderStatus {
+				case types.THOST_FTDC_OST_AllTraded,
+					types.THOST_FTDC_OST_PartTradedNotQueueing,
+					types.THOST_FTDC_OST_NoTradeNotQueueing,
+					types.THOST_FTDC_OST_Canceled:
+					slog.Warn(
+						"cached order already in final state",
+						slog.Any("order", dst),
+					)
+					return nil
+				}
+
+				dst.OrderStatus = src.OrderStatus
+				dst.VolumeTotal = src.VolumeTotal
+				dst.VolumeTraded = src.VolumeTraded
+				dst.ForceCloseReason = src.ForceCloseReason
+				dst.OrderSource = src.OrderSource
+				dst.CancelTime = src.CancelTime
+				dst.ActiveTraderID = src.ActiveTraderID
+				dst.ActiveUserID = src.ActiveUserID
+				dst.ZCETotalTradedVolume = src.ZCETotalTradedVolume
+
+				return nil
+			}),
+		},
+	)
+
+	return
+}
+
+func (spi *ThostLogSpi) makeTradeCache(name cacheName) (err error) {
+	spi.trades, err = makeCache(
+		spi, name, state.DataOptions[
+			CThostFtdcTradeField,
+			*CThostFtdcTradeField,
+		]{
+			state.WithIdentifier(
+				"Trade", func(td *CThostFtdcTradeField) string {
+					return td.TradeID.String()
+				},
+			),
+		},
+	)
+
+	return
+}
+
+func (spi *ThostLogSpi) makePositionCache(name cacheName) (err error) {
+	spi.positions, err = makeCache(
+		spi, name, state.DataOptions[
+			CThostFtdcInvestorPositionField,
+			*CThostFtdcInvestorPositionField,
+		]{
+			state.WithIdentifier(
+				"Position", func(pos *CThostFtdcInvestorPositionField) string {
+					return fmt.Sprintf(
+						"%s.%s.%s.%s",
+						pos.ExchangeID.String(), pos.InstrumentID.String(),
+						pos.PosiDirection.String(), pos.HedgeFlag.String(),
+					)
+				},
+			),
+		},
+	)
+
+	return
+}
+
+func (spi *ThostLogSpi) makeInstrumentCache(name cacheName) (err error) {
+	spi.instruments, err = makeCache(
+		spi, name, state.DataOptions[
+			CThostFtdcInstrumentField,
+			*CThostFtdcInstrumentField,
+		]{
+			state.WithIdentifier(
+				"Symbol", func(ins *CThostFtdcInstrumentField) string {
+					return fmt.Sprintf(
+						"%s.%s",
+						ins.ExchangeID.String(),
+						ins.InstrumentID.String(),
+					)
+				},
+			),
+		},
+	)
+
+	return
+}
+
+func (spi *ThostLogSpi) Initialize(
+	ctx context.Context, buffSize int, req state.RFactory,
+) error {
+	if req == nil {
+		return errors.New("request factory is nil")
+	}
+	spi.requests = req
+
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	spi.ctx = ctx
+
+	if buffSize < 1 {
+		buffSize = DEFAULT_BUFF_SIZE
+	}
+
+	spi.caches = make(map[cacheName]state.Cache)
+
+	if err := spi.makeInvestorCache(InvCache); err != nil {
+		return err
+	}
+
+	if err := spi.makeOrderCache(OrdCache); err != nil {
+		return err
+	}
+
+	if err := spi.makeTradeCache(TrdCache); err != nil {
+		return err
+	}
+
+	if err := spi.makePositionCache(PosCache); err != nil {
+		return err
+	}
+
+	if err := spi.makeInstrumentCache(InsCache); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (spi *ThostLogSpi) GetCacheData(
+	name cacheName, idt string,
+) (state.Data, error) {
+	c, exist := spi.caches[name]
+
+	if !exist {
+		return nil, fmt.Errorf("%w: %s", ErrCacheNotExist, name)
+	}
+	return c.GetByKey(idt)
+}
+
+func (spi *ThostLogSpi) IterCacheData(
+	name cacheName, filters ...func(state.Data) bool,
+) iter.Seq2[int, state.Data] {
+	c, exist := spi.caches[name]
+
+	if !exist {
+		return nil
+	}
+
+	return c.Iter(filters...)
 }
 
 func (spi *ThostLogSpi) CheckRsp(rsp *CThostFtdcRspInfoField) error {
@@ -32,10 +307,6 @@ func (spi *ThostLogSpi) CheckRsp(rsp *CThostFtdcRspInfoField) error {
 }
 
 func (spi *ThostLogSpi) OnFrontConnected() {
-	if spi.Logger == nil {
-		spi.Logger = slog.Default()
-	}
-
 	spi.Info("thost [OnFrontConnected]")
 }
 
@@ -77,7 +348,7 @@ func (spi *ThostLogSpi) OnRspAuthenticate(
 
 func (spi *ThostLogSpi) OnRtnPrivateSeqNo(nSeqNo int) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRtnPrivateSeqNo]",
 		slog.Int("seq_no", nSeqNo),
 	)
@@ -342,7 +613,7 @@ func (spi *ThostLogSpi) OnRspQryMaxOrderVolume(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryMaxOrderVolume] succeeded",
 		slog.Any("data", pQryMaxOrderVolume),
 	)
@@ -629,7 +900,7 @@ func (spi *ThostLogSpi) OnRspQryOrder(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryOrder] succeeded",
 		slog.Any("data", pOrder),
 	)
@@ -652,7 +923,7 @@ func (spi *ThostLogSpi) OnRspQryTrade(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryTrade] succeeded",
 		slog.Any("data", pTrade),
 	)
@@ -675,7 +946,7 @@ func (spi *ThostLogSpi) OnRspQryInvestorPosition(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryInvestorPosition] succeeded",
 		slog.Any("data", pInvestorPosition),
 	)
@@ -698,7 +969,7 @@ func (spi *ThostLogSpi) OnRspQryTradingAccount(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryTradingAccount] succeeded",
 		slog.Any("data", pTradingAccount),
 	)
@@ -710,6 +981,12 @@ func (spi *ThostLogSpi) OnRspQryInvestor(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer func() {
+		if bIsLast {
+			spi.requests.Complete(nRequestID, spi.caches[InvCache], err)
+		}
+	}()
+
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspQryInvestor] failed",
@@ -720,8 +997,10 @@ func (spi *ThostLogSpi) OnRspQryInvestor(
 		return
 	}
 
+	spi.investors.AddOrUpdate(pInvestor)
+
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryInvestor] succeeded",
 		slog.Any("data", pInvestor),
 	)
@@ -744,7 +1023,7 @@ func (spi *ThostLogSpi) OnRspQryTradingCode(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryTradingCode] succeeded",
 		slog.Any("data", pTradingCode),
 	)
@@ -767,7 +1046,7 @@ func (spi *ThostLogSpi) OnRspQryInstrumentMarginRate(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryInstrumentMarginRate] succeeded",
 		slog.Any("data", pInstrumentMarginRate),
 	)
@@ -790,7 +1069,7 @@ func (spi *ThostLogSpi) OnRspQryInstrumentCommissionRate(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryInstrumentCommissionRate] succeeded",
 		slog.Any("data", pInstrumentCommissionRate),
 	)
@@ -813,7 +1092,7 @@ func (spi *ThostLogSpi) OnRspQryUserSession(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryUserSession] succeeded",
 		slog.Any("data", pUserSession),
 	)
@@ -836,7 +1115,7 @@ func (spi *ThostLogSpi) OnRspQryExchange(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryExchange] succeeded",
 		slog.Any("data", pExchange),
 	)
@@ -859,7 +1138,7 @@ func (spi *ThostLogSpi) OnRspQryProduct(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryProduct] succeeded",
 		slog.Any("data", pProduct),
 	)
@@ -871,6 +1150,12 @@ func (spi *ThostLogSpi) OnRspQryInstrument(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer func() {
+		if bIsLast {
+			spi.requests.Complete(nRequestID, spi.caches[InsCache], err)
+		}
+	}()
+
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspQryInstrument] failed",
@@ -881,8 +1166,10 @@ func (spi *ThostLogSpi) OnRspQryInstrument(
 		return
 	}
 
+	spi.instruments.AddOrUpdate(pInstrument)
+
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryInstrument] succeeded",
 		slog.Any("data", pInstrument),
 	)
@@ -905,7 +1192,7 @@ func (spi *ThostLogSpi) OnRspQryDepthMarketData(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryDepthMarketData] succeeded",
 		slog.Any("data", pDepthMarketData),
 	)
@@ -928,7 +1215,7 @@ func (spi *ThostLogSpi) OnRspQryTraderOffer(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryTraderOffer] succeeded",
 		slog.Any("data", pTraderOffer),
 	)
@@ -973,7 +1260,7 @@ func (spi *ThostLogSpi) OnRspQryTransferBank(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryTransferBank] succeeded",
 		slog.Any("data", pTransferBank),
 	)
@@ -996,7 +1283,7 @@ func (spi *ThostLogSpi) OnRspQryInvestorPositionDetail(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryInvestorPositionDetail] succeeded",
 		slog.Any("data", pInvestorPositionDetail),
 	)
@@ -1019,7 +1306,7 @@ func (spi *ThostLogSpi) OnRspQryNotice(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryNotice] succeeded",
 		slog.Any("data", pNotice),
 	)
@@ -1064,7 +1351,7 @@ func (spi *ThostLogSpi) OnRspQryInvestorPositionCombineDetail(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryInvestorPositionCombineDetail] succeeded",
 		slog.Any("data", pInvestorPositionCombineDetail),
 	)
@@ -1087,7 +1374,7 @@ func (spi *ThostLogSpi) OnRspQryCFMMCTradingAccountKey(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryCFMMCTradingAccountKey] succeeded",
 		slog.Any("data", pCFMMCTradingAccountKey),
 	)
@@ -1110,7 +1397,7 @@ func (spi *ThostLogSpi) OnRspQryEWarrantOffset(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryEWarrantOffset] succeeded",
 		slog.Any("data", pEWarrantOffset),
 	)
@@ -1133,7 +1420,7 @@ func (spi *ThostLogSpi) OnRspQryInvestorProductGroupMargin(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryInvestorProductGroupMargin] succeeded",
 		slog.Any("data", pInvestorProductGroupMargin),
 	)
@@ -1156,7 +1443,7 @@ func (spi *ThostLogSpi) OnRspQryExchangeMarginRate(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryExchangeMarginRate] succeeded",
 		slog.Any("data", pExchangeMarginRate),
 	)
@@ -1179,7 +1466,7 @@ func (spi *ThostLogSpi) OnRspQryExchangeMarginRateAdjust(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryExchangeMarginRateAdjust] succeeded",
 		slog.Any("data", pExchangeMarginRateAdjust),
 	)
@@ -1202,7 +1489,7 @@ func (spi *ThostLogSpi) OnRspQryExchangeRate(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryExchangeRate] succeeded",
 		slog.Any("data", pExchangeRate),
 	)
@@ -1225,7 +1512,7 @@ func (spi *ThostLogSpi) OnRspQrySecAgentACIDMap(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQrySecAgentACIDMap] succeeded",
 		slog.Any("data", pSecAgentACIDMap),
 	)
@@ -1248,7 +1535,7 @@ func (spi *ThostLogSpi) OnRspQryProductExchRate(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryProductExchRate] succeeded",
 		slog.Any("data", pProductExchRate),
 	)
@@ -1661,7 +1948,7 @@ func (spi *ThostLogSpi) OnRspError(pRspInfo *CThostFtdcRspInfoField, nRequestID 
 
 func (spi *ThostLogSpi) OnRtnOrder(pOrder *CThostFtdcOrderField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnOrder]",
 		slog.Any("data", pOrder),
 	)
@@ -1669,7 +1956,7 @@ func (spi *ThostLogSpi) OnRtnOrder(pOrder *CThostFtdcOrderField) {
 
 func (spi *ThostLogSpi) OnRtnTrade(pTrade *CThostFtdcTradeField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnTrade]",
 		slog.Any("data", pTrade),
 	)
@@ -1697,7 +1984,7 @@ func (spi *ThostLogSpi) OnErrRtnOrderAction(
 
 func (spi *ThostLogSpi) OnRtnInstrumentStatus(pInstrumentStatus *CThostFtdcInstrumentStatusField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnInstrumentStatus]",
 		slog.Any("data", pInstrumentStatus),
 	)
@@ -1705,7 +1992,7 @@ func (spi *ThostLogSpi) OnRtnInstrumentStatus(pInstrumentStatus *CThostFtdcInstr
 
 func (spi *ThostLogSpi) OnRtnBulletin(pBulletin *CThostFtdcBulletinField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnBulletin]",
 		slog.Any("data", pBulletin),
 	)
@@ -1713,7 +2000,7 @@ func (spi *ThostLogSpi) OnRtnBulletin(pBulletin *CThostFtdcBulletinField) {
 
 func (spi *ThostLogSpi) OnRtnTradingNotice(pTradingNoticeInfo *CThostFtdcTradingNoticeInfoField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnTradingNotice]",
 		slog.Any("data", pTradingNoticeInfo),
 	)
@@ -1721,7 +2008,7 @@ func (spi *ThostLogSpi) OnRtnTradingNotice(pTradingNoticeInfo *CThostFtdcTrading
 
 func (spi *ThostLogSpi) OnRtnErrorConditionalOrder(pErrorConditionalOrder *CThostFtdcErrorConditionalOrderField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnErrorConditionalOrder]",
 		slog.Any("data", pErrorConditionalOrder),
 	)
@@ -1729,7 +2016,7 @@ func (spi *ThostLogSpi) OnRtnErrorConditionalOrder(pErrorConditionalOrder *CThos
 
 func (spi *ThostLogSpi) OnRtnExecOrder(pExecOrder *CThostFtdcExecOrderField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnExecOrder]",
 		slog.Any("data", pExecOrder),
 	)
@@ -1767,7 +2054,7 @@ func (spi *ThostLogSpi) OnErrRtnForQuoteInsert(
 
 func (spi *ThostLogSpi) OnRtnQuote(pQuote *CThostFtdcQuoteField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnQuote]",
 		slog.Any("data", pQuote),
 	)
@@ -1795,7 +2082,7 @@ func (spi *ThostLogSpi) OnErrRtnQuoteAction(
 
 func (spi *ThostLogSpi) OnRtnForQuoteRsp(pForQuoteRsp *CThostFtdcForQuoteRspField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost [OnRtnForQuoteRsp]",
 		slog.Any("data", pForQuoteRsp),
 	)
@@ -1803,7 +2090,7 @@ func (spi *ThostLogSpi) OnRtnForQuoteRsp(pForQuoteRsp *CThostFtdcForQuoteRspFiel
 
 func (spi *ThostLogSpi) OnRtnCFMMCTradingAccountToken(pCFMMCTradingAccountToken *CThostFtdcCFMMCTradingAccountTokenField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnCFMMCTradingAccountToken]",
 		slog.Any("data", pCFMMCTradingAccountToken),
 	)
@@ -1821,7 +2108,7 @@ func (spi *ThostLogSpi) OnErrRtnBatchOrderAction(
 
 func (spi *ThostLogSpi) OnRtnOptionSelfClose(pOptionSelfClose *CThostFtdcOptionSelfCloseField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnOptionSelfClose]",
 		slog.Any("data", pOptionSelfClose),
 	)
@@ -1849,7 +2136,7 @@ func (spi *ThostLogSpi) OnErrRtnOptionSelfCloseAction(
 
 func (spi *ThostLogSpi) OnRtnCombAction(pCombAction *CThostFtdcCombActionField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnCombAction]",
 		slog.Any("data", pCombAction),
 	)
@@ -2021,7 +2308,7 @@ func (spi *ThostLogSpi) OnRspQueryCFMMCTradingAccountToken(
 
 func (spi *ThostLogSpi) OnRtnFromBankToFutureByBank(pRspTransfer *CThostFtdcRspTransferField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnFromBankToFutureByBank]",
 		slog.Any("data", pRspTransfer),
 	)
@@ -2029,7 +2316,7 @@ func (spi *ThostLogSpi) OnRtnFromBankToFutureByBank(pRspTransfer *CThostFtdcRspT
 
 func (spi *ThostLogSpi) OnRtnFromFutureToBankByBank(pRspTransfer *CThostFtdcRspTransferField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnFromFutureToBankByBank]",
 		slog.Any("data", pRspTransfer),
 	)
@@ -2037,7 +2324,7 @@ func (spi *ThostLogSpi) OnRtnFromFutureToBankByBank(pRspTransfer *CThostFtdcRspT
 
 func (spi *ThostLogSpi) OnRtnRepealFromBankToFutureByBank(pRspRepeal *CThostFtdcRspRepealField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnRepealFromBankToFutureByBank]",
 		slog.Any("data", pRspRepeal),
 	)
@@ -2045,7 +2332,7 @@ func (spi *ThostLogSpi) OnRtnRepealFromBankToFutureByBank(pRspRepeal *CThostFtdc
 
 func (spi *ThostLogSpi) OnRtnRepealFromFutureToBankByBank(pRspRepeal *CThostFtdcRspRepealField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnRepealFromFutureToBankByBank]",
 		slog.Any("data", pRspRepeal),
 	)
@@ -2053,7 +2340,7 @@ func (spi *ThostLogSpi) OnRtnRepealFromFutureToBankByBank(pRspRepeal *CThostFtdc
 
 func (spi *ThostLogSpi) OnRtnFromBankToFutureByFuture(pRspTransfer *CThostFtdcRspTransferField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnFromBankToFutureByFuture]",
 		slog.Any("data", pRspTransfer),
 	)
@@ -2061,7 +2348,7 @@ func (spi *ThostLogSpi) OnRtnFromBankToFutureByFuture(pRspTransfer *CThostFtdcRs
 
 func (spi *ThostLogSpi) OnRtnFromFutureToBankByFuture(pRspTransfer *CThostFtdcRspTransferField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnFromFutureToBankByFuture]",
 		slog.Any("data", pRspTransfer),
 	)
@@ -2069,7 +2356,7 @@ func (spi *ThostLogSpi) OnRtnFromFutureToBankByFuture(pRspTransfer *CThostFtdcRs
 
 func (spi *ThostLogSpi) OnRtnRepealFromBankToFutureByFutureManual(pRspRepeal *CThostFtdcRspRepealField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnRepealFromBankToFutureByFutureManual]",
 		slog.Any("data", pRspRepeal),
 	)
@@ -2077,7 +2364,7 @@ func (spi *ThostLogSpi) OnRtnRepealFromBankToFutureByFutureManual(pRspRepeal *CT
 
 func (spi *ThostLogSpi) OnRtnRepealFromFutureToBankByFutureManual(pRspRepeal *CThostFtdcRspRepealField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnRepealFromFutureToBankByFutureManual]",
 		slog.Any("data", pRspRepeal),
 	)
@@ -2085,7 +2372,7 @@ func (spi *ThostLogSpi) OnRtnRepealFromFutureToBankByFutureManual(pRspRepeal *CT
 
 func (spi *ThostLogSpi) OnRtnQueryBankBalanceByFuture(pNotifyQueryAccount *CThostFtdcNotifyQueryAccountField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnQueryBankBalanceByFuture]",
 		slog.Any("data", pNotifyQueryAccount),
 	)
@@ -2143,7 +2430,7 @@ func (spi *ThostLogSpi) OnErrRtnQueryBankBalanceByFuture(
 
 func (spi *ThostLogSpi) OnRtnRepealFromBankToFutureByFuture(pRspRepeal *CThostFtdcRspRepealField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnRepealFromBankToFutureByFuture]",
 		slog.Any("data", pRspRepeal),
 	)
@@ -2151,7 +2438,7 @@ func (spi *ThostLogSpi) OnRtnRepealFromBankToFutureByFuture(pRspRepeal *CThostFt
 
 func (spi *ThostLogSpi) OnRtnRepealFromFutureToBankByFuture(pRspRepeal *CThostFtdcRspRepealField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnRepealFromFutureToBankByFuture]",
 		slog.Any("data", pRspRepeal),
 	)
@@ -2225,7 +2512,7 @@ func (spi *ThostLogSpi) OnRspQueryBankAccountMoneyByFuture(
 
 func (spi *ThostLogSpi) OnRtnOpenAccountByBank(pOpenAccount *CThostFtdcOpenAccountField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnOpenAccountByBank]",
 		slog.Any("data", pOpenAccount),
 	)
@@ -2233,7 +2520,7 @@ func (spi *ThostLogSpi) OnRtnOpenAccountByBank(pOpenAccount *CThostFtdcOpenAccou
 
 func (spi *ThostLogSpi) OnRtnCancelAccountByBank(pCancelAccount *CThostFtdcCancelAccountField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnCancelAccountByBank]",
 		slog.Any("data", pCancelAccount),
 	)
@@ -2241,7 +2528,7 @@ func (spi *ThostLogSpi) OnRtnCancelAccountByBank(pCancelAccount *CThostFtdcCance
 
 func (spi *ThostLogSpi) OnRtnChangeAccountByBank(pChangeAccount *CThostFtdcChangeAccountField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnChangeAccountByBank]",
 		slog.Any("data", pChangeAccount),
 	)
@@ -2975,7 +3262,7 @@ func (spi *ThostLogSpi) OnRspCancelOffsetSetting(
 
 func (spi *ThostLogSpi) OnRtnOffsetSetting(pOffsetSetting *CThostFtdcOffsetSettingField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnOffsetSetting]",
 		slog.Any("data", pOffsetSetting),
 	)
@@ -3047,7 +3334,7 @@ func (spi *ThostLogSpi) OnRspGenSMSCode(
 
 func (spi *ThostLogSpi) OnRtnSMSVerifyInfoFromSec(pSMSVerifyInfoFromSec *CThostFtdcSMSVerifyInfoFromSecField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnSMSVerifyInfoFromSec]",
 		slog.Any("data", pSMSVerifyInfoFromSec),
 	)
@@ -3114,7 +3401,7 @@ func (spi *ThostLogSpi) OnRspQrySpdApply(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQrySpdApply] succeeded",
 		slog.Any("data", pSpdApply),
 	)
@@ -3122,7 +3409,7 @@ func (spi *ThostLogSpi) OnRspQrySpdApply(
 
 func (spi *ThostLogSpi) OnRtnSpdApply(pSpdApply *CThostFtdcSpdApplyField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnSpdApply]",
 		slog.Any("data", pSpdApply),
 	)
@@ -3209,7 +3496,7 @@ func (spi *ThostLogSpi) OnRspQryHedgeCfm(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost trader [OnRspQryHedgeCfm] succeeded",
 		slog.Any("data", pHedgeCfm),
 	)
@@ -3217,7 +3504,7 @@ func (spi *ThostLogSpi) OnRspQryHedgeCfm(
 
 func (spi *ThostLogSpi) OnRtnHedgeCfm(pHedgeCfm *CThostFtdcHedgeCfmField) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-1,
+		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnHedgeCfm]",
 		slog.Any("data", pHedgeCfm),
 	)
@@ -3260,7 +3547,7 @@ func (spi *ThostLogSpi) OnRspQryMulticastInstrument(
 	}
 
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost mduser [OnRspQryMulticastInstrument] succeeded",
 		slog.Any("data", pMulticastInstrument),
 	)
@@ -3358,7 +3645,7 @@ func (spi *ThostLogSpi) OnRtnDepthMarketData(
 	pDepthMarketData *CThostFtdcDepthMarketDataField,
 ) {
 	spi.Log(
-		context.Background(), slog.LevelDebug-2,
+		spi.ctx, slog.LevelDebug-2,
 		"thost mduser [OnRtnDepthMarketData] succeeded",
 		slog.Any("data", pDepthMarketData),
 	)

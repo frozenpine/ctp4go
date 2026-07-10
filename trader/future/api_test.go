@@ -83,14 +83,15 @@ func TestTraderApi(t *testing.T) {
 	case <-time.After(time.Second * 20):
 	}
 
-	t.Log(td.GetInstrument("SHFE.zn2611P21600"))
+	t.Log(td.GetCacheData(thost_futer.InvCache, "SHFE.zn2611P21600"))
 
-	for idx, v := range td.IterInstruments(
-		func(cfif *state.DataContainer[
-			thost_futer.CThostFtdcInstrumentField,
-			*thost_futer.CThostFtdcInstrumentField,
-		]) bool {
-			return cfif.Data().ProductClass.String() == "ag"
+	for idx, v := range td.IterCacheData(
+		thost_futer.InvCache, func(cfif state.Data) bool {
+			if v, err := cfif.GetFieldString("ProductID"); err != nil {
+				return false
+			} else {
+				return v == "ag"
+			}
 		},
 	) {
 		t.Log(idx, v)
