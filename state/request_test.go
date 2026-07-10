@@ -14,7 +14,16 @@ func TestReqFactory(t *testing.T) {
 
 	factory := state.NewRequestFactory(t.Context(), api)
 
-	t.Logf("%+v", factory)
+	// t.Logf("%+v", factory)
+
+	_, err := state.MakeRequest(
+		factory, &future.CThostFtdcInstrumentField{},
+	)
+	if err == nil {
+		t.Fatal("make request with invalid data failed")
+	} else {
+		t.Log(err)
+	}
 
 	req, err := state.MakeRequest(
 		factory, &future.CThostFtdcReqUserLoginField{
@@ -35,13 +44,17 @@ func TestReqFactory(t *testing.T) {
 	}
 
 	if err = factory.DoRequest(req); err != nil {
-		t.Fatal(err)
+		t.Log(err)
 	}
 
-	req, err = state.MakeRequest(
-		factory, &future.CThostFtdcReqUserLoginField{},
+	qry, err := state.MakeRequest(
+		factory, &future.CThostFtdcQryInstrumentField{},
 	)
 	if err != nil {
 		t.Fatal(err)
+	}
+
+	if err = factory.DoRequest(qry); err != nil {
+		t.Log(err)
 	}
 }

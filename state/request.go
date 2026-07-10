@@ -19,6 +19,8 @@ const (
 
 	DEFAULT_FAIL_ATTEMPTS = 1
 	DEFAULT_RETRY_SUSPEND = time.Second
+
+	DEFAULT_QRY_REQ_PREFIX = "ReqQry"
 )
 
 var (
@@ -53,9 +55,9 @@ func GetRequestData[
 
 type request[API any, D thost.ThostData, PTR DataPtr[D]] struct {
 	fnName  string
-	payload PTR
 	api     API
 	handler func(API, PTR, int) int
+	payload PTR
 }
 
 func (r *request[API, D, PTR]) Type() string { return r.payload.Type() }
@@ -64,12 +66,16 @@ func (r *request[API, D, PTR]) Executor() string { return r.fnName }
 
 func (r *request[API, D, PTR]) WithPayload(v any) Request {
 	if p, ok := v.(PTR); ok {
-		return &request[API, D, PTR]{
-			payload: p,
-			api:     r.api,
-			handler: r.handler,
-		}
+		newReq := *r
+		newReq.payload = p
+		return &newReq
 	}
+
+	slog.Error(
+		"payload mismatch with request",
+		slog.Any("req_type", reflect.TypeFor[PTR]()),
+		slog.Any("payload_type", reflect.TypeOf(v)),
+	)
 
 	return nil
 }
@@ -162,6 +168,10 @@ func withPostExec(fn func()) reqOpt {
 			rc.postExec = append(rc.postExec, fn)
 		}
 	}
+}
+
+func (c *RequestCache) isQryReq(r Request) bool {
+	return strings.HasPrefix(r.Executor(), DEFAULT_QRY_REQ_PREFIX)
 }
 
 func (c *RequestCache) checkQryInflight() *reqWait {
@@ -261,7 +271,7 @@ func (c *RequestCache) doRequest(r Request, options ...reqOpt) (err error) {
 func (c *RequestCache) DoRequestAndWait(
 	r Request, options ...reqOpt,
 ) (*reqWait, error) {
-	if strings.HasPrefix(r.Executor(), "ReqQry") {
+	if c.isQryReq(r) {
 		options = c.prepareQry(options)
 	}
 
@@ -275,7 +285,7 @@ func (c *RequestCache) DoRequestAndWait(
 }
 
 func (c *RequestCache) DoRequest(r Request, options ...reqOpt) error {
-	if strings.HasPrefix(r.Executor(), "ReqQry") {
+	if c.isQryReq(r) {
 		options = c.prepareQry(options)
 	}
 
@@ -331,7 +341,7 @@ type RequestFactory[API any] struct {
 	RequestCache
 
 	Api       API
-	reqMapper map[reflect.Type]reflect.Method
+	reqMapper map[reflect.Type]*reflect.Method
 	preBuilds map[string]Request
 }
 
@@ -345,7 +355,7 @@ func NewRequestFactory[API any](ctx context.Context, api API) *RequestFactory[AP
 			inflights: map[int]*reqWait{},
 		},
 		Api:       api,
-		reqMapper: make(map[reflect.Type]reflect.Method),
+		reqMapper: make(map[reflect.Type]*reflect.Method),
 		preBuilds: make(map[string]Request),
 	}
 
@@ -358,20 +368,20 @@ func NewRequestFactory[API any](ctx context.Context, api API) *RequestFactory[AP
 
 		dataType := fn.Type.In(0)
 
-		factory.reqMapper[dataType] = fn
+		factory.reqMapper[dataType] = &fn
 	}
 
 	return &factory
 }
 
 func (fac *RequestFactory[API]) FilterReqFn(
-	filter func(reflect.Method) bool,
-) []reflect.Method {
+	filter func(*reflect.Method) bool,
+) []*reflect.Method {
 	if filter == nil {
 		return nil
 	}
 
-	results := make([]reflect.Method, 0, len(fac.reqMapper))
+	results := make([]*reflect.Method, 0, len(fac.reqMapper))
 
 	for fn := range maps.Values(fac.reqMapper) {
 		if filter(fn) {
@@ -389,19 +399,37 @@ func (fac *RequestFactory[API]) GetPrebuild(name string) Request {
 	return fac.preBuilds[name]
 }
 
+func withFactoryRLock[API any, RTN any](
+	fac *RequestFactory[API], fn func() (RTN, error),
+) (RTN, error) {
+	fac.lock.RLock()
+	defer fac.lock.RUnlock()
+
+	return fn()
+}
+
+func withFactoryLock[API any, RTN any](
+	fac *RequestFactory[API], fn func() (RTN, error),
+) (RTN, error) {
+	fac.lock.Lock()
+	defer fac.lock.Unlock()
+
+	return fn()
+}
+
 func MakeRequest[
 	API any, D thost.ThostData, PTR DataPtr[D],
 ](factory *RequestFactory[API], v PTR) (Request, error) {
 	dataType := reflect.TypeFor[PTR]()
 
-	factory.lock.RLock()
-	if req := factory.GetPrebuild(v.Type()); req != nil {
-		req = req.WithPayload(v)
-
-		if req != nil {
-			defer factory.lock.RUnlock()
-			return req, nil
+	if req, _ := withFactoryRLock(factory, func() (r Request, e error) {
+		r = factory.GetPrebuild(v.Type())
+		if r != nil {
+			r = r.WithPayload(v)
 		}
+		return
+	}); req != nil {
+		return req, nil
 	}
 
 	fn, ok := factory.reqMapper[dataType]
@@ -411,8 +439,6 @@ func MakeRequest[
 			ErrMethodNotFound, dataType,
 		)
 	}
-
-	factory.lock.RUnlock()
 
 	req := request[API, D, PTR]{api: factory.Api, payload: v, fnName: fn.Name}
 
@@ -424,10 +450,8 @@ func MakeRequest[
 		},
 	))
 
-	factory.lock.Lock()
-	defer factory.lock.Unlock()
-
-	factory.preBuilds[v.Type()] = &req
-
-	return &req, nil
+	return withFactoryLock(factory, func() (Request, error) {
+		factory.preBuilds[v.Type()] = &req
+		return &req, nil
+	})
 }
