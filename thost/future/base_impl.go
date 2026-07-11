@@ -32,8 +32,6 @@ const (
 )
 
 var (
-	idtMaker = map[string]func() string{}
-
 	cacheMakers = map[cacheName]func(*ThostFutureBase, int) error{
 		AcctCache: func(tls *ThostFutureBase, i int) error {
 			return MakeCache(
@@ -48,10 +46,7 @@ var (
 					),
 					state.WithIdentifier(
 						"Investor", func(acct *CThostFtdcInvestorAccountField) string {
-							return fmt.Sprintf(
-								"%s.%s",
-								acct.BrokerID.String(), acct.InvestorID.String(),
-							)
+							return InvestorIdt(&acct.BrokerID, &acct.InvestorID)
 						},
 					),
 				},
@@ -70,9 +65,8 @@ var (
 					),
 					state.WithIdentifier(
 						"Ref", func(ord *CThostFtdcOrderField) string {
-							return fmt.Sprintf(
-								"%s@%d.%d",
-								ord.OrderRef.String(), ord.FrontID, ord.SessionID,
+							return OrderRefIdt(
+								&ord.OrderRef, ord.FrontID, ord.SessionID,
 							)
 						},
 					),
@@ -137,10 +131,9 @@ var (
 				]{
 					state.WithIdentifier(
 						"Position", func(pos *CThostFtdcInvestorPositionField) string {
-							return fmt.Sprintf(
-								"%s.%s.%s.%s",
-								pos.ExchangeID.String(), pos.InstrumentID.String(),
-								pos.PosiDirection.String(), pos.HedgeFlag.String(),
+							return DotIdt(
+								&pos.ExchangeID, &pos.InstrumentID,
+								&pos.PosiDirection, &pos.HedgeFlag,
 							)
 						},
 					),
@@ -155,11 +148,7 @@ var (
 				]{
 					state.WithIdentifier(
 						"Symbol", func(ins *CThostFtdcInstrumentField) string {
-							return fmt.Sprintf(
-								"%s.%s",
-								ins.ExchangeID.String(),
-								ins.InstrumentID.String(),
-							)
+							return DotIdt(&ins.ExchangeID, &ins.InstrumentID)
 						},
 					),
 					state.WithIdentifier(
@@ -178,11 +167,11 @@ var (
 				]{
 					state.WithIdentifier(
 						"Tick", func(md *CThostFtdcDepthMarketDataField) string {
-							return fmt.Sprintf(
+							return FormatIdt(
 								"%s.%s@%s@%s.%03d",
-								md.ExchangeID.String(), md.InstrumentID.String(),
-								md.TradingDay.String(),
-								md.UpdateTime.String(), md.UpdateMillisec,
+								&md.ExchangeID, &md.InstrumentID,
+								&md.TradingDay,
+								&md.UpdateTime, md.UpdateMillisec,
 							)
 						},
 					),
