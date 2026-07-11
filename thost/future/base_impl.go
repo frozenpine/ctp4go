@@ -28,6 +28,7 @@ const (
 	TrdCache cacheName = "trades"      // 成交缓存
 	PosCache cacheName = "positions"   // 持仓缓存
 	InsCache cacheName = "instruments" // 合约缓存
+	MdCache  cacheName = "marketdatas" // 行情缓存
 )
 
 var cacheMakers = map[cacheName]func(*ThostFutureBase, int) error{
@@ -147,6 +148,25 @@ var cacheMakers = map[cacheName]func(*ThostFutureBase, int) error{
 							"%s.%s",
 							ins.ExchangeID.String(),
 							ins.InstrumentID.String(),
+						)
+					},
+				),
+			},
+		)
+	},
+	MdCache: func(tfb *ThostFutureBase, i int) error {
+		return makeCache(
+			tfb, MdCache, state.DataOptions[
+				CThostFtdcDepthMarketDataField,
+				*CThostFtdcDepthMarketDataField,
+			]{
+				state.WithIdentifier(
+					"Tick", func(md *CThostFtdcDepthMarketDataField) string {
+						return fmt.Sprintf(
+							"%s.%s@%s@%s.%03d",
+							md.ExchangeID.String(), md.InstrumentID.String(),
+							md.TradingDay.String(),
+							md.UpdateTime.String(), md.UpdateMillisec,
 						)
 					},
 				),
