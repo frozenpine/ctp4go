@@ -151,6 +151,11 @@ var cacheMakers = map[cacheName]func(*ThostFutureBase, int) error{
 						)
 					},
 				),
+				state.WithIdentifier(
+					"InstrumentID", func(ins *CThostFtdcInstrumentField) string {
+						return ins.InstrumentID.String()
+					},
+				),
 			},
 		)
 	},
