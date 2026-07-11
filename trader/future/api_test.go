@@ -68,7 +68,16 @@ func TestTraderApi(t *testing.T) {
 
 			// 	return nil
 			// }),
-			future.WithStateResponsor(future.LoginSuccess, td.QueryInstruments),
+			future.WithStateResponsor(future.LoginSuccess, func() error {
+				qry := thost_futer.CThostFtdcQryInstrumentField{}
+
+				r, err := state.MakeRequest(td.RFactory, &qry)
+				if err != nil {
+					return err
+				}
+
+				return td.DoRequest(r)
+			}),
 			future.WithStateResponsor(future.LoginFailed, func() error {
 				close(done)
 				return nil
@@ -83,10 +92,10 @@ func TestTraderApi(t *testing.T) {
 	case <-time.After(time.Second * 20):
 	}
 
-	t.Log(td.GetCacheData(thost_futer.InvCache, "SHFE.zn2611P21600"))
+	t.Log(td.GetCacheData(thost_futer.InsCache, "SHFE.zn2611P21600"))
 
 	for idx, v := range td.IterCacheData(
-		thost_futer.InvCache, func(cfif state.Data) bool {
+		thost_futer.InsCache, func(cfif state.Data) bool {
 			if v, err := cfif.GetFieldString("ProductID"); err != nil {
 				return false
 			} else {

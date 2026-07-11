@@ -17,7 +17,7 @@ import (
 )
 
 type TraderApi struct {
-	future.ThostLogSpi
+	future.ThostFutureBase
 
 	rootCtx   context.Context
 	apiCtx    context.Context
@@ -60,7 +60,7 @@ func NewTraderApi(
 	}
 
 	trader := TraderApi{
-		ThostLogSpi: future.ThostLogSpi{
+		ThostFutureBase: future.ThostFutureBase{
 			Logger: slog.Default(),
 		},
 		rootCtx: ctx,
@@ -141,8 +141,8 @@ func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 		}
 
 		td.initOpts = options
-		if err = td.ThostLogSpi.Initialize(
-			td.apiCtx, 1<<8, td.requests,
+		if err = td.ThostFutureBase.Initialize(
+			td.apiCtx, td.requests,
 		); err != nil {
 			return
 		}
@@ -254,17 +254,6 @@ func (td *TraderApi) Login() error {
 	return td.requests.DoRequest(req)
 }
 
-func (td *TraderApi) QueryInstruments() error {
-	qry := future.CThostFtdcQryInstrumentField{}
-
-	req, err := state.MakeRequest(td.requests, &qry)
-	if err != nil {
-		return err
-	}
-
-	return td.requests.DoRequest(req)
-}
-
 func (td *TraderApi) OnFrontConnected() {
 	td.requests.Reset()
 	defer td.migrateState(Connected)
@@ -274,14 +263,14 @@ func (td *TraderApi) OnFrontConnected() {
 	// 设置查询流控
 	td.requests.SetQryLimit(int(td.front.QryFreq))
 
-	td.ThostLogSpi.OnFrontConnected()
+	td.ThostFutureBase.OnFrontConnected()
 }
 
 func (td *TraderApi) OnFrontDisconnected(nReason int) {
 	defer td.migrateState(Disconnected)
 
 	td.Info("thost trader front", slog.Any("front", td.front))
-	td.ThostLogSpi.OnFrontDisconnected(nReason)
+	td.ThostFutureBase.OnFrontDisconnected(nReason)
 }
 
 func (td *TraderApi) OnRspAuthenticate(
@@ -299,7 +288,7 @@ func (td *TraderApi) OnRspAuthenticate(
 		}
 	}()
 
-	td.ThostLogSpi.OnRspAuthenticate(
+	td.ThostFutureBase.OnRspAuthenticate(
 		pRspAuthenticateField, pRspInfo, nRequestID, bIsLast,
 	)
 }
@@ -319,7 +308,7 @@ func (td *TraderApi) OnRspUserLogin(
 		}
 	}()
 
-	td.ThostLogSpi.OnRspUserLogin(
+	td.ThostFutureBase.OnRspUserLogin(
 		pRspUserLogin, pRspInfo, nRequestID, bIsLast,
 	)
 }

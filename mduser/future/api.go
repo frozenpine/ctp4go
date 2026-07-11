@@ -9,7 +9,6 @@ import (
 	"path/filepath"
 	"runtime"
 	"sync"
-	"sync/atomic"
 
 	"github.com/frozenpine/ctp4go/state"
 	"github.com/frozenpine/ctp4go/thost"
@@ -17,7 +16,7 @@ import (
 )
 
 type MduserApi struct {
-	future.ThostLogSpi
+	future.ThostFutureBase
 
 	rootCtx   context.Context
 	apiCtx    context.Context
@@ -28,10 +27,8 @@ type MduserApi struct {
 	initOpts  []mduserOpt
 	finalOnce sync.Once
 
-	state *state.FlagResponsor[mduserState]
-
-	api       future.MdApi
-	requestID atomic.Int32
+	state    *state.FlagResponsor[mduserState]
+	requests *state.RequestFactory[future.MdApi]
 }
 
 func NewMduserApi(
@@ -62,7 +59,7 @@ func NewMduserApi(
 
 	mduser := MduserApi{
 		rootCtx: ctx,
-		ThostLogSpi: future.ThostLogSpi{
+		ThostFutureBase: future.ThostFutureBase{
 			Logger: slog.Default(),
 		},
 		cfg: mduserCfg{
@@ -111,8 +108,8 @@ func (md *MduserApi) createApi() error {
 
 	md.state = state.NewFlagResponsor[mduserState]("state")
 	md.apiCtx, md.apiCancel = context.WithCancel(md.rootCtx)
-	md.api = api
-	md.requestID.Store(0)
+
+	md.requests = state.NewRequestFactory(md.apiCtx, api)
 
 	return md.state.SetFlag(Created)
 }
@@ -133,7 +130,7 @@ func (md *MduserApi) Initialize(options ...mduserOpt) (err error) {
 
 		md.initOpts = options
 
-		md.api.RegisterSpi(md)
+		md.requests.Api.RegisterSpi(md)
 
 		md.Info(
 			"initializing connection params",
@@ -148,10 +145,10 @@ func (md *MduserApi) Initialize(options ...mduserOpt) (err error) {
 			fens.BrokerID.SetString(md.cfg.brokerID)
 			fens.UserID.SetString(md.cfg.userID)
 
-			md.api.RegisterFensUserInfo(&fens)
+			md.requests.Api.RegisterFensUserInfo(&fens)
 
 			for _, v := range md.cfg.nameSvrs {
-				md.api.RegisterNameServer(v)
+				md.requests.Api.RegisterNameServer(v)
 			}
 		} else if len(md.cfg.frontAddrs) < 1 {
 			err = fmt.Errorf(
@@ -161,10 +158,10 @@ func (md *MduserApi) Initialize(options ...mduserOpt) (err error) {
 		}
 
 		for _, v := range md.cfg.frontAddrs {
-			md.api.RegisterFront(v)
+			md.requests.Api.RegisterFront(v)
 		}
 
-		md.api.Init()
+		md.requests.Api.Init()
 
 		err = md.state.SetFlag(Initialized)
 	})
@@ -174,7 +171,7 @@ func (md *MduserApi) Initialize(options ...mduserOpt) (err error) {
 
 func (md *MduserApi) Finalize() (err error) {
 	md.finalOnce.Do(func() {
-		defer md.api.Release()
+		defer md.requests.Api.Release()
 
 		md.Info("finalizing trader api")
 
@@ -210,13 +207,16 @@ func (md *MduserApi) Login() error {
 	login.UserID.SetString(md.cfg.userID)
 	login.Password.SetString(md.cfg.userPass)
 
-	rtn := md.api.ReqUserLogin(&login, int(md.requestID.Add(1)))
+	req, err := state.MakeRequest(md.requests, &login)
+	if err != nil {
+		return err
+	}
 
-	return thost.Rtn{Code: rtn}.Error()
+	return md.requests.DoRequest(req)
 }
 
 func (md *MduserApi) Subscribe(instruments ...string) error {
-	rtn := md.api.SubscribeMarketData(instruments...)
+	rtn := md.requests.Api.SubscribeMarketData(instruments...)
 
 	return thost.Rtn{Code: rtn}.Error()
 }
@@ -235,13 +235,13 @@ func (md *MduserApi) migrateState(v mduserState) error {
 func (md *MduserApi) OnFrontConnected() {
 	defer md.migrateState(Connected)
 
-	md.ThostLogSpi.OnFrontConnected()
+	md.ThostFutureBase.OnFrontConnected()
 }
 
 func (md *MduserApi) OnFrontDisconnected(nReason int) {
 	defer md.migrateState(Disconnected)
 
-	md.ThostLogSpi.OnFrontDisconnected(nReason)
+	md.ThostFutureBase.OnFrontDisconnected(nReason)
 }
 
 func (md *MduserApi) OnRspUserLogin(
@@ -257,7 +257,7 @@ func (md *MduserApi) OnRspUserLogin(
 		}
 	}()
 
-	md.ThostLogSpi.OnRspUserLogin(
+	md.ThostFutureBase.OnRspUserLogin(
 		pRspUserLogin, pRspInfo, nRequestID, bIsLast,
 	)
 }
