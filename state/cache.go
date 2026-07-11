@@ -161,8 +161,15 @@ func (w *DataContainer[T, Ptr]) Merge(v Ptr) {
 	w.dataMerger(w.data, v)
 }
 
-func (w *DataContainer[T, Ptr]) Data() Ptr {
-	return w.data
+func (w *DataContainer[T, Ptr]) ModifyData(fn func(Ptr)) {
+	if fn == nil {
+		return
+	}
+
+	w.lock.Lock()
+	defer w.lock.Unlock()
+
+	fn(w.data)
 }
 
 // GetFieldString 获取字段string值

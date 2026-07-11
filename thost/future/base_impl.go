@@ -23,162 +23,174 @@ var (
 type cacheName string
 
 const (
-	InvCache cacheName = "investors"   // 投资者缓存
-	OrdCache cacheName = "orders"      // 委托缓存
-	TrdCache cacheName = "trades"      // 成交缓存
-	PosCache cacheName = "positions"   // 持仓缓存
-	InsCache cacheName = "instruments" // 合约缓存
-	MdCache  cacheName = "marketdatas" // 行情缓存
+	AcctCache cacheName = "accounts"    // 资金账号缓存
+	OrdCache  cacheName = "orders"      // 委托缓存
+	TrdCache  cacheName = "trades"      // 成交缓存
+	PosCache  cacheName = "positions"   // 持仓缓存
+	InsCache  cacheName = "instruments" // 合约缓存
+	MdCache   cacheName = "marketdatas" // 行情缓存
 )
 
-var cacheMakers = map[cacheName]func(*ThostFutureBase, int) error{
-	InvCache: func(tls *ThostFutureBase, i int) error {
-		return makeCache(
-			tls, InvCache, state.DataOptions[
-				CThostFtdcInvestorField,
-				*CThostFtdcInvestorField,
-			]{
-				state.WithIdentifier(
-					"Investor", func(inv *CThostFtdcInvestorField) string {
-						return inv.String()
-					},
-				),
-			},
-		)
-	},
-	OrdCache: func(tls *ThostFutureBase, i int) error {
-		return makeCache(
-			tls, OrdCache, state.DataOptions[
-				CThostFtdcOrderField,
-				*CThostFtdcOrderField,
-			]{
-				state.WithIdentifier(
-					"Order", func(ord *CThostFtdcOrderField) string {
-						return ord.OrderSysID.String()
-					},
-				),
-				state.WithIdentifier(
-					"Ref", func(ord *CThostFtdcOrderField) string {
-						return fmt.Sprintf(
-							"%s@%d.%d",
-							ord.OrderRef.String(), ord.FrontID, ord.SessionID,
-						)
-					},
-				),
-				state.WithMerger(func(
-					dst, src *CThostFtdcOrderField,
-				) error {
-					if src.OrderSysID != dst.OrderSysID {
-						return fmt.Errorf(
-							"%w: dst[%s] src[%s]",
-							state.ErrCacheDataMismatch,
-							dst.OrderSysID.String(),
-							src.OrderSysID.String(),
-						)
-					}
+var (
+	idtMaker = map[string]func() string{}
 
-					switch dst.OrderStatus {
-					case types.THOST_FTDC_OST_AllTraded,
-						types.THOST_FTDC_OST_PartTradedNotQueueing,
-						types.THOST_FTDC_OST_NoTradeNotQueueing,
-						types.THOST_FTDC_OST_Canceled:
-						slog.Warn(
-							"cached order already in final state",
-							slog.Any("order", dst),
-						)
+	cacheMakers = map[cacheName]func(*ThostFutureBase, int) error{
+		AcctCache: func(tls *ThostFutureBase, i int) error {
+			return MakeCache(
+				tls, AcctCache, state.DataOptions[
+					CThostFtdcInvestorAccountField,
+					*CThostFtdcInvestorAccountField,
+				]{
+					state.WithIdentifier(
+						"Account", func(acct *CThostFtdcInvestorAccountField) string {
+							return acct.AccountID.String()
+						},
+					),
+					state.WithIdentifier(
+						"Investor", func(acct *CThostFtdcInvestorAccountField) string {
+							return fmt.Sprintf(
+								"%s.%s",
+								acct.BrokerID.String(), acct.InvestorID.String(),
+							)
+						},
+					),
+				},
+			)
+		},
+		OrdCache: func(tls *ThostFutureBase, i int) error {
+			return MakeCache(
+				tls, OrdCache, state.DataOptions[
+					CThostFtdcOrderField,
+					*CThostFtdcOrderField,
+				]{
+					state.WithIdentifier(
+						"Order", func(ord *CThostFtdcOrderField) string {
+							return ord.OrderSysID.String()
+						},
+					),
+					state.WithIdentifier(
+						"Ref", func(ord *CThostFtdcOrderField) string {
+							return fmt.Sprintf(
+								"%s@%d.%d",
+								ord.OrderRef.String(), ord.FrontID, ord.SessionID,
+							)
+						},
+					),
+					state.WithMerger(func(
+						dst, src *CThostFtdcOrderField,
+					) error {
+						if src.OrderSysID != dst.OrderSysID {
+							return fmt.Errorf(
+								"%w: dst[%s] src[%s]",
+								state.ErrCacheDataMismatch,
+								dst.OrderSysID.String(),
+								src.OrderSysID.String(),
+							)
+						}
+
+						switch dst.OrderStatus {
+						case types.THOST_FTDC_OST_AllTraded,
+							types.THOST_FTDC_OST_PartTradedNotQueueing,
+							types.THOST_FTDC_OST_NoTradeNotQueueing,
+							types.THOST_FTDC_OST_Canceled:
+							slog.Warn(
+								"cached order already in final state",
+								slog.Any("order", dst),
+							)
+							return nil
+						}
+
+						dst.OrderStatus = src.OrderStatus
+						dst.VolumeTotal = src.VolumeTotal
+						dst.VolumeTraded = src.VolumeTraded
+						dst.ForceCloseReason = src.ForceCloseReason
+						dst.OrderSource = src.OrderSource
+						dst.CancelTime = src.CancelTime
+						dst.ActiveTraderID = src.ActiveTraderID
+						dst.ActiveUserID = src.ActiveUserID
+						dst.ZCETotalTradedVolume = src.ZCETotalTradedVolume
+
 						return nil
-					}
-
-					dst.OrderStatus = src.OrderStatus
-					dst.VolumeTotal = src.VolumeTotal
-					dst.VolumeTraded = src.VolumeTraded
-					dst.ForceCloseReason = src.ForceCloseReason
-					dst.OrderSource = src.OrderSource
-					dst.CancelTime = src.CancelTime
-					dst.ActiveTraderID = src.ActiveTraderID
-					dst.ActiveUserID = src.ActiveUserID
-					dst.ZCETotalTradedVolume = src.ZCETotalTradedVolume
-
-					return nil
-				}),
-			},
-		)
-	},
-	TrdCache: func(tls *ThostFutureBase, i int) error {
-		return makeCache(
-			tls, TrdCache, state.DataOptions[
-				CThostFtdcTradeField,
-				*CThostFtdcTradeField,
-			]{
-				state.WithIdentifier(
-					"Trade", func(td *CThostFtdcTradeField) string {
-						return td.TradeID.String()
-					},
-				),
-			},
-		)
-	},
-	PosCache: func(tls *ThostFutureBase, i int) error {
-		return makeCache(
-			tls, PosCache, state.DataOptions[
-				CThostFtdcInvestorPositionField,
-				*CThostFtdcInvestorPositionField,
-			]{
-				state.WithIdentifier(
-					"Position", func(pos *CThostFtdcInvestorPositionField) string {
-						return fmt.Sprintf(
-							"%s.%s.%s.%s",
-							pos.ExchangeID.String(), pos.InstrumentID.String(),
-							pos.PosiDirection.String(), pos.HedgeFlag.String(),
-						)
-					},
-				),
-			},
-		)
-	},
-	InsCache: func(tls *ThostFutureBase, i int) error {
-		return makeCache(
-			tls, InsCache, state.DataOptions[
-				CThostFtdcInstrumentField,
-				*CThostFtdcInstrumentField,
-			]{
-				state.WithIdentifier(
-					"Symbol", func(ins *CThostFtdcInstrumentField) string {
-						return fmt.Sprintf(
-							"%s.%s",
-							ins.ExchangeID.String(),
-							ins.InstrumentID.String(),
-						)
-					},
-				),
-				state.WithIdentifier(
-					"InstrumentID", func(ins *CThostFtdcInstrumentField) string {
-						return ins.InstrumentID.String()
-					},
-				),
-			},
-		)
-	},
-	MdCache: func(tfb *ThostFutureBase, i int) error {
-		return makeCache(
-			tfb, MdCache, state.DataOptions[
-				CThostFtdcDepthMarketDataField,
-				*CThostFtdcDepthMarketDataField,
-			]{
-				state.WithIdentifier(
-					"Tick", func(md *CThostFtdcDepthMarketDataField) string {
-						return fmt.Sprintf(
-							"%s.%s@%s@%s.%03d",
-							md.ExchangeID.String(), md.InstrumentID.String(),
-							md.TradingDay.String(),
-							md.UpdateTime.String(), md.UpdateMillisec,
-						)
-					},
-				),
-			},
-		)
-	},
-}
+					}),
+				},
+			)
+		},
+		TrdCache: func(tls *ThostFutureBase, i int) error {
+			return MakeCache(
+				tls, TrdCache, state.DataOptions[
+					CThostFtdcTradeField,
+					*CThostFtdcTradeField,
+				]{
+					state.WithIdentifier(
+						"Trade", func(td *CThostFtdcTradeField) string {
+							return td.TradeID.String()
+						},
+					),
+				},
+			)
+		},
+		PosCache: func(tls *ThostFutureBase, i int) error {
+			return MakeCache(
+				tls, PosCache, state.DataOptions[
+					CThostFtdcInvestorPositionField,
+					*CThostFtdcInvestorPositionField,
+				]{
+					state.WithIdentifier(
+						"Position", func(pos *CThostFtdcInvestorPositionField) string {
+							return fmt.Sprintf(
+								"%s.%s.%s.%s",
+								pos.ExchangeID.String(), pos.InstrumentID.String(),
+								pos.PosiDirection.String(), pos.HedgeFlag.String(),
+							)
+						},
+					),
+				},
+			)
+		},
+		InsCache: func(tls *ThostFutureBase, i int) error {
+			return MakeCache(
+				tls, InsCache, state.DataOptions[
+					CThostFtdcInstrumentField,
+					*CThostFtdcInstrumentField,
+				]{
+					state.WithIdentifier(
+						"Symbol", func(ins *CThostFtdcInstrumentField) string {
+							return fmt.Sprintf(
+								"%s.%s",
+								ins.ExchangeID.String(),
+								ins.InstrumentID.String(),
+							)
+						},
+					),
+					state.WithIdentifier(
+						"InstrumentID", func(ins *CThostFtdcInstrumentField) string {
+							return ins.InstrumentID.String()
+						},
+					),
+				},
+			)
+		},
+		MdCache: func(tfb *ThostFutureBase, i int) error {
+			return MakeCache(
+				tfb, MdCache, state.DataOptions[
+					CThostFtdcDepthMarketDataField,
+					*CThostFtdcDepthMarketDataField,
+				]{
+					state.WithIdentifier(
+						"Tick", func(md *CThostFtdcDepthMarketDataField) string {
+							return fmt.Sprintf(
+								"%s.%s@%s@%s.%03d",
+								md.ExchangeID.String(), md.InstrumentID.String(),
+								md.TradingDay.String(),
+								md.UpdateTime.String(), md.UpdateMillisec,
+							)
+						},
+					),
+				},
+			)
+		},
+	}
+)
 
 const (
 	DEFAULT_BUFF_SIZE = 10
@@ -192,7 +204,7 @@ type ThostFutureBase struct {
 	caches map[cacheName]state.Cache
 }
 
-func makeCache[
+func MakeCache[
 	T thost.ThostData, Ptr state.DataPtr[T],
 ](
 	spi *ThostFutureBase, name cacheName,
@@ -213,6 +225,17 @@ func makeCache[
 		spi.caches[name] = rd
 		return nil
 	}
+}
+
+func GetCache[
+	T thost.ThostData, Ptr state.DataPtr[T],
+](spi *ThostFutureBase, name cacheName) (*state.DataCache[T, Ptr], error) {
+	c, exist := spi.caches[name]
+	if !exist {
+		return nil, ErrCacheNotExist
+	}
+
+	return state.CastDataCache[T, Ptr](c)
 }
 
 type initCfg struct {
@@ -981,7 +1004,7 @@ func (spi *ThostFutureBase) OnRspQryInvestor(
 	err := spi.CheckRsp(pRspInfo)
 	defer func() {
 		if bIsLast {
-			spi.Complete(nRequestID, spi.caches[InvCache], err)
+			spi.Complete(nRequestID, spi.caches[AcctCache], err)
 		}
 	}()
 
@@ -995,7 +1018,7 @@ func (spi *ThostFutureBase) OnRspQryInvestor(
 		return
 	}
 
-	if c, exist := spi.caches[InvCache]; exist {
+	if c, exist := spi.caches[AcctCache]; exist {
 		cache, err := state.CastDataCache[CThostFtdcInvestorField](c)
 		if err != nil {
 			spi.Error(
@@ -1964,7 +1987,58 @@ func (spi *ThostFutureBase) OnRspError(pRspInfo *CThostFtdcRspInfoField, nReques
 	)
 }
 
+func UpdatePosDataByOrder(
+	ord *CThostFtdcOrderField,
+	pos *state.DataContainer[
+		CThostFtdcInvestorPositionField,
+		*CThostFtdcInvestorPositionField,
+	],
+) error {
+	// TODO
+	switch ord.OrderStatus {
+	case types.THOST_FTDC_OST_AllTraded:
+		pos.ModifyData(func(cfipf *CThostFtdcInvestorPositionField) {
+
+		})
+	case types.THOST_FTDC_OST_PartTradedQueueing:
+	case types.THOST_FTDC_OST_PartTradedNotQueueing:
+	case types.THOST_FTDC_OST_NoTradeQueueing:
+	case types.THOST_FTDC_OST_Canceled:
+	}
+
+	return nil
+}
+
 func (spi *ThostFutureBase) OnRtnOrder(pOrder *CThostFtdcOrderField) {
+	if c, err := GetCache[CThostFtdcOrderField](spi, OrdCache); err == nil {
+		c.AddOrUpdate(pOrder)
+	}
+
+	switch pOrder.OrderStatus {
+	case types.THOST_FTDC_OST_Unknown:
+	case types.THOST_FTDC_OST_NotTouched:
+	case types.THOST_FTDC_OST_Touched:
+	default:
+		if c, err := GetCache[CThostFtdcInvestorPositionField](
+			spi, PosCache,
+		); err == nil {
+			idt := ""
+			pos, err := c.GetByKey(idt)
+
+			if err != nil {
+				spi.Error(
+					"position not found",
+					slog.String("pos_idt", idt),
+				)
+			} else if err = UpdatePosDataByOrder(pOrder, pos); err != nil {
+				spi.Error(
+					"position update by order failed",
+					slog.Any("error", err),
+				)
+			}
+		}
+	}
+
 	spi.Log(
 		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnOrder]",
@@ -1972,7 +2046,50 @@ func (spi *ThostFutureBase) OnRtnOrder(pOrder *CThostFtdcOrderField) {
 	)
 }
 
+func UpdatePosDataByTrade(
+	td *CThostFtdcTradeField,
+	pos *state.DataContainer[
+		CThostFtdcInvestorPositionField,
+		*CThostFtdcInvestorPositionField,
+	],
+) error {
+	// TODO
+	switch td.OffsetFlag {
+	case types.THOST_FTDC_OF_Close:
+	case types.THOST_FTDC_OF_CloseToday:
+	case types.THOST_FTDC_OF_CloseYesterday:
+		pos.ModifyData(func(cfipf *CThostFtdcInvestorPositionField) {
+			cfipf.YdPosition -= td.Volume
+			cfipf.CloseVolume += td.Volume
+			// cfipf.CloseAmount += pTrade.
+		})
+	}
+	return nil
+}
+
 func (spi *ThostFutureBase) OnRtnTrade(pTrade *CThostFtdcTradeField) {
+	if c, err := GetCache[CThostFtdcTradeField](spi, TrdCache); err == nil {
+		c.AddOrUpdate(pTrade)
+	}
+
+	if c, err := GetCache[CThostFtdcInvestorPositionField](
+		spi, PosCache,
+	); err == nil {
+		idt := ""
+		pos, err := c.GetByKey(idt)
+		if err != nil {
+			spi.Error(
+				"position not found in cache",
+				slog.String("pos_idt", idt),
+			)
+		} else if err = UpdatePosDataByTrade(pTrade, pos); err != nil {
+			spi.Error(
+				"position update by trade failed",
+				slog.Any("error", err),
+			)
+		}
+	}
+
 	spi.Log(
 		spi.ctx, slog.LevelDebug-1,
 		"thost trader [OnRtnTrade]",
