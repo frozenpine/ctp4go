@@ -92,7 +92,7 @@ func TestTraderApi(t *testing.T) {
 	case <-time.After(time.Second * 20):
 	}
 
-	t.Log(td.GetCacheData(thost_futer.InsCache, "SHFE.zn2611P21600"))
+	t.Log(td.GetCacheData(thost_futer.InsCache, "Symbol:SHFE.zn2611P21600"))
 
 	for idx, v := range td.IterCacheData(
 		thost_futer.InsCache, func(cfif state.Data) bool {

@@ -28,6 +28,9 @@ var (
 type Data interface {
 	thost.ThostData
 
+	Identities() []string
+	Groups() []string
+
 	GetFieldString(string) (string, error)
 	GetFieldInt(string) (int64, error)
 	GetFieldUInt(string) (uint64, error)
@@ -40,8 +43,8 @@ type Data interface {
 type Cache interface {
 	Name() string
 	Size() int
-	GetByKey(string) (Data, error)
-	GetByIdx(int) (Data, error)
+	GetDataByKey(string) (Data, error)
+	GetDataByIdx(int) (Data, error)
 	Iter(...func(Data) bool) iter.Seq2[int, Data]
 }
 
@@ -52,11 +55,11 @@ type DataPtr[T thost.ThostData] interface {
 }
 
 type dataCfg[T thost.ThostData, Ptr DataPtr[T]] struct {
-	buffSize   int
 	dataMerger func(dst Ptr, src Ptr) error
 
-	idtKeys map[string]func(Ptr) string
-	fields  map[string]reflect.StructField
+	idtKeys   map[string]func(Ptr) string
+	groupKeys map[string]func(Ptr) string
+	fields    map[string]reflect.StructField
 }
 
 type DataContainer[T thost.ThostData, Ptr DataPtr[T]] struct {
@@ -108,12 +111,12 @@ func WithMerger[T thost.ThostData, Ptr DataPtr[T]](
 
 func ContainerMaker[T thost.ThostData, Ptr DataPtr[T]](
 	options ...dataOpt[T, Ptr],
-) (*dataCfg[T, Ptr], func(Ptr) *DataContainer[T, Ptr], error) {
+) (func(Ptr) *DataContainer[T, Ptr], error) {
 	ptrType := reflect.TypeFor[Ptr]()
 	dType := ptrType.Elem()
 
 	if dType.Kind() != reflect.Struct {
-		return nil, nil, errors.New("generic type must be struct")
+		return nil, errors.New("generic type must be struct")
 	}
 
 	cfg := dataCfg[T, Ptr]{
@@ -131,7 +134,7 @@ func ContainerMaker[T thost.ThostData, Ptr DataPtr[T]](
 		}
 
 		if err := opt(&cfg); err != nil {
-			return nil, nil, err
+			return nil, err
 		}
 	}
 
@@ -139,7 +142,7 @@ func ContainerMaker[T thost.ThostData, Ptr DataPtr[T]](
 		cfg.fields[f.Name] = f
 	}
 
-	return &cfg, func(t Ptr) *DataContainer[T, Ptr] {
+	return func(t Ptr) *DataContainer[T, Ptr] {
 		// 封装时copy数据，避免传入指针为栈指针
 		var copy T = *t
 		return &DataContainer[T, Ptr]{
@@ -170,6 +173,22 @@ func (w *DataContainer[T, Ptr]) ModifyData(fn func(Ptr)) {
 	defer w.lock.Unlock()
 
 	fn(w.data)
+}
+
+func (w *DataContainer[T, Ptr]) Identities() []string {
+	result := make([]string, 0, len(w.idtKeys))
+	for name, idt := range w.idtKeys {
+		result = append(result, name+":"+idt(w.data))
+	}
+	return result
+}
+
+func (w *DataContainer[T, Ptr]) Groups() []string {
+	result := make([]string, 0, len(w.groupKeys))
+	for name, idt := range w.groupKeys {
+		result = append(result, name+":"+idt(w.data))
+	}
+	return result
 }
 
 // GetFieldString 获取字段string值
@@ -413,8 +432,8 @@ type DataCache[T thost.ThostData, Ptr DataPtr[T]] struct {
 	lock sync.RWMutex
 
 	name      string
-	cfg       *dataCfg[T, Ptr]
 	idtCache  map[string]int
+	grpCache  map[string][]int
 	cache     []*DataContainer[T, Ptr]
 	dataMaker func(Ptr) *DataContainer[T, Ptr]
 }
@@ -426,20 +445,20 @@ func NewDataCache[T thost.ThostData, Ptr DataPtr[T]](
 		return nil, errors.New("cache name empty")
 	}
 
-	cfg, maker, err := ContainerMaker(options...)
+	maker, err := ContainerMaker(options...)
 
 	if err != nil {
 		return nil, err
 	}
-	if cfg.buffSize <= 0 {
-		cfg.buffSize = 1 << 7
-	}
+
+	// TODO: cache config
 
 	return &DataCache[T, Ptr]{
-		cfg:       cfg,
-		idtCache:  make(map[string]int),
+		idtCache: make(map[string]int),
+		grpCache: make(map[string][]int),
+		cache:    make([]*DataContainer[T, Ptr], 0, 1<<7),
+
 		dataMaker: maker,
-		cache:     make([]*DataContainer[T, Ptr], 0, cfg.buffSize),
 	}, nil
 }
 
@@ -461,9 +480,7 @@ func (c *DataCache[T, Ptr]) AddOrUpdate(v Ptr) int {
 		merged bool
 	)
 
-	for name, identifier := range c.cfg.idtKeys {
-		idt := fmt.Sprintf("%s:%s", name, identifier(v))
-
+	for _, idt := range data.Identities() {
 		var (
 			exist  bool
 			preIdx = idx
@@ -493,7 +510,7 @@ func (c *DataCache[T, Ptr]) AddOrUpdate(v Ptr) int {
 	return rtnIdx
 }
 
-func (c *DataCache[T, Ptr]) GetByKey(k string) (*DataContainer[T, Ptr], error) {
+func (c *DataCache[T, Ptr]) GetDataByKey(k string) (*DataContainer[T, Ptr], error) {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
 
@@ -507,7 +524,7 @@ func (c *DataCache[T, Ptr]) GetByKey(k string) (*DataContainer[T, Ptr], error) {
 	return c.cache[idx], nil
 }
 
-func (c *DataCache[T, Ptr]) GetByIdx(idx int) (*DataContainer[T, Ptr], error) {
+func (c *DataCache[T, Ptr]) GetDataByIdx(idx int) (*DataContainer[T, Ptr], error) {
 	if idx < 0 {
 		return nil, fmt.Errorf(
 			"%w: index[%d] out of range", ErrCacheDataMissing, idx,
@@ -594,12 +611,12 @@ func CastDataCache[T thost.ThostData, Ptr DataPtr[T]](
 	)
 }
 
-func (r ReadOnlyCache[T, Ptr]) GetByKey(k string) (Data, error) {
-	return r.DataCache.GetByKey(k)
+func (r ReadOnlyCache[T, Ptr]) GetDataByKey(k string) (Data, error) {
+	return r.DataCache.GetDataByKey(k)
 }
 
-func (r ReadOnlyCache[T, Ptr]) GetByIdx(idx int) (Data, error) {
-	return r.DataCache.GetByIdx(idx)
+func (r ReadOnlyCache[T, Ptr]) GetDataByIdx(idx int) (Data, error) {
+	return r.DataCache.GetDataByIdx(idx)
 }
 
 func (r ReadOnlyCache[T, Ptr]) Iter(

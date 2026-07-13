@@ -11,7 +11,7 @@ import (
 )
 
 func TestCache(t *testing.T) {
-	_, wrapFn, err := state.ContainerMaker(
+	wrapFn, err := state.ContainerMaker(
 		state.WithIdentifier("a", func(v *future.CThostFtdcInputOrderField) string {
 			return fmt.Sprintf(
 				"%s.%s", v.ExchangeID.String(), v.InstrumentID.String(),

@@ -286,7 +286,7 @@ func (spi *ThostFutureBase) GetCacheData(
 	if !exist {
 		return nil, fmt.Errorf("%w: %s", ErrCacheNotExist, name)
 	}
-	return c.GetByKey(idt)
+	return c.GetDataByKey(idt)
 }
 
 func (spi *ThostFutureBase) IterCacheData(
@@ -2014,7 +2014,7 @@ func (spi *ThostFutureBase) UpdatePositionByOrder(
 		&ord.ExchangeID, &ord.InstrumentID, posD,
 		types.TThostFtdcHedgeFlagType(ord.CombHedgeFlag[0]),
 	)
-	pos, err := cache.GetByKey(idt)
+	pos, err := cache.GetDataByKey(idt)
 	if err != nil {
 		return err
 	}
