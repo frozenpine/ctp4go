@@ -1,10 +1,11 @@
 package future
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
+	"time"
 
+	"github.com/frozenpine/ctp4go"
 	"github.com/frozenpine/ctp4go/thost/future/types"
 )
 
@@ -24,7 +25,8 @@ func InvestorIdt(
 
 func OrderRefIdt(
 	ref *types.TThostFtdcOrderRefType,
-	front types.TThostFtdcFrontIDType, session types.TThostFtdcSessionIDType,
+	front types.TThostFtdcFrontIDType,
+	session types.TThostFtdcSessionIDType,
 ) string {
 	buff := strings.Builder{}
 	buff.Grow(len(ref) + 8 + 8)
@@ -38,20 +40,87 @@ func OrderRefIdt(
 	return buff.String()
 }
 
-func PositionIdt(
-	ex *types.Exchengeid
-)
+func SymbolIdt(
+	ex *types.TThostFtdcExchangeIDType,
+	ins *types.TThostFtdcInstrumentIDType,
+) string {
+	buff := strings.Builder{}
+	buff.Grow(len(ex) + len(ins))
 
-func DotIdt(inputs ...fmt.Stringer) string {
-	values := make([]string, len(inputs))
+	buff.WriteString(ex.String())
+	buff.WriteByte('.')
+	buff.WriteString(ins.String())
 
-	for idx, o := range inputs {
-		values[idx] = o.String()
-	}
-
-	return strings.Join(values, ".")
+	return buff.String()
 }
 
-func FormatIdt(format string, others ...any) string {
-	return fmt.Sprintf(format, others...)
+func PositionIdt(
+	ex *types.TThostFtdcExchangeIDType,
+	ins *types.TThostFtdcInstrumentIDType,
+	direct types.TThostFtdcPosiDirectionType,
+	offset types.TThostFtdcHedgeFlagType,
+) string {
+	buff := strings.Builder{}
+	buff.Grow(len(ex) + len(ins) + 10)
+
+	buff.WriteString(SymbolIdt(ex, ins))
+	buff.WriteByte('@')
+	buff.WriteString(direct.String())
+	buff.WriteByte('[')
+	buff.WriteString(offset.String())
+	buff.WriteByte(']')
+
+	return buff.String()
+}
+
+func TimestampIdt(
+	dt *types.TThostFtdcDateType,
+	tm *types.TThostFtdcTimeType, mill types.TThostFtdcMillisecType,
+) string {
+	buff := strings.Builder{}
+	buff.Grow(len(dt) + len(tm) + 3)
+
+	buff.WriteString(dt.String())
+	buff.WriteByte(' ')
+	buff.WriteString(tm.String())
+	buff.WriteByte('.')
+	v := strconv.Itoa(int(mill))
+	if len(v) < 3 {
+		buff.WriteString(strings.Repeat("0", 3-len(v)))
+	}
+	buff.WriteString(v)
+
+	return buff.String()
+}
+
+func MarketDataIdt(
+	ex *types.TThostFtdcExchangeIDType,
+	ins *types.TThostFtdcInstrumentIDType,
+	dt *types.TThostFtdcDateType,
+	tm *types.TThostFtdcTimeType, mill types.TThostFtdcMillisecType,
+) string {
+	buff := strings.Builder{}
+	buff.Grow(len(ex) + len(ins) + len(dt) + len(tm) + 3)
+
+	buff.WriteString(SymbolIdt(ex, ins))
+	buff.WriteByte('@')
+	buff.WriteString(TimestampIdt(dt, tm, mill))
+
+	return buff.String()
+}
+
+func TimestampTs(
+	dt *types.TThostFtdcDateType,
+	tm *types.TThostFtdcTimeType, mill types.TThostFtdcMillisecType,
+) time.Time {
+	buff := strings.Builder{}
+	buff.Grow(len(dt) + len(tm))
+
+	buff.WriteString(dt.String())
+	buff.WriteString(tm.String())
+
+	ts, _ := time.ParseInLocation("20060102150405", buff.String(), ctp4go.CST)
+	ts.Add(time.Millisecond * time.Duration(mill))
+
+	return ts
 }

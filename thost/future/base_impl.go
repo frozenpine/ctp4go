@@ -131,9 +131,9 @@ var (
 				]{
 					state.WithIdentifier(
 						"Position", func(pos *CThostFtdcInvestorPositionField) string {
-							return DotIdt(
+							return PositionIdt(
 								&pos.ExchangeID, &pos.InstrumentID,
-								&pos.PosiDirection, &pos.HedgeFlag,
+								pos.PosiDirection, pos.HedgeFlag,
 							)
 						},
 					),
@@ -148,7 +148,7 @@ var (
 				]{
 					state.WithIdentifier(
 						"Symbol", func(ins *CThostFtdcInstrumentField) string {
-							return DotIdt(&ins.ExchangeID, &ins.InstrumentID)
+							return SymbolIdt(&ins.ExchangeID, &ins.InstrumentID)
 						},
 					),
 					state.WithIdentifier(
@@ -167,8 +167,7 @@ var (
 				]{
 					state.WithIdentifier(
 						"Tick", func(md *CThostFtdcDepthMarketDataField) string {
-							return FormatIdt(
-								"%s.%s@%s@%s.%03d",
+							return MarketDataIdt(
 								&md.ExchangeID, &md.InstrumentID,
 								&md.TradingDay,
 								&md.UpdateTime, md.UpdateMillisec,
@@ -1976,24 +1975,74 @@ func (spi *ThostFutureBase) OnRspError(pRspInfo *CThostFtdcRspInfoField, nReques
 	)
 }
 
-func UpdatePosDataByOrder(
+func (spi *ThostFutureBase) UpdatePositionByOrder(
 	ord *CThostFtdcOrderField,
-	pos *state.DataContainer[
-		CThostFtdcInvestorPositionField,
-		*CThostFtdcInvestorPositionField,
-	],
 ) error {
-	// TODO
-	switch ord.OrderStatus {
-	case types.THOST_FTDC_OST_AllTraded:
-		pos.ModifyData(func(cfipf *CThostFtdcInvestorPositionField) {
-
-		})
-	case types.THOST_FTDC_OST_PartTradedQueueing:
-	case types.THOST_FTDC_OST_PartTradedNotQueueing:
-	case types.THOST_FTDC_OST_NoTradeQueueing:
-	case types.THOST_FTDC_OST_Canceled:
+	if ord == nil {
+		return errors.New("order is nil for pos updating")
 	}
+
+	offset := types.TThostFtdcOffsetFlagType(ord.CombOffsetFlag[0])
+
+	// 开仓由成交驱动仓位更新
+	if offset == types.THOST_FTDC_OF_Open {
+		return nil
+	}
+
+	switch ord.OrderStatus {
+	case types.THOST_FTDC_OST_Unknown,
+		types.THOST_FTDC_OST_NotTouched,
+		types.THOST_FTDC_OST_Touched:
+		return nil
+	}
+
+	cache, err := GetCache[CThostFtdcInvestorPositionField](
+		spi, PosCache,
+	)
+	if err != nil {
+		return err
+	}
+
+	var posD types.TThostFtdcPosiDirectionType
+	if ord.Direction == types.THOST_FTDC_D_Buy {
+		posD = types.THOST_FTDC_PD_Short
+	} else {
+		posD = types.THOST_FTDC_PD_Long
+	}
+
+	idt := PositionIdt(
+		&ord.ExchangeID, &ord.InstrumentID, posD,
+		types.TThostFtdcHedgeFlagType(ord.CombHedgeFlag[0]),
+	)
+	pos, err := cache.GetByKey(idt)
+	if err != nil {
+		return err
+	}
+
+	// TODO
+	// switch ord.OrderStatus {
+	// case types.THOST_FTDC_OST_AllTraded:
+	// case types.THOST_FTDC_OST_PartTradedQueueing:
+	// case types.THOST_FTDC_OST_PartTradedNotQueueing:
+	// case types.THOST_FTDC_OST_NoTradeQueueing:
+	// case types.THOST_FTDC_OST_Canceled:
+	// }
+
+	pos.ModifyData(func(cfipf *CThostFtdcInvestorPositionField) {
+		switch offset {
+		case types.THOST_FTDC_OF_Close:
+			if ord.VolumeTraded <= cfipf.YdPosition {
+				cfipf.YdPosition -= ord.VolumeTraded
+			} else {
+				cfipf.Position -= (ord.VolumeTraded - cfipf.YdPosition)
+				cfipf.YdPosition = 0
+			}
+		case types.THOST_FTDC_OF_CloseToday:
+			cfipf.Position -= ord.VolumeTraded
+		case types.THOST_FTDC_OF_CloseYesterday:
+			cfipf.YdPosition -= ord.VolumeTraded
+		}
+	})
 
 	return nil
 }
@@ -2003,29 +2052,11 @@ func (spi *ThostFutureBase) OnRtnOrder(pOrder *CThostFtdcOrderField) {
 		c.AddOrUpdate(pOrder)
 	}
 
-	switch pOrder.OrderStatus {
-	case types.THOST_FTDC_OST_Unknown:
-	case types.THOST_FTDC_OST_NotTouched:
-	case types.THOST_FTDC_OST_Touched:
-	default:
-		if c, err := GetCache[CThostFtdcInvestorPositionField](
-			spi, PosCache,
-		); err == nil {
-			idt := ""
-			pos, err := c.GetByKey(idt)
-
-			if err != nil {
-				spi.Error(
-					"position not found",
-					slog.String("pos_idt", idt),
-				)
-			} else if err = UpdatePosDataByOrder(pOrder, pos); err != nil {
-				spi.Error(
-					"position update by order failed",
-					slog.Any("error", err),
-				)
-			}
-		}
+	if err := spi.UpdatePositionByOrder(pOrder); err != nil {
+		spi.Error(
+			"position update by order failed",
+			slog.Any("error", err),
+		)
 	}
 
 	spi.Log(
@@ -2035,48 +2066,21 @@ func (spi *ThostFutureBase) OnRtnOrder(pOrder *CThostFtdcOrderField) {
 	)
 }
 
-func UpdatePosDataByTrade(
-	td *CThostFtdcTradeField,
-	pos *state.DataContainer[
-		CThostFtdcInvestorPositionField,
-		*CThostFtdcInvestorPositionField,
-	],
+func (spi *ThostFutureBase) UpdatePositionByTrade(
+	trade *CThostFtdcTradeField,
 ) error {
-	// TODO
-	switch td.OffsetFlag {
-	case types.THOST_FTDC_OF_Close:
-	case types.THOST_FTDC_OF_CloseToday:
-	case types.THOST_FTDC_OF_CloseYesterday:
-		pos.ModifyData(func(cfipf *CThostFtdcInvestorPositionField) {
-			cfipf.YdPosition -= td.Volume
-			cfipf.CloseVolume += td.Volume
-			// cfipf.CloseAmount += pTrade.
-		})
+	if trade == nil {
+		return errors.New("trade is nil for position update")
 	}
+
+	// if trade.OffsetFlag
+
 	return nil
 }
 
 func (spi *ThostFutureBase) OnRtnTrade(pTrade *CThostFtdcTradeField) {
 	if c, err := GetCache[CThostFtdcTradeField](spi, TrdCache); err == nil {
 		c.AddOrUpdate(pTrade)
-	}
-
-	if c, err := GetCache[CThostFtdcInvestorPositionField](
-		spi, PosCache,
-	); err == nil {
-		idt := ""
-		pos, err := c.GetByKey(idt)
-		if err != nil {
-			spi.Error(
-				"position not found in cache",
-				slog.String("pos_idt", idt),
-			)
-		} else if err = UpdatePosDataByTrade(pTrade, pos); err != nil {
-			spi.Error(
-				"position update by trade failed",
-				slog.Any("error", err),
-			)
-		}
 	}
 
 	spi.Log(
