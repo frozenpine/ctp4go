@@ -23,14 +23,16 @@ type TraderApi struct {
 	apiCtx    context.Context
 	apiCancel context.CancelFunc
 	cfg       traderCfg
+	spi       future.TraderSpi
 
 	initOnce  sync.Once
 	initOpts  []traderOpt
 	finalOnce sync.Once
 
-	front    future.CThostFtdcFrontInfoField
-	state    *state.FlagResponsor[traderState]
-	requests *state.RequestFactory[future.TraderApi]
+	front      future.CThostFtdcFrontInfoField
+	state      *state.FlagResponsor[traderState]
+	requests   *state.RequestFactory[future.TraderApi]
+	tradingDay string
 }
 
 func NewTraderApi(
@@ -83,6 +85,8 @@ func NewTraderApi(
 	if err := trader.createApi(); err != nil {
 		return nil, err
 	}
+
+	trader.spi = &trader
 
 	return &trader, nil
 }
@@ -254,6 +258,10 @@ func (td *TraderApi) Login() error {
 	return td.requests.DoRequest(req)
 }
 
+func (td *TraderApi) GetTradingDay() string {
+	return td.tradingDay
+}
+
 func (td *TraderApi) OnFrontConnected() {
 	td.requests.Reset()
 	defer td.migrateState(Connected)
@@ -307,6 +315,10 @@ func (td *TraderApi) OnRspUserLogin(
 			td.migrateState(LoginFailed)
 		}
 	}()
+
+	if pRspInfo.ErrorID == 0 {
+		td.tradingDay = td.requests.Api.GetTradingDay()
+	}
 
 	td.ThostFutureBase.OnRspUserLogin(
 		pRspUserLogin, pRspInfo, nRequestID, bIsLast,

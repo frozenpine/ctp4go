@@ -9,6 +9,7 @@ import (
 	"github.com/frozenpine/ctp4go"
 	"github.com/frozenpine/ctp4go/state"
 	"github.com/frozenpine/ctp4go/thost"
+	"github.com/frozenpine/ctp4go/thost/future"
 	"github.com/frozenpine/ctp4go/thost/future/types"
 )
 
@@ -332,6 +333,17 @@ func WithTraderState(stateOpts ...stateOpt) traderOpt {
 			}
 		}
 
+		return nil
+	}
+}
+
+func WithTraderSpi(spi future.TraderSpi) traderOpt {
+	return func(ta *TraderApi) error {
+		if spi == nil {
+			return errors.New("trade spi is nil")
+		}
+
+		ta.spi = spi
 		return nil
 	}
 }
