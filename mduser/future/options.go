@@ -248,12 +248,12 @@ func WithMduserState(stateOpts ...stateOpt) mduserOpt {
 	}
 }
 
-type stateOpt func(*state.FlagResponsor[mduserState]) error
+type stateOpt func(*state.FlagResponsor[mduserState, struct{}]) error
 
 func WithStateResponsor(
 	s mduserState, hdl func() error, options ...state.HandlerOpt,
 ) stateOpt {
-	return func(fr *state.FlagResponsor[mduserState]) error {
+	return func(fr *state.FlagResponsor[mduserState, struct{}]) error {
 		hdl, err := state.NewHandler(hdl, options...)
 		if err != nil {
 			return err

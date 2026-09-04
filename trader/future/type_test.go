@@ -7,7 +7,7 @@ import (
 )
 
 func TestStateReflect(t *testing.T) {
-	flag := state.NewFlag[traderState]("test")
+	flag := state.NewBaseFlag[traderState, struct{}]("test")
 
 	t.Log(flag.SetFlag(Connected))
 

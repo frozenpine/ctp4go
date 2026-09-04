@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"math/rand"
 	"runtime/debug"
 	"time"
@@ -43,6 +44,14 @@ func NewHandler(fn func() error, options ...HandlerOpt) (*Handler, error) {
 		},
 	}
 
+	for _, opt := range options {
+		if opt == nil {
+			continue
+		}
+
+		opt(&hdl)
+	}
+
 	return &hdl, nil
 }
 
@@ -55,7 +64,7 @@ func (h *Handler) SetNext(next *Handler) *Handler {
 	return h.next
 }
 
-func (h *Handler) Handle() error {
+func (h *Handler) Handle() (err error) {
 	deadlineCtx := context.Background()
 
 	if h.deadline > 0 {
@@ -103,7 +112,7 @@ TRY:
 			if !h.recoverTimeout {
 				return err
 			}
-		case err := <-waitHandle:
+		case err = <-waitHandle:
 			h.execCount++
 
 			if err == nil {
@@ -120,6 +129,87 @@ TRY:
 
 	if h.next != nil {
 		return h.next.Handle()
+	}
+
+	return
+}
+
+type FlagResponsor[T comparable, V any] struct {
+	Flag[T, V]
+
+	responsors map[T]*Handler
+}
+
+func NewFlagResponsor[T comparable](
+	name string,
+) *FlagResponsor[T, struct{}] {
+	return &FlagResponsor[T, struct{}]{
+		Flag:       NewBaseFlag[T, struct{}](name),
+		responsors: make(map[T]*Handler),
+	}
+}
+
+func NewPayloadFlagResponsor[T comparable, V any](
+	name string,
+) *FlagResponsor[T, V] {
+	return &FlagResponsor[T, V]{
+		Flag:       NewBaseFlag[T, V](name),
+		responsors: make(map[T]*Handler),
+	}
+}
+
+func NewBitFlagResponsor[T BitValue](
+	name string,
+) *FlagResponsor[T, struct{}] {
+	return &FlagResponsor[T, struct{}]{
+		Flag:       NewBitFlag[T, struct{}](name),
+		responsors: make(map[T]*Handler),
+	}
+}
+
+func NewPayloadBitFlagResponsor[T BitValue, V any](
+	name string,
+) *FlagResponsor[T, V] {
+	return &FlagResponsor[T, V]{
+		Flag:       NewBaseFlag[T, V](name),
+		responsors: make(map[T]*Handler),
+	}
+}
+
+func (r *FlagResponsor[T, V]) SetFlag(v T, payload ...V) (err error) {
+	if err = r.Flag.SetFlag(v, payload...); err == nil {
+		r.RLock()
+		rsp, exist := r.responsors[v]
+		r.RUnlock()
+
+		if !exist {
+			return
+		}
+
+		slog.Log(
+			context.Background(), slog.LevelDebug-2,
+			"flag rotated, checking responsors",
+			slog.Any("flag", v),
+		)
+		return rsp.Handle()
+
+	}
+
+	return
+}
+
+func (r *FlagResponsor[T, V]) AddHandler(v T, hdl *Handler) error {
+	if hdl == nil {
+		return errors.New("invalid responsor handler")
+	}
+
+	r.Lock()
+	defer r.Unlock()
+
+	if rsp, exist := r.responsors[v]; !exist {
+		r.responsors[v] = hdl
+	} else {
+		rsp.SetNext(hdl)
 	}
 
 	return nil

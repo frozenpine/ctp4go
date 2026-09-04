@@ -8,22 +8,37 @@ import (
 	"github.com/frozenpine/ctp4go/state"
 )
 
+type flag uint8
+
+func (v *flag) Migrate(other flag) error {
+	*v = other
+	return nil
+}
+
 func TestState(t *testing.T) {
 	slog.SetLogLoggerLevel(slog.LevelDebug - 2)
 
-	state := state.NewFlag[bool]("test")
+	sBool := state.NewBaseFlag[bool, struct{}]("bool")
+	sFlag := state.NewBaseFlag[flag, struct{}]("flag")
 
 	for idx := range 10 {
 		go func() {
-			err := state.Wait(true, time.Second*15)
+			err := sBool.Wait(true, time.Second*15)
+
+			t.Log(idx, err)
+		}()
+
+		go func() {
+			err := sFlag.Wait(1, time.Second*15)
 
 			t.Log(idx, err)
 		}()
 	}
 
 	<-time.After(time.Second * 5)
-	t.Log("5s after, setting flag true")
+	t.Log("5s after, setting flag value")
 
-	state.SetFlag(true)
+	sBool.SetFlag(true)
+	sFlag.SetFlag(1)
 	t.Log("flag set")
 }

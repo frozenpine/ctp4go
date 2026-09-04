@@ -198,7 +198,7 @@ func MakeCache[
 	spi *ThostFutureBase, name cacheName,
 	options state.DataOptions[T, Ptr],
 ) error {
-	cache, err := state.NewDataCache(string(name), options...)
+	cache, err := state.NewDataCache(string(name), 1024, options...)
 	if err != nil {
 		return err
 	}
@@ -223,7 +223,7 @@ func GetCache[
 		return nil, ErrCacheNotExist
 	}
 
-	return state.CastDataCache[T, Ptr](c)
+	return state.CastReadonlyCache[T, Ptr](c)
 }
 
 type initCfg struct {
@@ -339,6 +339,11 @@ func (spi *ThostFutureBase) OnRspAuthenticate(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+
+	defer spi.RFactory.WithResponse(
+		pRspAuthenticateField, err, nRequestID, bIsLast,
+	)
+
 	if err != nil {
 		spi.Error(
 			"thost trader rsp [OnRspAuthenticate] failed",
@@ -369,6 +374,9 @@ func (spi *ThostFutureBase) OnRspUserLogin(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pRspUserLogin, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost [OnRspUserLogin] failed",
@@ -391,6 +399,9 @@ func (spi *ThostFutureBase) OnRspUserLogout(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pUserLogout, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost [OnRspUserLogout] failed",
@@ -413,6 +424,9 @@ func (spi *ThostFutureBase) OnRspUserPasswordUpdate(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pUserPasswordUpdate, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspUserPasswordUpdate] failed",
@@ -435,6 +449,9 @@ func (spi *ThostFutureBase) OnRspTradingAccountPasswordUpdate(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pTradingAccountPasswordUpdate, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspTradingAccountPasswordUpdate] failed",
@@ -457,6 +474,9 @@ func (spi *ThostFutureBase) OnRspUserAuthMethod(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pRspUserAuthMethod, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspUserAuthMethod] failed",
@@ -479,6 +499,9 @@ func (spi *ThostFutureBase) OnRspGenUserCaptcha(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pRspGenUserCaptcha, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspGenUserCaptcha] failed",
@@ -501,6 +524,9 @@ func (spi *ThostFutureBase) OnRspGenUserText(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pRspGenUserText, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspGenUserText] failed",
@@ -523,6 +549,9 @@ func (spi *ThostFutureBase) OnRspOrderInsert(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pInputOrder, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspOrderInsert] failed",
@@ -545,6 +574,9 @@ func (spi *ThostFutureBase) OnRspParkedOrderInsert(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pParkedOrder, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspParkedOrderInsert] failed",
@@ -567,6 +599,9 @@ func (spi *ThostFutureBase) OnRspParkedOrderAction(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pParkedOrderAction, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspParkedOrderAction] failed",
@@ -589,6 +624,9 @@ func (spi *ThostFutureBase) OnRspOrderAction(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pInputOrderAction, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspOrderAction] failed",
@@ -611,6 +649,9 @@ func (spi *ThostFutureBase) OnRspQryMaxOrderVolume(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pQryMaxOrderVolume, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspQryMaxOrderVolume] failed",
@@ -634,6 +675,9 @@ func (spi *ThostFutureBase) OnRspSettlementInfoConfirm(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pSettlementInfoConfirm, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspSettlementInfoConfirm] failed",
@@ -656,6 +700,9 @@ func (spi *ThostFutureBase) OnRspRemoveParkedOrder(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pRemoveParkedOrder, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspRemoveParkedOrder] failed",
@@ -678,6 +725,9 @@ func (spi *ThostFutureBase) OnRspRemoveParkedOrderAction(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pRemoveParkedOrderAction, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspRemoveParkedOrderAction] failed",
@@ -700,6 +750,9 @@ func (spi *ThostFutureBase) OnRspExecOrderInsert(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
+	defer spi.RFactory.WithResponse(
+		pInputExecOrder, err, nRequestID, bIsLast,
+	)
 	if err != nil {
 		spi.Error(
 			"thost trader [OnRspExecOrderInsert] failed",
@@ -991,9 +1044,7 @@ func (spi *ThostFutureBase) OnRspQryInvestor(
 ) {
 	err := spi.CheckRsp(pRspInfo)
 	defer func() {
-		if bIsLast {
-			spi.Complete(nRequestID, spi.caches[AcctCache], err)
-		}
+		spi.RFactory.WithResponse(pInvestor, err, nRequestID, bIsLast)
 	}()
 
 	if err != nil {
@@ -1007,7 +1058,7 @@ func (spi *ThostFutureBase) OnRspQryInvestor(
 	}
 
 	if c, exist := spi.caches[AcctCache]; exist {
-		cache, err := state.CastDataCache[CThostFtdcInvestorField](c)
+		cache, err := state.CastReadonlyCache[CThostFtdcInvestorField](c)
 		if err != nil {
 			spi.Error(
 				"cast investor cache failed",
@@ -1169,11 +1220,9 @@ func (spi *ThostFutureBase) OnRspQryInstrument(
 	nRequestID int, bIsLast bool,
 ) {
 	err := spi.CheckRsp(pRspInfo)
-	defer func() {
-		if bIsLast {
-			spi.Complete(nRequestID, spi.caches[InsCache], err)
-		}
-	}()
+	defer spi.RFactory.WithResponse(
+		pInstrument, err, nRequestID, bIsLast,
+	)
 
 	if err != nil {
 		spi.Error(
@@ -1186,7 +1235,7 @@ func (spi *ThostFutureBase) OnRspQryInstrument(
 	}
 
 	if c, exist := spi.caches[InsCache]; exist {
-		cache, err := state.CastDataCache[CThostFtdcInstrumentField](c)
+		cache, err := state.CastReadonlyCache[CThostFtdcInstrumentField](c)
 		if err != nil {
 			spi.Error(
 				"cast instrument cache failed",
@@ -2028,7 +2077,7 @@ func (spi *ThostFutureBase) UpdatePositionByOrder(
 	// case types.THOST_FTDC_OST_Canceled:
 	// }
 
-	pos.ModifyData(func(cfipf *CThostFtdcInvestorPositionField) {
+	pos.WithData(func(cfipf *CThostFtdcInvestorPositionField) {
 		switch offset {
 		case types.THOST_FTDC_OF_Close:
 			if ord.VolumeTraded <= cfipf.YdPosition {

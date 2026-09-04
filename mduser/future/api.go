@@ -27,7 +27,7 @@ type MduserApi struct {
 	initOpts  []mduserOpt
 	finalOnce sync.Once
 
-	state    *state.FlagResponsor[mduserState]
+	state    *state.FlagResponsor[mduserState, struct{}]
 	requests *state.RequestFactory[future.MdApi]
 }
 

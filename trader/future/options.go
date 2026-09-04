@@ -348,12 +348,12 @@ func WithTraderSpi(spi future.TraderSpi) traderOpt {
 	}
 }
 
-type stateOpt func(*state.FlagResponsor[traderState]) error
+type stateOpt func(*state.FlagResponsor[traderState, struct{}]) error
 
 func WithStateResponsor(
 	s traderState, hdl func() error, options ...state.HandlerOpt,
 ) stateOpt {
-	return func(fr *state.FlagResponsor[traderState]) error {
+	return func(fr *state.FlagResponsor[traderState, struct{}]) error {
 		hdl, err := state.NewHandler(hdl, options...)
 		if err != nil {
 			return err

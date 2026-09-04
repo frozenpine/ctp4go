@@ -30,7 +30,7 @@ type TraderApi struct {
 	finalOnce sync.Once
 
 	front      future.CThostFtdcFrontInfoField
-	state      *state.FlagResponsor[traderState]
+	state      *state.FlagResponsor[traderState, struct{}]
 	requests   *state.RequestFactory[future.TraderApi]
 	tradingDay string
 }
@@ -287,8 +287,6 @@ func (td *TraderApi) OnRspAuthenticate(
 	nRequestID int, bIsLast bool,
 ) {
 	defer func() {
-		td.requests.Complete(nRequestID, nil, td.CheckRsp(pRspInfo))
-
 		if pRspInfo.ErrorID == 0 {
 			td.migrateState(AuthSuccess)
 		} else {
@@ -307,8 +305,6 @@ func (td *TraderApi) OnRspUserLogin(
 	nRequestID int, bIsLast bool,
 ) {
 	defer func() {
-		td.requests.Complete(nRequestID, nil, td.CheckRsp(pRspInfo))
-
 		if pRspInfo.ErrorID == 0 {
 			td.migrateState(LoginSuccess)
 		} else {
