@@ -151,7 +151,7 @@ func (td *TraderApi) Initialize(options ...traderOpt) (err error) {
 			return
 		}
 
-		td.requests.Api.RegisterSpi(td)
+		td.requests.Api.RegisterSpi(td.spi)
 
 		td.Info(
 			"initializing connection params",

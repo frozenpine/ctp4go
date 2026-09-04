@@ -415,6 +415,7 @@ func NewRequestFactory[API any](
 ) *RequestFactory[API] {
 	factory := RequestFactory[API]{
 		RequestCache: RequestCache{
+			reqRootCtx:       ctx,
 			qryInflightCount: DEFAULT_QRY_INFLIGHT_REQUESTS,
 			// 设置默认每秒1笔查询
 			// 避免查询流控检查永远被延迟1s执行
