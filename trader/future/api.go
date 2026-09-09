@@ -229,6 +229,10 @@ func (td *TraderApi) Reset(options ...traderOpt) error {
 	return td.Initialize(td.initOpts...)
 }
 
+func (td *TraderApi) GetState() traderState {
+	return td.state.GetFlag()
+}
+
 func (td *TraderApi) Authenticate() error {
 	auth := future.CThostFtdcReqAuthenticateField{}
 	auth.BrokerID.SetString(td.cfg.brokerID)

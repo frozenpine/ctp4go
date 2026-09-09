@@ -31,6 +31,7 @@ type traderCfg struct {
 }
 
 type cfgOpt func(*traderCfg) error
+type CfgOptions []cfgOpt
 
 func WithTestMode() cfgOpt {
 	return func(ac *traderCfg) error {

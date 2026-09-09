@@ -203,7 +203,9 @@ func MakeCache[
 		return err
 	}
 
-	if _, exist := spi.caches[name]; exist {
+	if spi.caches == nil {
+		spi.caches = make(map[cacheName]state.Cache)
+	} else if _, exist := spi.caches[name]; exist {
 		return errors.New("cache name dumplicated")
 	}
 
@@ -263,7 +265,9 @@ func (spi *ThostFutureBase) Initialize(
 		}
 	}
 
-	spi.caches = make(map[cacheName]state.Cache)
+	if spi.caches == nil {
+		spi.caches = make(map[cacheName]state.Cache)
+	}
 	for c := range cfg.caches {
 		maker, exist := cacheMakers[c]
 		if !exist {
